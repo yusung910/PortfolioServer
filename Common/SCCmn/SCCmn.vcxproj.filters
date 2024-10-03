@@ -26,22 +26,10 @@
     <ClInclude Include="Protocol_generated.h">
       <Filter>Packet</Filter>
     </ClInclude>
-    <ClInclude Include="Singletone.h">
-      <Filter>Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="RefSingleton.h">
-      <Filter>Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeUtil.h">
-      <Filter>Singleton</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCCmnPrivate.cpp">
       <Filter>0_Private</Filter>
-    </ClCompile>
-    <ClCompile Include="StrictSingleton.h">
-      <Filter>Singleton</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

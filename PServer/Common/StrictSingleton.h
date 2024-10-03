@@ -39,5 +39,3 @@ protected:
 template<typename T>
 T* StrictSingleton<T>::mInst = nullptr;
 
-
-
