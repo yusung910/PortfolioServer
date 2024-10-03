@@ -154,4 +154,4 @@ Plugins/**/Intermediate/*
 
 # User added
 Output/
-**/Build/
+**/**/[bB]uild/
