@@ -1,0 +1,2 @@
+^E:\WORKSPACE\PORTFOLIOSERVER\COMMON\SCCMN\PROTOCOL.FBS
+E:\Workspace\PortfolioServer\PServer\..\lib\FlatBuffers\x64\flatc.exe --cpp -o ./ ./Protocol.fbs --no-prefix --gen-object-api

@@ -7,11 +7,11 @@
     <Filter Include="Object">
       <UniqueIdentifier>{a9eb1e1f-cac0-4d03-b514-fabdfdc8a093}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DB">
-      <UniqueIdentifier>{cfc100f3-2dd4-41d6-8943-bac73255fed0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="0_Private">
       <UniqueIdentifier>{63c485ce-597d-4a2d-a530-b9814d2619dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Singleton">
+      <UniqueIdentifier>{e3157306-4a25-4107-b2b7-0fcdb4a66427}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -20,16 +20,28 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="SCCmnPrivate.h">
+      <Filter>0_Private</Filter>
+    </ClInclude>
     <ClInclude Include="Protocol_generated.h">
       <Filter>Packet</Filter>
     </ClInclude>
-    <ClInclude Include="SCCmnPrivate.h">
-      <Filter>0_Private</Filter>
+    <ClInclude Include="Singletone.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="RefSingleton.h">
+      <Filter>Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeUtil.h">
+      <Filter>Singleton</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCCmnPrivate.cpp">
       <Filter>0_Private</Filter>
+    </ClCompile>
+    <ClCompile Include="StrictSingleton.h">
+      <Filter>Singleton</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
