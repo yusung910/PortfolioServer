@@ -153,5 +153,5 @@ Plugins/**/Intermediate/*
 
 
 # User added
-Output/*
-**/Build/
+Output/
+Build/
