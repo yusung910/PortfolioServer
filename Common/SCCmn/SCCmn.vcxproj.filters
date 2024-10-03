@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{bac3499d-19b0-4000-b2a7-775df4d3bdfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{a9eb1e1f-cac0-4d03-b514-fabdfdc8a093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{cfc100f3-2dd4-41d6-8943-bac73255fed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Private">
+      <UniqueIdentifier>{63c485ce-597d-4a2d-a530-b9814d2619dc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Protocol.fbs">
+      <Filter>Packet</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="SCCmnPrivate.h">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SCCmnPrivate.cpp">
+      <Filter>0_Private</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

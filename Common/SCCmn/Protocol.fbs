@@ -1,0 +1,51 @@
+////////////////////////////////////////////////////////////////////////////////
+//z
+// IDL 작성 시
+//
+// 1. Prefix					Example
+// C 	- Client
+// S 	- Server(GameServer)	CS, SC, SL
+// E	- Server(GameServer)	SE, EGDB, ES, EL
+// L 	- LoginServer
+// M 	- MessengerServer		CM, MC
+// Log 	- LogServer				SLog, LLog, BLog
+// U	- UnityServer			SU, US
+//
+// UDB 	- UserDB				SUDB
+// GDB 	- GameDB
+// LDB 	- LogDB
+// WDB 	- WorldDB (구 UnityDB )
+// (*플랫버퍼 IDL을 이용하지 않더라도 같은 규칙임)
+// 
+// 2. Suffix
+// Req				- 요청
+// Res				- 요청에 의한 응답 (Request 패킷은 반드시 Response가 있다)
+// Noti				- 알림
+// Broadcast		- 전체 알림 류
+//
+// 3. Member Structure는 접두사 M 을 붙인다.
+//
+// *Example
+// table SCAuthResponse		<-- 접두사 Client -> Server, 접미사 Response로 요청에 의한 응답임
+// {
+//   HeroInfoList:[MHeroInfo];
+//   HeroSlotCount:int;
+//
+//   messageid:EPacketProtocol = SC_AuthResponse;		<-- 전송 패킷은 마지막에 messageid 프로토콜을 넣는다.
+// }														마지막에 넣는 이유는 오버로딩으로 안써도 되기 때문..
+//
+// table MHeroInfo			- Member Structure 는 접두사 M 을 붙인다.
+//
+// ※ 슬래시 3개이상 쓴뒤 뒤에 한글이 있으면 안됨 (빌드오류나옴)
+////////////////////////////////////////////////////////////////////////////////
+
+enum EPacketProtocol:int
+{
+	None = 0,
+	HostConnect,
+	HostClose,
+	HostConnectFailed,
+
+	HostHi = 12,
+
+}
