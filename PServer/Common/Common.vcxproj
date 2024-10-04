@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DispatcherInterface.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="Packet.h" />
     <ClInclude Include="RefSingleton.h" />
     <ClInclude Include="Singletone.h" />
     <ClInclude Include="StrictSingleton.h" />

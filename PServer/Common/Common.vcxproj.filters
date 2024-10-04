@@ -8,6 +8,12 @@
     <Filter Include="Util">
       <UniqueIdentifier>{a876bf40-c806-45e8-a38a-b35d6dad89fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{a0810d9d-6f04-4b15-a27c-f9617541dcf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{c8c50bb9-1a78-4724-9745-f724a2179172}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StrictSingleton.h">
@@ -21,6 +27,18 @@
     </ClInclude>
     <ClInclude Include="TimeUtil.h">
       <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="DispatcherInterface.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 1. 코딩 규칙
+ -> 기본은 카멜 표기법을 따름
  1) Parameter 타입의 변수는 '_'로 시작
 	ex) function test(int _a);
 
@@ -12,6 +13,7 @@
 	  string				 : s
 	  double long			 : dl
 	  unsinged				 : u
+	  other(class, object...): o
 	-> 그 후 대문자로 시작하는 명사로 작성
     ex) class test
 		{
