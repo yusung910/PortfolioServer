@@ -4,6 +4,21 @@
     <Filter Include="0_Private">
       <UniqueIdentifier>{57701c45-637f-4710-a1d0-4cabba0d8fe9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{e87a7557-b289-43f2-88f8-e8c9f8c4fbcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Pacade">
+      <UniqueIdentifier>{2dc7e423-c2a2-4c06-9227-51d458ae0184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Web">
+      <UniqueIdentifier>{a37e4e79-8c9a-4658-951c-20fe445e4af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Web\Pacade">
+      <UniqueIdentifier>{26048fc3-a51c-44a3-a73c-cdbbf33aca99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{18acb098-8555-4904-962e-f9dbb79da075}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -14,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="BuildVersion.hxx">
       <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildConfig.hxx">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerConfigInfo.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

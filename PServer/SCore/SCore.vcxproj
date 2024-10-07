@@ -19,8 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuildConfig.hxx" />
     <ClInclude Include="BuildVersion.hxx" />
     <ClInclude Include="SCoreAPI.h" />
+    <ClInclude Include="ServerConfigInfo.h" />
     <ClInclude Include="stdafx.hxx" />
   </ItemGroup>
   <ItemGroup>
