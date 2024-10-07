@@ -40,5 +40,8 @@
     <ClInclude Include="ObjectPool.h">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="SecureValueClass.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

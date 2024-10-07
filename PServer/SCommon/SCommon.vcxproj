@@ -24,6 +24,7 @@
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="RefSingleton.h" />
+    <ClInclude Include="SecureValueClass.h" />
     <ClInclude Include="Singletone.h" />
     <ClInclude Include="StrictSingleton.h" />
     <ClInclude Include="TimeUtil.h" />
@@ -32,8 +33,9 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{cc266ea2-6621-4827-9915-f25e33044396}</ProjectGuid>
-    <RootNamespace>Common</RootNamespace>
+    <RootNamespace>SCommon</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SCommon</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -143,6 +145,24 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>@echo off
+echo Refresh FCommon $(Configuration) Files...
+echo.
+echo Check And Create Release Folder...
+IF NOT EXIST "$(SolutionDir)..\lib\$(ProjectName)\" MKDIR "$(SolutionDir)..\lib\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\lib\$(ProjectName)\Include\" MKDIR "$(SolutionDir)..\lib\$(ProjectName)\Include"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\lib\$(ProjectName)\Include\*.*" /Q
+echo Copy New $(Configuration) Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\lib\$(ProjectName)\Include\"
+echo.
+echo.
+echo $(Configuration) File Copy done!
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -164,6 +184,24 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>@echo off
+echo Refresh FCommon $(Configuration) Files...
+echo.
+echo Check And Create Release Folder...
+IF NOT EXIST "$(SolutionDir)..\lib\$(ProjectName)\" MKDIR "$(SolutionDir)..\lib\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\lib\$(ProjectName)\Include\" MKDIR "$(SolutionDir)..\lib\$(ProjectName)\Include"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\lib\$(ProjectName)\Include\*.*" /Q
+echo Copy New $(Configuration) Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\lib\$(ProjectName)\Include\"
+echo.
+echo.
+echo $(Configuration) File Copy done!
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

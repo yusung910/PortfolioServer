@@ -19,16 +19,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_Common", "0_Common", "{98
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SCCmn_forServer", "..\Common\SCCmn\SCCmn.vcxproj", "{2D4A782D-4C78-4B7F-9FC4-99CE2872BD78}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Core\Core.vcxproj", "{D69567C3-8AE4-4154-AF8D-D17D8D3D4700}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SCore", "SCore\SCore.vcxproj", "{D69567C3-8AE4-4154-AF8D-D17D8D3D4700}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "솔루션 항목", "솔루션 항목", "{4C6BD6A1-7E27-4D2F-A847-E412B1FC790E}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.txt = Readme.txt
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Common", "Common\Common.vcxproj", "{CC266EA2-6621-4827-9915-F25E33044396}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_GoogleTest", "5_GoogleTest", "{B659B707-DB12-4DB1-8171-5F64DE5E1DF9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SCommon", "SCommon\SCommon.vcxproj", "{CC266EA2-6621-4827-9915-F25E33044396}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

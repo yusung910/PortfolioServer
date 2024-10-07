@@ -19,9 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuildVersion.hxx" />
+    <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="stdafx.hxx" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SCoreAPI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -31,8 +34,9 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{d69567c3-8ae4-4154-af8d-d17d8d3d4700}</ProjectGuid>
-    <RootNamespace>Core</RootNamespace>
+    <RootNamespace>SCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SCore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -148,6 +152,19 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -169,6 +186,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+SET revision=git rev-list --count HEAD
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

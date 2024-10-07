@@ -30,5 +30,10 @@
 			int localNumber = 0;
 		}
 
-  4) const, define은 대문자로 작성
-	ex) #define DEV_TEST 
+  4) global const, define은 대문자로 작성
+	ex) #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
+
+
+  5) 프로젝트 구조
+    SCCommon -> 서버, 클라이언트가 같이 사용되는 프로젝트 디렉토리
+    Servers -> 서버 구동에 필요한 프로젝트 디렉토리

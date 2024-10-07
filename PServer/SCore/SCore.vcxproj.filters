@@ -9,9 +9,18 @@
     <ClInclude Include="stdafx.hxx">
       <Filter>0_Private</Filter>
     </ClInclude>
+    <ClInclude Include="SCoreAPI.h">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildVersion.hxx">
+      <Filter>0_Private</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
+      <Filter>0_Private</Filter>
+    </ClCompile>
+    <ClCompile Include="SCoreAPI.cpp">
       <Filter>0_Private</Filter>
     </ClCompile>
   </ItemGroup>
