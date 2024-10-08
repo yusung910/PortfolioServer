@@ -10,3 +10,9 @@
 #include <cstdint>
 
 //External
+
+#include "DefineMacro.h"
+#include "StringUtil.h"
+
+//
+#include "BuildConfig.hxx"

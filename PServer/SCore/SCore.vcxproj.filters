@@ -19,6 +19,30 @@
     <Filter Include="Config">
       <UniqueIdentifier>{18acb098-8555-4904-962e-f9dbb79da075}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{2b0d3e13-d917-455c-a1e3-1c514b724f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\String">
+      <UniqueIdentifier>{326e2a18-d267-4b09-88ff-668c34233096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\String\Pacade">
+      <UniqueIdentifier>{d796a5a5-6f55-4c56-a01c-532bd94b82f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define">
+      <UniqueIdentifier>{2b85fcad-e12a-426f-987a-ca9e2f9d9237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{70607c89-9866-4cfd-a0dd-e68b4f7801d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\Pacade">
+      <UniqueIdentifier>{3c2ec344-56e8-4a64-bf5e-a4d86203be0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\Define">
+      <UniqueIdentifier>{9a532eba-08b8-4ddf-a4b4-aef7e33209b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Memory">
+      <UniqueIdentifier>{89c166ad-93b6-4ac4-99c0-54f488587cdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -36,6 +60,24 @@
     <ClInclude Include="ServerConfigInfo.h">
       <Filter>Config</Filter>
     </ClInclude>
+    <ClInclude Include="ConvertUTF.hxx">
+      <Filter>Util\String\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtil.h">
+      <Filter>Util\String</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineMacro.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingManagerPO.hxx">
+      <Filter>Util\String\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="LogData.hxx">
+      <Filter>Log\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockingQueue.h">
+      <Filter>Util\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -43,6 +85,21 @@
     </ClCompile>
     <ClCompile Include="SCoreAPI.cpp">
       <Filter>0_Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvertUTF.cpp">
+      <Filter>Util\String\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtil.cpp">
+      <Filter>Util\String</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingCommon.h">
+      <Filter>Log\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingManagerPO.cpp">
+      <Filter>Util\String\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LogData.cpp">
+      <Filter>Log\Pacade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
