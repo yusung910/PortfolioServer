@@ -98,7 +98,7 @@ void LoggingManagerPO::Log(const std::wstring& _msg, const ELogLevel& _lvl, cons
         return;
 #endif // !_DEBUG
 
-    m_oLogData.Push(new LogData(_lvl, _msg, _showConsole, _writeFile));
+    m_oLogDataQueue.Push(new LogData(_lvl, _msg, _showConsole, _writeFile));
 }
 
 void LoggingManagerPO::Log(const std::string& _msg, const ELogLevel& _lvl, const bool& _showConsole, const bool& _writeFile)
@@ -111,7 +111,35 @@ void LoggingManagerPO::Log(const std::string& _msg, const ELogLevel& _lvl, const
         return;
 #endif // !_DEBUG
 
-    m_oLogData.Push(new LogData(_lvl, _msg, _showConsole, _writeFile));
+    m_oLogDataQueue.Push(new LogData(_lvl, _msg, _showConsole, _writeFile));
+}
+
+void LoggingManagerPO::ViewForce(const std::wstring& _log, const ELogLevel& _lvl)
+{
+    if (false == m_bIsRunning.load())
+    {
+        LogData localData(_lvl, _log, true, false);
+        _ChangeConsoleColor(_lvl);
+        std::wosyncstream(std::wcout) << localData.ToString().c_str() << std::endl;
+    }
+    else
+    {
+        m_oLogDataQueue.Push(new LogData(_lvl, _log, true, false));
+    }
+}
+
+void LoggingManagerPO::ViewForce(const std::string& _log, const ELogLevel& _lvl)
+{
+    if (false == m_bIsRunning.load())
+    {
+        LogData localData(_lvl, _log, true, false);
+        _ChangeConsoleColor(_lvl);
+        std::wosyncstream(std::wcout) << localData.ToString().c_str() << std::endl;
+    }
+    else
+    {
+        m_oLogDataQueue.Push(new LogData(_lvl, _log, true, false));
+    }
 }
 
 void LoggingManagerPO::_Run()
@@ -119,6 +147,59 @@ void LoggingManagerPO::_Run()
     if (nullptr == m_pThread)
         return;
 
+    std::vector<LogData*> localLogList;
+    std::chrono::system_clock::time_point localUntilTime = std::chrono::system_clock::now() + std::chrono::milliseconds(0);
+
+    std::wstring localStrInfo = L"";
+    std::wstring localStrErr = L"";
+
+    while (true)
+    {
+        if (m_bIsRunning.load() == false && m_oLogDataQueue.size() == 0)
+            break;
+
+        m_oLogDataQueue.GetList(localLogList);
+        localStrInfo.clear();
+        localStrErr.clear();
+
+        if (false == localLogList.empty())
+        {
+            for (auto& pLog : localLogList)
+            {
+                if (nullptr == pLog)
+                    continue;
+                if (true == pLog->m_bShowConsole)
+                {
+                    _ChangeConsoleColor(pLog->m_eLogLvl);
+                    //wosyncstream 쓰레드 내에서 뒤섞이지 않도록 하기 위해 사용
+                    //https://tango1202.github.io/cpp-stl/modern-cpp-stl-input-output/#c20-%EB%8F%99%EA%B8%B0%ED%99%94-%EC%B6%9C%EB%A0%A5
+                    std::wosyncstream(std::wcout) << pLog->ToString().c_str() << std::endl;
+                }
+
+                if (true == pLog->m_bWriteFile)
+                {
+                    switch (pLog->m_eLogLvl)
+                    {
+                        case ELogLevel::Info:
+                        {
+                            localStrInfo.append(pLog->ToString());
+                            localStrInfo.append(L"\r\n");
+                        }
+                        break;
+                        case ELogLevel::Warning:
+                        case ELogLevel::Error:
+                        {
+                            localStrErr.append(pLog->ToString());
+                            localStrErr.append(L"\r\n");
+                        }
+                        break;
+                        default:
+                            continue;
+                    }
+                }
+            }
+        }
+    }
 }
 
 bool LoggingManagerPO::_MakeFolder()

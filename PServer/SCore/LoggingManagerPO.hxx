@@ -16,7 +16,7 @@ constexpr WORD DEFAULT_CONSOLE_COLOR = 7;	// Light Gray
 class LoggingManagerPO
 {
 private:
-    BlockingQueue<LogData>  m_oLogData;
+    BlockingQueue<LogData>  m_oLogDataQueue;
     std::atomic_bool m_bIsRunning = false;
     std::thread* m_pThread = nullptr;
 
@@ -46,6 +46,9 @@ public:
 
     void Log(const std::wstring& _msg, const ELogLevel& _lvl, const bool& _showConsole, const bool& _writeFile);
     void Log(const std::string& _msg, const ELogLevel& _lvl, const bool& _showConsole, const bool& _writeFile);
+
+    void ViewForce(const std::wstring& _log, const ELogLevel& _lvl);
+    void ViewForce(const std::string& _log, const ELogLevel& _lvl);
 
 private:
     void _Run();
