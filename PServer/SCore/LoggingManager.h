@@ -32,7 +32,8 @@ public:
     void Log(const char* _pFunc, const ELogLevel& _lvl, const bool& _view, const bool& _write, const wchar_t* _fmt, ...);
     void Log(const char* _pFunc, const ELogLevel& _lvl, const bool& _view, const bool& _write, const char* _fmt, ...);
 
-
+    void Log(const char* _pFunc, const int _line, const ELogLevel& _lvl, const bool& _view, const bool& _write, const wchar_t* _fmt, ...);
+    void Log(const char* _pFunc, const int _line, const ELogLevel& _lvl, const bool& _view, const bool& _write, const char* _fmt, ...);
 private:
     std::wstring _GetFunctionString(const char* _pFunc, const ELogLevel& _lvl);
     std::string _GetFunctionStringA(const char* _pFunc, const ELogLevel& _lvl);

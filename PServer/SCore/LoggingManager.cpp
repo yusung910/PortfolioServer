@@ -170,6 +170,52 @@ void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& 
     m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
 }
 
+void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _lvl, const bool& _view, const bool& _write, const wchar_t* _fmt, ...)
+{
+    if (m_pManagerPO == nullptr) return;
+
+#ifdef LOG_C6262_TUNE
+    //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
+    std::shared_ptr<wchar_t> localpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
+    wchar_t* localpBuffer = localpBuf.get();
+#else
+    wchar_t localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+#endif
+
+    va_list localArgs;
+    va_start(localArgs, _fmt);
+    _vsnwprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
+    va_end(localArgs);
+
+    std::wstring localStrRet = _GetFunctionString(_pFunc, _lvl);
+    localStrRet.append(_GetLineString(_line, _lvl));
+    localStrRet.append(localpBuffer);
+    m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
+}
+
+void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _lvl, const bool& _view, const bool& _write, const char* _fmt, ...)
+{
+    if (m_pManagerPO == nullptr) return;
+
+#ifdef LOG_C6262_TUNE
+    //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
+    std::shared_ptr<char> localpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
+    char* localpBuffer = localpBuf.get();
+#else
+    char localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+#endif
+
+    va_list localArgs;
+    va_start(localArgs, _fmt);
+    _vsnprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
+    va_end(localArgs);
+
+    std::string localStrRet = _GetFunctionStringA(_pFunc, _lvl);
+    localStrRet.append(_GetLineStringA(_line, _lvl));
+    localStrRet.append(localpBuffer);
+    m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
+}
+
 std::wstring LoggingManager::_GetFunctionString(const char* _pFunc, const ELogLevel& _lvl)
 {
     switch (_lvl)
