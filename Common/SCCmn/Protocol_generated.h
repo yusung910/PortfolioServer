@@ -6,16 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-// Ensure the included flatbuffers.h is the same version as when this file was
-// generated, otherwise it may not be compatible.
-static_assert(FLATBUFFERS_VERSION_MAJOR == 23 &&
-              FLATBUFFERS_VERSION_MINOR == 5 &&
-              FLATBUFFERS_VERSION_REVISION == 26,
-             "Non-compatible flatbuffers version included");
-
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-enum EPacketProtocol : int32_t {
+enum EPacketProtocol {
   None = 0,
   HostConnect = 1,
   HostClose = 2,
@@ -55,7 +48,7 @@ inline const char * const *EnumNamesEPacketProtocol() {
 }
 
 inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
-  if (::flatbuffers::IsOutRange(e, None, HostHi)) return "";
+  if (flatbuffers::IsOutRange(e, None, HostHi)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesEPacketProtocol()[index];
 }

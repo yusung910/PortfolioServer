@@ -25,6 +25,7 @@
     <ClInclude Include="ConvertUTF.hxx" />
     <ClInclude Include="DefineMacro.h" />
     <ClInclude Include="LogData.hxx" />
+    <ClInclude Include="LoggingManager.h" />
     <ClInclude Include="LoggingManagerPO.hxx" />
     <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="ServerConfigInfo.h" />
@@ -35,6 +36,7 @@
     <ClCompile Include="ConvertUTF.cpp" />
     <ClCompile Include="LogData.cpp" />
     <ClCompile Include="LoggingCommon.h" />
+    <ClCompile Include="LoggingManager.cpp" />
     <ClCompile Include="LoggingManagerPO.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -99,14 +101,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64);$(ReferencePath)</ReferencePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>

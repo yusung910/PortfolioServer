@@ -7,35 +7,35 @@ class StrictSingleton
 public:
 	static T* CreateInst()
 	{
-		assert(nullptr == mInst && "Already Created Instance");
-		mInst = new T();
-		return mInst;
+		assert(nullptr == m_oInst && "Already Created Instance");
+		m_oInst = new T();
+		return m_oInst;
 	}
 
 	static T* GetInst()
 	{
-		assert(nullptr != mInst && "Has Not Created Instance");
-		return mInst;
+		assert(nullptr != m_oInst && "Has Not Created Instance");
+		return m_oInst;
 	}
 
 	static void DestroyInst()
 	{
-		if (nullptr != mInst)
+		if (nullptr != m_oInst)
 		{
-			delete mInst;
-			mInst = nullptr;
+			delete m_oInst;
+			m_oInst = nullptr;
 		}
 	}
 
 	static void SetInst(T* _inst)
 	{
-		mInst = _inst;
+		m_oInst = _inst;
 	}
 
 protected:
-	static T* mInst;
+	static T* m_oInst;
 };
 
 template<typename T>
-T* StrictSingleton<T>::mInst = nullptr;
+T* StrictSingleton<T>::m_oInst = nullptr;
 

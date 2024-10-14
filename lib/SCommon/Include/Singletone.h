@@ -1,45 +1,44 @@
 #pragma once
 
-
 template<typename T>
 class Singleton
 {
 public:
 	static T* CreateInst()
 	{
-		if (nullptr != mInst) return mInst;
+		if (nullptr != m_oInst) return m_oInst;
 
-		mInst = new T();
-		return mInst;
+		m_oInst = new T();
+		return m_oInst;
 	}
 
 	static T* GetInst()
 	{
-		if (nullptr == mInst) return CreateInst();
+		if (nullptr == m_oInst) return CreateInst();
 		
-		return mInst;
+		return m_oInst;
 	}
 
 	static void DestroyInst()
 	{
-		if (nullptr != mInst)
+		if (nullptr != m_oInst)
 		{
-			delete mInst;
-			mInst = nullptr;
+			delete m_oInst;
+			m_oInst = nullptr;
 		}
 	}
 
 	static void SetInst(T* _inst)
 	{
-		mInst = _inst;
+		m_oInst = _inst;
 	}
 
 protected:
-	static T* mInst;
+	static T* m_oInst;
 };
 
 template<typename T>
-T* Singleton<T>::mInst = nullptr;
+T* Singleton<T>::m_oInst = nullptr;
 
 
 

@@ -1,3 +1,3 @@
 #pragma once
 
-#define KR_SERVICE;
+#define KR_SERVICE

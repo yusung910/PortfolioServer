@@ -108,7 +108,7 @@
     <IntDir>Build\$(Platform)\$(Configuration)S_intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)..\lib\FlatBuffers\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\SCommon\include\;$(IncludePath)</IncludePath>
     <OutDir>Build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>Build\$(Platform)\$(Configuration)S_intermediate\</IntDir>
   </PropertyGroup>

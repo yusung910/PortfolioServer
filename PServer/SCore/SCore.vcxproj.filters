@@ -69,14 +69,17 @@
     <ClInclude Include="DefineMacro.h">
       <Filter>Define</Filter>
     </ClInclude>
-    <ClInclude Include="LoggingManagerPO.hxx">
-      <Filter>Util\String\Pacade</Filter>
-    </ClInclude>
     <ClInclude Include="LogData.hxx">
       <Filter>Log\Pacade</Filter>
     </ClInclude>
     <ClInclude Include="BlockingQueue.h">
       <Filter>Util\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingManagerPO.hxx">
+      <Filter>Log\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingManager.h">
+      <Filter>Log</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,11 +98,14 @@
     <ClCompile Include="LoggingCommon.h">
       <Filter>Log\Define</Filter>
     </ClCompile>
-    <ClCompile Include="LoggingManagerPO.cpp">
-      <Filter>Util\String\Pacade</Filter>
-    </ClCompile>
     <ClCompile Include="LogData.cpp">
       <Filter>Log\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingManagerPO.cpp">
+      <Filter>Log\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingManager.cpp">
+      <Filter>Log</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

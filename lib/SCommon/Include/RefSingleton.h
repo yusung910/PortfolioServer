@@ -7,14 +7,14 @@ class RefSingleton
 public:
 	static T& GetInst()
 	{
-		return mInst;
+		return m_oInst;
 	}
 
 	virtual void Init() {};
 
 protected:
-	static T mInst;
+	static T m_oInst;
 };
 
 template <class T>
-T RefSingleton<T>::mInst;
+T RefSingleton<T>::m_oInst;
