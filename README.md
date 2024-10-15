@@ -40,15 +40,15 @@
 		}
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
- > 	ex) int Test(int _t)
-		{
-			int localNumber = 0;
-		}
+    - ex) int Test(int _t)
+          {
+              int localNumber = 0;
+		  }
 
 ### global const, define은 대문자로 작성
-#define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
+    - #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
 
 
- > 프로젝트 구조
+### 프로젝트 구조
     - SCCommon -> 서버, 클라이언트가 같이 사용되는 프로젝트 디렉토리
     - Servers -> 서버 구동에 필요한 프로젝트 디렉토리
