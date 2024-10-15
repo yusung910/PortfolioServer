@@ -11,7 +11,7 @@
 ### Parameter 타입의 변수는 '_'로 시작
  > function test(int _a);
 
-클래스 내부 멤버 변수 접두어 규칙
+### 클래스 내부 멤버 변수 접두어 규칙
  > 멤버 변수를 의미하는 접두어(m_)로 시작
   
  |의미    |접두어|접미어|
@@ -32,18 +32,18 @@
 
     그 후 대문자로 시작하는 명사로 작성
 
-    ```C++
+    ```c++
     class test
 	{
-		private:
-			int m_nTest = 0;
-			double long m_dlTest = 0l;
-			unsinged int m_uiTest = 0;
+        private:
+            int m_nTest = 0;
+            double long m_dlTest = 0l;
+            unsinged int m_uiTest = 0;
 	}
     ```
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
-    ```C
+    ```c
     int Test(int _t)
     {
         int localNumber = 0;
