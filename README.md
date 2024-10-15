@@ -21,37 +21,67 @@
 	</thead>
 	<tr>
 		<td>멤버변수</td>
-		<td>m_</td>
+		<td align="center">m_</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>int(8, 16, 32, 64bit)</td>
-		<td rowspan="2">n</td>
+		<td rowspan="2" align="center">n</td>
 		<td></td>
 	</tr>
 	<tr>
 		<td>short</td>
 		<td></td>
 	</tr>
+	<tr>
+		<td>long</td>
+		<td align="center">l</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>double</td>
+		<td align="center">d</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>float</td>
+		<td align="center">f</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>char</td>
+		<td align="center">c</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>string</td>
+		<td align="center">s</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>unsigned</td>
+		<td align="center">u</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>enum</td>
+		<td align="center">e</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>pointer</td>
+		<td align="center">p</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>other (class, object...)</td>
+		<td align="center">o</td>
+		<td></td>
+	</tr>
 </table>
- |의미    |접두어|접미어|
- |--------|:---:|-----|
- |멤버 변수                 | m_ | |
- |int(8, 16, 32, 64bit)     | n  | |
- |short                     | n  | |
- |long                      | l  | |  
- |double                    | d  | |    
- |float                     | f  | |      
- |char                      | c  | |      
- |string                    | s  | |      
- |double long               | dl  | |      
- |unsinged                  | u  | |      
- |enum                      | e  | |      
- |pointer                   | p  | |      
- |other (class, object...)  | o  | |      
 
-    그 후 대문자로 시작하는 명사로 작성
-
+    그 후 대문자로 시작하는 명사로 작성하며 복합 선언일 경우 앞 글자만 따서 사용한다
+    
     class test
 	{
         private:
@@ -59,6 +89,7 @@
             double long m_dlTest = 0l;
             unsinged int m_uiTest = 0;
 	}
+    
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
     int Test(int _t)
