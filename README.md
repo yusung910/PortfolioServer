@@ -31,6 +31,8 @@
  |other (class, object...)  | o  | |      
 
     - 그 후 대문자로 시작하는 명사로 작성
+
+
     <pre>
         <code>
             class test
@@ -44,6 +46,8 @@
     </pre>
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
+
+
     <pre>
         <code>
             int Test(int _t)
