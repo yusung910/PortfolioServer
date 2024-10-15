@@ -18,7 +18,7 @@
  |--------|:---:|-----|
  |멤버 변수                 | m_ | |
  |int(8, 16, 32, 64bit)     | n  | |
- |short                     | ^^ | |
+ |short                     | n  | |
  |long                      | l  | |  
  |double                    | d  | |    
  |float                     | f  | |      
@@ -29,6 +29,11 @@
  |enum                      | e  | |      
  |pointer                   | p  | |      
  |other (class, object...)  | o  | |      
+
+ <table>
+ <th>되냐?<td></td></th>
+ </table>
+
 
     그 후 대문자로 시작하는 명사로 작성
 
