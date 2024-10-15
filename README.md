@@ -30,11 +30,6 @@
  |pointer                   | p  | |      
  |other (class, object...)  | o  | |      
 
- <table>
- <th>되냐?<td></td></th>
- </table>
-
-
     그 후 대문자로 시작하는 명사로 작성
 
     class test
