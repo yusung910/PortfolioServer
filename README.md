@@ -1,5 +1,6 @@
 # PortfolioServer
-몇 번째인지 모를 포트폴리오 서버(진짜 마지막 일지도?)
+=============================
+ > 몇 번째인지 모를 포트폴리오 서버(진짜 마지막 일지도?)
 
 ## 코딩 규칙
  > 기본은 카멜 표기법을 따름
@@ -46,9 +47,9 @@
 		}
 
   5) global const, define은 대문자로 작성
-	ex) #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
+	- #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
 
 
   6) 프로젝트 구조
-    SCCommon -> 서버, 클라이언트가 같이 사용되는 프로젝트 디렉토리
-    Servers -> 서버 구동에 필요한 프로젝트 디렉토리
+    - SCCommon -> 서버, 클라이언트가 같이 사용되는 프로젝트 디렉토리
+    - Servers -> 서버 구동에 필요한 프로젝트 디렉토리
