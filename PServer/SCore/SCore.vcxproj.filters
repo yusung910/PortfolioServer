@@ -93,6 +93,15 @@
     <ClInclude Include="NetworkContextPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkContextPoolPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEventSync.h">
+      <Filter>Network\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketCompressor.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,6 +129,12 @@
       <Filter>Log</Filter>
     </ClCompile>
     <ClCompile Include="NetworkContextPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkContextPoolPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketCompressor.cpp">
       <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>

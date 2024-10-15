@@ -10,6 +10,8 @@
 #include <cstdint>
 
 //External
+#include <lz4.h>
+#pragma comment(lib, "lz4.lib")
 
 #include "DefineMacro.h"
 #include "StringUtil.h"
