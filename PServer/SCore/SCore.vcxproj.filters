@@ -43,6 +43,9 @@
     <Filter Include="Util\Memory">
       <UniqueIdentifier>{89c166ad-93b6-4ac4-99c0-54f488587cdc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network\Define">
+      <UniqueIdentifier>{c3882348-46ce-4867-b87f-0f53f2ab6cd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -84,6 +87,12 @@
     <ClInclude Include="LoggingMacro.h">
       <Filter>Log\Define</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkCommon.h">
+      <Filter>Network\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkContextPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -109,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="LoggingManager.cpp">
       <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkContextPO.cpp">
+      <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

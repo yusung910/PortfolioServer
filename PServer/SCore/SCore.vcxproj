@@ -28,6 +28,8 @@
     <ClInclude Include="LoggingMacro.h" />
     <ClInclude Include="LoggingManager.h" />
     <ClInclude Include="LoggingManagerPO.hxx" />
+    <ClInclude Include="NetworkCommon.h" />
+    <ClInclude Include="NetworkContextPO.hxx" />
     <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="ServerConfigInfo.h" />
     <ClInclude Include="stdafx.hxx" />
@@ -39,6 +41,7 @@
     <ClCompile Include="LoggingCommon.h" />
     <ClCompile Include="LoggingManager.cpp" />
     <ClCompile Include="LoggingManagerPO.cpp" />
+    <ClCompile Include="NetworkContextPO.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

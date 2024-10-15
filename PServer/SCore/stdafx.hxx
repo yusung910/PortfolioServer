@@ -13,6 +13,6 @@
 
 #include "DefineMacro.h"
 #include "StringUtil.h"
-
+#include "LoggingMacro.h"
 //
 #include "BuildConfig.hxx"
