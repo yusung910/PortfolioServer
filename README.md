@@ -31,31 +31,23 @@
  |other (class, object...)  | o  | |      
 
     - 그 후 대문자로 시작하는 명사로 작성
-
-
-    <pre>
-        <code>
-            class test
-	        {
-		        private:
-			        int m_nTest = 0;
-			        double long m_dlTest = 0l;
-			        unsinged int m_uiTest = 0;
-	        }
-        </code>
-    </pre>
+    ```C++
+    class test
+	{
+		private:
+			int m_nTest = 0;
+			double long m_dlTest = 0l;
+			unsinged int m_uiTest = 0;
+	}
+    ```
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
-
-
-    <pre>
-        <code>
-            int Test(int _t)
-            {
-                int localNumber = 0;
-            }
-        </code>
-    </pre>
+    ```C
+    int Test(int _t)
+    {
+        int localNumber = 0;
+    }
+    ```
 
 ### global const, define은 대문자로 작성
     - #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
