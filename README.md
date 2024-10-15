@@ -18,7 +18,7 @@
  |--------|:---:|-----|
  |멤버 변수                 | m_ | |
  |int(8, 16, 32, 64bit)     | n  | |
- |short                     | | |
+ |short                      | |
  |long                      | l  | |  
  |double                    | d  | |    
  |float                     | f  | |      
