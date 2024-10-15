@@ -14,11 +14,11 @@
 ### 클래스 내부 멤버 변수 접두어 규칙
  > 멤버 변수를 의미하는 접두어(m_)로 시작
 <table>
-	<th>
+	<thead>
 		<td>의미</td>
 		<td>접두어</td>
 		<td>접미어</td>
-	</th>
+	</thead>
 	<tr>
 		<td>멤버변수</td>
 		<td>m_</td>
@@ -31,7 +31,6 @@
 	</tr>
 	<tr>
 		<td>short</td>
-		<td></td>
 		<td></td>
 	</tr>
 </table>
