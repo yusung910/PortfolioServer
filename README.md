@@ -18,7 +18,7 @@
  |--------|:---:|-----|
  |멤버 변수                 | m_ | |
  |int(8, 16, 32, 64bit)     | n  | |
- |short                     | n  | |
+ |short                     | | |
  |long                      | l  | |  
  |double                    | d  | |    
  |float                     | f  | |      
@@ -47,7 +47,7 @@
     }
 
 ### global const, define은 대문자로 작성
-    - #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
+    - #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4; 등
 
 
 ### 프로젝트 구조
