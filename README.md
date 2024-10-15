@@ -11,9 +11,14 @@
 	ex) function test(int _a);
 
  3) 클래스 내부 멤버 변수 접두어 규칙
-   - member 변수의미로 'm_'로 시작
-   - int(8, 16, 32, 64bit)	 : n
-   - short                  : n
+  - 멤버 변수를 의미하는 접두어(m_)로 시작
+ |의미    |접두어|접미어|
+ |--------|-----|-----|
+ |멤버 변수|m_| |
+ |int(8, 16, 32, 64bit)|n| |
+ |short|n| |
+   
+   
    - long					 : l
    - double				 : d
    - float					 : f
