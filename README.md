@@ -15,7 +15,7 @@
  > 멤버 변수를 의미하는 접두어(m_)로 시작
   
  |의미    |접두어|접미어|
- |--------|-----|-----|
+ |--------|:---:|-----|
  |멤버 변수                 | m_ | |
  |int(8, 16, 32, 64bit)     | n  | |
  |short                     | n  | |
@@ -31,19 +31,23 @@
  |other (class, object...)  | o  | |      
 
     - 그 후 대문자로 시작하는 명사로 작성
-    ex) class test
-		{
-			private:
-				int m_nTest = 0;
-				double long m_dlTest = 0l;
-				unsinged int m_uiTest = 0;
-		}
+    ``` C++
+    class test
+	{
+		private:
+			int m_nTest = 0;
+			double long m_dlTest = 0l;
+			unsinged int m_uiTest = 0;
+	}
+    ```
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
-    - ex) int Test(int _t)
-          {
-              int localNumber = 0;
-		  }
+    ``` C
+    int Test(int _t)
+    {
+        int localNumber = 0;
+    }
+    ```
 
 ### global const, define은 대문자로 작성
     - #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4;
