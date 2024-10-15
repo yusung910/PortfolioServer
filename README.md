@@ -32,6 +32,7 @@
 	<tr>
 		<td>short</td>
 		<td></td>
+		<td></td>
 	</tr>
 </table>
  |의미    |접두어|접미어|
