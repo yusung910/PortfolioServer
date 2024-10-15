@@ -155,4 +155,5 @@ Plugins/**/Intermediate/*
 # User added
 Output/
 **/**/[bB]uild/
-!lib/
+!lib/**/*.exe
+!lib/**/*.lib
