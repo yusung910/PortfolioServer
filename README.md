@@ -1,7 +1,7 @@
 # PortfolioServer
 몇 번째인지 모를 포트폴리오 서버(진짜 마지막 일지도?)
 
-1. 코딩 규칙
+## 코딩 규칙
  -> 기본은 카멜 표기법을 따름
  
  1) 클래스 네이밍 룰
@@ -15,22 +15,21 @@
   
  |의미    |접두어|접미어|
  |--------|-----|-----|
- |멤버 변수|m_| |
- |int(8, 16, 32, 64bit)|n| |
- |short|n| |
-   
-   
-   - long					 : l
-   - double				 : d
-   - float					 : f
-   - char					 : c
-   - string				 : s
-   - double long			 : dl
-   - unsinged				 : u
-   - enum                   : e
-   - pointer                : p
-   - other(class, object...): o
-     그 후 대문자로 시작하는 명사로 작성
+ |멤버 변수                 | m_ | |
+ |int(8, 16, 32, 64bit)     | n  | |
+ |short                     | n  | |
+ |long                      | l  | |  
+ |double                    | d  | |    
+ |float                     | f  | |      
+ |char                      | c  | |      
+ |string                    | s  | |      
+ |double long               | dl  | |      
+ |unsinged                  | u  | |      
+ |enum                      | e  | |      
+ |pointer                   | p  | |      
+ |other (class, object...)  | o  | |      
+
+    - 그 후 대문자로 시작하는 명사로 작성
     ex) class test
 		{
 			private:
