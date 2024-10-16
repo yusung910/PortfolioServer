@@ -82,25 +82,30 @@
 </table>
 
     그 후 대문자로 시작하는 명사로 작성하며 복합 선언일 경우 앞 글자만 따서 사용한다
-```c    
-    class test
-	{
-        private:
-            int m_nTest = 0;
-            double long m_dlTest = 0l;
-            unsinged int m_uiTest = 0;
-	}
+```c++    
+class test
+{
+private:
+    int m_nTest = 0;
+    double long m_dlTest = 0l;
+    unsinged int m_uiTest = 0;
+}
 ```
     
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
-    int Test(int _t)
-    {
-        int localNumber = 0;
-    }
+```c
+int Test(int _t)
+{
+    int localNumber = 0;
+}
+```
 
 ### global const, define은 대문자로 작성
-    - #define DEV_TEST , const int32_t G_N_CHAR_SIZE = 4; 등
+```c
+#define DEV_TEST
+const int32_t G_N_CHAR_SIZE = 4;
+```
 
 
 ### 프로젝트 구조
