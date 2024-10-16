@@ -13,7 +13,10 @@
 class PacketCompressor : public Object<PacketCompressor>
 {
 public:
-    int m_nCompressSize = 0;
+    //압축된 싸이즈
+    int m_nCompressedSize = 0;
+    
+    //압축된 데이터가 들어갈 변수
     char m_cCompressBuffer[MAX_PACKET_BINARY_SIZE] = { 0, };
 
 public:
