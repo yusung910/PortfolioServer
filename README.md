@@ -82,7 +82,7 @@
 </table>
 
     그 후 대문자로 시작하는 명사로 작성하며 복합 선언일 경우 앞 글자만 따서 사용한다
-    
+```c    
     class test
 	{
         private:
@@ -90,6 +90,7 @@
             double long m_dlTest = 0l;
             unsinged int m_uiTest = 0;
 	}
+```
     
 
 ### 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
