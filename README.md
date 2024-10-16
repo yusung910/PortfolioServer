@@ -7,6 +7,7 @@
  
 ### 클래스 네이밍 룰
  > Pacade 클래스 이름은 접미어로 PO(Pacade Object)를 붙인다
+
  > 해당 클래스의 header 파일 확장자는 .hxx, C++ 파일 확장자는 동일하게 .cpp
 ### Parameter 타입의 변수는 '_'로 시작
  > function test(int _a);
