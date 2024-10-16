@@ -102,7 +102,9 @@
     <ClInclude Include="PacketCompressor.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkSupporterPO.hxx" />
+    <ClInclude Include="NetworkSupporterPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -138,6 +140,8 @@
     <ClCompile Include="PacketCompressor.cpp">
       <Filter>Network\Pacade</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkSupporterPO.cpp" />
+    <ClCompile Include="NetworkSupporterPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
