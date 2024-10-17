@@ -112,7 +112,7 @@ int Test(int _t)
 const int32_t G_N_CHAR_SIZE = 4;
 ```
 + 예외 클래스 내부의 member 변수의 const는 소문자로 작성하고 기존의 규칙을 그대로 적용한다
-```c
+```c++
 class Test
 {
 private:
