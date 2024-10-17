@@ -105,6 +105,9 @@
     <ClInclude Include="NetworkSupporterPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkHost.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -141,6 +144,9 @@
       <Filter>Network\Pacade</Filter>
     </ClCompile>
     <ClCompile Include="NetworkSupporterPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHost.cpp">
       <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>
