@@ -46,6 +46,12 @@
     <Filter Include="Network\Define">
       <UniqueIdentifier>{c3882348-46ce-4867-b87f-0f53f2ab6cd0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\Time">
+      <UniqueIdentifier>{df1aff2c-866d-46a7-b388-12aa85f9be30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Time\_Pacade">
+      <UniqueIdentifier>{aeb7ce9c-0c7a-40b7-9f5d-7a1a53e47982}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -105,7 +111,16 @@
     <ClInclude Include="NetworkSupporterPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkHost.hxx">
+    <ClInclude Include="NetworkHostPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="Clock.h">
+      <Filter>Util\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManagerPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,7 +161,16 @@
     <ClCompile Include="NetworkSupporterPO.cpp">
       <Filter>Network\Pacade</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkHost.cpp">
+    <ClCompile Include="NetworkHostPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>Util\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManagerPO.cpp">
       <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>

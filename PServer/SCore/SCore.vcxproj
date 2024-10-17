@@ -22,6 +22,7 @@
     <ClInclude Include="BlockingQueue.h" />
     <ClInclude Include="BuildConfig.hxx" />
     <ClInclude Include="BuildVersion.hxx" />
+    <ClInclude Include="Clock.h" />
     <ClInclude Include="ConvertUTF.hxx" />
     <ClInclude Include="DefineMacro.h" />
     <ClInclude Include="LogData.hxx" />
@@ -32,7 +33,9 @@
     <ClInclude Include="NetworkContextPO.hxx" />
     <ClInclude Include="NetworkContextPoolPO.hxx" />
     <ClInclude Include="NetworkEventSync.h" />
-    <ClInclude Include="NetworkHost.hxx" />
+    <ClInclude Include="NetworkHostPO.hxx" />
+    <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NetworkManagerPO.hxx" />
     <ClInclude Include="NetworkSupporterPO.hxx" />
     <ClInclude Include="PacketCompressor.hxx" />
     <ClInclude Include="SCoreAPI.h" />
@@ -41,6 +44,7 @@
     <ClInclude Include="StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Clock.cpp" />
     <ClCompile Include="ConvertUTF.cpp" />
     <ClCompile Include="LogData.cpp" />
     <ClCompile Include="LoggingCommon.h" />
@@ -48,7 +52,9 @@
     <ClCompile Include="LoggingManagerPO.cpp" />
     <ClCompile Include="NetworkContextPO.cpp" />
     <ClCompile Include="NetworkContextPoolPO.cpp" />
-    <ClCompile Include="NetworkHost.cpp" />
+    <ClCompile Include="NetworkHostPO.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="NetworkManagerPO.cpp" />
     <ClCompile Include="NetworkSupporterPO.cpp" />
     <ClCompile Include="PacketCompressor.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />

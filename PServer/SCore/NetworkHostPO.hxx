@@ -22,7 +22,9 @@ constexpr int ACCEPT_WAIT_COUNT = 100;
 class NetworkEventSync;
 class NetworkContext;
 
-class NetworkHost
+constexpr size_t MAX_MESSAGE_ID_HISTORY_SIZE = 100;
+
+class NetworkHostPO
 {
 private:
 
@@ -63,8 +65,51 @@ private:
     // 소켓이 종료(close)된 원인 코드
     ESocketCloseType m_eLastSocketCloseType = ESocketCloseType::Reset;
 
-    //Packet History
-    const int64_t m_nPacketReceiveCheckTick = 10000;
+    //Packet History 패킷이 통신되는 이력을 관리하는 변수 목록
+    const int64_t m_nPACKET_RECV_CHECK_TICK = 10000;
+    const int64_t m_fPACKET_RECV_CHECK_COUNT_PER_SEC = 30.f;
 
+    bool            m_bUsePacketRecvCheck = false;
+    int64_t         m_nPacketRecvCheckTick = 0;
+    std::atomic_int m_nPacketRecvCheckCountter = 0;
+    
+    std::atomic_int m_nMessageHistoryIdx = 0;
+    std::array<std::tuple<int, int64_t>, MAX_MESSAGE_ID_HISTORY_SIZE> m_oMessageHistory = {};
+
+    std::atomic_int64_t m_nLastPacketTick = 0;
+    // Packet History End
+
+public:
+    /*!
+     *  Constructor.
+     *  m_pPacketCompressor 객체 생성
+     */
+    NetworkHostPO();
+
+    /*!
+     *  Destructor.
+     *  Reset() 함수 호출
+     */
+    virtual ~NetworkHostPO();
+
+    //NetworkHost 내부 멤버 변수들 초기화
+    void Reset();
+
+    /*!
+     *  m_lBaseTaskCount 값을 증가한다.
+     *  
+     */
+    void BeginBaseTask();
+    
+
+    /*!
+     *  End Base Task.
+     */
+    void EndBaseTask(bool _rslt, const ESocketCloseType& _type = ESocketCloseType::FailedToBaseTask);
+
+
+    //EContextType 별 함수 목록
+    bool Close(ESocketCloseType _e);
+    //
 };
 
