@@ -106,17 +106,17 @@ int Test(int _t)
 }
 ```
 
-### 1.5 global const, define은 대문자로 작성
+### 1.5 const, define은 대문자로 작성
 ```c
 #define DEV_TEST
 const int32_t G_N_CHAR_SIZE = 4;
 ```
-+ 예외 클래스 내부의 member 변수의 const는 소문자로 작성하고 기존의 규칙을 그대로 적용한다
++ 예외 클래스 내부의 member 변수의 const는 기존 클래스 멤버 변수 작성 규칙을 그대로 준수하되 대문자로 작성한다
 ```c++
 class Test
 {
 private:
-    const int m_nTest = 0;
+    const int m_nTEST_NUMBER_ = 0;
 }
 ```
 
