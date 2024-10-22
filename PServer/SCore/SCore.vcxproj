@@ -36,6 +36,8 @@
     <ClInclude Include="NetworkHostPO.hxx" />
     <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="NetworkManagerPO.hxx" />
+    <ClInclude Include="NetworkStatistics.h" />
+    <ClInclude Include="NetworkStatisticsPO.hxx" />
     <ClInclude Include="NetworkSupporterPO.hxx" />
     <ClInclude Include="PacketCompressor.hxx" />
     <ClInclude Include="SCoreAPI.h" />
@@ -55,6 +57,8 @@
     <ClCompile Include="NetworkHostPO.cpp" />
     <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="NetworkManagerPO.cpp" />
+    <ClCompile Include="NetworkStatistics.cpp" />
+    <ClCompile Include="NetworkStatisticsPO.cpp" />
     <ClCompile Include="NetworkSupporterPO.cpp" />
     <ClCompile Include="PacketCompressor.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />

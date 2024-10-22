@@ -19,7 +19,7 @@
     <ClInclude Include="StrictSingleton.h">
       <Filter>Singleton</Filter>
     </ClInclude>
-    <ClInclude Include="Singletone.h">
+    <ClInclude Include="Singleton.h">
       <Filter>Singleton</Filter>
     </ClInclude>
     <ClInclude Include="RefSingleton.h">

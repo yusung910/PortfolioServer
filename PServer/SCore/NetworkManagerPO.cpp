@@ -6,17 +6,52 @@
 #include "NetworkContextPoolPO.hxx"
 //
 
-NetworkManagerPO::NetworkManagerPO(size_t _nReserveContext)
+#define CreateContext(x)    auto x = AllocateContext();     \
+                            if(x == nullptr) return false;  \
+
+
+//----------------------------------------------------------
+// NetworkManagerPO Constructor, Destructor inner method
+//----------------------------------------------------------
+NetworkManagerPO::NetworkManagerPO(size_t _reserveContext)
 {
+    m_pContextPool = new NetworkContextPoolPO(_reserveContext);
 }
 
 NetworkManagerPO::~NetworkManagerPO()
 {
+    SafeDelete(m_pContextPool);
 }
 
+void NetworkManagerPO::ReserveContext(size_t _reserveContext)
+{
+    if (nullptr == m_pContextPool)
+        return;
+    m_pContextPool->Reserve(_reserveContext);
+}
+
+size_t NetworkManagerPO::GetContextAllocateCount() const
+{
+    if (nullptr == m_pContextPool)
+        return;
+    return m_pContextPool->GetAllocatedCount();
+}
+
+void NetworkManagerPO::CreateNetwork()
+{
+
+}
+
+void NetworkManagerPO::DestroyNetwork()
+{
+
+}
+//----------------------------------------------------------
+// NetworkManagerPO Constructor, Destructor inner method end
+//----------------------------------------------------------
 
 //----------------------------------------------------------
-//NetworkContextPool
+// NetworkContextPool
 //----------------------------------------------------------
 
 NetworkContextPO* NetworkManagerPO::AllocateContext()
@@ -39,3 +74,40 @@ void NetworkManagerPO::ReleaseContext(NetworkContextPO* _context)
 
     m_pContextPool->Release(_context);
 }
+
+int NetworkManagerPO::GetContextAllocateCount()
+{
+    if (nullptr == m_pContextPool)
+    {
+        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        return 0;
+    }
+    return (int) m_pContextPool->GetAllocatedCount();
+}
+
+int NetworkManagerPO::GetContextUseCount()
+{
+    if (nullptr == m_pContextPool)
+    {
+        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        return 0;
+    }
+    size_t localAlloc = 0ll;
+    size_t localFree = 0ll;
+
+    m_pContextPool->GetUsage(localFree, localAlloc);
+
+    return (int)(localAlloc - localFree);
+}
+
+int NetworkManagerPO::GetContextFreeCount()
+{
+    if (nullptr == m_pContextPool)
+    {
+        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        return 0;
+    }
+
+    return 0;
+}
+

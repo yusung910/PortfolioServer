@@ -25,7 +25,7 @@
     <ClInclude Include="Packet.h" />
     <ClInclude Include="RefSingleton.h" />
     <ClInclude Include="SecureValueClass.h" />
-    <ClInclude Include="Singletone.h" />
+    <ClInclude Include="Singleton.h" />
     <ClInclude Include="StrictSingleton.h" />
     <ClInclude Include="TimeUtil.h" />
   </ItemGroup>

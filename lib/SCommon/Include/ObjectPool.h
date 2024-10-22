@@ -51,19 +51,19 @@ public:
 
 		if (m_oPool.empty())
 		{
-			m_oPool.push(std::make_unique<T>(typename T::ObjectTag()));
+			m_oPool.push(std::make_unique(T > (typename T::ObjectTag()));
 			m_nAllocationCnt++;
 		}
 
 		AutoReleaseUniuqePtr localPtr
 		(
 			m_oPool.top().release()
-			, [this](T* _obj) { this->Release(std::unique_ptr<T>(_obj)); }
+			, [this](T* _obj) { this->Release(std::unique_ptr<T>(_obj); }
 		);
 
 		m_oPool.pop();
 
-		return localPtr;
+		return ptr;
 	}
 
 private:

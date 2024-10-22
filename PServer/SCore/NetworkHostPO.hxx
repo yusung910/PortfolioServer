@@ -7,8 +7,10 @@
  *  IOCP 통신에 사용될 host 
  *  Network Host -> 네트워크/인터넷을 통해 다른 컴퓨터들과 쌍방향 통신이 가능한 '컴퓨터(단말기)'
  *  다른 '컴퓨터(단말기)'와 통신 할 수 있는 '컴퓨터(단말기)'의 정보와 관련 함수가 정의 되어 있는 클래스
- *  서버 컴퓨터의 정보가 담긴 클래스(?)
+ *  서버 컴퓨터의 정보가 담긴 클래스
  *  https://lxxyeon.tistory.com/172
+ *   
+ *  NetworkContext의 Type별로 함수들이 존재한다(예외 Waiting)
  */
 #pragma once
 #include "BlockingQueue.h"
@@ -20,7 +22,7 @@ constexpr int ACCEPT_WAIT_COUNT = 100;
 
 //Forward Declarations
 class NetworkEventSync;
-class NetworkContext;
+class NetworkContextPO;
 
 constexpr size_t MAX_MESSAGE_ID_HISTORY_SIZE = 100;
 
@@ -36,6 +38,7 @@ private:
     
     EHostType m_eHostType = EHostType::None;
 
+    //네트워크 통신 event 싱크를 맞추기 위한 클래스를 Pacade 형태로 이용
     NetworkEventSync* m_pEventSync = nullptr;
 
     volatile long m_lBaseTaskCount = 0;
@@ -97,19 +100,146 @@ public:
 
     /*!
      *  m_lBaseTaskCount 값을 증가한다.
-     *  
      */
     void BeginBaseTask();
     
 
     /*!
-     *  End Base Task.
+     *  기본 task 종료처리.
      */
     void EndBaseTask(bool _rslt, const ESocketCloseType& _type = ESocketCloseType::FailedToBaseTask);
 
+    /*!
+     *  Begins the send task.
+     */
+    void BeginSendTask();
+
+    /*!
+     *  네트워크 호스트 task 전송 종료처리
+     *
+     *      @param [in] _rslt If true, rslt. Otherwise not rslt.
+     */
+    void EndSendTask(bool _rslt);
 
     //EContextType 별 함수 목록
+    //enum class EContextType : int
+    //{
+    //    None = 0,
+    //    Listen,
+    //    Join,
+    //    Accept,
+    //    Connect,
+    //    Receive,
+    //    Send,
+    //    Encrypt,
+    //    Close,
+    //};
+
+    /*!
+     *  NetworkContext를 참조형 변수로 전달 받아
+     *  소켓 통신을 하기 위해 WSAIoctl()로 Connect한다
+     *  NetworkContextPO의 참조 수 (ReferenceCount)를 증가한다
+     *
+     *  NetworkContext로 소켓을 통신 할 수 있는 상태로 만든다
+     *      @param [in,out] NetworkContextPO& _ctxt 
+     *
+     *      @return 
+     */
+    bool Connect(NetworkContextPO& _ctxt);
+
+    /*!
+     *  소켓의 상태를 listen()로 수신 대기 상태로 지정한다
+     *
+     *      @return 
+     */
+    bool Listen();
+
+    /*!
+     *  클라이언트와의 연결을 수락하고 로컬주소와 원격 주소를 반환한다
+     *  AcceptEx(), GetAcceptExSockaddrs() 이용
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
+    bool Accept(NetworkContextPO& _ctxt);
+
+
+    bool Receive(NetworkContextPO& _ctxt);
+    bool Decrypt(NetworkContextPO& _ctxt);
+
+    //예외
+    bool Waiting(Packet::SharedPtr _packt);
+
+    bool Encrypt(NetworkContextPO& _ctxt);
+    bool Send(NetworkContextPO& _ctxt);
+
     bool Close(ESocketCloseType _e);
     //
+
+
+public:
+    const int& GetHostID() const;
+    void SetHostID(const int& _id);
+
+    SOCKET GetSocket();
+    void SetSocket(SOCKET _sock);
+
+    const EHostType& GetHostType() const;
+    void SetHostType(const EHostType& _type);
+
+    NetworkEventSync* GetEvnetSync();
+    void SetEventSync(NetworkEventSync* _eventSync);
+
+    std::string& GetIP();
+    void SetIP(std::string _ip);
+    int GetIPInt32();
+    void SetIPInt32(int _n);
+
+    int64_t GetLastPacketTick();
+    int GetPeerPort();
+    void SetPeerPort(const int& _port);
+
+    void SetClientHostMode(const bool& _onoff);
+
+
+
+private:
+    /*!
+     *  ESocketCloseType에 따른 메세지를 반환한다
+     *
+     *      @param [in] _e 
+     *
+     *      @return The socket close type string.
+     */
+    std::wstring _GetSocketCloseTypeString(const ESocketCloseType& _e);
+
+    /*!
+     *  NetworkHost 타입에 따른 메세지를 반환
+     *
+     *      @param [in] _type 
+     *
+     *      @return The host type.
+     */
+    const wchar_t* _GetHostType(const EHostType& _type);
+
+    /*!
+     *  Returns the network host's recv history stack string.
+     */
+    void _GetRecvHistoryStackString();
+
+    /*!
+     *  수신한 network 패킷 이력들을 반환한다
+     *
+     *      @param [in,out] _list 
+     */
+    void _GetRecvHistory(std::vector<std::tuple<int, int64_t>>& _list);
+
+    /*!
+     *  네트워크 패킷 수신된 데이터를 기록한다 (로그 성격)
+     *
+     *      @param [in] _msgID 
+     *      @param [in] _tick  
+     */
+    void _AddReceive(const int& _msgID, const int64_t& _tick);
 };
 
