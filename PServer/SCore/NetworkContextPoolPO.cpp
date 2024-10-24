@@ -9,7 +9,7 @@ NetworkContextPoolPO::NetworkContextPoolPO(size_t _reserveSize)
 
 NetworkContextPoolPO::~NetworkContextPoolPO()
 {
-    AutoLock(m_oLock);
+    AutoLock(m_xLock);
 
     for (auto each : m_oAllocatedList)
     {
@@ -24,7 +24,7 @@ NetworkContextPO* NetworkContextPoolPO::Allocate()
 {
     NetworkContextPO* localContext = nullptr;
     {
-        AutoLock(m_oLock);
+        AutoLock(m_xLock);
         if (m_oFreeList.empty() == true)
         {
             //메모리 할당
@@ -55,7 +55,7 @@ void NetworkContextPoolPO::Release(NetworkContextPO* _ctxt)
 
     _ctxt->Reset();
 
-    AutoLock(m_oLock);
+    AutoLock(m_xLock);
     m_oFreeList.push_back(_ctxt);
 }
 
@@ -84,6 +84,6 @@ const size_t NetworkContextPoolPO::GetAllocatedCount() const
 void NetworkContextPoolPO::GetUsage(size_t& _free, size_t& _allocated)
 {
     _free = m_nAllocatedSize;
-    AutoLock(m_oLock);
+    AutoLock(m_xLock);
     _allocated = m_oFreeList.size();
 }

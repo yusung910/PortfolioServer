@@ -1,3 +1,11 @@
+/**
+ *  @file NetworkStatistics.h
+ *  @author YS
+ *  @date 2024-10-24
+ *  @project SCore
+ *
+ *  네트워크 전송, 연결 상태 등을 관리하기 위한 클래스
+ */
 #pragma once
 #include "SCoreAPI.h"
 

@@ -80,8 +80,13 @@ function test(int _a)
 		<td></td>
 	</tr>
 	<tr>
+		<td>mutex</td>
+		<td align="center">x</td>
+		<td></td>
+	</tr>
+	<tr>
 		<td>other (class, object...)</td>
-		<td align="center">o</td>
+		<td align="center">o(other)</td>
 		<td></td>
 	</tr>
 </table>

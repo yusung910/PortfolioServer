@@ -6,6 +6,9 @@
 #include "NetworkContextPoolPO.hxx"
 //
 
+//
+#include "NetworkStatistics.h"
+
 #define CreateContext(x)    auto x = AllocateContext();     \
                             if(x == nullptr) return false;  \
 
@@ -16,6 +19,7 @@
 NetworkManagerPO::NetworkManagerPO(size_t _reserveContext)
 {
     m_pContextPool = new NetworkContextPoolPO(_reserveContext);
+    m_pStatistics = new NetworkStatistics();
 }
 
 NetworkManagerPO::~NetworkManagerPO()
@@ -111,3 +115,73 @@ int NetworkManagerPO::GetContextFreeCount()
     return 0;
 }
 
+
+//----------------------------------------------------------
+//NetworkStatics begin
+//----------------------------------------------------------
+void NetworkManagerPO::OnConnect(int _hostID)
+{
+    AutoLock(m_xConnectionListLock);
+    auto it = m_oUsingHostIDList.find(_hostID);
+
+    if (it != m_oUsingHostIDList.end())
+        return;
+
+    m_oUsingHostIDList.insert(_hostID);
+
+    if (nullptr != m_pStatistics)
+        m_pStatistics->Connect();
+
+}
+
+void NetworkManagerPO::OnDisconnect(int _hostID)
+{
+    AutoLock(m_xConnectionListLock);
+    auto it = m_oUsingHostIDList.find(_hostID);
+
+    if (it != m_oUsingHostIDList.end())
+        return;
+
+    m_oUsingHostIDList.erase(it);
+
+    if (nullptr != m_pStatistics)
+        m_pStatistics->Disconnect();
+}
+
+void NetworkManagerPO::OnSend(const int& _bytes)
+{
+    if (_bytes <= 0)
+        return;
+    if (nullptr != m_pStatistics)
+        m_pStatistics->Send(_bytes);
+}
+
+void NetworkManagerPO::OnRecv(const int& _bytes)
+{
+    if (_bytes <= 0)
+        return;
+    if (nullptr != m_pStatistics)
+        m_pStatistics->Recv(_bytes);
+}
+
+bool NetworkManagerPO::IsConnected(const int& _hostID)
+{
+    AutoLock(m_xConnectionListLock);
+    return m_oUsingHostIDList.find(_hostID) != m_oUsingHostIDList.end(_hostID);
+}
+
+NetworkStatistics* NetworkManagerPO::GetStatistics()
+{
+    return m_pStatistics;
+}
+
+void NetworkManagerPO::GetConnectedList(std::vector<int>& _list)
+{
+    AutoLock(m_xConnectionListLock);
+    _list.clear();
+    _list.assign(m_oUsingHostIDList.begin(), m_oUsingHostIDList.end());
+}
+
+//----------------------------------------------------------
+//NetworkStatics end
+//----------------------------------------------------------

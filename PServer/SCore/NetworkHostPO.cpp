@@ -5,6 +5,7 @@
 #include "NetworkContextPO.hxx"
 #include "PacketCompressor.hxx"
 
+#include "NetworkManager.h"
 #include "NetworkEventSync.h"
 
 #include "Clock.h"
@@ -39,7 +40,7 @@ void NetworkHostPO::Reset()
     m_sIP.clear();
 
     {
-        AutoLock(m_oSendLock);
+        AutoLock(m_xSendLock);
         m_oSendWaitingList.clear();
     }
 
@@ -79,12 +80,32 @@ void NetworkHostPO::EndBaseTask(bool _rslt, const ESocketCloseType& _type)
 
 void NetworkHostPO::BeginSendTask()
 {
-    //if (m_oSendWorkQueue.size() == 0)
-    //{
-    //    AutoLock(m_oSendLock);
-    //    if (true == m_oSendWaitingList.empty())
-    //        return;
-    //}
+    if (m_oSendWorkQueue.size() == 0)
+    {
+        AutoLock(m_xSendLock);
+        if (true == m_oSendWaitingList.empty())
+            return;
+    }
+    //https://learn.microsoft.com/ko-kr/windows-hardware/drivers/ddi/wdm/nf-wdm-interlockedcompareexchange
+    //LONG CDECL_NON_WVMPURE InterlockedCompareExchange(
+    //[in, out] LONG volatile* Destination,
+    //    [in]      LONG          ExChange,
+    //    [in]      LONG          Comperand
+    //    );
+    if (InterlockedCompareExchange(&m_lSendTaskCount, 1, 0) != 0)
+        return;
+
+    //Context 할당
+    auto localCtxt = NetworkManager::GetInst().AllocateContext();
+    if (nullptr == localCtxt)
+    {
+        VIEW_WRITE_ERROR(L"NetworkHostPO::BeginSendTask() Failed");
+        EndSendTask(false);
+        return;
+    }
+
+    localCtxt->Ready(EContextType::Encrypt);
+
 }
 
 void NetworkHostPO::EndSendTask(bool _rslt)
@@ -306,9 +327,11 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
     //WSABUF 구조체 Winsock 함수에서 사용하는 데이터 버퍼를 만들거나 컨트롤 하기 위한 구조체.
     WSABUF localWSABUF = {};
     DWORD localBytes = 0;
-    DWORD flagBytes = 0;
+    DWORD localFlagBytes = 0;
 
-    localWSABUF.buf = _ctxt.GetData();
+    //송신하기 위해 NetworkContext에 비어있는 포인터 주소 위치를 가져온다
+    localWSABUF.buf = _ctxt.GetEmpty();
+    //송신하기 위해 NetworkContext에 비어있는 메모리의 크기를 가져온다
     localWSABUF.len = static_cast<ULONG>(_ctxt.GetEmptySize());
 
     if (localWSABUF.len <= 0)
@@ -323,18 +346,220 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
         return false;
     }
 
-    //WSASend() : 연결된 소켓에 데이터를 보냅니다.
-    // NetworkContext에 저장된 buffer들을 연결된 socket에 send한다
-    // https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasend
-    if (WSASend(m_oSocket, &localWSABUF, 1, &localBytes, flagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
+    //WSARecv() : 연결된 소켓 또는 바인딩된 연결 없는 소켓에서 데이터를 수신.
+    //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsarecv
+    if (WSARecv(m_oSocket, &localWSABUF, 1, &localBytes, &localFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
     {
+        VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSARecv length:%d, HostID:%d, IP: %s"
+            , static_cast<int>(localWSABUF.len)
+            , GetHostID()
+            , StringUtil::ToWideChar(GetIP()).c_str()
+        );
 
+
+        _ctxt.DecreaseReferenceCount();
+        return false;
     }
 
     return true;
 }
 
+bool NetworkHostPO::Decrypt(NetworkContextPO& _ctxt)
+{
+    //
+    char* localPacket = _ctxt.GetData();
+    int localPacketSize = static_cast<int>(_ctxt.GetDataSize());
 
+    while (localPacketSize >= PACKET_HEADER_SIZE)
+    {
+        int localMsgSize = (*(u_long*)(localPacket)) - PACKET_HEADER_SIZE;
+        int localMsgID = ntohl(*(u_long*)(localPacket + sizeof(u_long)));
+
+        if (USE_PACKET_COMPRESS)
+        {
+            localMsgSize &= ~PACKET_COMPRESS_MASK;
+        }
+
+        if (localMsgSize < 0 || localMsgSize > MAX_PACKET_DATA_SIZE)
+        {
+            VIEW_WRITE_ERROR(
+                L"NetworkHostPO::Decrypt() Failed - MessageID:%d, MessageSize:%d, HostID:%d, IPAddress:%s"
+                ,localMsgID
+                ,localMsgSize
+                ,GetHostID()
+                ,StringUtil::ToWideChar(GetIP()).c_str()
+            );
+
+            return false;
+        }
+
+        // 잔여 패킷 여부 확인
+        if (localMsgSize > localPacketSize - (int)PACKET_HEADER_SIZE)
+            break;
+
+        EventReceive(localMsgID, localPacket + PACKET_HEADER_SIZE, localMsgSize);
+
+        //패킷 데이터 Read처리
+        _ctxt.Read(static_cast<size_t>(localMsgSize) + PACKET_HEADER_SIZE);
+
+        //다음패킷 위치
+        localPacket = _ctxt.GetData();
+        localPacketSize = static_cast<int>(_ctxt.GetDataSize());
+    }
+
+    //Recevie 처리
+    return Receive(_ctxt);
+}
+
+
+
+bool NetworkHostPO::Waiting(Packet::SharedPtr _packt)
+{
+    if (nullptr == _packt.get())
+        return false;
+
+#ifdef CHECK_NETWORK_HOST_SEND_QUEUE_COUNT
+    int localWaitCount = 0;
+    {
+        AutoLock(m_xSendLock);
+        m_oSendWaitingList.push_back(_packt);
+        localWaitCount = static_cast<int>(m_oSendWaitingList.size());
+    }
+
+    if (localWaitCount >= 500)
+    {
+        if (localWaitCount % 100 == 0)
+        {
+            VIEW_WRITE_WARNING(
+                L"NetworkHostPO::Waiting() Warning - HostID: %d [%s] Send Queue Size Over 500!! (%d)"
+                , GetHostID()
+                , StringUtil::ToWideChar(GetIP()).c_str()
+                , localWaitCount
+            );
+        }
+#ifdef MANUAL_KICK_BY_SEND_QUEUE_COUNT
+        if (m_eHostType == EHostType::Acceptor)
+        {
+            if (localWaitCount > ManualKickSendQueueCount)
+            {
+                Close(ESocketCloseType::SendQueueExceed);
+                return false;
+            }
+        }
+#endif // MANUAL_KICK_BY_SEND_QUEUE_COUNT
+
+    }
+
+#else
+    AutoLock(m_xSendLock);
+    m_oSendWaitingList.push_back(_packt);
+#endif // CHECK_NETWORK_HOST_SEND_QUEUE_COUNT
+
+
+    return true;
+}
+
+bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
+{
+    size_t localTotal = 0;
+    {
+        AutoLock(m_xSendLock);
+
+        //패킷 전송 대기 목록(m_oSendWaitingList)에서 전송 목록(m_oSendWorkQueue)으로 데이터를 이동한다
+        m_oSendWaitingList.swap(m_oSendWorkQueue);
+    }
+
+    for (auto it = m_oSendWorkQueue.begin(); it != m_oSendWorkQueue.end(); )
+    {
+        if (nullptr != it->get())
+        {
+            if (localTotal + it->get()->GetPacketSize() > NETWORK_BUFFER_SIZE_SERVER)
+            {
+                AutoLock(m_xSendLock);
+                //m_oSendWaitingList의 앞(m_oSendWaitingList.begin() 위치)에 
+                //m_oSendWorkQueue의 시작(begin())부터 끝(end())을 넣는다
+                m_oSendWaitingList.insert(m_oSendWaitingList.begin(), m_oSendWorkQueue.begin(), m_oSendWorkQueue.end());
+                
+                break;
+            }
+
+            //NetworkContext에 기록한다
+            _ctxt.Write(it->get()->BinaryData, it->get()->GetPacketSize());
+            localTotal += it->get()->GetPacketSize();
+        }
+        //전송되거나 nullptr인 queue는 제거 후 iterator 이동
+        it = m_oSendWorkQueue.erase(it);
+
+    }
+
+    m_oSendWorkQueue.clear();
+    return true;
+}
+
+bool NetworkHostPO::Send(NetworkContextPO& _ctxt)
+{
+    if (m_oSocket == INVALID_SOCKET)
+        return false;
+
+    _ctxt.Ready(EContextType::Send);
+    _ctxt.IncreaseReferenceCount();
+
+    //Send 요청
+    //WSABUF 구조체 Winsock 함수에서 사용하는 데이터 버퍼를 만들거나 컨트롤 하기 위한 구조체.
+    WSABUF localWSABUF = {};
+    DWORD localBytes = 0;
+    DWORD localFlagBytes = 0;
+
+    //NetworkContext에 저장된 데이터 패킷을 전송하기위해 읽어온다
+    localWSABUF.buf = _ctxt.GetData();
+    localWSABUF.len = static_cast<ULONG>(_ctxt.GetDataSize());
+
+    if (localWSABUF.len <= 0)
+    {
+        VIEW_WRITE_ERROR(L"NetworkHostPO::Send() Failed - WSABUF length:%d, HostID:%d, IP: %s"
+            , static_cast<int>(localWSABUF.len)
+            , GetHostID()
+            , StringUtil::ToWideChar(GetIP()).c_str()
+        );
+
+        _ctxt.DecreaseReferenceCount();
+        return false;
+    }
+
+
+    //WSASend() : 연결된 소켓에 데이터를 보냅니다.
+    // NetworkContext에 저장된 buffer들을 연결된 socket에 send한다
+    // int WSASend (IN SOCKET s,
+    //    __in_ecount(dwBufferCount) LPWSABUF lpBuffers,
+    //    IN DWORD dwBufferCount,
+    //    __out_opt LPDWORD lpNumberOfBytesSent,
+    //    IN DWORD dwFlags,
+    //    __in_opt LPWSAOVERLAPPED lpOverlapped,
+    //    __in_opt LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine));
+    //s: 소켓의 핸들 전달, Overlapped IO 속성이 부여된 소켓의 핸들 전달시 Overlapped IO 모델로 출력 진행.
+    //lpBuffers : 전송할 데이터 정보를 지니는 WSABUF 구조체 변수들로 이뤄진 배열의 주소값 전달
+    //dwBufferCount : 두번째 인자로 전달된 배열의 길이정보 전달.
+    //lpNumberOfBytesSent : 전송된 바이트수가 저장될 변수의 주소 값 전달
+    //dwFlags : 함수의 데이터 전송특성을 변경하는 경우에 사용, 예로 MSG_OOB를 전달하면 OOB 모드 데이터 전송
+    //lpOverlapped : WSAOVERLAPPED 구조체 변수의 주소 값 전달, Event 오브젝트를 사용해서 데이터 전송의 완료를 확인하는 경우에 사용되는 매개변수
+    //lpCompletionRoutine : Completion Routine 이라는 함수의 주소 값 전달, 이를 통해서도 데이터 전송의 완료를 확인할 수 있다.
+    // https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasend
+    if (WSASend(m_oSocket, &localWSABUF, 1, &localBytes, localFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
+    {
+        int localWSASendError = WSAGetLastError();
+        if (localWSASendError != WSA_IO_PENDING)
+        {
+            VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSASend length:%d, HostID:%d, IP: %s"
+                , static_cast<int>(localWSABUF.len)
+                , GetHostID()
+                , StringUtil::ToWideChar(GetIP()).c_str()
+            );
+            _ctxt.DecreaseReferenceCount();
+            return false;
+        }
+    }
+    return true;
+}
 
 bool NetworkHostPO::Close(ESocketCloseType _e)
 {
@@ -362,13 +587,99 @@ bool NetworkHostPO::Close(ESocketCloseType _e)
 #endif // !DEV_TEST
     default:
 #ifdef DEV_TEST
-        //VIEW_WRITE_WARNING(L"HostID: %d, HostType: %s, Socket Close Reason : %s, [%s:%d]", m_nHostID, );
+        VIEW_WRITE_WARNING(L"HostID: %d, HostType: %s, Socket Close Reason : %s, [%s:%d]", m_nHostID
+             , _GetHostType(m_eHostType)
+             , _GetSocketCloseTypeString(_e).c_str()
+             , StringUtil::ToWideChar(m_sIP).c_str()
+             , m_nPort);
+#else
+        VIEW_WRITE_WARNING(L"HostID: %d, Socket Close Reason : %s, [%s:%d]", m_nHostID
+            , _GetSocketCloseTypeString(_e).c_str()
+            , StringUtil::ToWideChar(m_sIP).c_str()
+            , m_nPort);
 #endif // DEV_TEST
 
         break;
     }
 
     return true;
+}
+
+bool NetworkHostPO::IsAlive()
+{
+    if (m_oSocket != INVALID_SOCKET
+        || m_lBaseTaskCount > 0
+        || m_lSendTaskCount > 0)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+void NetworkHostPO::Update(int64_t _appTimeMS)
+{
+}
+
+void NetworkHostPO::UpdateListener(int64_t _appTimeMS)
+{
+}
+
+void NetworkHostPO::UpdateAccepter(int64_t _appTimeMS)
+{
+}
+
+void NetworkHostPO::UpdateConnector(int64_t _appTimeMS)
+{
+}
+
+void NetworkHostPO::EventConnect(const EHostType& _type)
+{
+}
+
+void NetworkHostPO::EventClose()
+{
+    if (nullptr == m_pEventSync)
+        return;
+
+    if (m_eLastSocketCloseType == ESocketCloseType::ConnectFailed)
+    {
+        m_pEventSync->OnConnectedFailed(m_nHostID);
+    }
+    else
+    {
+        m_pEventSync->OnClose(m_nHostID);
+    }
+
+    m_pEventSync = nullptr;
+}
+
+void NetworkHostPO::EventReceive(int _msgID, char* _msg, int _msgSize)
+{
+    if (nullptr == m_pEventSync)
+        return;
+
+    if (USE_PACKET_COMPRESS
+        && nullptr != m_pPacketCompressor.get())
+    {
+        if (true == m_pPacketCompressor->Decompress(_msg, _msgSize))
+        {
+            m_pEventSync->OnReceive(m_nHostID, _msgID, m_pPacketCompressor->m_cCompressBuffer, m_pPacketCompressor->m_nCompressedSize);
+        }
+        else
+        {
+            m_pEventSync->OnReceive(m_nHostID, _msgID, _msg, _msgSize);
+        }
+    }
+    else
+    {
+        m_pEventSync->OnReceive(m_nHostID, _msgID, _msg, _msgSize);
+    }
+
+    int64_t localAppTimeMS = Clock::GetTick64();
+    m_nCheckTimeoutMS = localAppTimeMS + m_pEventSync->GetTimeoutMS();
+    _AddReceive(_msgID, localAppTimeMS);
+
 }
 
 const int& NetworkHostPO::GetHostID() const

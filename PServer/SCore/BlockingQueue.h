@@ -9,7 +9,7 @@ template <class T>
 class BlockingQueue
 {
 private:
-    std::recursive_mutex m_oLock;
+    std::recursive_mutex m_xLock;
     std::queue<T*> m_oQueue;
 
 public:
@@ -18,7 +18,7 @@ public:
 
     size_t size()
     {
-        std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+        std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
         return m_oQueue.size();
     }
 
@@ -26,7 +26,7 @@ public:
     {
         T* data = nullptr;
 
-        std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+        std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
 
         while (false == m_oQueue.empty())
         {
@@ -42,7 +42,7 @@ public:
     void Push(T* _data)
     {
         if (nullptr == _data) return;
-        std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+        std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
         m_oQueue.push(_data);
     }
 
@@ -50,7 +50,7 @@ public:
     {
         T* data = nullptr;
         {
-            std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+            std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
             if (false == m_oQueue.empty())
             {
                 data = m_oQueue.front();
@@ -65,7 +65,7 @@ public:
     {
         T* localpRet = nullptr;
         {
-            std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+            std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
             if (false == m_oQueue.empty())
                 localpRet = m_oQueue.front();
         }
@@ -75,7 +75,7 @@ public:
 
     void GetList(std::vector<T*>& _oList)
     {
-        std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+        std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
 
         while(false == m_oQueue.empty())
         {

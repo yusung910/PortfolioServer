@@ -36,12 +36,15 @@ private:
     int m_nHostID = 0;
     SOCKET m_oSocket = INVALID_SOCKET;
     
+    //Host 유형
     EHostType m_eHostType = EHostType::None;
 
     //네트워크 통신 event 싱크를 맞추기 위한 클래스를 Pacade 형태로 이용
     NetworkEventSync* m_pEventSync = nullptr;
 
+    //기초 작업 수
     volatile long m_lBaseTaskCount = 0;
+    //전송 작업 수
     volatile long m_lSendTaskCount = 0;
 
     int64_t m_nCheckTimeoutMS = 0;
@@ -52,12 +55,12 @@ private:
     int m_nIP = 0;
     int m_nPort = 0;
 
-    std::mutex m_oSendLock;
+    std::mutex m_xSendLock;
 
-    //
+    //패킷 전송 대기 목록
     std::deque<Packet::SharedPtr> m_oSendWaitingList;
 
-    //
+    //전송 패킷 큐
     std::deque<Packet::SharedPtr> m_oSendWorkQueue;
 
     // 통신의 목적지가 클라이언트인지 여부
@@ -163,19 +166,106 @@ public:
      */
     bool Accept(NetworkContextPO& _ctxt);
 
-
+    /*!
+     *  소켓에 접속한 클라이언트에 WSARecv()로 NetworkContext 데이터를 보낸다
+     *  데이터를 보낸 결과를 NetworkContextPO _ctxt에 기록한다
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
     bool Receive(NetworkContextPO& _ctxt);
+    /*!
+     *  NetworkContext에 저장된 데이터를 복호화한다
+     *  복호화 후 Receive(NetworkContextPO& _ctxt)를 실행한다
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
     bool Decrypt(NetworkContextPO& _ctxt);
 
-    //예외
+    /*!
+     *  전송 대기 목록(m_oSendWaitingList)에 패킷을 추가하는 함수
+     *
+     *      @param [in] _packt 
+     *
+     *      @return 
+     */
     bool Waiting(Packet::SharedPtr _packt);
 
+    /*!
+     *  패킷 암호화
+     *  m_oSendWaitingList에 있는 전송 대기 패킷 목록을
+     *  m_oSendWorkQueue에 이동(swap)하고 
+     *  NetworkContext에 기록(write)한다
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
     bool Encrypt(NetworkContextPO& _ctxt);
+
+    /*!
+     *  NetworkContext에 저장된 데이터를 송신한다
+     *
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
     bool Send(NetworkContextPO& _ctxt);
 
     bool Close(ESocketCloseType _e);
     //
 
+    /*!
+     *  서버 통신 가능 상태 확인
+     *
+     *      @return True if alive. False if not.
+     */
+    bool IsAlive();
+
+    //네트워크 상태에 따른 이벤트 함수?
+    /*!
+     *  Updates the network host.
+     *
+     *      @param [in] _appTimeMS 
+     */
+    void Update(int64_t _appTimeMS);
+    /*!
+     *  Updates the listener.
+     *
+     *      @param [in] _appTimeMS 
+     */
+    void UpdateListener(int64_t _appTimeMS);
+    /*!
+     *  Updates the accepter.
+     *
+     *      @param [in] _appTimeMS 
+     */
+    void UpdateAccepter(int64_t _appTimeMS);
+    /*!
+     *  Updates the connector.
+     *
+     *      @param [in] _appTimeMS 
+     */
+    void UpdateConnector(int64_t _appTimeMS);
+
+    /*!
+     *  Events the connect.
+     *
+     *      @param [in] _type 
+     */
+    void EventConnect(const EHostType& _type);
+    /*!
+     *  Events the close.
+     */
+    void EventClose();
+    /*!
+     *  Events the receive.
+     *
+     *      @param [in]     _msgID   
+     *      @param [in,out] _msg     
+     *      @param [in]     _msgSize 
+     */
+    void EventReceive(int _msgID, char* _msg, int _msgSize);
 
 public:
     const int& GetHostID() const;

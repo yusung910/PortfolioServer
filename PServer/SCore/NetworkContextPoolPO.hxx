@@ -7,7 +7,7 @@ class NetworkContextPO;
 class NetworkContextPoolPO
 {
 private:
-    std::mutex m_oLock;
+    std::mutex m_xLock;
     std::deque<NetworkContextPO*> m_oAllocatedList;
     std::deque<NetworkContextPO*> m_oFreeList;
 

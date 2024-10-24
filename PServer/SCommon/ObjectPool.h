@@ -9,7 +9,7 @@ class ObjectPool
 {
 private:
 	std::stack<std::unique_ptr<T>> m_oPool;
-	std::recursive_mutex m_oLock;
+	std::recursive_mutex m_xLock;
 
 	size_t m_nAllocationCnt = 0;
 public:
@@ -34,20 +34,20 @@ public:
 
 	size_t GetAllocationCount()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
 
 		return m_nAllocationCnt;
 	}
 
 	size_t GetUsingCnt()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
 		return m_nAllocationCnt - m_oPool.size();
 	}
 
 	AutoReleaseUniuqePtr Acquire()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
 
 		if (m_oPool.empty())
 		{
@@ -70,7 +70,7 @@ private:
 	ObjectPool() = default;
 	void Release(std::unique_ptr<T> _obj)
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_oLock);
+		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
 		_obj->Reset();
 		m_oPool.push(std::move(_obj));
 	}
