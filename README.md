@@ -85,6 +85,11 @@ function test(int _a)
 		<td></td>
 	</tr>
 	<tr>
+		<td>HANDLE</td>
+		<td align="center">h</td>
+		<td></td>
+	</tr>
+	<tr>
 		<td>other (class, object...)</td>
 		<td align="center">o(other)</td>
 		<td></td>

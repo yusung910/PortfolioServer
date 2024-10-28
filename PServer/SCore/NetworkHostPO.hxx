@@ -77,7 +77,7 @@ private:
 
     bool            m_bUsePacketRecvCheck = false;
     int64_t         m_nPacketRecvCheckTick = 0;
-    std::atomic_int m_nPacketRecvCheckCountter = 0;
+    std::atomic_int m_nPacketRecvCheckCounter = 0;
     
     std::atomic_int m_nMessageHistoryIdx = 0;
     std::array<std::tuple<int, int64_t>, MAX_MESSAGE_ID_HISTORY_SIZE> m_oMessageHistory = {};

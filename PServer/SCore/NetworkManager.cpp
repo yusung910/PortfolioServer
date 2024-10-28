@@ -42,6 +42,10 @@ void NetworkManager::DestroyNetwork()
         m_pManager->DestroyNetwork();
 }
 
+//----------------------------------------------------------
+//NetworkContext Pool
+//----------------------------------------------------------
+
 NetworkContextPO* NetworkManager::AllocateContext()
 {
     if(nullptr == m_pManager)
@@ -78,3 +82,44 @@ int NetworkManager::GetContextFreeCount()
 
     return m_pManager->GetContextFreeCount();
 }
+//----------------------------------------------------------
+//NetworkContext Pool end
+//----------------------------------------------------------
+
+//----------------------------------------------------------
+//NetworkStatics begin
+//----------------------------------------------------------
+void NetworkManager::OnConnect(int _hostID)
+{
+    if (nullptr != m_pManager)
+        m_pManager->OnConnect(_hostID);
+}
+
+void NetworkManager::OnDisconnect(int _hostID)
+{
+    if (nullptr != m_pManager)
+        m_pManager->OnDisconnect(_hostID);
+}
+
+void NetworkManager::OnSend(const int& _bytes)
+{
+    if (nullptr != m_pManager)
+        m_pManager->OnSend(_bytes);
+}
+
+void NetworkManager::OnRecv(const int& _bytes)
+{
+    if (nullptr != m_pManager)
+        m_pManager->OnRecv(_bytes);
+}
+
+bool NetworkManager::IsConnected(const int& _hostID)
+{
+    if(nullptr == m_pManager)
+        return false;
+
+    return m_pManager->IsConnected(_hostID);
+}
+//----------------------------------------------------------
+//NetworkStatics end
+//----------------------------------------------------------

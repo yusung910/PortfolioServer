@@ -129,6 +129,12 @@
     <ClInclude Include="NetworkStatistics.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkWorkerPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkControllerPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -184,6 +190,12 @@
     </ClCompile>
     <ClCompile Include="NetworkStatistics.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkWorkerPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkControllerPO.cpp">
+      <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -55,7 +55,7 @@ void NetworkHostPO::Reset()
 
     m_bUsePacketRecvCheck = false;
     m_nPacketRecvCheckTick = 0;
-    m_nPacketRecvCheckCountter = 0;
+    m_nPacketRecvCheckCounter = 0;
 
     m_nMessageHistoryIdx = 0;
     m_oMessageHistory = {};
@@ -105,6 +105,13 @@ void NetworkHostPO::BeginSendTask()
     }
 
     localCtxt->Ready(EContextType::Encrypt);
+
+    if (NetworkManager::GetInst().DispatchWorker(this, localCtxt) == false)
+    {
+        NetworkManager::GetInst().ReleaseContext(localCtxt);
+        EndSendTask(false);
+        return;
+    }
 
 }
 
@@ -619,22 +626,97 @@ bool NetworkHostPO::IsAlive()
 
 void NetworkHostPO::Update(int64_t _appTimeMS)
 {
+    if (m_oSocket == INVALID_SOCKET)
+        return;
+
+    switch (m_eHostType)
+    {
+    case EHostType::Listener: UpdateListener(_appTimeMS); break;
+    case EHostType::Acceptor: UpdateAccepter(_appTimeMS); break;
+    case EHostType::Connector: UpdateConnector(_appTimeMS); break;
+    default:
+        break;
+    }
+
 }
 
-void NetworkHostPO::UpdateListener(int64_t _appTimeMS)
+void NetworkHostPO::UpdateListener([[maybe_unused]] int64_t _appTimeMS)
 {
+    int localCreateCount = ACCEPT_WAIT_COUNT - m_lBaseTaskCount;
+    if (localCreateCount <= 0)
+        return;
+
+    for (int i = 0; i < localCreateCount; i++)
+    {
+        auto localCtxt = NetworkManager::GetInst().AllocateContext();
+        if (localCtxt == nullptr)
+        {
+            VIEW_WRITE_ERROR(L"NetworkHostPO::UpdateListener - Allocate Context Failed");
+            continue;
+        }
+
+        BeginBaseTask();
+
+        if (Accept(*localCtxt) == false)
+            EndBaseTask(true);
+
+        NetworkManager::GetInst().ReleaseContext(localCtxt);
+    }
 }
 
 void NetworkHostPO::UpdateAccepter(int64_t _appTimeMS)
 {
+    if (true == m_bUsePacketRecvCheck)
+    {
+        if (_appTimeMS > m_nPacketRecvCheckTick)
+        {
+            m_nPacketRecvCheckTick = _appTimeMS + m_nPACKET_RECV_CHECK_TICK;
+            [[maybe_unused]] float localNetcount = m_nPacketRecvCheckCounter * 1000.0f / m_nPACKET_RECV_CHECK_TICK;
+            m_nPacketRecvCheckCounter = 0;
+
+            if (localNetcount > m_fPACKET_RECV_CHECK_COUNT_PER_SEC)
+            {
+                VIEW_WRITE_ERROR("Too Many Packet Close. %f (IP: %s, HostID: %d)", localNetcount, GetIP().c_str(), m_nHostID);
+
+                _GetRecvHistoryStackString();
+                Close(ESocketCloseType::ManyPacketInTime);
+                return;
+            }
+        }
+    }
+
+    //
+    BeginSendTask();
 }
 
 void NetworkHostPO::UpdateConnector(int64_t _appTimeMS)
 {
+    if (_appTimeMS > m_nCheckAliveMS)
+    {
+        m_nCheckAliveMS = _appTimeMS + DEFAULT_NETWORK_ALIVE_MS;
+        NOTICE("Need to  Core Packet");
+    }
+
+    BeginSendTask();
 }
 
 void NetworkHostPO::EventConnect(const EHostType& _type)
 {
+    int localFlag = 1;
+    setsockopt(m_oSocket, IPPROTO_TCP, TCP_NODELAY, (const char*)&localFlag, sizeof(localFlag));
+
+    if (nullptr != m_pEventSync)
+    {
+        //시간 설정
+        int64_t localAppTimeMS = Clock::GetTick64();
+        m_nCheckTimeoutMS = localAppTimeMS + m_pEventSync->GetTimeoutMS();
+        m_nCheckAliveMS = localAppTimeMS + DEFAULT_NETWORK_ALIVE_MS;
+
+        NetworkManager::GetInst().OnConnect(m_nHostID);
+        m_pEventSync->OnConnect(m_nHostID, m_sIP, 0);
+    }
+
+    m_eHostType = _type;
 }
 
 void NetworkHostPO::EventClose()

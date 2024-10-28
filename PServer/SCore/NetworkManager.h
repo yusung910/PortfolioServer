@@ -51,5 +51,20 @@ public:
     //----------------------------------------------------------
     //NetworkContext Pool end
     //----------------------------------------------------------
+
+
+    //----------------------------------------------------------
+    //NetworkStatics begin
+    //----------------------------------------------------------
+public:
+    void OnConnect(int _hostID);
+    void OnDisconnect(int _hostID);
+    void OnSend(const int& _bytes);
+    void OnRecv(const int& _bytes);
+
+    bool IsConnected(const int& _hostID);
+    //----------------------------------------------------------
+    //NetworkStatics End
+    //----------------------------------------------------------
 };
 
