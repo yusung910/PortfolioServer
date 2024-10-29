@@ -135,6 +135,18 @@
     <ClInclude Include="NetworkControllerPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Util\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerPO.hxx">
+      <Filter>Util\Time\_Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerData.hxx">
+      <Filter>Util\Time\_Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHostPoolPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -195,6 +207,15 @@
       <Filter>Network\Pacade</Filter>
     </ClCompile>
     <ClCompile Include="NetworkControllerPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Util\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerPO.cpp">
+      <Filter>Util\Time\_Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHostPoolPO.cpp">
       <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>

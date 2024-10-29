@@ -18,9 +18,12 @@
 
 class NetworkContextPO;
 class NetworkContextPoolPO;
-//class NetworkHostPO;
-//class NetworkHostPoolPO;
+class NetworkHostPO;
+class NetworkHostPoolPO;
 class NetworkEventSync;
+
+class NetworkControllerPO;
+class NetworkWorkerPO;
 
 class NetworkStatistics;
 
@@ -67,6 +70,34 @@ public:
     //NetworkContext Pool end
     //----------------------------------------------------------
 
+    //----------------------------------------------------------
+    //NetworkHost Pool begin
+    //----------------------------------------------------------
+private:
+    NetworkHostPoolPO* m_pHostPool = nullptr;
+
+public:
+    NetworkHostPO* AllocateHost();
+    void ReleaseHost(NetworkHostPO* _host);
+    bool CheckHost(int _hostID);
+
+    //----------------------------------------------------------
+    //NetworkHost Pool end
+    //----------------------------------------------------------
+
+
+    //----------------------------------------------------------
+    //NetworkWorker begin
+    //----------------------------------------------------------
+private:
+    NetworkWorkerPO* m_pWorker = nullptr;
+public:
+    bool RegisterWorker(NetworkHostPO* _host);
+    bool DispatchWorker(NetworkHostPO* _host, NetworkContextPO* _ctxt);
+
+    //----------------------------------------------------------
+    //NetworkWorker end
+    //----------------------------------------------------------
 
 
     //----------------------------------------------------------

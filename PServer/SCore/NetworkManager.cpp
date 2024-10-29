@@ -82,10 +82,39 @@ int NetworkManager::GetContextFreeCount()
 
     return m_pManager->GetContextFreeCount();
 }
+
 //----------------------------------------------------------
 //NetworkContext Pool end
 //----------------------------------------------------------
 
+//----------------------------------------------------------
+//NetworkHost Pool begin
+//----------------------------------------------------------
+NetworkHostPO* NetworkManager::AllocateHost()
+{
+    if (nullptr == m_pManager)
+        return nullptr;
+
+    return m_pManager->AllocateHost();
+}
+
+void NetworkManager::ReleaseHost(NetworkHostPO* _host)
+{
+    if (nullptr != m_pManager)
+        m_pManager->ReleaseHost(_host);
+}
+
+bool NetworkManager::CheckHost(int _hostID)
+{
+    if (nullptr == m_pManager)
+        return false;
+    return m_pManager->CheckHost(_hostID);
+}
+
+//----------------------------------------------------------
+//NetworkHost Pool end
+//----------------------------------------------------------
+// 
 //----------------------------------------------------------
 //NetworkStatics begin
 //----------------------------------------------------------

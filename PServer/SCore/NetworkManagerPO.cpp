@@ -5,7 +5,12 @@
 #include "NetworkContextPO.hxx"
 #include "NetworkContextPoolPO.hxx"
 //
-
+#include "NetworkHostPO.hxx"
+#include "NetworkHostPoolPO.hxx"
+//
+#include "NetworkWorkerPO.hxx"
+//
+#include "NetworkControllerPO.hxx"
 //
 #include "NetworkStatistics.h"
 
@@ -62,7 +67,7 @@ NetworkContextPO* NetworkManagerPO::AllocateContext()
 {
     if (nullptr == m_pContextPool)
     {
-        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        VIEW_WRITE_ERROR("NetworkManagerPO::AllocateContext() Failed - NetworkContext Pool is null!");
         return nullptr;
     }
     return m_pContextPool->Allocate();
@@ -72,7 +77,7 @@ void NetworkManagerPO::ReleaseContext(NetworkContextPO* _context)
 {
     if (nullptr == m_pContextPool)
     {
-        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        VIEW_WRITE_ERROR("NetworkManagerPO::ReleaseContext() Failed - NetworkContext Pool is null!");
         return;
     }
 
@@ -83,7 +88,7 @@ int NetworkManagerPO::GetContextAllocateCount()
 {
     if (nullptr == m_pContextPool)
     {
-        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        VIEW_WRITE_ERROR("NetworkManagerPO::GetContextAllocateCount() Failed - NetworkContext Pool is null!");
         return 0;
     }
     return (int) m_pContextPool->GetAllocatedCount();
@@ -93,7 +98,7 @@ int NetworkManagerPO::GetContextUseCount()
 {
     if (nullptr == m_pContextPool)
     {
-        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        VIEW_WRITE_ERROR("NetworkManagerPO::GetContextUseCount() Failed - NetworkContext Pool is null!");
         return 0;
     }
     size_t localAlloc = 0ll;
@@ -108,13 +113,74 @@ int NetworkManagerPO::GetContextFreeCount()
 {
     if (nullptr == m_pContextPool)
     {
-        VIEW_WRITE_ERROR("NetworkContext Pool is null!");
+        VIEW_WRITE_ERROR("NetworkManagerPO::GetContextFreeCount() Failed - NetworkContext Pool is null!");
         return 0;
     }
 
     return 0;
 }
+//----------------------------------------------------------
+//NetworkHost Pool begin
+//----------------------------------------------------------
 
+NetworkHostPO* NetworkManagerPO::AllocateHost()
+{
+    if (m_pHostPool == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::AllocateHost() Failed - HostPool is nullptr ");
+        return nullptr;
+    }
+    return m_pHostPool->Allocate();
+}
+
+void NetworkManagerPO::ReleaseHost(NetworkHostPO* _host)
+{
+    if (m_pHostPool == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::ReleaseHost() Failed - HostPool is nullptr ");
+        return;
+    }
+
+    m_pHostPool->Release(_host);
+}
+
+bool NetworkManagerPO::CheckHost(int _hostID)
+{
+    if (m_pHostPool == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::CheckHost() Failed - HostPool is nullptr ");
+        return false;
+    }
+    return m_pHostPool->Check(_hostID);
+}
+
+//----------------------------------------------------------
+//NetworkHost Pool end
+//----------------------------------------------------------
+
+
+//----------------------------------------------------------
+//NetworkWorker begin
+//----------------------------------------------------------
+
+bool NetworkManagerPO::RegisterWorker(NetworkHostPO* _host)
+{
+    return m_pWorker->RegisterThread(_host);
+}
+
+bool NetworkManagerPO::DispatchWorker(NetworkHostPO* _host, NetworkContextPO* _ctxt)
+{
+    if (m_pWorker->PushThread(_host, _ctxt) == false)
+    {
+        VIEW_WRITE_ERROR("Worker PushThread() is Failed");
+        return false;
+    }
+    return true;
+}
+
+//----------------------------------------------------------
+//NetworkWorker end
+//----------------------------------------------------------
 
 //----------------------------------------------------------
 //NetworkStatics begin
