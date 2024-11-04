@@ -159,7 +159,8 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
 
         DWORD localBytes = 0;
 
-        //WSAIoctl() : 소켓의 모드를 제어한다.
+        // WSAIoctl() : 소켓의 모드를 제어한다.
+        // 소켓 통신을 통해 전송된 데이터(LPWSAOVERLAPPED)를 주고 받을 수 있다
         //int WSAAPI WSAIoctl(
         //    [in]  SOCKET                             s,
         //    [in]  DWORD                              dwIoControlCode,
@@ -181,6 +182,8 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
         // [in]  lpOverlapped       : WSAOVERLAPPED 구조체에 대한 포인터(겹치지 않는 소켓의 경우 무시).
         // [in] lpCompletionRoutine : _In_opt_ LPWSAOVERLAPPED_COMPLETION_ROUTINE
         // 세부 설명 :https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsaioctl
+        // 두번째 인자값 dwIoControlCode에 대한 설명
+        // https://learn.microsoft.com/ko-kr/windows/win32/winsock/winsock-ioctls
         if (WSAIoctl(m_oSocket, SIO_GET_EXTENSION_FUNCTION_POINTER, &localGUID, sizeof(localGUID), &localConnectEx, sizeof(localConnectEx), &localBytes, nullptr, nullptr) != 0)
         {
             VIEW_WRITE_ERROR(L"NetworkHost::Connect() Failed - WSAIoctl: %d", WSAGetLastError());
@@ -295,7 +298,7 @@ bool NetworkHostPO::Accept(NetworkContextPO& _ctxt)
     //    [in]  SOCKET       sAcceptSocket,
     //    [in]  PVOID        lpOutputBuffer,
     //    [in]  DWORD        dwReceiveDataLength,
-    //    [in]  DWORD        dwLocalAddressLength,
+    //    [in]  DWORD        dwLocalAddressLength -> 로컬 주소 정보를 위해 예약된 바이트 수. 이 값은 사용 중인 전송 프로토콜의 최대 주소 길이보다 16바이트 이상이어야 하기 때문에 +16을 해줌,
     //    [in]  DWORD        dwRemoteAddressLength,
     //    [out] LPDWORD      lpdwBytesReceived,
     //    [in]  LPOVERLAPPED lpOverlapped
