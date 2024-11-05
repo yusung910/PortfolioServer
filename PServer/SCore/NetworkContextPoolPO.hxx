@@ -1,3 +1,12 @@
+/*!
+ *  @file NetworkContextPoolPO.hxx
+ *  @author ShootingStar
+ *  @date 2024-11-06
+ *  @project SCore
+ *
+ *      서버에 생성되는 NetworkContext들을 관리하기 위한 Pool 클래스
+ *  
+ */
 #pragma once
 #include <mutex>
 #include <deque>

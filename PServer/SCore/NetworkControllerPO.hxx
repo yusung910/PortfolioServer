@@ -94,5 +94,9 @@ private:
 private:
 
     void ProcessThread();
+    void ProcessConnect(NetworkContextPO& _ctxt);
+    void ProcessListen(NetworkContextPO& _ctxt);
+    void ProcessJoin(NetworkContextPO& _ctxt);
+    void ProcessClose(NetworkContextPO& _ctxt);
 };
 

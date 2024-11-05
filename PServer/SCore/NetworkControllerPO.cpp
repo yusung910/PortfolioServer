@@ -11,7 +11,7 @@ NetworkControllerPO::NetworkControllerPO()
     : m_bIsTerminated(false)
     , m_hNetworkControl(INVALID_HANDLE_VALUE)
 {
-    
+    RegisterTimer(0, std::bind(&NetworkControllerPO::_UpdateHost, this));
 }
 
 NetworkControllerPO::~NetworkControllerPO()
