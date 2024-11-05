@@ -25,7 +25,7 @@
  *  https://learn.microsoft.com/ko-kr/windows/win32/api/minwinbase/ns-minwinbase-overlapped
  * 
  * 네트워크 통신에 필요한 정보를 정의하는 클래스
- * 클라이언트와 서버 통신간에 필요한 데이터를 서버 컴퓨터 메모리에 기록하기 위한 클래스로 보임
+ * 클라이언트와 서버 통신간에 필요한 서버의 정보를 서버 컴퓨터 메모리에 기록하기 위한 클래스
  */
 #pragma once
 #include "NetworkCommon.h"
