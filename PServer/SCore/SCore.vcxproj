@@ -43,6 +43,7 @@
     <ClInclude Include="NetworkSupporterPO.hxx" />
     <ClInclude Include="NetworkWorkerPO.hxx" />
     <ClInclude Include="PacketCompressor.hxx" />
+    <ClInclude Include="SConnectorTargetInfo.h" />
     <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="ServerConfigInfo.h" />
     <ClInclude Include="stdafx.hxx" />

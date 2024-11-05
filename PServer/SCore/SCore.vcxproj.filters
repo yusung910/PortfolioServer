@@ -147,6 +147,9 @@
     <ClInclude Include="NetworkHostPoolPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
+    <ClInclude Include="SConnectorTargetInfo.h">
+      <Filter>Network\Define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
