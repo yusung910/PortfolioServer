@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-//#include <Packet.h>
+#include <Packet.h>
 
 struct ConnectorTargetInfo
 {
