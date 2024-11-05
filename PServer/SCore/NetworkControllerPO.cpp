@@ -16,6 +16,16 @@ NetworkControllerPO::NetworkControllerPO()
 
 NetworkControllerPO::~NetworkControllerPO()
 {
+    TerminateThread();
+    if (m_hNetworkControl != INVALID_HANDLE_VALUE
+        && m_hNetworkControl != NULL)
+    {
+        WaitForSingleObject(m_hNetworkControl, INFINITE);
+        CloseHandle(m_hNetworkControl);
+    }
+
+    AutoLock(m_xHostIDLock);
+    m_oHostList.clear();
 }
 
 bool NetworkControllerPO::CreateThread()
@@ -48,6 +58,15 @@ bool NetworkControllerPO::CreateThread()
 void NetworkControllerPO::TerminateThread()
 {
     m_bIsTerminated = true;
+}
+
+unsigned int __stdcall NetworkControllerPO::ExcuteThread(void* _arg)
+{
+    auto& localParent = *(NetworkControllerPO*)_arg;
+
+    localParent.TerminateThread();
+    localParent.ProcessThread();
+    return 0;
 }
 
 bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
@@ -93,9 +112,84 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
 
         _host->SetSocket(localSocket);
 
-        //if(NetworkManager::GetInst())
+    }
+    if (NetworkManager::GetInst().RegisterWorker(_host) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::_AddHost() - Failed Bind error");
+        _host->Close(ESocketCloseType::RegisterWorkerFail);
+
+        return false;
     }
 
+    //인자값으로 전달받은 NetworkHostPO를 멤버변수 m_ConnectorHostList에 등록한다
+    _AddConnectorHost(_host);
 
     return true;
+}
+
+NetworkHostPO* NetworkControllerPO::_FindHost(int _hostID)
+{
+    AutoLock(m_xHostIDLock);
+    auto localIter = m_oHostList.find(_hostID);
+    if (localIter == m_oHostList.end())
+        return nullptr;
+    return localIter->second;
+}
+
+void NetworkControllerPO::_UpdateHost()
+{
+    int64_t localAppTimeMS = Clock::GetTick64();
+    AutoLock(m_xHostIDLock);
+
+    auto localIter = m_oHostList.begin();
+    while (localIter != m_oHostList.end())
+    {
+        auto localHost = localIter->second;
+        if (localHost)
+        {
+            if (localHost->IsAlive())
+            {
+                localHost->Update(localAppTimeMS);
+                localIter++;
+                continue;
+            }
+
+            localHost->EventClose();
+            NetworkManager::GetInst().ReleaseHost(localHost);
+        }
+    }
+}
+
+void NetworkControllerPO::_AddConnectorHost(NetworkHostPO* _host)
+{
+    if (nullptr == _host)
+        return;
+
+    for (auto& it : m_ConnectorHostList)
+    {
+        if (it.m_nHostID == _host->GetHostID())
+            return;
+    }
+
+    ConnectorTargetInfo localInfo;
+    localInfo.m_nHostID = _host->GetHostID();
+    localInfo.SetIP(_host->GetIP());
+    localInfo.m_nPort = _host->GetPeerPort();
+    m_ConnectorHostList.push_back(localInfo);
+}
+
+void NetworkControllerPO::_RemoveConnectorHost(int _hostID)
+{
+    for (auto it = m_ConnectorHostList.begin(); it != m_ConnectorHostList.end(); ++it)
+    {
+        if (it->m_nHostID == _hostID)
+        {
+            m_ConnectorHostList.erase(it);
+            return;
+        }
+    }
+}
+
+void NetworkControllerPO::ProcessThread()
+{
 }

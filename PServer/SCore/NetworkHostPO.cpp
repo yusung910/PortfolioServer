@@ -159,7 +159,7 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
 
         DWORD localBytes = 0;
 
-        // WSAIoctl() : 소켓의 모드를 제어한다.
+        // WSAIoctl() : 소켓, 전송 프로토콜 또는 통신 하위 시스템에 연결된 운영 매개 변수를 설정 또는 검색.
         // 소켓 통신을 통해 전송된 데이터(LPWSAOVERLAPPED)를 주고 받을 수 있다
         //int WSAAPI WSAIoctl(
         //    [in]  SOCKET                             s,
