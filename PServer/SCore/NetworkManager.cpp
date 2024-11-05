@@ -110,9 +110,30 @@ bool NetworkManager::CheckHost(int _hostID)
         return false;
     return m_pManager->CheckHost(_hostID);
 }
-
 //----------------------------------------------------------
 //NetworkHost Pool end
+//----------------------------------------------------------
+
+//----------------------------------------------------------
+//NetworkWorker begin
+//----------------------------------------------------------
+
+bool NetworkManager::RegisterWorker(NetworkHostPO* _host)
+{
+    if (nullptr == m_pManager)
+        return false;
+    return m_pManager->RegisterWorker(_host);
+}
+
+bool NetworkManager::DispatchWorker(NetworkHostPO* _host, NetworkContextPO* _ctxt)
+{
+    if (nullptr == m_pManager)
+        return false;
+    return m_pManager->DispatchWorker(_host, _ctxt);
+}
+
+//----------------------------------------------------------
+//NetworkWorker Pool begin
 //----------------------------------------------------------
 // 
 //----------------------------------------------------------

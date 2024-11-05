@@ -21,7 +21,6 @@ class NetworkContextPoolPO;
 class NetworkHostPO;
 class NetworkHostPoolPO;
 class NetworkEventSync;
-
 class NetworkControllerPO;
 class NetworkWorkerPO;
 
@@ -32,6 +31,8 @@ class NetworkManagerPO
     //----------------------------------------------------------
     //NetworkManagerPO Constructor, Destructor inner method begin
     //----------------------------------------------------------
+private:
+    NetworkControllerPO* m_pController;
 public:
     /*!
      *  Constructor.

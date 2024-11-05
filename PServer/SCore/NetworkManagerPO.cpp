@@ -24,12 +24,19 @@
 NetworkManagerPO::NetworkManagerPO(size_t _reserveContext)
 {
     m_pContextPool = new NetworkContextPoolPO(_reserveContext);
+    m_pHostPool = new NetworkHostPoolPO();
+    m_pController = new NetworkControllerPO();
+    m_pWorker = new NetworkWorkerPO();
     m_pStatistics = new NetworkStatistics();
 }
 
 NetworkManagerPO::~NetworkManagerPO()
 {
     SafeDelete(m_pContextPool);
+    SafeDelete(m_pController);
+    SafeDelete(m_pHostPool);
+    SafeDelete(m_pWorker);
+    SafeDelete(m_pStatistics);
 }
 
 void NetworkManagerPO::ReserveContext(size_t _reserveContext)
