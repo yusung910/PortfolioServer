@@ -69,6 +69,41 @@ unsigned int __stdcall NetworkControllerPO::ExcuteThread(void* _arg)
     return 0;
 }
 
+bool NetworkControllerPO::PushThread(NetworkContextPO* _ctxt)
+{
+    if (_ctxt == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkControllerPO::PushThread() Failed - Parameter is nullptr");
+        return false;
+    }
+
+    m_oMsgQueue.Push(_ctxt);
+    return true;
+}
+
+int NetworkControllerPO::GetConnectorHostID(const std::string& _ip, int _port)
+{
+    for (auto it : m_ConnectorHostList)
+    {
+        if (true == it.IsSame(_ip, _port))
+            return it.m_nHostID;
+    }
+    return 0;
+}
+
+bool NetworkControllerPO::SendPacketToHost(const int& _hostID, Packet::SharedPtr _packet)
+{
+    if (nullptr == _packet)
+        return false;
+
+    auto localHost = _FindHost(_hostID);
+
+    if (nullptr == localHost)
+        return false;
+
+    return localHost->Waiting(_packet);
+}
+
 bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
 {
     if (_host == nullptr)
@@ -192,4 +227,124 @@ void NetworkControllerPO::_RemoveConnectorHost(int _hostID)
 
 void NetworkControllerPO::ProcessThread()
 {
+    while (m_bIsTerminated)
+    {
+        //Timer 클래스에 RegisterTimer() 함수를 통해 등록된 함수를 실행한다.
+        //보통 클래스 생성자에 RegisterTimer()가 존재한다.
+        UpdateTimer();
+
+        auto localCtxt = m_oMsgQueue.Pop();
+        if (localCtxt == nullptr)
+        {
+            Sleep(1);
+            continue;
+        }
+
+        switch (localCtxt->GetContextType())
+        {
+        case EContextType::Connect: ProcessConnect(*localCtxt);  break;
+        case EContextType::Listen:  ProcessListen(*localCtxt);   break;
+        case EContextType::Join:    ProcessJoin(*localCtxt);     break;
+        case EContextType::Close:   ProcessClose(*localCtxt);     break;
+        default:
+        {
+            VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessThread() Failed - GetContextType:%d", localCtxt->GetContextType());
+        }
+        break;
+        }
+
+        NetworkManager::GetInst().ReleaseContext(localCtxt);
+    }
+}
+
+void NetworkControllerPO::ProcessConnect(NetworkContextPO& _ctxt)
+{
+    //인자값으로 전달받은 NetworkContextPO 객체의 데이터를 지역변수에 저장한다
+    NetworkHostPO* localHost = nullptr;
+    _ctxt.Read(&localHost, sizeof(localHost));
+
+    //NetworkHost 생성
+    if (_AddHost(localHost) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessConnect() - Failed : _AddHost()");
+        return;
+    }
+
+    //NetworkContextPO 초기화
+    _ctxt.ResetBuffer();
+
+    //Connect 요청
+    localHost->BeginBaseTask();
+
+    if (localHost->Connect(_ctxt) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessConnect() - Failed : NetworkHostPO->Connect()");
+
+        localHost->EndBaseTask(false);
+    }
+}
+
+void NetworkControllerPO::ProcessListen(NetworkContextPO& _ctxt)
+{
+    //인자값으로 전달받은 NetworkContextPO 객체의 데이터를 지역변수에 저장한다
+    NetworkHostPO* localHost = nullptr;
+    _ctxt.Read(&localHost, sizeof(localHost));
+
+    if (_AddHost(localHost) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessListen() - Failed : _AddHost()");
+        return;
+    }
+
+
+    //Host Listen 요청
+    if (localHost->Listen() == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessListen() - Failed : Host->Listen()");
+
+        localHost->Close(ESocketCloseType::ListenFail);
+        return;
+    }
+}
+
+void NetworkControllerPO::ProcessJoin(NetworkContextPO& _ctxt)
+{
+    //인자값으로 전달받은 NetworkContextPO 객체의 데이터를 지역변수에 저장한다
+    NetworkHostPO* localHost = nullptr;
+    _ctxt.Read(&localHost, sizeof(localHost));
+
+    if (_AddHost(localHost) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessJoin() - Failed : _AddHost()");
+        return;
+    }
+
+    //접속 이벤트 호출
+    localHost->EventConnect(EHostType::Acceptor);
+
+    //Context Reset
+    _ctxt.ResetBuffer();
+
+    //Receive
+    localHost->BeginBaseTask();
+
+    if (localHost->Receive(_ctxt) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessJoin() - Failed : Receive()");
+        localHost->EndBaseTask(false);
+        return;
+    }
+}
+
+void NetworkControllerPO::ProcessClose(NetworkContextPO& _ctxt)
+{
+    for (auto& hostID : _ctxt.GetHostIDList())
+    {
+        _RemoveConnectorHost(hostID);
+        auto localHost = _FindHost(hostID);
+
+        if (localHost == nullptr) continue;
+
+        localHost->Close(ESocketCloseType::ProcessClose);
+    }
 }

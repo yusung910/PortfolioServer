@@ -12,6 +12,8 @@
 
 class NetworkContextPO;
 class NetworkContextPoolPO;
+class NetworkHostPO;
+class NetworkHostPoolPO;
 
 class NetworkManagerPO;
 

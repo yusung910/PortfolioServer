@@ -73,7 +73,7 @@ private:
 
     //Packet History 패킷이 통신되는 이력을 관리하는 변수 목록
     const int64_t m_nPACKET_RECV_CHECK_TICK = 10000;
-    const int64_t m_fPACKET_RECV_CHECK_COUNT_PER_SEC = 30.f;
+    const float   m_fPACKET_RECV_CHECK_COUNT_PER_SEC = 30.f;
 
     bool            m_bUsePacketRecvCheck = false;
     int64_t         m_nPacketRecvCheckTick = 0;

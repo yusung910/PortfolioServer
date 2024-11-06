@@ -150,6 +150,9 @@
     <ClInclude Include="SConnectorTargetInfo.h">
       <Filter>Network\Define</Filter>
     </ClInclude>
+    <ClInclude Include="LoggingCommon.h">
+      <Filter>Log\Define</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -163,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="StringUtil.cpp">
       <Filter>Util\String</Filter>
-    </ClCompile>
-    <ClCompile Include="LoggingCommon.h">
-      <Filter>Log\Define</Filter>
     </ClCompile>
     <ClCompile Include="LogData.cpp">
       <Filter>Log\Pacade</Filter>

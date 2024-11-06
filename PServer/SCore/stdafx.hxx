@@ -14,7 +14,7 @@
 #pragma comment(lib, "lz4.lib")
 
 #include "DefineMacro.h"
-#include "StringUtil.h"
 #include "LoggingMacro.h"
+#include "StringUtil.h"
 //
 #include "BuildConfig.hxx"

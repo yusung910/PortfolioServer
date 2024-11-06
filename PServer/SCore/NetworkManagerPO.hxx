@@ -33,6 +33,8 @@ class NetworkManagerPO
     //----------------------------------------------------------
 private:
     NetworkControllerPO* m_pController;
+    std::atomic_bool m_bIsNetworkInitialized = false;
+
 public:
     /*!
      *  Constructor.
@@ -49,6 +51,17 @@ public:
     size_t GetContextAllocateCount() const;
     void CreateNetwork();
     void DestroyNetwork();
+
+    //
+    bool Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID = nullptr);
+    bool Listen(NetworkEventSync* _eventSync, std::string _ip, int _port);
+    bool Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock);
+
+
+private:
+    bool _DispatchController(NetworkContextPO* _ctxt, NetworkHostPO* _host = nullptr);
+    void _CompressPacket(Packet::SharedPtr& _pPacket);
+
     //----------------------------------------------------------
     //NetworkManagerPO Constructor, Destructor inner method end
     //----------------------------------------------------------

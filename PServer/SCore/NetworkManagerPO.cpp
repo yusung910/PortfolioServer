@@ -49,18 +49,89 @@ void NetworkManagerPO::ReserveContext(size_t _reserveContext)
 size_t NetworkManagerPO::GetContextAllocateCount() const
 {
     if (nullptr == m_pContextPool)
-        return;
+        return 0;
     return m_pContextPool->GetAllocatedCount();
 }
 
 void NetworkManagerPO::CreateNetwork()
 {
+    if (nullptr == m_pWorker)
+        return;
+
+    if (nullptr == m_pController)
+        return;
+
+    if (m_pController->CreateThread() == false)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::CreateNetwork() Failed - Create NetworkController");
+    }
+
+    if (m_pWorker->CreateThread() == false)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::CreateNetwork() Failed - Create NetworkWorker");
+    }
+
+    m_bIsNetworkInitialized.store(true);
 
 }
 
 void NetworkManagerPO::DestroyNetwork()
 {
+    m_bIsNetworkInitialized.store(false);
+    if (nullptr != m_pWorker)
+        m_pWorker->TerminateThread();
 
+    if (nullptr != m_pController)
+        m_pController->TerminateThread();
+
+}
+bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID)
+{
+    //NetworkHost 생성
+    auto localHost = AllocateHost();
+    if (localHost == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Host Error");
+        return false;
+    }
+
+    localHost->SetEventSync(_eventSync);
+    localHost->SetIP(_ip);
+    localHost->SetPeerPort(_port);
+
+    //무슨 용도일까? "다른 서버로의 접속은 해당 Host가 클라이언트로써 작동해야한다"
+    localHost->SetClientHostMode(true);
+
+    if (nullptr != _pHostID)
+        *_pHostID = localHost->GetHostID();
+
+    auto localCtxt = AllocateContext();
+    if (localCtxt == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Context Error");
+        ReleaseHost(localHost);
+        return false;
+    }
+
+    //Context에 데이터 기록
+    localCtxt->Ready(EContextType::Connect);
+    localCtxt->Write(&localHost, sizeof(localHost));
+
+    return _DispatchController(localCtxt, localHost);
+}
+bool NetworkManagerPO::_DispatchController(NetworkContextPO* _ctxt, NetworkHostPO* _host)
+{
+    if (nullptr == _ctxt)
+        return false;
+
+    if (false == m_pController->PushThread(_ctxt))
+    {
+
+    }
+    return true;
+}
+void NetworkManagerPO::_CompressPacket(Packet::SharedPtr& _pPacket)
+{
 }
 //----------------------------------------------------------
 // NetworkManagerPO Constructor, Destructor inner method end

@@ -18,8 +18,8 @@ constexpr int MIN_HOST_TIMEOUT_MS = 10000;              // 최소 호스트 타임아웃 
 enum class EContextType : int
 {
     None = 0,
-    Listen,
-    Join,
+    Listen, //Listen : 서버가 데이터를 받을 수 있는 상태
+    Join,   //
     Accept,
     Connect,
     Receive,

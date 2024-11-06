@@ -203,8 +203,8 @@ void NetworkWorkerPO::ProcessThread()
 
             continue;
         }
-        EContextType test;
-        switch (test)
+
+        switch (localCtxt->GetContextType())
         {
         case EContextType::Accept:
             ProcessAccept(*localHost, *localCtxt, localRslt);

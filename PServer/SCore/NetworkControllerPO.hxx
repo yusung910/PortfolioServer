@@ -3,8 +3,11 @@
  *  @author YS
  *  @date 2024-10-29
  *  @project SCore
- *
- *  IOCP 통신을 위한 WSASocket 관련 기능들을 관리하는 클래스
+ *  
+ *  NetworkWorker와 NetworkHost를 통해 데이터를 세팅하며
+ *  IOCP 통신을 하기 위한 클래스.
+ *  EContextType에 따라 IOCP 통신을 한다
+ *  
  */
 #pragma once
 
@@ -35,14 +38,55 @@ public:
 
 public:
     /*!
-     *  쓰레드 생성
+     *  NetworkController 쓰레드 핸들 생성
      *
      *      @return 
      */
     bool CreateThread();
+
+    /*!
+     *  NetworkController 쓰레드 중단
+     */
     void TerminateThread();
 
+    /*!
+     *  CreateThread()에 생성된 쓰레드 핸들에서 실행할 함수
+     *
+     *      @param [in,out] _arg 
+     *
+     *      @return 
+     */
     static unsigned int WINAPI ExcuteThread(void* _arg);
+
+    /*!
+     *  NetworkController에서 처리할 NetworkContextPO를 넣는 함수
+     *
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
+    bool PushThread(NetworkContextPO* _ctxt);
+
+    /*!
+     *  m_ConnectorHostList에 저장된 데이터 중
+     *  인자값으로 전달받은 ip와 port 값과 일치하는 HostID값을 반홚나다
+     *
+     *      @param [in] _ip   
+     *      @param [in] _port 
+     *
+     *      @return HostID
+     */
+    int GetConnectorHostID(const std::string& _ip, int _port);
+
+    /*!
+     *  인자값으로 전달받은 HostID에 Packet을 전송
+     *
+     *      @param [in] _hostID 
+     *      @param [in] _packet 
+     *
+     *      @return 
+     */
+    bool SendPacketToHost(const int& _hostID, Packet::SharedPtr _packet);
 
 
 private:
@@ -92,11 +136,40 @@ private:
     void _RemoveConnectorHost(int _hostID);
 
 private:
-
+    /*!
+     *  m_oMsgQueue에 저장된 NetworkContextPO 데이터를 ContextType에 맞게 처리하는 함수
+     *  ExcuteThread() 함수 내부에서 실행 되며
+     *  EContextType(Connect, Listen, Join, Close) 값에 해당하는 함수가 실행된다
+     *  각각 함수에 m_oMsgQueue에 저장된 NetworkContextPO Pointer를 인자 값으로 전달하여 실행한다
+     */
     void ProcessThread();
+
+    /*!
+     *  인자 값으로 전달받은 NetworkContextPO를 소켓 통신하기 위해 연결하는 함수
+     *  
+     *      @param [in,out] _ctxt 
+     */
     void ProcessConnect(NetworkContextPO& _ctxt);
+
+    /*!
+     *  Processes the listen.
+     *
+     *      @param [in,out] _ctxt 
+     */
     void ProcessListen(NetworkContextPO& _ctxt);
+
+    /*!
+     *  Processes the join.
+     *
+     *      @param [in,out] _ctxt 
+     */
     void ProcessJoin(NetworkContextPO& _ctxt);
+
+    /*!
+     *  Processes the close.
+     *
+     *      @param [in,out] _ctxt 
+     */
     void ProcessClose(NetworkContextPO& _ctxt);
 };
 
