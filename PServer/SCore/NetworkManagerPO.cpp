@@ -14,6 +14,15 @@
 //
 #include "NetworkStatistics.h"
 
+#include <iostream>
+#include <atomic>
+#include <memory>
+
+#include "LZ4Compressor.h"
+
+#include "PacketCompressor.hxx"
+
+
 #define CreateContext(x)    auto x = AllocateContext();     \
                             if(x == nullptr) return false;  \
 
@@ -85,6 +94,7 @@ void NetworkManagerPO::DestroyNetwork()
         m_pController->TerminateThread();
 
 }
+
 bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID)
 {
     //NetworkHost »ý¼º
@@ -119,6 +129,17 @@ bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, in
 
     return _DispatchController(localCtxt, localHost);
 }
+
+bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int _port)
+{
+    return false;
+}
+
+
+bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock)
+{
+    return false;
+}
 bool NetworkManagerPO::_DispatchController(NetworkContextPO* _ctxt, NetworkHostPO* _host)
 {
     if (nullptr == _ctxt)
@@ -126,12 +147,40 @@ bool NetworkManagerPO::_DispatchController(NetworkContextPO* _ctxt, NetworkHostP
 
     if (false == m_pController->PushThread(_ctxt))
     {
+        VIEW_WRITE_ERROR("NetworkManagerPO::_DispatchController() Failed - NetworkController PushThread() Result is false!!");
 
+        ReleaseContext(_ctxt);
+
+        if (nullptr != _host)
+        {
+            ReleaseHost(_host);
+        }
+
+        return false;
     }
     return true;
 }
-void NetworkManagerPO::_CompressPacket(Packet::SharedPtr& _pPacket)
+void NetworkManagerPO::_CompressPacket(Packet::SharedPtr& _packet)
 {
+    if (!USE_PACKET_COMPRESS)
+        return;
+
+    if (nullptr == _packet)
+        return;
+
+    if (true == _packet->IsCompressed())
+        return;
+
+    if (_packet->GetPacketSize() < DEFAULT_PACKET_COMPRESS_START_SIZE)
+        return;
+
+    PacketCompressor::SharedPtr localCompressor = PacketCompressor::New();
+    if (true == localCompressor->Compress(static_cast<char*>(_packet->GetDataPtr()), _packet->GetMessageSize()))
+    {
+        memcpy_s(_packet->GetDataPtr(), MAX_PACKET_DATA_SIZE, localCompressor->m_cCompressBuffer, localCompressor->m_nCompressedSize);
+        _packet->SetPacketSize(localCompressor->m_nCompressedSize + PACKET_HEADER_SIZE);
+        _packet->SetCompressed(true);
+    }
 }
 //----------------------------------------------------------
 // NetworkManagerPO Constructor, Destructor inner method end

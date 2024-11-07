@@ -145,28 +145,31 @@ private:
     void ProcessThread();
 
     /*!
-     *  인자 값으로 전달받은 NetworkContextPO를 소켓 통신하기 위해 연결하는 함수
+     *  인자 값으로 전달받은 NetworkContextPO를 소켓 통신하기 위해 ConnectEx함수로
+     *  소켓을 연결하는 함수
      *  
      *      @param [in,out] _ctxt 
      */
     void ProcessConnect(NetworkContextPO& _ctxt);
 
     /*!
-     *  Processes the listen.
+     *  인자 값으로 전달받은 NetworkContextPO의
+     *  NetworkHostPO를 Listen 상태로 변경하는 함수
      *
      *      @param [in,out] _ctxt 
      */
     void ProcessListen(NetworkContextPO& _ctxt);
 
     /*!
-     *  Processes the join.
-     *
+     *  인자 값으로 전달받은 NetworkContextPO의 NetworkHostPO에서 WSARecv() 함수를 통해
+     *  Socket 데이터를 수신 처리한다
+     *  
      *      @param [in,out] _ctxt 
      */
     void ProcessJoin(NetworkContextPO& _ctxt);
 
     /*!
-     *  Processes the close.
+     *  인자 값으로 전달받은 NetworkContextPO의 NetworkHostPO를 Socket Close 처리한다
      *
      *      @param [in,out] _ctxt 
      */

@@ -37,30 +37,177 @@ private:
 
 public:
     /*!
-     *  Constructor.
+     *  네트워크 관련 객체들을 생성한다
+     *  
+     *  new NetworkContextPoolPO(_reserveContext);
+     *  new NetworkHostPoolPO();
+     *  new NetworkControllerPO();
+     *  new NetworkWorkerPO();
+     *  new NetworkStatistics();
      *
      *      @param [in] _reserveContext 
      */
     NetworkManagerPO(size_t _reserveContext = 100);
+
     /*!
-     *  Destructor.
+     *  Destructor
+     *  NetworkManager 객체가 소멸될 때 생성자에서 생성된 객체와 관련 멤버들을 제거한다
      */
     virtual ~NetworkManagerPO();
 
+    /*!
+     *  NetworkContextPoolPO에 NetworkContextPO를 저장할 std::deque 공간을 할당한다
+     *
+     *      @param [in] _reserveContext 
+     */
     void ReserveContext(size_t _reserveContext);
+
+    /*!
+     *  NetworkContextPoolPO에 NetworkContextPO가 저장될 공간 갯수를 가져온다
+     *
+     *      @return The context allocate count.
+     */
     size_t GetContextAllocateCount() const;
+
+    /*!
+     *  네트워크 통신을 위한 NetworkWorkerPO와 NetworkControllerPO의 스레드를 실행한다
+     */
     void CreateNetwork();
+    /*!
+     *  네트워크 통신을 위한 NetworkWorkerPO와 NetworkControllerPO의 스레드를 종료한다
+     */
     void DestroyNetwork();
 
-    //
+    /*!
+     *  NetworkHostPO을 생성하고
+     *  인자값으로 전달받은 IP와 PORT을 NetworkHostPO에 할당한 NetworkHostPO를
+     *  NetworkContextPO에 기록하고 NetworkController의 스레드에 Push한다
+     *
+     *      @param [in,out] _eventSync
+     *      @param [in]     _ip
+     *      @param [in]     _port
+     *      @param [in,out] _pHostID
+     *
+     *      @return
+     */
     bool Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID = nullptr);
+
+    /*!
+     *  Listens the network manager.
+     *
+     *      @param [in,out] _eventSync 
+     *      @param [in]     _ip        
+     *      @param [in]     _port      
+     *
+     *      @return 
+     */
     bool Listen(NetworkEventSync* _eventSync, std::string _ip, int _port);
+
+    /*!
+     *  Joins the network manager.
+     *
+     *      @param [in,out] _eventSync
+     *      @param [in]     _ipaddr
+     *      @param [in]     _ip
+     *      @param [in]     _port
+     *      @param [in]     _sock
+     *
+     *      @return
+     */
     bool Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock);
+
+    /*!
+     *  Sends the network manager.
+     *
+     *      @param [in] _hostID 
+     *      @param [in]         
+     *
+     *      @return 
+     */
+    bool Send(const int& _hostID, Packet::SharedPtr);
+
+    /*!
+     *  Broads the cast.
+     *
+     *      @param [in,out] _hostIDs 
+     *      @param [in]     _packet  
+     *
+     *      @return 
+     */
+    bool BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet);
+
+    /*!
+     *  Closes the network manager.
+     *
+     *      @param [in] _hostID 
+     *
+     *      @return 
+     */
+    bool Close(const int& _hostID);
+
+    /*!
+     *  
+     */
+    virtual bool CloseHost(int _hostID, const std::string& _strReason); //override
+
+    /*!
+     *  Returns the network manager's i p.
+     *
+     *      @param [in] _hostID 
+     *
+     *      @return The i p.
+     */
+    std::string GetIP(int _hostID);
+
+    /*!
+     *  Returns the network manager's i p int32.
+     *
+     *      @param [in] _hostID 
+     *
+     *      @return The i p int32.
+     */
+    int GetIPInt32(int _hostID);
+
+    /*!
+     *  Returns the network manager's connector host i d.
+     *
+     *      @param [in] _ip   
+     *      @param [in] _port 
+     *
+     *      @return The connector host i d.
+     */
+    int GetConnectorHostID(const std::string& _ip, int _port);
+
+    /*!
+     *  Returns the network manager's last packet tick.
+     *
+     *      @param [in] _hostID 
+     *
+     *      @return The last packet tick.
+     */
+    int64_t GetLastPacketTick(int _hostID);
 
 
 private:
+    /*!
+     *  NetworkControllerPO의 스레드에 NetworkContextPO를 추가한다
+     *  NetworkControllerPO 스레드 추가에 실패 할 경우
+     *  인자값으로 전달받은 NetworkContextPO와, NetworkHostPO를 제거 한다
+     *
+     *      @param [in,out] _ctxt 
+     *      @param [in,out] _host 
+     *
+     *      @return 
+     */
     bool _DispatchController(NetworkContextPO* _ctxt, NetworkHostPO* _host = nullptr);
-    void _CompressPacket(Packet::SharedPtr& _pPacket);
+
+    /*!
+     *  Packet 크기가 80Byte 이상일 경우
+     *  LZ4 라이브러리를 이용해서 Packet 데이터를 압축한다
+     *  
+     *      @param [in,out] _packet 
+     */
+    void _CompressPacket(Packet::SharedPtr& _packet);
 
     //----------------------------------------------------------
     //NetworkManagerPO Constructor, Destructor inner method end
@@ -73,11 +220,39 @@ private:
     NetworkContextPoolPO* m_pContextPool = nullptr;
 
 public:
+    /*!
+     *  NetworkContextPoolPO에 NetworkContextPO를 할당한다
+     *
+     *      @return 할당된 NetworkContextPO
+     */
     NetworkContextPO* AllocateContext();
+
+    /*!
+     *  전달받은 NetworkContextPO를 초기화 하고 사용대기 상태로 전환
+     *
+     *      @param [in,out] _context 
+     */
     void ReleaseContext(NetworkContextPO* _context);
 
+    /*!
+     *  NetworkContextPoolPO에 할당된 NetworkContextPO 갯수를 반환한다
+     *
+     *      @return
+     */
     int GetContextAllocateCount();
+
+    /*!
+     *  NetworkContextPoolPO에서 사용중인 NetworkContextPO 갯수를 반환한다
+     *
+     *      @return The context use count.
+     */
     int GetContextUseCount();
+
+    /*!
+     *  NetworkContextPoolPO에서 사용 대기중인 NetworkContextPO 갯수를 반환한다
+     *
+     *      @return The context free count.
+     */
     int GetContextFreeCount();
 
     //----------------------------------------------------------
@@ -91,8 +266,27 @@ private:
     NetworkHostPoolPO* m_pHostPool = nullptr;
 
 public:
+    /*!
+     *  Allocates the host.
+     *
+     *      @return 
+     */
     NetworkHostPO* AllocateHost();
+
+    /*!
+     *  Releases the host.
+     *
+     *      @param [in,out] _host 
+     */
     void ReleaseHost(NetworkHostPO* _host);
+
+    /*!
+     *  Checks the host.
+     *
+     *      @param [in] _hostID 
+     *
+     *      @return 
+     */
     bool CheckHost(int _hostID);
 
     //----------------------------------------------------------
@@ -106,7 +300,23 @@ public:
 private:
     NetworkWorkerPO* m_pWorker = nullptr;
 public:
+    /*!
+     *  Registers the worker.
+     *
+     *      @param [in,out] _host 
+     *
+     *      @return 
+     */
     bool RegisterWorker(NetworkHostPO* _host);
+
+    /*!
+     *  Dispatches the worker.
+     *
+     *      @param [in,out] _host 
+     *      @param [in,out] _ctxt 
+     *
+     *      @return 
+     */
     bool DispatchWorker(NetworkHostPO* _host, NetworkContextPO* _ctxt);
 
     //----------------------------------------------------------

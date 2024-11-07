@@ -52,6 +52,9 @@
     <Filter Include="Util\Time\_Pacade">
       <UniqueIdentifier>{aeb7ce9c-0c7a-40b7-9f5d-7a1a53e47982}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\Compress">
+      <UniqueIdentifier>{4caa9332-f8b1-415a-a9e7-6234fa67d1df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -153,6 +156,9 @@
     <ClInclude Include="LoggingCommon.h">
       <Filter>Log\Define</Filter>
     </ClInclude>
+    <ClInclude Include="LZ4Compressor.h">
+      <Filter>Util\Compress</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -220,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="NetworkHostPoolPO.cpp">
       <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LZ4Compressor.cpp">
+      <Filter>Util\Compress</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

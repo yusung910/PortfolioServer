@@ -30,6 +30,7 @@
     <ClInclude Include="LoggingMacro.h" />
     <ClInclude Include="LoggingManager.h" />
     <ClInclude Include="LoggingManagerPO.hxx" />
+    <ClInclude Include="LZ4Compressor.h" />
     <ClInclude Include="NetworkCommon.h" />
     <ClInclude Include="NetworkContextPO.hxx" />
     <ClInclude Include="NetworkContextPoolPO.hxx" />
@@ -59,6 +60,7 @@
     <ClCompile Include="LogData.cpp" />
     <ClCompile Include="LoggingManager.cpp" />
     <ClCompile Include="LoggingManagerPO.cpp" />
+    <ClCompile Include="LZ4Compressor.cpp" />
     <ClCompile Include="NetworkContextPO.cpp" />
     <ClCompile Include="NetworkContextPoolPO.cpp" />
     <ClCompile Include="NetworkControllerPO.cpp" />
