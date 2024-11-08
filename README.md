@@ -135,5 +135,6 @@ private:
     2. Servers -> 서버 구동에 필요한 프로젝트 디렉토리
     ... 작업 중
 
-### 1.7 SCore 프로젝트의 Network 관련 내용
-    1. NetworkManager 클래스를 통해 각각의 세부 클래스(Host, Context 등)들이 함수를 호출하고 데이터를 세팅하는 구조 이걸 패턴을 무슨 패턴이라 하더라..
+## 2.1 To Do List
+    1. 클라이언트에서도 Network 통신을 위한 작업이 필요한 것으로 확인 됨. SCore에 있는 Network 관련 클래스들을 SCCommon 디렉터리에 서버와 클라이언트가 같이 사용하는 프로젝트로 이동해야한다.
+
