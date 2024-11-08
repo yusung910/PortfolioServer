@@ -132,7 +132,32 @@ bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, in
 
 bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int _port)
 {
-    return false;
+    //NetworkHost 생성
+    auto localHost = AllocateHost();
+    if (localHost == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Host Error");
+        return false;
+    }
+
+    localHost->SetEventSync(_eventSync);
+    localHost->SetIP(_ip);
+    localHost->SetPeerPort(_port);
+
+    auto localCtxt = AllocateContext();
+    if (localCtxt == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Context Error");
+        ReleaseHost(localHost);
+        return false;
+    }
+
+    //NetworkContextPO의 ContextType을 Listen으로 변경
+    localCtxt->Ready(EContextType::Listen);
+    //NetworkContextPO에 NetworkHostPO 데이터를 기록한다 
+    localCtxt->Write(&localHost, sizeof(localHost));
+
+    return _DispatchController(localCtxt, localHost);
 }
 
 

@@ -82,6 +82,7 @@ public:
      *  NetworkHostPO을 생성하고
      *  인자값으로 전달받은 IP와 PORT을 NetworkHostPO에 할당한 NetworkHostPO를
      *  NetworkContextPO에 기록하고 NetworkController의 스레드에 Push한다
+     *  이때 NetworkContextPO에 EContextType을 Connect로 지정한다
      *
      *      @param [in,out] _eventSync
      *      @param [in]     _ip
@@ -93,8 +94,10 @@ public:
     bool Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID = nullptr);
 
     /*!
-     *  Listens the network manager.
-     *
+     *  NetworkHostPO을 생성하고
+     *  인자값으로 전달받은 IP와 PORT을 NetworkHostPO에 할당한 NetworkHostPO를
+     *  NetworkContextPO에 기록하고 NetworkController의 스레드에 Push한다
+     *  이때 NetworkContextPO에 EContextType을 Listen로 지정한다
      *      @param [in,out] _eventSync 
      *      @param [in]     _ip        
      *      @param [in]     _port      
