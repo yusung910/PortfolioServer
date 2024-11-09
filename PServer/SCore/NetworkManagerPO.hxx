@@ -107,8 +107,10 @@ public:
     bool Listen(NetworkEventSync* _eventSync, std::string _ip, int _port);
 
     /*!
-     *  Joins the network manager.
-     *
+     *  NetworkHostPO을 생성하고
+     *  인자값으로 전달받은 IP와 PORT을 NetworkHostPO에 할당한 NetworkHostPO를
+     *  NetworkContextPO에 기록하고 NetworkController의 스레드에 Push한다
+     *  이때 NetworkContextPO에 EContextType을 Join로 지정한다
      *      @param [in,out] _eventSync
      *      @param [in]     _ipaddr
      *      @param [in]     _ip
@@ -120,17 +122,21 @@ public:
     bool Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock);
 
     /*!
-     *  Sends the network manager.
+     *  인자값으로 전달받은 hostID에 Packet을 전송한다.
+     *  패킷 상태에 따라 압축 하고
+     *  해당 패킷을 전송하기 위해 NetworkController의 SendPacketToHost()를
+     *  실행한다.
      *
      *      @param [in] _hostID 
      *      @param [in]         
      *
      *      @return 
      */
-    bool Send(const int& _hostID, Packet::SharedPtr);
+    bool Send(const int& _hostID, Packet::SharedPtr _packet);
 
     /*!
-     *  Broads the cast.
+     *  인자값으로 전달받은 _hostIDs 배열에 저장된 모든 HostID에
+     *  인자값인 Packet 데이터를 압축해서 전송한다
      *
      *      @param [in,out] _hostIDs 
      *      @param [in]     _packet  
@@ -140,7 +146,7 @@ public:
     bool BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet);
 
     /*!
-     *  Closes the network manager.
+     *  인자값으로 전달받은 HostID의 NetworkContext를 Close 한다
      *
      *      @param [in] _hostID 
      *
@@ -149,35 +155,36 @@ public:
     bool Close(const int& _hostID);
 
     /*!
-     *  
+     *  NetworkHost를 Close한다
      */
     virtual bool CloseHost(int _hostID, const std::string& _strReason); //override
 
     /*!
-     *  Returns the network manager's i p.
+     *  접속된 NetworkHostPO에 해당하는 IP 주소를 반환한다.
      *
      *      @param [in] _hostID 
      *
-     *      @return The i p.
+     *      @return
      */
     std::string GetIP(int _hostID);
 
     /*!
-     *  Returns the network manager's i p int32.
-     *
+     *  접속된 NetworkHostPO에 해당하는 int 타입의 IP 주소값을 반환한다
+     *    
      *      @param [in] _hostID 
      *
-     *      @return The i p int32.
+     *      @return
      */
     int GetIPInt32(int _hostID);
 
     /*!
-     *  Returns the network manager's connector host i d.
-     *
+     *  인자 값으로 전달받은 IP와, Port로
+     *  NetworkControllerPO에 연결되어 있는 HostID를 검색하여 반환한다.
+     *  
      *      @param [in] _ip   
      *      @param [in] _port 
      *
-     *      @return The connector host i d.
+     *      @return 
      */
     int GetConnectorHostID(const std::string& _ip, int _port);
 

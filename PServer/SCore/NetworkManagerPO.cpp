@@ -23,8 +23,8 @@
 #include "PacketCompressor.hxx"
 
 
-#define CreateContext(x)    auto x = AllocateContext();     \
-                            if(x == nullptr) return false;  \
+#define CreateCheckContext(x)    auto x = AllocateContext();     \
+                                 if(x == nullptr) return false;  \
 
 
 //----------------------------------------------------------
@@ -115,10 +115,13 @@ bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, in
     if (nullptr != _pHostID)
         *_pHostID = localHost->GetHostID();
 
+    //NetworkContextPO를 할당한다
     auto localCtxt = AllocateContext();
+
     if (localCtxt == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Context Error");
+        //NetworkContextPO가 생성되지 않았을 경우 NetworkHost를 FreeQueue로 이동한다.
         ReleaseHost(localHost);
         return false;
     }
@@ -136,7 +139,7 @@ bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int
     auto localHost = AllocateHost();
     if (localHost == nullptr)
     {
-        VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Host Error");
+        VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Host Error");
         return false;
     }
 
@@ -147,7 +150,7 @@ bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int
     auto localCtxt = AllocateContext();
     if (localCtxt == nullptr)
     {
-        VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Context Error");
+        VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Context Error");
         ReleaseHost(localHost);
         return false;
     }
@@ -163,8 +166,140 @@ bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int
 
 bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock)
 {
+    //NetworkHost 생성
+    auto localHost = AllocateHost();
+    if (localHost == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Host Error");
+        return false;
+    }
+
+    localHost->SetEventSync(_eventSync);
+    localHost->SetIP(_ip);
+    localHost->SetPeerPort(_port);
+
+    auto localCtxt = AllocateContext();
+    if (localCtxt == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Context Error");
+        ReleaseHost(localHost);
+        return false;
+    }
+
+    //NetworkContextPO의 ContextType을 Listen으로 변경
+    localCtxt->Ready(EContextType::Join);
+    //NetworkContextPO에 NetworkHostPO 데이터를 기록한다 
+    localCtxt->Write(&localHost, sizeof(localHost));
+
+    return _DispatchController(localCtxt, localHost);
+}
+bool NetworkManagerPO::Send(const int& _hostID, Packet::SharedPtr _packet)
+{
+    if (nullptr == _packet)
+        return false;
+
+    if (nullptr == m_pController)
+        return false;
+
+    _CompressPacket(_packet);
+
+    return m_pController->SendPacketToHost(_hostID, _packet);
+}
+bool NetworkManagerPO::BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet)
+{
+    if (true == _hostIDs.empty() ||
+        _packet == nullptr)
+    {
+        VIEW_WARNING(L"NetworkManagerPO::BroadCast() Failed - Parameter is Invalid");
+        return false;
+    }
+
+    if (nullptr == m_pController)
+        return false;
+
+    _CompressPacket(_packet);
+
+    for (auto& localHostID : _hostIDs)
+    {
+        _packet->HostID = localHostID;
+
+        m_pController->SendPacketToHost(localHostID, _packet);
+    }
+
+    return true;
+}
+
+bool NetworkManagerPO::Close(const int& _hostID)
+{
+    if (_hostID == 0)
+        return false;
+
+    CreateCheckContext(localContext);
+
+    localContext->AddHostID(_hostID);
+
+    localContext->Ready(EContextType::Close);
+
+    return _DispatchController(localContext);
+}
+
+bool NetworkManagerPO::CloseHost(int _hostID, const std::string& _strReason)
+{
+    //m_oUsingHostIDList에 HostID가 있을 경우 연결되어 있음
+    if (true == IsConnected(_hostID))
+    {
+        if (false == _strReason.empty())
+        {
+            VIEW_WARNING("Close Host (%d) %s", _hostID, _strReason.c_str());
+        }
+
+        return Close(_hostID);
+    }
     return false;
 }
+
+std::string NetworkManagerPO::GetIP(int _hostID)
+{
+    std::string retIP;
+    if (m_pHostPool == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::GetIP() Failed - Network Host Pool is null");
+        retIP = "0.0.0.0";
+        return retIP;
+    }
+
+    auto localHost = m_pHostPool->GetHost(_hostID);
+
+    if (nullptr == localHost)
+        return "";
+
+    return localHost->GetIP();
+}
+
+int NetworkManagerPO::GetIPInt32(int _hostID)
+{
+    if (m_pHostPool == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::GetIPInt32() Failed - Network Host Pool is null");
+        return 0;
+    }
+
+    auto localHost = m_pHostPool->GetHost(_hostID);
+
+    if (nullptr == localHost)
+        return 0;
+
+    return localHost->GetIPInt32();
+}
+
+int NetworkManagerPO::GetConnectorHostID(const std::string& _ip, int _port)
+{
+    if (nullptr == m_pController)
+        return 0;
+    return m_pController->GetConnectorHostID(_ip, _port);
+}
+
+
 bool NetworkManagerPO::_DispatchController(NetworkContextPO* _ctxt, NetworkHostPO* _host)
 {
     if (nullptr == _ctxt)
