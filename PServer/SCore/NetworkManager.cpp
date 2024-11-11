@@ -42,6 +42,91 @@ void NetworkManager::DestroyNetwork()
         m_pManager->DestroyNetwork();
 }
 
+bool NetworkManager::Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID)
+{
+    if (nullptr == m_pManager)
+        return false;
+    return m_pManager->Connect(_eventSync, _ip, _port, _pHostID);
+}
+
+bool NetworkManager::Listen(NetworkEventSync* _eventSync, std::string _ip, int _port)
+{
+    if (nullptr == m_pManager)
+        return false;
+    return m_pManager->Listen(_eventSync, _ip, _port);
+}
+
+bool NetworkManager::Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock)
+{
+    if(nullptr == m_pManager)
+        return false;
+
+    return m_pManager->Join(_eventSync, _ipaddr, _ip, _port, _sock);
+}
+
+bool NetworkManager::Send(const int& _hostID, Packet::SharedPtr _packet)
+{
+    if (nullptr == m_pManager)
+        return false;
+
+    return m_pManager->Send(_hostID, _packet);
+}
+
+bool NetworkManager::BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet)
+{
+    if (nullptr == m_pManager)
+        return false;
+
+    return m_pManager->BroadCast(_hostIDs, _packet);
+}
+
+bool NetworkManager::Close(const int& _hostID)
+{
+    if (nullptr == m_pManager)
+        return false;
+
+    return m_pManager->Close(_hostID);
+}
+
+bool NetworkManager::CloseHost(int _hostID, const std::string& _strReason)
+{
+    if (nullptr == m_pManager)
+        return false;
+
+    return m_pManager->CloseHost(_hostID, _strReason);
+}
+
+std::string NetworkManager::GetIP(int _hostID)
+{
+    if (nullptr == m_pManager)
+        return "";
+
+    return m_pManager->GetIP(_hostID);
+}
+
+int NetworkManager::GetIPInt32(int _hostID)
+{
+    if (nullptr == m_pManager)
+        return 0;
+    return m_pManager->GetIPInt32(_hostID);
+}
+
+int NetworkManager::GetConnectorHostID(const std::string& _ip, int _port)
+{
+    if (nullptr == m_pManager)
+        return 0;
+
+    return m_pManager->GetConnectorHostID(_ip, _port);
+}
+
+int64_t NetworkManager::GetLastPacketTick(int _hostID)
+{
+    if (nullptr == m_pManager)
+        return 0;
+
+    return m_pManager->GetLastPacketTick(_hostID);
+}
+
 //----------------------------------------------------------
 //NetworkContext Pool
 //----------------------------------------------------------

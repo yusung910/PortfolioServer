@@ -170,11 +170,13 @@ bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::stri
     auto localHost = AllocateHost();
     if (localHost == nullptr)
     {
-        VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Host Error");
+        VIEW_WRITE_ERROR("NetworkManagerPO::Join() Failed - Allocate Host Error");
         return false;
     }
 
+    localHost->SetSocket(_sock);
     localHost->SetEventSync(_eventSync);
+    localHost->SetIPInt32(_ipaddr);
     localHost->SetIP(_ip);
     localHost->SetPeerPort(_port);
 
@@ -193,6 +195,7 @@ bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::stri
 
     return _DispatchController(localCtxt, localHost);
 }
+
 bool NetworkManagerPO::Send(const int& _hostID, Packet::SharedPtr _packet)
 {
     if (nullptr == _packet)
@@ -205,6 +208,7 @@ bool NetworkManagerPO::Send(const int& _hostID, Packet::SharedPtr _packet)
 
     return m_pController->SendPacketToHost(_hostID, _packet);
 }
+
 bool NetworkManagerPO::BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet)
 {
     if (true == _hostIDs.empty() ||
@@ -297,6 +301,22 @@ int NetworkManagerPO::GetConnectorHostID(const std::string& _ip, int _port)
     if (nullptr == m_pController)
         return 0;
     return m_pController->GetConnectorHostID(_ip, _port);
+}
+
+int64_t NetworkManagerPO::GetLastPacketTick(int _hostID)
+{
+    if (m_pHostPool == nullptr)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::GetLastPacketTick() Failed - Network Host Pool is null");
+        return 0;
+    }
+
+    auto localHost = m_pHostPool->GetHost(_hostID);
+
+    if (nullptr == localHost)
+        return 0;
+
+    return localHost->GetLastPacketTick();
 }
 
 

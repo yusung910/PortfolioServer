@@ -35,6 +35,29 @@ public:
     size_t GetContextAllocateCount() const;
     void CreateNetwork();
     void DestroyNetwork();
+
+    bool Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID = nullptr);
+
+    bool Listen(NetworkEventSync* _eventSync, std::string _ip, int _port);
+
+    bool Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock);
+
+    bool Send(const int& _hostID, Packet::SharedPtr _packet);
+
+    bool BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet);
+
+    bool Close(const int& _hostID);
+
+    virtual bool CloseHost(int _hostID, const std::string& _strReason); //override
+
+    std::string GetIP(int _hostID);
+
+    int GetIPInt32(int _hostID);
+
+    int GetConnectorHostID(const std::string& _ip, int _port);
+
+    int64_t GetLastPacketTick(int _hostID);
+
     //----------------------------------------------------------
     //NetworkManagerPO Constructor, Destructor inner method end
     //----------------------------------------------------------
@@ -74,7 +97,7 @@ public:
     bool RegisterWorker(NetworkHostPO* _host);
     bool DispatchWorker(NetworkHostPO* _host, NetworkContextPO* _ctxt);
     //----------------------------------------------------------
-    //NetworkWorker Pool begin
+    //NetworkWorker End
     //----------------------------------------------------------
 
 

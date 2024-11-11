@@ -287,16 +287,80 @@ void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctx
 
     if (_rslt == true)
     {
+         //Accept 성공 시 주소정보사이즈(sizeof(SOCKADDR_IN) + 16 * 2)를 늘린다
+        _ctxt.Write((sizeof(SOCKADDR_IN) + 16 * 2));
+
+        //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock/nf-winsock-setsockopt
+        //소켓의 옵션을 SO_UPDATE_ACCEPT_CONTEXT 값으로 세팅한다 
+        SOCKET localListener = _host.GetSocket();
+        if (setsockopt(localSocket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&localListener, sizeof(localListener)) == SOCKET_ERROR)
+        {
+            VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessAccept() Failed - SO_UPDATE_ACCEPT_CONTEXT: %d", WSAGetLastError());
+        }
+
+        //접속 주소 생성
+        std::string localIP = "";
+        int localPort = 0;
+        int localIPAddr = 0;
+        if (nullptr != _ctxt.m_pRemoteAddr)
+        {
+            localIPAddr = _ctxt.m_pRemoteAddr->sin_addr.S_un.S_addr;
+            char tmpIPAddr[INET_ADDRSTRLEN] = { 0, };
+            inet_ntop(AF_INET, &_ctxt.m_pRemoteAddr->sin_addr, tmpIPAddr, sizeof(tmpIPAddr));
+
+            localIP = tmpIPAddr;
+            localPort = (int)ntohs(_ctxt.m_pRemoteAddr->sin_port);
+        }
+        
+        NetworkManager::GetInst().Join(_host.GetEvnetSync(), localIPAddr, localIP, localPort, localSocket);
 
     }
 }
 
 void NetworkWorkerPO::ProcessConnect(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt)
 {
+    if (_rslt == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessConnect() Failed - Parameter Result is false");
+
+        _host.EndBaseTask(false, ESocketCloseType::ConnectFailed);
+
+        return;
+    }
+
+    //접속 이벤트 호출
+    _host.EventConnect(EHostType::Connector);
+
+    //Receive
+    _ctxt.ResetBuffer();
+
+    if (_host.Receive(_ctxt) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessConnect() Failed - Receive");
+
+        _host.EndBaseTask(false);
+        return;
+    }
 }
 
 void NetworkWorkerPO::ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt, int _transferred)
 {
+    //요청 결과 체크
+    if (_rslt == false || _transferred <= 0)
+    {
+        //NetworkHostType이 EHostType::Acceptor이 아니고(and)
+        //_rslt 값이 false 이며(and)
+        //_transferred의 값이 0보다 클(_transferred > 0) 경우(and)
+        if (!(_host.GetHostType() == EHostType::Acceptor
+            && _rslt == true
+            && _transferred == 0))
+        {
+            //if(_rslt != false)
+
+        }
+        _host.EndBaseTask(false);
+        return;
+    }
 }
 
 void NetworkWorkerPO::ProcessEncrypt(NetworkHostPO& _host, NetworkContextPO& _ctxt)
