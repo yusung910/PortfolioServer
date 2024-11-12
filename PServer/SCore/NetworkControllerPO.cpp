@@ -192,6 +192,12 @@ void NetworkControllerPO::_UpdateHost()
             localHost->EventClose();
             NetworkManager::GetInst().ReleaseHost(localHost);
         }
+
+        _RemoveConnectorHost(localIter->first);
+
+        //m_oHostList에 잇는 값 중 localIter 위치 한 값을 지우고
+        //그 다음에 있는 값을 localIter가 가르키게 한다
+        localIter = m_oHostList.erase(localIter);
     }
 }
 

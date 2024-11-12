@@ -688,7 +688,7 @@ void NetworkHostPO::UpdateAccepter(int64_t _appTimeMS)
         }
     }
 
-    //
+    //암호화 처리
     BeginSendTask();
 }
 
@@ -700,6 +700,7 @@ void NetworkHostPO::UpdateConnector(int64_t _appTimeMS)
         NOTICE("Need to  Core Packet");
     }
 
+    //암호화 처리
     BeginSendTask();
 }
 

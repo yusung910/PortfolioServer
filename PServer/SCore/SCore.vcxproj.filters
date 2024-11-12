@@ -159,6 +159,9 @@
     <ClInclude Include="LZ4Compressor.h">
       <Filter>Util\Compress</Filter>
     </ClInclude>
+    <ClInclude Include="ServerAppPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="LZ4Compressor.cpp">
       <Filter>Util\Compress</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerAppPO.cpp">
+      <Filter>Network\Pacade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

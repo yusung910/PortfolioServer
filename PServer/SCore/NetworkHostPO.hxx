@@ -39,7 +39,9 @@ private:
     //Host 유형
     EHostType m_eHostType = EHostType::None;
 
-    //네트워크 통신 event 싱크를 맞추기 위한 클래스를 Pacade 형태로 이용
+    // 네트워크 통신 event 싱크를 맞추기 위한 클래스를 Pacade 형태로 이용
+    // 다른 서버에서 사용 할 때 NetworkEventSync클래스를 상속 받은 클래스를 생성하고
+    // 각각의 함수를 재정의 한 후 SetEventSync()함수로 지정해서 사용해야한다
     NetworkEventSync* m_pEventSync = nullptr;
 
     //기초 작업 수
@@ -167,13 +169,15 @@ public:
     bool Accept(NetworkContextPO& _ctxt);
 
     /*!
-     *  소켓에 접속한 클라이언트에 WSARecv()로 NetworkContext 데이터를 보낸다
-     *  데이터를 보낸 결과를 NetworkContextPO _ctxt에 기록한다
+     *  소켓에 접속한 클라이언트에 WSARecv()로 NetworkContext 데이터를 수신한다
+     *  데이터를 수신 결과를 NetworkContextPO _ctxt에 기록한다
      *      @param [in,out] _ctxt 
      *
      *      @return 
      */
     bool Receive(NetworkContextPO& _ctxt);
+
+
     /*!
      *  NetworkContext에 저장된 데이터를 복호화한다
      *  복호화 후 Receive(NetworkContextPO& _ctxt)를 실행한다
@@ -204,7 +208,7 @@ public:
     bool Encrypt(NetworkContextPO& _ctxt);
 
     /*!
-     *  NetworkContext에 저장된 데이터를 송신한다
+     *  NetworkContext에 저장된 데이터를 Socket 통신으로 WSASend()로 송신한다
      *
      *      @param [in,out] _ctxt 
      *
@@ -212,6 +216,13 @@ public:
      */
     bool Send(NetworkContextPO& _ctxt);
 
+    /*!
+     *  NetworkHostPO에 연결된 Socket을 닫는다.
+     *
+     *      @param [in] _e 
+     *
+     *      @return 
+     */
     bool Close(ESocketCloseType _e);
     //
 
@@ -222,42 +233,77 @@ public:
      */
     bool IsAlive();
 
-    //네트워크 상태에 따른 이벤트 함수?
     /*!
-     *  Updates the network host.
+     *  NetworkController에서 _UpdateHost()함수를 통해 실행된다
+     *  NetworkController에서 Timer로 등록되어 스레드(while 문)을 통해
+     *  지속적으로 실행된다.
+     *
+     *  NetworkHostPO의 EHostType에 따라 아래의 함수들을 실행한다
+     *  EHostType::Listener  -> UpdateListener(_appTimeMS)
+     *  EHostType::Acceptor  -> UpdateAccepter(_appTimeMS)
+     *  EHostType::Connector -> UpdateConnector(_appTimeMS)
      *
      *      @param [in] _appTimeMS 
      */
     void Update(int64_t _appTimeMS);
+
+
     /*!
-     *  Updates the listener.
+     *  NetworkHostPO의 EHostType이 Listener일 때 실행되는 함수.
+     *  NetworkContextPO를 할당 받고 BeginBaseTask()를 실행,
+     *  m_lBaseTaskCount값을 증가한다
+     *
+     *  할당받은 NetworkContextPO를 인자값으로 Accept() 함수를 실행한다.
+     *  Accept() 함수 결과 값이 false일 경우 EndBaseTask(true)로 실행한다.
+     *  
+     *  실행 후 NetworkManager로 NetworkContext를 Release하기 위한 함수
+     *  ReleaseContext()를 실행한다.
      *
      *      @param [in] _appTimeMS 
      */
     void UpdateListener(int64_t _appTimeMS);
+
+
     /*!
-     *  Updates the accepter.
+     *  NetworkHostPO의 EHostType이 Acceptor일 때 실행되는 함수.
+     *  m_bUsePacketRecvCheck 값이 true일 때 패킷 전송량에 따른 시간을 체크한다
+     *  전송 시간이 m_fPACKET_RECV_CHECK_COUNT_PER_SEC(30.f)이상 될 경우
+     *  소켓을 종료한다.
+     *
+     *  패킷 통신 처리하기 위한 BeginSendTask()를 실행한다.
      *
      *      @param [in] _appTimeMS 
      */
     void UpdateAccepter(int64_t _appTimeMS);
+
+
     /*!
-     *  Updates the connector.
-     *
+     *  NetworkHostPO의 EHostType이 Connector일 때 실행되는 함수.
+     *  m_nCheckAliveMS 값(tick + DEFAULT_NETWORK_ALIVE_MS)을 기록하고
+     *  BeginSendTask() 함수를 실행한다
+     *  
      *      @param [in] _appTimeMS 
      */
     void UpdateConnector(int64_t _appTimeMS);
 
     /*!
-     *  Events the connect.
+     *  NetworkContextPO의 EContextType이 Join일 때 EHostType 값이 Connector로 실행되고
+     *  NetworkContextPO의 EContextType이 Connect일 때 EHostType 값이 Acceptor로 실행된다
+     *  setsockopt() 함수로 optname이 IPPROTO_TCP의 소켓의 옵션을 TCP_NODELAY로 변경하고
+     *  NetworkHostPO에 할당 된 m_pEventSync의 OnConnect함수를 실행한다
      *
+     *  인자값으로 전달 받은 EHostType을 멤버변수 m_eHostType에 할당한다.
      *      @param [in] _type 
      */
     void EventConnect(const EHostType& _type);
+
+
     /*!
      *  Events the close.
      */
     void EventClose();
+
+
     /*!
      *  Events the receive.
      *

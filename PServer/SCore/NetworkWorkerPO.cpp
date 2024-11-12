@@ -159,7 +159,7 @@ void NetworkWorkerPO::ProcessThread()
 
         DWORD localDwLastError = 0;
         // GetQueuedCompletionStatus() : 
-        // 이 함수를 호출하면 호출한 스레드는 I/O compleion queue에서 데이터를 가져온다 
+        // 이 함수를 호출하면 호출한 스레드는 I/O completion queue에서 데이터를 가져온다 
         // 만약 데이터가 없을 경우 데이터가 전달 될 때 까지 대기.
         //BOOL GetQueuedCompletionStatus(
         //HANDLE       CompletionPort,
@@ -315,6 +315,21 @@ void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctx
         NetworkManager::GetInst().Join(_host.GetEvnetSync(), localIPAddr, localIP, localPort, localSocket);
 
     }
+    else
+    {
+        closesocket(localSocket);
+    }
+
+    //NetworkContextPO 초기화
+    _ctxt.ResetBuffer();
+
+    //다시 Accept 요청
+    if (_host.Accept(_ctxt) == false)
+    {
+        //Listen Socket을 종료시키지 않기 위해 Accept는 실패해도 성공으로 처리.
+        _host.EndBaseTask(true);
+        return;
+    }
 }
 
 void NetworkWorkerPO::ProcessConnect(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt)
@@ -343,6 +358,7 @@ void NetworkWorkerPO::ProcessConnect(NetworkHostPO& _host, NetworkContextPO& _ct
     }
 }
 
+
 void NetworkWorkerPO::ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt, int _transferred)
 {
     //요청 결과 체크
@@ -355,18 +371,85 @@ void NetworkWorkerPO::ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ct
             && _rslt == true
             && _transferred == 0))
         {
-            //if(_rslt != false)
+            if (_rslt != false)
+                VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessReceive() Failed - Rslt is False");
 
         }
         _host.EndBaseTask(false);
         return;
     }
+
+    //Receive 한 크기 추가
+    _ctxt.Write(_transferred);
+
+    //복호화 처리
+    if (_host.Decrypt(_ctxt) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessReceive() Failed - _host.Decrypt()");
+        _host.EndBaseTask(false);
+        return;
+    }
+
+    if (_host.GetHostType() != EHostType::Connector)
+        NetworkManager::GetInst().OnRecv(_transferred);
 }
 
 void NetworkWorkerPO::ProcessEncrypt(NetworkHostPO& _host, NetworkContextPO& _ctxt)
 {
+    //요청 결과 체크
+    if (_host.Encrypt(_ctxt) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessEncrypt() Failed - _host.Encrypt()");
+        _host.EndSendTask(false);
+        return;
+    }
+
+    if (_host.Send(_ctxt) == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessEncrypt() Failed - _host.Send() is False");
+
+        _host.EndSendTask(false);
+
+        return;
+    }
 }
+
 
 void NetworkWorkerPO::ProcessSend(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt, int _transferred)
 {
+    //요청 결과 체크
+#ifdef SEALED_SEND_SUCCESS_TRANSFERRED_0
+    if(_rslt == false
+        || _transferred <= 0)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessSend() Failed - Result(%s), Transferred(%d), HostID(%d), IP(%s)"
+            , _rslt ? L"True" : L"False"
+            , _transferred
+            , _host.GetHostID()
+            , StringUtil::ToWideChar(_host.GetIP()).c_str()
+            );
+        _host.EndSendTask(false);
+        return;
+    }
+#else
+    //Transferred 0일 경우에도 일단 전송
+    if (_rslt == false)
+    {
+        VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessSend() Failed - Result is False");
+        _host.EndSendTask(false);
+        return;
+    }
+#endif // SEALED_SEND_SUCCESS_TRANSFERRED_0
+
+    // 전송 여부 체크
+    if (_ctxt.GetDataSize() != static_cast<size_t>(_transferred))
+    {
+        VIEW_WRITE_WARNING(L"NetworkWorkerPO::ProcessSend() - Transferred:%d, %d", _ctxt.GetDataSize(), _transferred);
+    }
+
+    if (_host.GetHostType() != EHostType::Connector)
+        NetworkManager::GetInst().OnSend(_transferred);
+
+    //Send 완료 처리
+    _host.EndSendTask(true);
 }
