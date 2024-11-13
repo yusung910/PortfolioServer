@@ -9,13 +9,19 @@
 #pragma once
 #include "SCoreAPI.h"
 #include "RefSingleton.h"
+#include <string>
+#include <vector>
+#include <Packet.h>
 
 class NetworkContextPO;
 class NetworkContextPoolPO;
 class NetworkHostPO;
 class NetworkHostPoolPO;
-
 class NetworkManagerPO;
+class NetworkEventSync;
+class NetworkStatistics;
+
+
 
 class SCoreAPI NetworkManager : public RefSingleton<NetworkManager>
 {
@@ -111,6 +117,16 @@ public:
     void OnRecv(const int& _bytes);
 
     bool IsConnected(const int& _hostID);
+
+    NetworkStatistics* GetStatistics();
+    void GetConnectedList(std::vector<int>& _list);
+
+    bool IsInitialized() const;
+
+    size_t GetContextUsingCount();
+
+    void SetClientHostMode(const int& _hostID, const bool& _onoff);
+
     //----------------------------------------------------------
     //NetworkStatics End
     //----------------------------------------------------------

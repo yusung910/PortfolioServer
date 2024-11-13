@@ -555,6 +555,38 @@ void NetworkManagerPO::GetConnectedList(std::vector<int>& _list)
     _list.assign(m_oUsingHostIDList.begin(), m_oUsingHostIDList.end());
 }
 
+bool NetworkManagerPO::IsInitialized() const
+{
+    return m_bIsNetworkInitialized.load();
+}
+
+size_t NetworkManagerPO::GetContextUsingCount()
+{
+    if (nullptr == m_pContextPool)
+        return 0;
+
+    size_t localAlloc = 0;
+    size_t localNFree = 0;
+
+    m_pContextPool->GetUsage(localNFree, localAlloc);
+
+    return localAlloc - localNFree;
+}
+
+void NetworkManagerPO::SetClientHostMode(const int& _hostID, const bool& _onoff)
+{
+    if (nullptr == m_pHostPool)
+    {
+        VIEW_WRITE_ERROR("NetworkManagerPO::SetClientHostMode() Failed - Network HostPool is nullptr");
+        return;
+    }
+    auto localHost = m_pHostPool->GetHost(_hostID);
+    if (nullptr == localHost)
+        return;
+    
+    localHost->SetClientHostMode(_onoff);
+}
+
 //----------------------------------------------------------
 //NetworkStatics end
 //----------------------------------------------------------

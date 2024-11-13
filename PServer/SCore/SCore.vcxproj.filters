@@ -162,6 +162,9 @@
     <ClInclude Include="ServerAppPO.hxx">
       <Filter>Network\Pacade</Filter>
     </ClInclude>
+    <ClInclude Include="ServerApp.h">
+      <Filter>Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="ServerAppPO.cpp">
       <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerApp.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

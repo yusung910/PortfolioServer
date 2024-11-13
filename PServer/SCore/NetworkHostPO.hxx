@@ -299,13 +299,17 @@ public:
 
 
     /*!
-     *  Events the close.
+     *  NetworkHost가 NetworkControllerPO에서 종료되었을 때 실행 되는 함수.
+     *  NetworkControllerPO의 _UpdateHost(), _AddHost()에서 조건에 따라 실행 된다.
      */
     void EventClose();
 
 
     /*!
-     *  Events the receive.
+     *  수신 된 패킷 데이터를 복호화 했을 때 실행 되는 함수
+     *  m_pEventSync의 OnReceive함수가 실행되며
+     *  _AddReceive() 함수에 tick 데이터가 인자값으로 실행되어
+     *  m_nLastPacketTick에 저장한다
      *
      *      @param [in]     _msgID   
      *      @param [in,out] _msg     
@@ -359,7 +363,7 @@ private:
     const wchar_t* _GetHostType(const EHostType& _type);
 
     /*!
-     *  Returns the network host's recv history stack string.
+     *  수신 받은 패킷의 MessageID 리스트를 String으로 만들어 출력한다.
      */
     void _GetRecvHistoryStackString();
 
@@ -371,8 +375,9 @@ private:
     void _GetRecvHistory(std::vector<std::tuple<int, int64_t>>& _list);
 
     /*!
-     *  네트워크 패킷 수신된 데이터를 기록한다 (로그 성격)
-     *
+     *  인자값으로 전달받은 패킷의 MessageID와
+     *  Tick 데이터를 기록한다 (로그)
+     *  
      *      @param [in] _msgID 
      *      @param [in] _tick  
      */

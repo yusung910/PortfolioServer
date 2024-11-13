@@ -379,8 +379,41 @@ public:
      */
     bool IsConnected(const int& _hostID);
 
+    /*!
+     *  네트워크 현황 (연결, 접속 등)을 관리하는 객체를 반환하는 함수
+     *
+     *      @return The statistics.
+     */
     NetworkStatistics* GetStatistics();
+
+    /*!
+     *  NetworkHost에 연결되어 있는 HostID 목록을 반환한다.
+     *
+     *      @param [in,out] _list 
+     */
     void GetConnectedList(std::vector<int>& _list);
+
+    /*!
+     *  Network 통신에 필요한 IOCP 세팅 초기화 여부(m_bIsNetworkInitialized)를 반환한다
+     *
+     *      @return True if initialized. False if not.
+     */
+    bool IsInitialized() const;
+
+    /*!
+     *  NetworkContextPool의 현재 사용 수 (할당 수 - 미사용 수)를 반환한다
+     *
+     *      @return The context using count.
+     */
+    size_t GetContextUsingCount();
+
+    /*!
+     *  HostID의 ClientHostMode를 설정한다
+     *
+     *      @param [in] _hostID 
+     *      @param [in] _onoff  
+     */
+    void SetClientHostMode(const int& _hostID, const bool& _onoff);
 
     //----------------------------------------------------------
     //NetworkStatics end

@@ -255,6 +255,35 @@ bool NetworkManager::IsConnected(const int& _hostID)
 
     return m_pManager->IsConnected(_hostID);
 }
+NetworkStatistics* NetworkManager::GetStatistics()
+{
+    if (nullptr == m_pManager)
+        return nullptr;
+    return m_pManager->GetStatistics();
+}
+void NetworkManager::GetConnectedList(std::vector<int>& _list)
+{
+    if (nullptr != m_pManager)
+        m_pManager->GetConnectedList(_list);
+}
+bool NetworkManager::IsInitialized() const
+{
+    if (nullptr == m_pManager)
+        return false;
+
+    m_pManager->IsInitialized();
+}
+size_t NetworkManager::GetContextUsingCount()
+{
+    if (nullptr == m_pManager)
+        return 0;
+    return m_pManager->GetContextUsingCount();
+}
+void NetworkManager::SetClientHostMode(const int& _hostID, const bool& _onoff)
+{
+    if (nullptr != m_pManager)
+        m_pManager->SetClientHostMode(_hostID, _onoff);
+}
 //----------------------------------------------------------
 //NetworkStatics end
 //----------------------------------------------------------

@@ -83,7 +83,7 @@ const size_t NetworkContextPoolPO::GetAllocatedCount() const
 
 void NetworkContextPoolPO::GetUsage(size_t& _free, size_t& _allocated)
 {
-    _free = m_nAllocatedSize;
+    _allocated = m_nAllocatedSize;
     AutoLock(m_xLock);
-    _allocated = m_oFreeList.size();
+    _free = m_oFreeList.size();
 }

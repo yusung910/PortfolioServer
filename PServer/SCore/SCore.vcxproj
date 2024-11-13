@@ -47,6 +47,7 @@
     <ClInclude Include="PacketCompressor.hxx" />
     <ClInclude Include="SConnectorTargetInfo.h" />
     <ClInclude Include="SCoreAPI.h" />
+    <ClInclude Include="ServerApp.h" />
     <ClInclude Include="ServerAppPO.hxx" />
     <ClInclude Include="ServerConfigInfo.h" />
     <ClInclude Include="stdafx.hxx" />
@@ -75,6 +76,7 @@
     <ClCompile Include="NetworkWorkerPO.cpp" />
     <ClCompile Include="PacketCompressor.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />
+    <ClCompile Include="ServerApp.cpp" />
     <ClCompile Include="ServerAppPO.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

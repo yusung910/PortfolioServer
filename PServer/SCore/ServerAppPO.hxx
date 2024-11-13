@@ -17,12 +17,26 @@ private:
     ListenerInfo m_oListenerInfo;
 
 public:
+    /*!
+     *  Constructor.
+     */
     ServerAppPO();
+    /*!
+     *  Destructor.
+     */
     virtual ~ServerAppPO();
 
     void SetListenerInfo(const ListenerInfo& _info);
 
     void BindEventSync(std::shared_ptr<NetworkEventSync> _eventSync);
+
+    /*!
+     *  키보드 입력 값에 해당하는 함수를 등록하는 함수.
+     *  이 함수는 보통 생성자에서 실행된다
+     *
+     *      @param [in] _cmd  
+     *      @param [in] _func 
+     */
     void RegisterCommand(int _cmd, std::function<void(void)> _func);
     void ProcessQuit();
 
