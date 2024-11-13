@@ -157,5 +157,4 @@ Output/
 **/**/[bB]uild/
 !lib/**/*.exe
 !lib/**/*.lib
-!PServer/packages/Microsoft.googletest*/build/
-!PServer/packages/Microsoft.googletest*/lib/
+!PServer/packages/**
