@@ -111,12 +111,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Servers{374ABF12-B456-4F37-945E-2E79133E502D}">
-      <Project>{374abf12-b456-4f37-945e-2e79133e502d}</Project>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\SCore\SCore.vcxproj">
+      <Project>{d69567c3-8ae4-4154-af8d-d17d8d3d4700}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
