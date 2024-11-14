@@ -1,6 +1,9 @@
 #include "pch.h"
+#include "ServerApp.h"
 
 TEST(TestCaseName, TestName) {
-  EXPECT_EQ(1, 1);
-  EXPECT_TRUE(true);
+    ServerApp app;
+    app.Run();
+
+    //EXPECT_EQ(app.Run(), true);
 }
