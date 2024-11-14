@@ -55,6 +55,21 @@
     <Filter Include="Util\Compress">
       <UniqueIdentifier>{4caa9332-f8b1-415a-a9e7-6234fa67d1df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\System">
+      <UniqueIdentifier>{8e754750-dbb0-4f6a-a2d7-0d49d227c953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher">
+      <UniqueIdentifier>{81031174-1c57-42db-972b-43774550ec2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher\Database">
+      <UniqueIdentifier>{77286059-b225-4303-b1a1-cd024218c92b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher\Pacade">
+      <UniqueIdentifier>{d6e4be24-c657-42c7-ac32-b34dd8729cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Crypto">
+      <UniqueIdentifier>{6d69b057-fcb4-4e8f-aefd-5fa610088dfb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -165,6 +180,18 @@
     <ClInclude Include="ServerApp.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>Util\System</Filter>
+    </ClInclude>
+    <ClInclude Include="InnerPacket.h">
+      <Filter>Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="XORUtil.h">
+      <Filter>Util\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Base64Util.h">
+      <Filter>Util\Crypto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -241,6 +268,15 @@
     </ClCompile>
     <ClCompile Include="ServerApp.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniDump.cpp">
+      <Filter>Util\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Base64Util.cpp">
+      <Filter>Util\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="XORUtil.cpp">
+      <Filter>Util\Crypto</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

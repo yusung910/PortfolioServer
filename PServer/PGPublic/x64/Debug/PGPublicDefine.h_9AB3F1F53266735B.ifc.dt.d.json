@@ -1,0 +1,12 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "e:\\privateworkspace\\portfolioserver\\pserver\\pgpublic\\pgpublicdefine.h",
+        "ProvidedModule": "",
+        "Includes": [
+            "e:\\privateworkspace\\portfolioserver\\common\\sccmn\\servicedivision.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

@@ -9,9 +9,10 @@ NetworkManager::NetworkManager()
 
 NetworkManager::~NetworkManager()
 {
+    SafeDelete(m_pManager);
 }
 
-void NetworkManager::Init()
+void NetworkManager::Initialize()
 {
     m_pManager = new NetworkManagerPO();
 }
@@ -271,7 +272,7 @@ bool NetworkManager::IsInitialized() const
     if (nullptr == m_pManager)
         return false;
 
-    m_pManager->IsInitialized();
+    return m_pManager->IsInitialized();
 }
 size_t NetworkManager::GetContextUsingCount()
 {

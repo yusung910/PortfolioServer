@@ -8,7 +8,7 @@
 #endif
 
 #ifndef SERVER_BUILD
-    #ifndef
+    #ifndef CLIENT_ONLY
         #define CLIENT_ONLY
     #endif
 #endif // !SERVER_BUILD

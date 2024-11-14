@@ -19,6 +19,10 @@
 
 #include "MasterDB.h"
 
+//object stats, object stats manager 추가필요
+//#include "ObjectStats.h"
+//#include "ObjectStatsManager.h"
+
 #include "DataProcessManager.h"
 
 #include <Packet.h>

@@ -17,16 +17,15 @@ class NetworkContextPO;
 class NetworkContextPoolPO;
 class NetworkHostPO;
 class NetworkHostPoolPO;
-class NetworkManagerPO;
 class NetworkEventSync;
 class NetworkStatistics;
 
-
+class NetworkManagerPO;
 
 class SCoreAPI NetworkManager : public RefSingleton<NetworkManager>
 {
 private:
-    NetworkManagerPO* m_pManager;
+    NetworkManagerPO* m_pManager = nullptr;
 
     //----------------------------------------------------------
     //NetworkManagerPO Constructor, Destructor inner method
@@ -35,7 +34,7 @@ public:
     NetworkManager();
     ~NetworkManager();
 
-    virtual void Init();
+    virtual void Initialize();
 
     void ReserveContext(size_t _reserveContext);
     size_t GetContextAllocateCount() const;
