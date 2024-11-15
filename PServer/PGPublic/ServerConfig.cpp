@@ -114,8 +114,8 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
      *              "ServerID": 10101,
      *              "BindAddress": "0.0.0.0",
      *              "BindPort": 35202,
-     *              "PublicHost": "",
-     *              "PublicPort": ""
+     *              "PublicHost": "0.0.0.0",
+     *              "PublicPort": 1231
      *          }
      *      }
      *  }
@@ -129,23 +129,141 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             if (true == localSubListenInfo.isNull())
                 continue;
 
-            ServerListenerInfo insertSubListenerInfo;
-            insertSubListenerInfo.m_nServerGroupID = localSubListenInfo.get("ServerGroupID", 0).asInt();
-            insertSubListenerInfo.m_nServerID = localSubListenInfo.get("ServerID", 0).asInt();
-            insertSubListenerInfo.m_sBindAddress = localSubListenInfo.get("BindAddress", 0).asString();
-            insertSubListenerInfo.m_nBindPort = localSubListenInfo.get("BindPort", 0).asInt();
+            ServerListenerInfo localInsertInfo;
+            localInsertInfo.m_nServerGroupID = localSubListenInfo.get("ServerGroupID", 0).asInt();
+            localInsertInfo.m_nServerID = localSubListenInfo.get("ServerID", 0).asInt();
+            localInsertInfo.m_sBindAddress = localSubListenInfo.get("BindAddress", 0).asString();
+            localInsertInfo.m_nBindPort = localSubListenInfo.get("BindPort", 0).asInt();
 
-            insertSubListenerInfo.m_sPublicHost = localSubListenInfo.get("PublicHost", 0).asString();
-            insertSubListenerInfo.m_nPublicPort = localSubListenInfo.get("PublicPort", 0).asInt();
+            localInsertInfo.m_sPublicHost = localSubListenInfo.get("PublicHost", 0).asString();
+            localInsertInfo.m_nPublicPort = localSubListenInfo.get("PublicPort", 0).asInt();
 
-            if (insertSubListenerInfo.m_sPublicHost.empty() || insertSubListenerInfo.m_nPublicPort == 0)
+            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
             {
                 std::cout << "Wrong Server Config. Check 'GameServerList' Info" << std::endl;
                 continue;
             }
 
-            m_umGameServers.insert(std::pair(localSubName, insertSubListenerInfo));
-            m_umServerTypeByServerID.insert_or_assign(insertSubListenerInfo.m_nServerID, EServer::Game);
+            m_umGameServers.insert(std::pair(localSubName, localInsertInfo));
+            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Game);
+        }
+    }
+
+    //LoginServer List
+    m_umLoginServers.clear();
+    /*!
+     *  JsonExample) Root 아래에 넣어야한다.
+     *  {
+     *      LoginServerList:{
+     *          "1" : {
+     *              "ServerID": 10101,
+     *              "IP": "0.0.0.0",
+     *              "Port": 35202,
+     *              "PublicHost": "",
+     *              "PublicPort": ""
+     *          }
+     *      }
+     *  }
+     */
+    if (const auto& localSubListen = localRoot["LoginServerList"]; false == localSubListen.isNull())
+    {
+        for (const auto& localSubName : localSubListen.getMemberNames())
+        {
+            const auto& localInfo = localSubListen[localSubName];
+            if (true == localInfo.isNull())
+                continue;
+
+            ServerListenerInfo localInsertInfo;
+            localInsertInfo.m_nServerID = localInfo.get("ServerID", 0).asInt();
+            localInsertInfo.m_sBindAddress = localInfo.get("IP", "127.0.0.1").asString();
+            localInsertInfo.m_nBindPort = localInfo.get("Port", 0).asInt();
+
+            localInsertInfo.m_sPublicHost = localInfo.get("PublicHost", 0).asString();
+            localInsertInfo.m_nPublicPort = localInfo.get("PublicPort", 0).asInt();
+
+            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            {
+                std::cout << "Wrong Server Config. Check 'LoginServerList' Info" << std::endl;
+                continue;
+            }
+
+            m_umLoginServers.insert(std::pair(localSubName, localInsertInfo));
+
+            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Login);
+        }
+
+    }
+
+    //MessengerServer List
+    m_umMessengerServers.clear();
+    if (const auto& localSubListen = localRoot["MessengerServerList"]; false == localSubListen.isNull())
+    {
+        for (const auto& localSubName : localSubListen.getMemberNames())
+        {
+            const auto& localInfo = localSubListen[localSubName];
+            if (true == localInfo.isNull())
+                continue;
+
+            ServerListenerInfo localInsertInfo;
+            localInsertInfo.m_nServerGroupID = localInfo.get("ServerGroupID", 0).asInt();
+            localInsertInfo.m_nServerID = localInfo.get("ServerID", 0).asInt();
+            localInsertInfo.m_sBindAddress = localInfo.get("IP", "127.0.0.1").asString();
+            localInsertInfo.m_nBindPort = localInfo.get("Port", 0).asInt();
+
+            localInsertInfo.m_sPublicHost = localInfo.get("PublicHost", 0).asString();
+            localInsertInfo.m_nPublicPort = localInfo.get("PublicPort", 0).asInt();
+
+            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            {
+                std::cout << "Wrong Server Config. Check 'MessengerServer' Info" << std::endl;
+                continue;
+            }
+
+            m_umMessengerServers.insert(std::pair(localSubName, localInsertInfo));
+
+            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Messenger);
+        }
+    }
+
+    //LogServerList
+    m_umLogServers.clear();
+    if (const auto& localSubListen = localRoot["LogServerList"]; false == localSubListen.isNull())
+    {
+        for (const auto& localSubName : localSubListen.getMemberNames())
+        {
+            const auto& localInfo = localSubListen[localSubName];
+            if (true == localInfo.isNull())
+                continue;
+
+            ServerListenerInfo localInsertInfo;
+            localInsertInfo.m_nServerID = localInfo.get("ServerID", 0).asInt();
+            localInsertInfo.m_sBindAddress = localInfo.get("IP", "127.0.0.1").asString();
+            localInsertInfo.m_nBindPort = localInfo.get("Port", 0).asInt();
+
+            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            {
+                std::cout << "Wrong Server Config. Check 'LogServerList' Info" << std::endl;
+                continue;
+            }
+
+            m_umLogServers.insert(std::pair(localSubName, localInsertInfo));
+
+            auto localFindIter = m_umServerTypeByServerID.find(localInsertInfo.m_nServerID);
+
+            if (localFindIter == m_umServerTypeByServerID.end())
+            {
+                std::cout << "Check LogServer Config! LogServerID (" << localSubName << ") not matched GameServer" << std::endl;
+                return false;
+            } 
+
+            if (localFindIter->second != EServer::Game)
+            {
+                std::cout << "Check LogServer Config! LogServerID (" << localSubName << ") not matched GameServer" << std::endl;
+                return false;
+            }
+
+
+            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Log);
         }
     }
 
