@@ -19,7 +19,7 @@ private:
     std::recursive_mutex m_xLock;
     int m_nLastHostID = 0;
 
-    std::unordered_map<int, NetworkHostPO*> m_oActiveMap;
+    std::unordered_map<int, NetworkHostPO*> m_umActiveMap;
     std::deque<NetworkHostPO*> m_oFreeQueue;
 
 public:

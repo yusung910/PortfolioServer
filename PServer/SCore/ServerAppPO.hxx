@@ -12,7 +12,7 @@ class ServerAppPO
 private:
     std::shared_ptr<NetworkEventSync> m_pEventSync = nullptr;
     volatile bool m_bIsRunning = false;
-    std::unordered_map<int, std::function<void(void)>> m_oCommandMap;
+    std::unordered_map<int, std::function<void(void)>> m_umCommandMap;
 
     ListenerInfo m_oListenerInfo;
 

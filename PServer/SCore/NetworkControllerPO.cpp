@@ -25,7 +25,7 @@ NetworkControllerPO::~NetworkControllerPO()
     }
 
     AutoLock(m_xHostIDLock);
-    m_oHostList.clear();
+    m_umHostList.clear();
 }
 
 bool NetworkControllerPO::CreateThread()
@@ -116,10 +116,10 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
     {
         AutoLock(m_xHostIDLock);
 
-        auto localIter = m_oHostList.find(_host->GetHostID());
-        if (localIter != m_oHostList.end())
+        auto localIter = m_umHostList.find(_host->GetHostID());
+        if (localIter != m_umHostList.end())
         {
-            //m_oHostList에 등록되어 있을 경우 제거하고 함수 종료
+            //m_umHostList에 등록되어 있을 경우 제거하고 함수 종료
             VIEW_WRITE_ERROR(L"NetworkControllerPO::_AddHost() - Failed, Duplicated HostID (%d)", _host->GetHostID());
             _host->Close(ESocketCloseType::AddFailHostMap);
             _host->EventClose();
@@ -127,7 +127,7 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
             return false;
         }
 
-        m_oHostList[_host->GetHostID()] = _host;
+        m_umHostList[_host->GetHostID()] = _host;
     }
 
     //소켓 생성
@@ -165,8 +165,8 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
 NetworkHostPO* NetworkControllerPO::_FindHost(int _hostID)
 {
     AutoLock(m_xHostIDLock);
-    auto localIter = m_oHostList.find(_hostID);
-    if (localIter == m_oHostList.end())
+    auto localIter = m_umHostList.find(_hostID);
+    if (localIter == m_umHostList.end())
         return nullptr;
     return localIter->second;
 }
@@ -176,8 +176,8 @@ void NetworkControllerPO::_UpdateHost()
     int64_t localAppTimeMS = Clock::GetTick64();
     AutoLock(m_xHostIDLock);
 
-    auto localIter = m_oHostList.begin();
-    while (localIter != m_oHostList.end())
+    auto localIter = m_umHostList.begin();
+    while (localIter != m_umHostList.end())
     {
         auto localHost = localIter->second;
         if (localHost)
@@ -195,9 +195,9 @@ void NetworkControllerPO::_UpdateHost()
 
         _RemoveConnectorHost(localIter->first);
 
-        //m_oHostList에 잇는 값 중 localIter 위치 한 값을 지우고
+        //m_umHostList에 잇는 값 중 localIter 위치 한 값을 지우고
         //그 다음에 있는 값을 localIter가 가르키게 한다
-        localIter = m_oHostList.erase(localIter);
+        localIter = m_umHostList.erase(localIter);
     }
 }
 

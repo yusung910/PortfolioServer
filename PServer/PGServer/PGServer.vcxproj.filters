@@ -15,9 +15,15 @@
     <ClCompile Include="pch.cpp">
       <Filter>0_Private</Filter>
     </ClCompile>
+    <ClCompile Include="PGameServerApp.cpp">
+      <Filter>0_Private</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="PGameServerApp.h">
       <Filter>0_Private</Filter>
     </ClInclude>
   </ItemGroup>

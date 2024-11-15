@@ -12,9 +12,9 @@
 
 #pragma region | 테스트 전용 Define
 #ifdef DEV_TEST
-    #ifdef KR_SERVICE
+#ifdef KR_SERVICE
 
-    #endif // KR_SERVICE
+#endif // KR_SERVICE
 #else
 
 

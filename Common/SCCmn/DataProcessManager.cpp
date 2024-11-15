@@ -13,12 +13,12 @@ DataProcessManager::~DataProcessManager()
 
 void DataProcessManager::SetHeroStatTemplate(std::unordered_map<int, MDBHeroStat*>* _heroStatMap)
 {
-    m_oTotalHeroStatTemplateMap = _heroStatMap;
+    m_umTotalHeroStatTemplateMap = _heroStatMap;
 }
 
 void DataProcessManager::_Clear()
 {
-    m_oTotalHeroStatTemplateMap = nullptr;
+    m_umTotalHeroStatTemplateMap = nullptr;
 }
 
 void DataProcessManager::Reset()

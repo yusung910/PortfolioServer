@@ -30,6 +30,14 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="PGameServerApp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\SCCmn\SCCmn.vcxproj">
+      <Project>{2d4a782d-4c78-4b7f-9fc4-99ce2872bd78}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PGPublic\PGPublic.vcxproj">
+      <Project>{67b5c6e7-4970-491e-826b-ce390a3bbb92}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -86,14 +94,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)SCommon;$(SolutionDir)SCore;$(SolutionDir)PGPublic;$(SolutionDir)..\Common\SCCmn;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)SCommon;$(SolutionDir)SCore;$(SolutionDir)PGPublic;$(SolutionDir)..\Common\SCCmn;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\</IncludePath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -127,7 +135,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FOW_SERVER_BUILD;USE_MEMORY_POOL;DEV_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SERVER_BUILD;USE_MEMORY_POOL;DEV_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -145,7 +153,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FOW_SERVER_BUILD;USE_MEMORY_POOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SERVER_BUILD;USE_MEMORY_POOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>

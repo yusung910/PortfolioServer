@@ -28,14 +28,14 @@ void ServerAppPO::BindEventSync(std::shared_ptr<NetworkEventSync> _eventSync)
 
 void ServerAppPO::RegisterCommand(int _cmd, std::function<void(void)> _func)
 {
-    auto iter = m_oCommandMap.find(_cmd);
-    if (iter != m_oCommandMap.end())
+    auto iter = m_umCommandMap.find(_cmd);
+    if (iter != m_umCommandMap.end())
     {
         VIEW_WARNING(L"ServerAppPO::RegisterCommand() Failed - _cmd: %d is Duplicated _cmd", _cmd);
         return;
     }
 
-    m_oCommandMap[_cmd] = _func;
+    m_umCommandMap[_cmd] = _func;
 }
 
 void ServerAppPO::ProcessQuit()
@@ -54,8 +54,8 @@ void ServerAppPO::Run()
         {
             if (_kbhit())
             {
-                auto localIter = m_oCommandMap.find(_getch());
-                if (localIter != m_oCommandMap.end())
+                auto localIter = m_umCommandMap.find(_getch());
+                if (localIter != m_umCommandMap.end())
                 {
                     (localIter->second)();
                 }

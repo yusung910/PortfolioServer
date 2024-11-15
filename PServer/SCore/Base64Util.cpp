@@ -66,7 +66,53 @@ std::string Base64Util::Encode(const std::string& _srcBuffer)
 
 size_t Base64Util::Decode(const char* _srcBuffer, const size_t& _srcSize, char* _destBuffer, const size_t& _destSize)
 {
-    return size_t();
+    if (nullptr == _srcBuffer
+        || _srcSize == 0
+        || nullptr == _destBuffer
+        || _destSize == 0)
+        return 0;
+
+    std::string localWorkBuffer(_srcBuffer);
+
+    //_srcBuffer가 4(BASE64_DECODE_PAIR_SIZE)의 배수가 아닐경우
+    if (localWorkBuffer.size() % BASE64_DECODE_PAIR_SIZE != 0)
+    {
+        int localRemain = BASE64_DECODE_PAIR_SIZE - (int)(localWorkBuffer.size() % BASE64_DECODE_PAIR_SIZE);
+        for (int i = 0; i < localRemain; i++)
+        {
+            localWorkBuffer.append("=");
+        }
+    }
+
+    size_t localSrcSize = localWorkBuffer.size();
+
+    char localTmp[BASE64_DECODE_PAIR_SIZE] = { 0, };
+    size_t localWorkCnt = 0;
+
+    for (size_t i = 0; i < localSrcSize; i+= BASE64_DECODE_PAIR_SIZE)
+    {
+        memcpy_s(localTmp, BASE64_DECODE_PAIR_SIZE, localWorkBuffer.c_str() + i, BASE64_DECODE_PAIR_SIZE);
+
+
+        if (i + BASE64_DECODE_PAIR_SIZE == localSrcSize)
+        {
+            _destBuffer[localWorkCnt++] = (char)((_GetBinaryValue(localTmp[0]) << 2) + (_GetBinaryValue(localTmp[1]) >> 4));
+
+            if(localTmp[2] != '=')
+                _destBuffer[localWorkCnt++] = (char)((_GetBinaryValue(localTmp[1]) << 4) + (_GetBinaryValue(localTmp[2]) >> 2));
+
+            if (localTmp[3] != '=')
+                _destBuffer[localWorkCnt++] = (char)((_GetBinaryValue(localTmp[2]) << 6) + (_GetBinaryValue(localTmp[3])));
+        }
+        else
+        {
+            _destBuffer[localWorkCnt++] = (char)((_GetBinaryValue(localTmp[0]) << 2) + (_GetBinaryValue(localTmp[1]) >> 4));
+            _destBuffer[localWorkCnt++] = (char)((_GetBinaryValue(localTmp[1]) << 4) + (_GetBinaryValue(localTmp[2]) >> 2));
+            _destBuffer[localWorkCnt++] = (char)((_GetBinaryValue(localTmp[2]) << 6) + (_GetBinaryValue(localTmp[3])));
+        }
+    }
+
+    return localWorkCnt;
 }
 
 size_t Base64Util::Decode(const std::string& _srcBuffer, char* _destBuffer, const size_t& _destSize)

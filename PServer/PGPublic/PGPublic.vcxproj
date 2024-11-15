@@ -19,23 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ELang.h" />
     <ClInclude Include="EResult.h" />
+    <ClInclude Include="EServerConst.h" />
     <ClInclude Include="PGPConst.h" />
-    <ClInclude Include="PGPrivate.h" />
+    <ClInclude Include="PGPDefine.h" />
+    <ClInclude Include="PGPPrivate.h" />
     <ClInclude Include="PGPublic.h" />
     <ClInclude Include="ServerConfig.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PGPrivate.cpp">
+    <ClCompile Include="PGPPrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PGPrivate.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="PGPublicDefine.h">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="ServerConfig.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\SCCmn\SCCmn.vcxproj">
+      <Project>{2d4a782d-4c78-4b7f-9fc4-99ce2872bd78}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SCore\SCore.vcxproj">
+      <Project>{d69567c3-8ae4-4154-af8d-d17d8d3d4700}</Project>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -138,13 +144,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FOW_SERVER_BUILD;USE_MEMORY_POOL;DEV_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SERVER_BUILD;USE_MEMORY_POOL;DEV_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PGPrivate.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>PGPPrivate.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -158,10 +167,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FOW_SERVER_BUILD;USE_MEMORY_POOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SERVER_BUILD;USE_MEMORY_POOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>PGPrivate.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>PGPPrivate.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DisableSpecificWarnings>26812</DisableSpecificWarnings>

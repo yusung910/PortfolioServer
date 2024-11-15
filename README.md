@@ -90,6 +90,16 @@ function test(int _a)
 		<td></td>
 	</tr>
 	<tr>
+		<td>unordered_map</td>
+		<td align="center">um</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>map</td>
+		<td align="center">mp</td>
+		<td></td>
+	</tr>
+	<tr>
 		<td>other (class, object...)</td>
 		<td align="center">o(other)</td>
 		<td></td>

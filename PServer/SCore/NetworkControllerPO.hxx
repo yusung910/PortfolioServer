@@ -29,7 +29,7 @@ private:
     std::mutex m_xRecvLock;
     std::mutex m_xHostIDLock;
 
-    std::unordered_map<int, NetworkHostPO*> m_oHostList;
+    std::unordered_map<int, NetworkHostPO*> m_umHostList;
     std::vector<ConnectorTargetInfo> m_ConnectorHostList;
 
 public:

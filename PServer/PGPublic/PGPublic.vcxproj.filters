@@ -21,7 +21,16 @@
     <ClInclude Include="PGPConst.h">
       <Filter>Struct</Filter>
     </ClInclude>
-    <ClInclude Include="PGPrivate.h">
+    <ClInclude Include="ELang.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="EServerConst.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="PGPPrivate.h">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="PGPDefine.h">
       <Filter>0_Private</Filter>
     </ClInclude>
     <ClInclude Include="ServerConfig.h">
@@ -29,10 +38,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PGPrivate.cpp">
-      <Filter>0_Private</Filter>
-    </ClCompile>
-    <ClCompile Include="PGPublicDefine.h">
+    <ClCompile Include="PGPPrivate.cpp">
       <Filter>0_Private</Filter>
     </ClCompile>
     <ClCompile Include="ServerConfig.cpp">

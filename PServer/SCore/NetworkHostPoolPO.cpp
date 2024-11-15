@@ -11,10 +11,10 @@ NetworkHostPoolPO::~NetworkHostPoolPO()
 {
     AutoLock(m_xLock);
 
-    for (auto& iter : m_oActiveMap)
+    for (auto& iter : m_umActiveMap)
         SafeDelete(iter.second);
 
-    m_oActiveMap.clear();
+    m_umActiveMap.clear();
 
     for (auto& host : m_oFreeQueue)
         SafeDelete(host);
@@ -46,11 +46,11 @@ NetworkHostPO* NetworkHostPoolPO::Allocate()
             m_nLastHostID = 1;
 
         //맵에 있을 경우 pass
-        if (m_oActiveMap.find(m_nLastHostID) != m_oActiveMap.end())
+        if (m_umActiveMap.find(m_nLastHostID) != m_umActiveMap.end())
             continue;
 
         localHost->SetHostID(m_nLastHostID);
-        m_oActiveMap[m_nLastHostID] = localHost;
+        m_umActiveMap[m_nLastHostID] = localHost;
 
         break;
     }
@@ -64,7 +64,7 @@ void NetworkHostPoolPO::Release(NetworkHostPO* _host)
         return;
 
     AutoLock(m_xLock);
-    m_oActiveMap.erase(_host->GetHostID());
+    m_umActiveMap.erase(_host->GetHostID());
     _host->Reset();
     m_oFreeQueue.push_back(_host);
 }
@@ -72,13 +72,13 @@ void NetworkHostPoolPO::Release(NetworkHostPO* _host)
 bool NetworkHostPoolPO::Check(const int& _hostID)
 {
     AutoLock(m_xLock);
-    return m_oActiveMap.find(_hostID) != m_oActiveMap.end();
+    return m_umActiveMap.find(_hostID) != m_umActiveMap.end();
 }
 
 NetworkHostPO* NetworkHostPoolPO::GetHost(const int& _hostID)
 {
     AutoLock(m_xLock);
-    if (auto it = m_oActiveMap.find(_hostID); it != m_oActiveMap.end())
+    if (auto it = m_umActiveMap.find(_hostID); it != m_umActiveMap.end())
         return it->second;
 
     return nullptr;
