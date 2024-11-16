@@ -225,7 +225,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
         }
     }
 
-    //LogServerList
+    //LogServerList Start
     m_umLogServers.clear();
     if (const auto& localSubListen = localRoot["LogServerList"]; false == localSubListen.isNull())
     {
@@ -254,7 +254,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             {
                 std::cout << "Check LogServer Config! LogServerID (" << localSubName << ") not matched GameServer" << std::endl;
                 return false;
-            } 
+            }
 
             if (localFindIter->second != EServer::Game)
             {
@@ -266,6 +266,202 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Log);
         }
     }
+    //LogServerList End
+
+    //Sub Listener
+    m_umSubListenInfo.clear();
+    if (const auto& localSubListen = localRoot["SubListener"]; false == localSubListen.isNull())
+    {
+        for (const auto& localSubName : localSubListen.getMemberNames())
+        {
+            const auto& localSubListenInfo = localSubListen[localSubName];
+            if (true == localSubListenInfo.isNull())
+                continue;
+
+            ServerListenerInfo localInsertInfo;
+            localInsertInfo.m_sBindAddress = localSubListenInfo.get("BindAddress", 0).asString();
+            localInsertInfo.m_nBindPort = localSubListenInfo.get("BindPort", 0).asInt();
+
+            m_umSubListenInfo.insert(std::pair(localSubName, localInsertInfo));
+        }
+    }
+    //end Sub Listener
+
+    //Connector
+    m_umConnectorInfo.clear();
+    if (const auto& localConnector = localRoot["Connect"]; false == localConnector.isNull())
+    {
+        for (const auto& localSubName : localConnector.getMemberNames())
+        {
+            const auto& localConnectorInfo = localConnector[localSubName];
+            if (true == localConnectorInfo.isNull())
+                continue;
+
+            ConnectorInfo localInsertInfo;
+            localInsertInfo.m_sBindAddress = localConnectorInfo.get("Host", 0).asString();
+            localInsertInfo.m_nBindPort = localConnectorInfo.get("Port", 0).asInt();
+
+        }
+    }
+
+    //DB Integrated
+    m_umDBConnectionInfo.clear();
+    if (const auto& localDB = localRoot["DB"]; false == localDB.isNull())
+    {
+        for (const auto& localName : localDB.getMemberNames())
+        {
+            const auto& localDBInfo = localDB[localName];
+            if (true == localDBInfo.isNull())
+                continue;
+
+            DBInfo localInertInfo;
+            localInertInfo.m_sDBHost = localDBInfo.get("Host", "127.0.0.1").asString();
+            localInertInfo.m_nDBPort = localDBInfo.get("Port", 1433).asInt();
+            localInertInfo.m_sDBName = localDBInfo.get("DATABASE", "").asString();
+
+            localInertInfo.m_sUserID = localDBInfo.get("UID", "server").asString();
+            localInertInfo.m_nThreadCount = localDBInfo.get("Thread", 0).asInt();
+
+            std::string localTmpPwd = localDBInfo.get("Password", "").asString();
+
+            char localTmp[1024] = { 0, };
+            char localTmpForXOR[1024] = { 0, };
+
+            size_t localDecodeSize = localBase64.Decode(localTmpPwd, localTmp, 1024);
+
+            if (true == localXORUtil.Encrypt(localTmp, localDecodeSize, localTmpForXOR, 1024))
+            {
+                localInertInfo.m_sPassword = std::string(localTmpForXOR);
+            }
+
+            m_umDBConnectionInfo.insert(std::pair(localName, localInertInfo));
+        }
+    }
+    // end DataBase
+
+    // GDB for MessengerServer
+    m_umGDBConnectionInfo.clear();
+    if (const auto& localDB = localRoot["GDB"]; false == localDB.isNull())
+    {
+        for (const auto& localName : localDB.getMemberNames())
+        {
+            const auto& localDBInfo = localDB[localName];
+            if (true == localDBInfo.isNull())
+                continue;
+            DBInfo localInertInfo;
+            localInertInfo.m_sDBHost = localDBInfo.get("Host", "127.0.0.1").asString();
+            localInertInfo.m_nDBPort = localDBInfo.get("Port", 1433).asInt();
+            localInertInfo.m_sDBName = localDBInfo.get("DATABASE", "").asString();
+
+            localInertInfo.m_sUserID = localDBInfo.get("UID", "server").asString();
+            localInertInfo.m_nThreadCount = localDBInfo.get("Thread", 0).asInt();
+
+            std::string localTmpPwd = localDBInfo.get("Password", "").asString();
+
+            char localTmp[1024] = { 0, };
+            char localTmpForXOR[1024] = { 0, };
+
+            size_t localDecodeSize = localBase64.Decode(localTmpPwd, localTmp, 1024);
+
+            if (true == localXORUtil.Encrypt(localTmp, localDecodeSize, localTmpForXOR, 1024))
+            {
+                localInertInfo.m_sPassword = std::string(localTmpForXOR);
+            }
+
+            m_umGDBConnectionInfo.insert(std::pair(stoi(localName), localInertInfo));
+
+            int localServerID = std::atoi(localName.c_str());
+            auto localFindIter = m_umServerTypeByServerID.find(localServerID);
+
+            if (localFindIter == m_umServerTypeByServerID.end())
+            {
+                std::cout << "Check GDB Config! ServerID (" << localName << ") not matched GameServer" << std::endl;
+                return false;
+            }
+
+            if (localFindIter->second != EServer::Game)
+            {
+                std::cout << "Check GDB Config! ServerID (" << localName << ") not matched GameServer" << std::endl;
+                return false;
+            }
+        }
+    }
+    // GDB for MessengerServer End
+
+    //LDB
+    m_umLDBConnectionInfo.clear();
+    if (const auto& localDB = localRoot["LDB"]; false == localDB.isNull())
+    {
+        for (const auto& localName : localDB.getMemberNames())
+        {
+            const auto& localDBInfo = localDB[localName];
+            if (true == localDBInfo.isNull())
+                continue;
+
+            DBInfo localInertInfo;
+            localInertInfo.m_sDBHost = localDBInfo.get("Host", "127.0.0.1").asString();
+            localInertInfo.m_nDBPort = localDBInfo.get("Port", 1433).asInt();
+            localInertInfo.m_sDBName = localDBInfo.get("DATABASE", "").asString();
+
+            localInertInfo.m_sUserID = localDBInfo.get("UID", "server").asString();
+            localInertInfo.m_nThreadCount = localDBInfo.get("Thread", 0).asInt();
+
+            std::string localTmpPwd = localDBInfo.get("Password", "").asString();
+
+            char localTmp[1024] = { 0, };
+            char localTmpForXOR[1024] = { 0, };
+
+            size_t localDecodeSize = localBase64.Decode(localTmpPwd, localTmp, 1024);
+
+            if (true == localXORUtil.Encrypt(localTmp, localDecodeSize, localTmpForXOR, 1024))
+            {
+                localInertInfo.m_sPassword = std::string(localTmpForXOR);
+            }
+
+            m_umLDBConnectionInfo.insert(std::pair(stoi(localName), localInertInfo));
+        }
+    }
+    // end LDB
+
+    //ObjectPool
+    m_umObjectPoolInfo.clear();
+    if (const auto& localPool = localRoot["ObjectPools"]; false == localPool.isNull())
+    {
+        for (const auto& localName : localPool.getMemberNames())
+        {
+            const auto& localPoolInfo = localPool[localName];
+            if (true == localPoolInfo.isNull())
+                continue;
+
+            int localVal = localPool.get(localName, 0).asInt();
+
+            m_umObjectPoolInfo.insert(std::pair(localName, localVal));
+        }
+    }
+
+
+    //Protocol Checker
+    if (const auto& localProtocolCheck = localRoot["ProtocolChecker"]; false == localProtocolCheck.isNull())
+    {
+        m_bProtocolCheck = localProtocolCheck.get("Enable", false).asBool();
+    }
+
+    //TracePacket
+    if (const auto& localTracePacket = localRoot["TracePacket"]; false == localTracePacket.isNull())
+    {
+        m_bTracePacket = localTracePacket.get("Enable", false).asBool();
+        m_bTracePacketIgnoreBattle = localTracePacket.get("IgnoreBattle", false).asBool();
+    }
+
+    //Use MDB
+    if (const auto& localMDB = localRoot["MDB"]; false == localMDB.isNull())
+    {
+        m_bUseMDB = localMDB.get("Enable", false).asBool();
+        m_sMDBPath = localMDB.get("Path", "").asString();
+    }
+
+    //Map
+    m_sMapInfoDir = localRoot.get("MapDir", "").asString();
 
     return true;
 }
@@ -275,9 +471,7 @@ void ServerConfigData::_Clear()
     m_umSubListenInfo.clear();
     m_umConnectorInfo.clear();
     m_umDBConnectionInfo.clear();
-    m_umADBConnectionInfo.clear();
     m_umGDBConnectionInfo.clear();
-    m_umEDBConnectionInfo.clear();
     m_umLDBConnectionInfo.clear();
 
     m_umObjectPoolInfo.clear();
@@ -294,4 +488,94 @@ void ServerConfigData::_LoadCPUCount()
 
     if (m_nProcessCount <= 0)
         m_nProcessCount = 0;
+}
+
+bool ServerConfigData::LoadConfig(const std::wstring& _configFile)
+{
+    if (true == m_bIsLoaded)
+        return false;
+
+    if (true == _configFile.empty())
+        return false;
+
+    std::error_code localEC;
+    auto localCurrentDir = fs::current_path(localEC);
+    if (localEC.value() != 0)
+        return false;   //파일 경로 호출 에러
+
+    std::wstring localwsPath(localCurrentDir.c_str() + std::wstring(L"\\") + _configFile);
+
+    auto localFilePath = fs::path(localwsPath);
+
+    if (false == fs::exists(localFilePath, localEC))
+        return false;
+    if (false == fs::is_regular_file(localFilePath, localEC))
+        return false;
+
+    auto localFileSize = fs::file_size(localFilePath, localEC);
+    if (localEC.value() != 0)
+        return false;
+
+    m_sConfigFileName = _configFile;
+
+    m_bIsLoaded = _LoadConfig(localwsPath.c_str(), localFileSize);
+    _LoadCPUCount();
+
+
+    return m_bIsLoaded;
+}
+
+bool ServerConfigData::Reload()
+{
+    if (true == m_bIsLoaded)
+        return false;
+
+    std::error_code localEC;
+    auto localCurrentDir = fs::current_path(localEC);
+    if (localEC.value() != 0)
+        return false;   //파일 경로 호출 에러
+
+    std::wstring localwsPath(localCurrentDir.c_str() + std::wstring(L"\\") + m_sConfigFileName);
+
+    auto localFilePath = fs::path(localwsPath);
+
+    if (false == fs::exists(localFilePath, localEC))
+        return false;
+    if (false == fs::is_regular_file(localFilePath, localEC))
+        return false;
+
+    auto localFileSize = fs::file_size(localFilePath, localEC);
+    if (localEC.value() != 0)
+        return false;
+
+    return _LoadConfig(localwsPath.c_str(), localFileSize);;
+}
+
+const ServerListenerInfo& ServerConfigData::GetMainListenerInfo() const
+{
+    return m_oMainListenInfo;
+}
+
+const ServerListenerInfo* ServerConfigData::GetSubListenerInfo(const std::string& _subName) const
+{
+    if (auto localIT = m_umSubListenInfo.find(_subName); localIT != m_umSubListenInfo.end())
+        return &localIT->second;
+
+    return nullptr;
+}
+
+const ConnectorInfo* ServerConfigData::GetConnectorInfo(const std::string& _connectName) const
+{
+    if (auto localIT = m_umConnectorInfo.find(_connectName); localIT != m_umConnectorInfo.end())
+        return &localIT->second;
+
+    return nullptr;
+}
+
+const DBInfo* ServerConfigData::GetDBConnectionInfo(const std::string& _dbTypeName) const
+{
+    if (auto localIT = m_umDBConnectionInfo.find(_dbTypeName); localIT != m_umDBConnectionInfo.end())
+        return &localIT->second;
+
+    return nullptr;
 }

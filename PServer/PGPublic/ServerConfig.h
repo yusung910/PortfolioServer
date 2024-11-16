@@ -69,12 +69,8 @@ private:
     //DB
     //-------------------------------------------------------------------
     std::unordered_map<std::string, DBInfo> m_umDBConnectionInfo;
-    //AccountDB
-    std::unordered_map<int, DBInfo> m_umADBConnectionInfo;
     //GameDB
     std::unordered_map<int, DBInfo> m_umGDBConnectionInfo;
-    //ExchangeDB
-    std::unordered_map<int, DBInfo> m_umEDBConnectionInfo;
     //LogDB
     std::unordered_map<int, DBInfo> m_umLDBConnectionInfo;
     //-------------------------------------------------------------------
@@ -115,26 +111,71 @@ private:
     std::unordered_map<std::string, ConnectorInfo> m_umLogServers;
 
 
-    std::string m_sPaymentURL;
-    std::string m_sAPIServerURL;
+    //std::string m_sPaymentURL;
+    //std::string m_sAPIServerURL;
 
     std::unordered_map<int, EServer::Type> m_umServerTypeByServerID;
 
     //Platform
-    std::string m_sGoogleClientID = "";
-    std::string m_sGooglePrivateFileName = "";
-    std::string m_sGooglePackageName = "";
-    std::string m_sGoogleAPIKey = "";
+    //std::string m_sGoogleClientID = "";
+    //std::string m_sGooglePrivateFileName = "";
+    //std::string m_sGooglePackageName = "";
+    //std::string m_sGoogleAPIKey = "";
 
-    std::string m_sOneStoreID = "";
-    std::string m_sOneStoreClientID = "";
-    std::string m_sOneStoreKey = "";
+    //std::string m_sOneStoreID = "";
+    //std::string m_sOneStoreClientID = "";
+    //std::string m_sOneStoreKey = "";
 
     std::wstring m_sConfigFileName = L"";
 
     ELang m_eLanguage = ELang::KR;
 
 public:
+    bool LoadConfig(const std::wstring& _configFile = L"ServerConfig.json");
+    bool Reload();
+
+    const ServerListenerInfo& GetMainListenerInfo() const;
+    const ServerListenerInfo* GetSubListenerInfo(const std::string& _subName) const;
+    const ConnectorInfo* GetConnectorInfo(const std::string& _connectName) const;
+    const DBInfo* GetDBConnectionInfo(const std::string& _dbTypeName) const;
+
+    const std::unordered_map<int, DBInfo>& GetGDBConnectionInfo() const;
+    const std::unordered_map<int, DBInfo>& GetLDBConnectionInfo() const;
+
+    std::string GetLogDir() const;
+    const int& GetLogLevel() const;
+    std::string GetDumpDir() const;
+    const int GetObjectPoolSize(const std::string& _strName) const;
+    std::string GetMapInfoPath() const;
+
+    const bool& GetTracePacket() const;
+    const bool& GetTracePacketIgnoreBattle() const;
+
+    const bool& UseMDB() const;
+    std::string GetMDBPath() const;
+
+    const bool& UseCheckProtocol() const;
+
+    const int& GetCPUCount() const;
+
+    bool IsLoaded() const;
+
+    std::unordered_map<std::string, ConnectorInfo>& GetGameServerList();
+    std::unordered_map<std::string, ConnectorInfo>& GetLoginServerList();
+    std::unordered_map<std::string, ConnectorInfo>& GetMessengerServerList();
+    std::unordered_map<std::string, ConnectorInfo>& GetLogServerList();
+    std::string& GetAPIServerURL();
+
+    bool GetMessengerServerInfo(int serverGroupID, ConnectorInfo& o_connectorInfo);
+
+    const int& GetServerID() const;
+    const int& GetUnityServerID() const;
+    EServer::Type GetServerType() const;
+
+
+    const int& GetClientVer() const;
+
+    const ELang& GetLanguageType() const;
 
 private:
 
@@ -164,4 +205,19 @@ class ServerConfig
 {
 private:
     ServerConfigData m_oServerConfigData[CONFIG_SWITCH_SIZE];
+    std::atomic_int m_nSwitch = 0;
+    std::atomic_bool m_bIsFirstLoaded = false;
+    std::wstring m_sConfigFileName = L"";
+
+public:
+    bool LoadConfig(const std::wstring& _confFile = L"ServerConfig.json");
+    bool ReloadConfig();
+
+    ServerConfigData& GetConfig();
+
+    static int GetServerID();
+
+    static bool IsMessengerServer();
+
+
 };
