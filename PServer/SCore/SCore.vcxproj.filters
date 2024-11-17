@@ -192,6 +192,15 @@
     <ClInclude Include="Base64Util.h">
       <Filter>Util\Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="ServicePO.hxx">
+      <Filter>Dispatcher\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectQueue.h">
+      <Filter>Util\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -277,6 +286,12 @@
     </ClCompile>
     <ClCompile Include="XORUtil.cpp">
       <Filter>Util\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Service.cpp">
+      <Filter>Dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="ServicePO.cpp">
+      <Filter>Dispatcher\Pacade</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

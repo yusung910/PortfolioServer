@@ -18,6 +18,12 @@
     <ClCompile Include="PGameServerApp.cpp">
       <Filter>0_Private</Filter>
     </ClCompile>
+    <ClCompile Include="GameService.cpp">
+      <Filter>1_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GSNetworkEventSync.cpp">
+      <Filter>1_Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -25,6 +31,12 @@
     </ClInclude>
     <ClInclude Include="PGameServerApp.h">
       <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="GameService.h">
+      <Filter>1_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GSNetworkEventSync.h">
+      <Filter>1_Main</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

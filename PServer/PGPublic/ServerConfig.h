@@ -164,12 +164,12 @@ public:
     std::unordered_map<std::string, ConnectorInfo>& GetLoginServerList();
     std::unordered_map<std::string, ConnectorInfo>& GetMessengerServerList();
     std::unordered_map<std::string, ConnectorInfo>& GetLogServerList();
-    std::string& GetAPIServerURL();
+    //std::string& GetAPIServerURL();
 
-    bool GetMessengerServerInfo(int serverGroupID, ConnectorInfo& o_connectorInfo);
+    bool GetMessengerServerInfo(int serverGroupID, ConnectorInfo& _connectorInfo);
 
     const int& GetServerID() const;
-    const int& GetUnityServerID() const;
+    //const int& GetUnityServerID() const;
     EServer::Type GetServerType() const;
 
 
@@ -201,7 +201,7 @@ private:
     void _LoadCPUCount();
 };
 
-class ServerConfig
+class ServerConfig : public RefSingleton<ServerConfig>
 {
 private:
     ServerConfigData m_oServerConfigData[CONFIG_SWITCH_SIZE];

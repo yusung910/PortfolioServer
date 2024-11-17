@@ -25,7 +25,7 @@ public:
     virtual ~NetworkEventSync() = default;
 
     /*!
-     *  On connect.
+     *  서버에서 NetworkManager로 Connect() 실행 할 때 발생할 이벤트 함수
      *
      *      @param [in] _hostID     
      *      @param [in] _ip         
@@ -35,7 +35,8 @@ public:
     virtual void OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType = 0) = 0;
 
     /*!
-     *  On close.
+     *   
+     *  서버에서 NetworkManager로 Close() 실행 할 때 발생할 이벤트 함수
      *
      *      @param [in] _hostID 
      */
@@ -43,12 +44,12 @@ public:
     
     
     /*!
-     *  
+     *  서버에서 NetworkManager에서 Receive 함수 실행 될 때 실행될 이벤트 함수
      */
     virtual void OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize) = 0;
 
     /*!
-     *  On connected failed.
+     *  
      *  서버 연결 시도 실패 했을 경우 
      *      @param [in] _hostID 
      */
@@ -58,7 +59,7 @@ public:
     }
 
     /*!
-     *  
+     *  Listen상태가 되었을 때
      */
     virtual void OnListen() {};
 

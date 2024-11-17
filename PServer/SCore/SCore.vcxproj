@@ -47,12 +47,15 @@
     <ClInclude Include="NetworkStatisticsPO.hxx" />
     <ClInclude Include="NetworkSupporterPO.hxx" />
     <ClInclude Include="NetworkWorkerPO.hxx" />
+    <ClInclude Include="ObjectQueue.h" />
     <ClInclude Include="PacketCompressor.hxx" />
     <ClInclude Include="SConnectorTargetInfo.h" />
     <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="ServerApp.h" />
     <ClInclude Include="ServerAppPO.hxx" />
     <ClInclude Include="ServerConfigInfo.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="ServicePO.hxx" />
     <ClInclude Include="stdafx.hxx" />
     <ClInclude Include="StringUtil.h" />
     <ClInclude Include="TimerData.hxx" />
@@ -84,6 +87,8 @@
     <ClCompile Include="SCoreAPI.cpp" />
     <ClCompile Include="ServerApp.cpp" />
     <ClCompile Include="ServerAppPO.cpp" />
+    <ClCompile Include="Service.cpp" />
+    <ClCompile Include="ServicePO.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -149,16 +154,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64);$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnabled>false</VcpkgEnabled>

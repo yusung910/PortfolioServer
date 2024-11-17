@@ -8,7 +8,7 @@
 #include "XORUtil.h"
 
 namespace fs = std::filesystem;
-
+//------------------------------------------------------------------
 bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSize)
 {
     if (true == _confFile.empty())
@@ -463,6 +463,8 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
     //Map
     m_sMapInfoDir = localRoot.get("MapDir", "").asString();
 
+    //DumpDir
+    m_sDumpDir = localRoot.get("DumpDir", "").asString();
     return true;
 }
 
@@ -578,4 +580,176 @@ const DBInfo* ServerConfigData::GetDBConnectionInfo(const std::string& _dbTypeNa
         return &localIT->second;
 
     return nullptr;
+}
+
+const std::unordered_map<int, DBInfo>& ServerConfigData::GetGDBConnectionInfo() const
+{
+    return m_umGDBConnectionInfo;
+}
+
+const std::unordered_map<int, DBInfo>& ServerConfigData::GetLDBConnectionInfo() const
+{
+    return m_umLDBConnectionInfo;
+}
+
+std::string ServerConfigData::GetLogDir() const
+{
+    return m_sLogDir;
+}
+
+const int& ServerConfigData::GetLogLevel() const
+{
+    return m_nLogLvl;
+}
+
+std::string ServerConfigData::GetDumpDir() const
+{
+    return m_sDumpDir;
+}
+
+const int ServerConfigData::GetObjectPoolSize(const std::string& _strName) const
+{
+    if (auto localIT = m_umObjectPoolInfo.find(_strName); localIT != m_umObjectPoolInfo.end())
+        return localIT->second;
+
+    return 0;
+}
+
+std::string ServerConfigData::GetMapInfoPath() const
+{
+    return m_sMapInfoDir;
+}
+
+const bool& ServerConfigData::GetTracePacket() const
+{
+    return m_bTracePacket;
+}
+
+const bool& ServerConfigData::GetTracePacketIgnoreBattle() const
+{
+    return m_bTracePacketIgnoreBattle;
+}
+
+const bool& ServerConfigData::UseMDB() const
+{
+    return m_bUseMDB;
+}
+
+std::string ServerConfigData::GetMDBPath() const
+{
+    return m_sMDBPath;
+}
+
+const bool& ServerConfigData::UseCheckProtocol() const
+{
+    return m_bProtocolCheck;
+}
+
+const int& ServerConfigData::GetCPUCount() const
+{
+    return m_nProcessCount;
+}
+
+bool ServerConfigData::IsLoaded() const
+{
+    return m_bIsLoaded;
+}
+
+std::unordered_map<std::string, ConnectorInfo>& ServerConfigData::GetGameServerList()
+{
+    return m_umGameServers;
+}
+
+std::unordered_map<std::string, ConnectorInfo>& ServerConfigData::GetLoginServerList()
+{
+    return m_umLoginServers;
+}
+
+std::unordered_map<std::string, ConnectorInfo>& ServerConfigData::GetMessengerServerList()
+{
+    return m_umMessengerServers;
+}
+
+std::unordered_map<std::string, ConnectorInfo>& ServerConfigData::GetLogServerList()
+{
+    return m_umLogServers;
+}
+
+bool ServerConfigData::GetMessengerServerInfo(int serverGroupID, ConnectorInfo& _connectorInfo)
+{
+    if (m_umMessengerServers.empty())
+        return false;
+    
+    _connectorInfo = m_umMessengerServers.begin()->second;
+    return true;
+}
+
+const int& ServerConfigData::GetServerID() const
+{
+    return m_oMainListenInfo.m_nServerID;
+}
+
+EServer::Type ServerConfigData::GetServerType() const
+{
+    return m_oMainListenInfo.m_eServerType;
+}
+
+const int& ServerConfigData::GetClientVer() const
+{
+    return m_oMainListenInfo.m_nClientVer;
+}
+
+const ELang& ServerConfigData::GetLanguageType() const
+{
+    return m_eLanguage;
+}
+
+
+//------------------------------------------------------------------
+
+bool ServerConfig::LoadConfig(const std::wstring& _confFile)
+{
+    if (true == m_bIsFirstLoaded)
+        return false;
+
+    m_nSwitch.store(0);
+    for (int i = 0; i < CONFIG_SWITCH_SIZE; i++)
+    {
+        if (false == m_oServerConfigData[i].LoadConfig(_confFile))
+            return false;
+    }
+
+    m_sConfigFileName = _confFile;
+    m_bIsFirstLoaded = true;
+    return true;
+}
+
+bool ServerConfig::ReloadConfig()
+{
+    int localIdx = (m_nSwitch.load() + 1) % CONFIG_SWITCH_SIZE;
+
+    ServerConfigData localLoadData;
+    if (false == localLoadData.LoadConfig(m_sConfigFileName))
+        return false;
+
+    std::swap(m_oServerConfigData[localIdx], localLoadData);
+
+    m_nSwitch.store(localIdx);
+    return true;
+}
+
+ServerConfigData& ServerConfig::GetConfig()
+{
+    int localIdx = m_nSwitch.load() % CONFIG_SWITCH_SIZE;
+    return m_oServerConfigData[localIdx];
+}
+
+int ServerConfig::GetServerID()
+{
+    return ServerConfig::GetInst().GetConfig().GetMainListenerInfo().m_nServerID;
+}
+
+bool ServerConfig::IsMessengerServer()
+{
+    return ServerConfig::GetInst().GetConfig().GetServerType() == EServer::Type::Messenger ? true : false;
 }

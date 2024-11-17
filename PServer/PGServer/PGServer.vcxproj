@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameService.cpp" />
+    <ClCompile Include="GSNetworkEventSync.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -27,6 +29,8 @@
     <ClCompile Include="PGameServerApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameService.h" />
+    <ClInclude Include="GSNetworkEventSync.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PGameServerApp.h" />
   </ItemGroup>
