@@ -157,4 +157,5 @@ Output/
 **/**/[bB]uild/
 !lib/**/*.exe
 !lib/**/*.lib
+!lib/**/*.dll
 !PServer/packages/**
