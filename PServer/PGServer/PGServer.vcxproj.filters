@@ -39,4 +39,7 @@
       <Filter>1_Main</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ServerConfig.json" />
+  </ItemGroup>
 </Project>

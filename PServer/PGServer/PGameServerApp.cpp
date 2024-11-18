@@ -33,7 +33,7 @@ bool PGameServerApp::Initialize()
 
     //USerDBB ¼¼ÆÃ
 
-    SendServerLog(L"SendServerLog Initialize...");
+    //SendServerLog(L"SendServerLog Initialize...");
 
 
     return true;
@@ -62,7 +62,7 @@ bool PGameServerApp::RunLoop()
 
     localApp->SetListenerInfo(localMainInfo);
     localApp->BindEventSync(localEventSync);
-    SendServerLog(L"Live!");
+    //SendServerLog(L"Live!");
     localApp->Run();
 
 
@@ -72,9 +72,9 @@ bool PGameServerApp::RunLoop()
     return true;
 }
 
-void PGameServerApp::SendServerLog(const std::wstring& _remark)
-{
-}
+//void PGameServerApp::SendServerLog(const std::wstring& _remark)
+//{
+//}
 
 void PGameServerApp::_InitLog()
 {

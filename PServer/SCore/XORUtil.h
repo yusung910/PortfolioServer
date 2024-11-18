@@ -1,7 +1,7 @@
 #pragma once
 #include "SCoreAPI.h"
 #include <string>
-#define DEFAULT_XOR_KEY "FOW_SERVER_XOR_STRING1234$#@!SDFEU@IJSDAKLAFHDSGLJHSdASJHe9eshfeawyefh"
+#define DEFAULT_XOR_KEY "SERVER_XOR_STRING1234$#@!SDFEU@IJSDAKLAFHDSGLJHSdASJHe9eshfeawyefh"
 
 class SCoreAPI XORUtil
 {

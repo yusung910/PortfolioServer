@@ -15,7 +15,7 @@ public:
 
 
     bool RunLoop();
-    void SendServerLog(const std::wstring& _remark);
+    //void SendServerLog(const std::wstring& _remark);
 
 private:
     /*!

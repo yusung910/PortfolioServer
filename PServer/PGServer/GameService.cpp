@@ -18,6 +18,7 @@ bool GameService::Start()
 
 void GameService::SetAllowConnect(bool _onoff)
 {
+    m_bAllowConnect = _onoff;
 }
 
 void GameService::_RegisterPacketHandlers()

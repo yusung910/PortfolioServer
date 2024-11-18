@@ -675,7 +675,7 @@ std::unordered_map<std::string, ConnectorInfo>& ServerConfigData::GetLogServerLi
     return m_umLogServers;
 }
 
-bool ServerConfigData::GetMessengerServerInfo(int serverGroupID, ConnectorInfo& _connectorInfo)
+bool ServerConfigData::GetMessengerServerInfo([[maybe_unused]] int serverGroupID, ConnectorInfo& _connectorInfo)
 {
     if (m_umMessengerServers.empty())
         return false;

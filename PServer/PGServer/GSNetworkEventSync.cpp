@@ -36,4 +36,14 @@ void GSNetworkEventSync::OnClose(const int& _hostID)
 
 void GSNetworkEventSync::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
 {
+	Packet::SharedPtr localMSG = Packet::New();
+	localMSG->SetPacketData(_msgID, _msg, _msgSize);
+	localMSG->HostID = _hostID;
+
+
+	//
+
+	GameService::GetInst().Push(localMSG);
+
+
 }
