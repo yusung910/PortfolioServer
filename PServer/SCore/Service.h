@@ -61,7 +61,7 @@ protected:
 
 			if (nullptr == localMSG)
 			{
-				std::cout << "RegisterHandler() flatbuffers::GetRoot() Failed!" << std::endl;
+				//std::cout << "RegisterHandler() flatbuffers::GetRoot() Failed!" << std::endl;
 				return false;
 			}
 
@@ -86,7 +86,7 @@ protected:
 
 		int localID = static_cast<int>(_msgID);
 		DispatcherType* localDerived = static_cast<DispatcherType*>(this);
-		auto localInvoker = [localDerived, _handler](innerPacket::SharedPtr _packet) {
+		auto localInvoker = [localDerived, _handler](InnerPacket::SharedPtr _packet) {
 			if (nullptr == _packet.get())
 				return false;
 			return (localDerived->*_handler)(_packet);

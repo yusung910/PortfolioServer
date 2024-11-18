@@ -45,4 +45,7 @@
       <Filter>Config</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ServerConfig.json" />
+  </ItemGroup>
 </Project>

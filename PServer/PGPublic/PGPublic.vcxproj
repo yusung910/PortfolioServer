@@ -43,6 +43,9 @@
       <Project>{d69567c3-8ae4-4154-af8d-d17d8d3d4700}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ServerConfig.json" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -105,6 +108,7 @@
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
+    <IncludePath>$(SolutionDir)SCommon;$(SolutionDir)SCore;$(SolutionDir)..\Common\SCCmn;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -160,6 +164,18 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+SET revision=git rev-list --count HEAD
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -182,6 +198,18 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+SET revision=git rev-list --count HEAD
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

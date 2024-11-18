@@ -51,7 +51,7 @@ public:
 
 		if (m_oPool.empty())
 		{
-			m_oPool.push(std::make_unique(T > (typename T::ObjectTag())));
+			m_oPool.push(std::make_unique<T>(typename T::ObjectTag()));
 			m_nAllocationCnt++;
 		}
 

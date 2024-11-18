@@ -16,13 +16,22 @@ void GSNetworkEventSync::OnConnect(const int& _hostID, const std::string& _ip, c
 	localPacket->HostID = _hostID;
 
 	if(true == localPacket->SetPacketData(Host_Connect, localMSG.GetBufferPointer(), localMSG.GetSize()))
-		//GameSErvice::GetInst().Push(localPacket);
-
-
+		GameService::GetInst().Push(localPacket);
 }
 
 void GSNetworkEventSync::OnClose(const int& _hostID)
 {
+    flatbuffers::FlatBufferBuilder localMSG;
+    auto localObj = CreateHostClose(localMSG);
+    localMSG.Finish(localObj);
+
+
+    Packet::SharedPtr localPacket = Packet::New();
+    localPacket->HostID = _hostID;
+
+    if (true == localPacket->SetPacketData(Host_Connect, localMSG.GetBufferPointer(), localMSG.GetSize()))
+        GameService::GetInst().Push(localPacket);
+
 }
 
 void GSNetworkEventSync::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
