@@ -1,12 +1,18 @@
 #include "stdafx.hxx"
 #include "XORUtil.h"
 
+XORUtil::XORUtil()
+{
+    std::wstring _strKey = L"SERVER_XOR_STRING1234$#@!SDFEU@IJSDAKLAFHDSGLJHSdASJHe9eshfeawyefh";
+    m_nXORKeySize = _strKey.size();
+    m_pXORKey = new char[m_nXORKeySize] {0, };
+    memcpy_s(m_pXORKey, m_nXORKeySize, _strKey.c_str(), m_nXORKeySize);
+}
+
 XORUtil::XORUtil(const std::string& _strKey)
 {
     if (true == _strKey.empty())
-    {
         _MakeDefault();
-    }
     else
     {
         m_nXORKeySize = _strKey.size();
@@ -19,9 +25,7 @@ XORUtil::XORUtil(const char* _pKeyBuffer, size_t _bufferSize)
 {
     if (nullptr == _pKeyBuffer ||
         _bufferSize == 0)
-    {
         _MakeDefault();
-    }
     else
     {
         m_nXORKeySize = _bufferSize;

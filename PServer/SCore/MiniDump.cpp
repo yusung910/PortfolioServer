@@ -2,11 +2,13 @@
 #include "MiniDump.h"
 
 #pragma warning(disable : 26812)	// enum class......
-#pragma warning(disable : 4091)	// dbghelp.h typedef 경고.
 
 // MiniDump
 #include <BugTrap.h>
+#pragma warning(disable : 4091)	// dbghelp.h typedef 경고.
 #include <dbghelp.h>
+#pragma warning(disable : 4091)	// dbghelp.h typedef 경고.
+
 #include <filesystem>
 
 

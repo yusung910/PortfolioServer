@@ -31,34 +31,49 @@ LoggingManagerPO::LoggingManagerPO()
 
 LoggingManagerPO::~LoggingManagerPO()
 {
-
+    Stop();
+    std::vector<LogData*> localLogList;
+    m_oLogDataQueue.GetList(localLogList);
+    for (auto localIter = localLogList.begin(); localIter != localLogList.end(); ++localIter)
+    {
+        SafeDelete(*localIter);
+    }
+    localLogList.clear();
 }
 
 bool LoggingManagerPO::SetLogDirConfig(const std::string& _path) noexcept
 {
-    if (true == _path.empty()) return false;
+    if (true == _path.empty())
+        return false;
+
     m_oLogDirPath.assign(_path.begin(), _path.end());
     return true;
 }
 
 bool LoggingManagerPO::SetServerName(const std::string& _name) noexcept
 {
-    if (true == _name.empty()) return false;
+    if (true == _name.empty())
+        return false;
+
     m_sServerName.assign(_name.begin(), _name.end());
     return true;
 }
 
 bool LoggingManagerPO::SetServerNum(const int& _num) noexcept
 {
-    if (_num < 0) return false;
+    if (_num < 0)
+        return false;
+
     m_nServerNum = _num;
     return true;
 }
 
 bool LoggingManagerPO::Start()
 {
-    if (true == m_bIsRunning.load()) return false;
-    if (nullptr != m_pThread) return false;
+    if (true == m_bIsRunning.load())
+        return false;
+    if (nullptr != m_pThread) 
+        return false;
 
     // 로그 저장 폴더 경로 설정
     std::string localTmpDir = m_sLogDirConfig + "/" + m_sLogDateFolder + "/";

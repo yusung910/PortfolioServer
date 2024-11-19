@@ -2,20 +2,17 @@
 #include "PGameServerApp.h"
 #include <ServerConfig.h>
 #include <ServerApp.h>
-
 #include "GSNetworkEventSync.h"
+
 #include "GameService.h"
 
-
 #include <NetworkManager.h>
-
-
 
 PGameServerApp::PGameServerApp()
 {
     //
-    LoggingManager::GetInst().Initialize();
-    NetworkManager::GetInst().Initialize();
+    LoggingManager::GetInst().Init();
+    NetworkManager::GetInst().Init();
 }
 
 PGameServerApp::~PGameServerApp()
@@ -29,9 +26,9 @@ bool PGameServerApp::Initialize()
     ServerConfig::GetInst().LoadConfig();
 
     //로그 기록 시작
-    _InitLog();
+    //_InitLog();
 
-    //USerDBB 세팅
+    //USerDB 세팅
 
     //SendServerLog(L"SendServerLog Initialize...");
 
@@ -68,7 +65,6 @@ bool PGameServerApp::RunLoop()
 
     GameService::GetInst().GetInst().Exit();
 
-
     return true;
 }
 
@@ -78,7 +74,7 @@ bool PGameServerApp::RunLoop()
 
 void PGameServerApp::_InitLog()
 {
-    auto localMainInfo = ServerConfig::GetInst().GetConfig().GetMainListenerInfo();
+    auto& localMainInfo = ServerConfig::GetInst().GetConfig().GetMainListenerInfo();
 
     LoggingManager::GetInst().SetServerName(localMainInfo.m_sServiceName);
     LoggingManager::GetInst().SetLogDirConfig(ServerConfig::GetInst().GetConfig().GetLogDir());

@@ -16,7 +16,7 @@ public:
     LoggingManager();
     virtual ~LoggingManager();
 
-    virtual void Initialize();
+    virtual void Init();
 
     //Set
     bool SetLogDirConfig(const std::string& _path = DEFAULT_LOG_PATH) noexcept;

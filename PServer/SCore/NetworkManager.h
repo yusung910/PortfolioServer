@@ -34,7 +34,7 @@ public:
     NetworkManager();
     ~NetworkManager();
 
-    virtual void Initialize();
+    virtual void Init();
 
     void ReserveContext(size_t _reserveContext);
     size_t GetContextAllocateCount() const;

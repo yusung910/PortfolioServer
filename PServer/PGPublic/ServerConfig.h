@@ -1,11 +1,3 @@
-/**
- *  @file ServerConfig.h
- *  @author YS
- *  @date 2024-11-15
- *  @project PGPublic
- *
- *  서버 실행에 필요한 클래스가 모여있다
- */
 #pragma once
 #include <string>
 #include <unordered_map>

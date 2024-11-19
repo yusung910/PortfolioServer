@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>E:\Workspace\PortfolioServer\Binaries\x64\Debug\SCore.dll</FullPath>
+      <FullPath>E:\PrivateWorkspace\PortfolioServer\Binaries\x64\Debug\SCore.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>E:\Workspace\PortfolioServer\PServer\x64\Debug\SCoreTEST.exe</FullPath>
+      <FullPath>E:\PrivateWorkspace\PortfolioServer\PServer\x64\Debug\SCoreTEST.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

@@ -66,6 +66,7 @@
 
 #include "EResult.h"
 
+#include "PGPDefine.h"
 #include "PGPConst.h"
 
 #include <InnerPacket.h>

@@ -43,9 +43,6 @@
       <Project>{d69567c3-8ae4-4154-af8d-d17d8d3d4700}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ServerConfig.json" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

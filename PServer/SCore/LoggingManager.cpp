@@ -19,7 +19,7 @@ LoggingManager::~LoggingManager()
     SafeDelete(m_pManagerPO);
 }
 
-void LoggingManager::Initialize()
+void LoggingManager::Init()
 {
     std::setlocale(LC_ALL, "ko_KR.UTF-8");
     m_pManagerPO = new LoggingManagerPO();

@@ -12,7 +12,7 @@ NetworkManager::~NetworkManager()
     SafeDelete(m_pManager);
 }
 
-void NetworkManager::Initialize()
+void NetworkManager::Init()
 {
     m_pManager = new NetworkManagerPO();
 }

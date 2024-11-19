@@ -1,2 +1,2 @@
-E:\PrivateWorkspace\PortfolioServer\PServer\SCoreTEST\x64\Debug\SCoreTEST.vcxproj.Up2Date
 E:\Workspace\PortfolioServer\PServer\SCoreTEST\x64\Debug\SCoreTEST.vcxproj.Up2Date
+E:\PrivateWorkspace\PortfolioServer\PServer\SCoreTEST\x64\Debug\SCoreTEST.vcxproj.Up2Date

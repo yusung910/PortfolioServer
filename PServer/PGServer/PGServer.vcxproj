@@ -103,12 +103,14 @@
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
     <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
     <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,11 +157,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <Optimization>Disabled</Optimization>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <DisableSpecificWarnings>4099;26812</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>false</OptimizeReferences>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration />
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -176,6 +182,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <TreatWarningAsError>true</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4099;26812</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

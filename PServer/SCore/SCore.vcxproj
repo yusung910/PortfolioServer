@@ -155,7 +155,7 @@
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\SCommon\include\;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(IncludePath)</IncludePath>
-    <ReferencePath>$(VC_ReferencesPath_x64);$(ReferencePath)</ReferencePath>
+    <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -238,6 +238,10 @@ CD $(ProjectDir)
 ECHO #pragma once &gt; BuildVersion.hxx
 ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>@ECHO OFF
+DEL $(ProjectDir)BuildVersion.hxx</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -276,6 +280,10 @@ CD $(ProjectDir)
 ECHO #pragma once &gt; BuildVersion.hxx
 ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>@ECHO OFF
+DEL $(ProjectDir)BuildVersion.hxx</Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
