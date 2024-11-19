@@ -78,9 +78,6 @@
     <ClInclude Include="SCoreAPI.h">
       <Filter>0_Private</Filter>
     </ClInclude>
-    <ClInclude Include="BuildVersion.hxx">
-      <Filter>0_Private</Filter>
-    </ClInclude>
     <ClInclude Include="BuildConfig.hxx">
       <Filter>0_Private</Filter>
     </ClInclude>

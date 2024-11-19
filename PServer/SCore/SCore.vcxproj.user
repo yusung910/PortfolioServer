@@ -3,4 +3,8 @@
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
+    <LocalDebuggerEnvironment>path=$(SolutionDIR)..\Binaries\$(Platform)\$(Configuration)\;$(SolutionDIR)..\lib\LZ4\$(Platform)\;$(SolutionDIR)..\lib\JsonCPP\$(Platform)\;$(SolutionDIR)..\lib\BugTrap\$(Platform)\$(Configuration)\;%PATH%</LocalDebuggerEnvironment>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

@@ -9,8 +9,7 @@ private:
     char* m_pXORKey = nullptr;
     size_t m_nXORKeySize = 0;
 public:
-    XORUtil();
-    XORUtil(const std::string& _strKey);
+    XORUtil(const std::string& _strKey = DEFAULT_XOR_KEY);
     XORUtil(const char* _pKeyBuffer, size_t _bufferSize);
     ~XORUtil();
 
