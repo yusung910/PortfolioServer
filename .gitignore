@@ -163,3 +163,7 @@ Release/
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
+
+#로그 파일들
+*.log
+*.err

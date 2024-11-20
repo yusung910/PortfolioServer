@@ -216,12 +216,22 @@ void LoggingManagerPO::_Run()
 
             if (false == localStrInfo.empty())
             {
+                std::wofstream localFsLog(m_oLogInfoFilePath.wstring(), std::ios::app);
+                localFsLog << localStrInfo.c_str();
+                localFsLog.close();
 
+                if (true == _CheckInfoFileChangeable())
+                    _ChangeInfoFile();
             }
 
             if (false == localStrErr.empty())
             {
+                std::wofstream localFsLog(m_oLogErrorFilePath.wstring(), std::ios::app);
+                localFsLog << localStrErr.c_str();
+                localFsLog.close();
 
+                if (true == _CheckErrorFileChangeable())
+                    _ChangeErrorFile();
             }
 
             for (auto localIter = localLogList.begin(); localIter != localLogList.end(); ++localIter)
@@ -317,7 +327,7 @@ bool LoggingManagerPO::_ChangeErrorFile()
     [[maybe_unused]] auto localErr = localtime_s(&localCurrentTime, &localCurrentTick);
 
     char localTmpPath[MAX_PATH] = { 0, };
-    sprintf_s(localTmpPath, sizeof(localTmpPath), "%s/%s/%s.%d_%04d%02d%02d_%02d%02d%02d.log",
+    sprintf_s(localTmpPath, sizeof(localTmpPath), "%s/%s/%s.%d_%04d%02d%02d_%02d%02d%02d.err",
         m_sLogDirConfig.c_str(),
         m_sLogDateFolder.c_str(),
         m_sServerName.c_str(),

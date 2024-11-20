@@ -9,7 +9,7 @@ ServerAppPO::ServerAppPO()
 #ifdef DEV_TEST
     RegisterCommand('q', std::bind(&ServerAppPO::ProcessQuit, this));
 #endif // DEV_TEST
-
+    
 }
 
 ServerAppPO::~ServerAppPO()
