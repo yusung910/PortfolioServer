@@ -60,10 +60,7 @@ protected:
 			auto localMSG = flatbuffers::GetRoot<MessageType>(_packet.GetDataPtr());
 
 			if (nullptr == localMSG)
-			{
-				//std::cout << "RegisterHandler() flatbuffers::GetRoot() Failed!" << std::endl;
 				return false;
-			}
 
 			flatbuffers::Verifier localVerifier{ (uint8_t*)_packet.GetDataPtr(), (flatbuffers::uoffset_t)_packet.GetMessageSize() };
 
