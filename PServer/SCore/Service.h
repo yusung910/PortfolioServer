@@ -70,7 +70,7 @@ protected:
 			if (false == localMSG->Verify(localVerifier))
 				return _OnDeserializeFail(_packet.HostID, localID);
 
-			return (localDerived->*_handler)(_packet.HostID, localID);
+			return (localDerived->*_handler)(_packet.HostID, *localMSG);
 		};
 
 		_RegisterHandler(localID, localInvoker);

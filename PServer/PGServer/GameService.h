@@ -21,6 +21,20 @@ public:
 
     void SetAllowConnect(bool _onoff);
 
+    //패킷 병렬화 실패 처리
+    virtual void OnDeserializeFail(const int& _hostID, const std::string& _hostIP, const int& _failProtocol) override;
+
+protected:
+    //======================================================================
+    //Packet Process Area Begin
+    //======================================================================
+
+    //system
+    bool OnHostConnect(int _hostID, const HostConnect& _msg);
+
+    //======================================================================
+    //Packet Process Area end
+    //======================================================================
 private:
     void _RegisterPacketHandlers();	// 패킷 핸들러 등록 모음
     void _RegisterTimers();			// RegisterTimer (패킷 동기) 처리 등록 모음
