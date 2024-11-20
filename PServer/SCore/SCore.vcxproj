@@ -184,7 +184,7 @@
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\;$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -192,14 +192,14 @@
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\;$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
     <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\$(Configuration);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget)\;$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
@@ -303,6 +303,39 @@ ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</C
       <Command>@ECHO OFF
 DEL $(ProjectDir)BuildVersion.hxx</Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>@echo off
+echo Refresh SCore Release Files...
+echo.
+echo Check And Create RElease Folder...
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\include\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\include"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\Release\$(ProjectName)\Include\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\Lib\$(PlatformTarget)\$(Configuration)\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\Bin\$(PlatformTarget)\$(Configuration)\*.*" /Q
+
+echo.
+echo Copy New Release Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\$(ProjectName)\include\"
+COPY "$(TargetPath)" "$(SolutionDir)..\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)..\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)..\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+
+
+echo.
+echo.
+echo Release File Copy done!
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -345,6 +378,38 @@ ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Co
       <Command>@ECHO OFF
 DEL $(ProjectDir)BuildVersion.hxx</Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>@echo off
+echo Refresh SCore Release Files...
+echo.
+echo Check And Create Release Folder...
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\include\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\include"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\Release\$(ProjectName)\include\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\*.*" /Q
+
+echo.
+echo Copy New Release Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release\$(ProjectName)\Include\"
+COPY "$(TargetPath)" "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+
+
+echo.
+echo.
+echo Release File Copy done!</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
     <ClCompile>
@@ -379,6 +444,39 @@ DEL $(ProjectDir)BuildVersion.hxx</Command>
       <Command>@ECHO OFF
 DEL $(ProjectDir)BuildVersion.hxx</Command>
     </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>@echo off
+echo Refresh SCore Release Files...
+echo.
+echo Check And Create Release Folder...
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\include\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\include"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\Release\$(ProjectName)\include\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug\*.*" /Q
+
+echo.
+echo Copy New Release Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release\$(ProjectName)\include\"
+COPY "$(TargetPath)" "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug\"
+COPY "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\"
+COPY "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\"
+
+
+echo.
+echo.
+echo Release File Copy done!
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
