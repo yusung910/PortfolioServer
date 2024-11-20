@@ -159,3 +159,4 @@ Output/
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
+Release/
