@@ -26,7 +26,7 @@ bool PGameServerApp::Initialize()
     ServerConfig::GetInst().LoadConfig();
 
     //로그 기록 시작
-    //_InitLog();
+    _InitLog();
 
     //USerDB 세팅
 

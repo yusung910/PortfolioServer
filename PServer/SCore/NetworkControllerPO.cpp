@@ -64,8 +64,8 @@ unsigned int __stdcall NetworkControllerPO::ExcuteThread(void* _arg)
 {
     auto& localParent = *(NetworkControllerPO*)_arg;
 
-    localParent.TerminateThread();
     localParent.ProcessThread();
+    localParent.TerminateThread();
     return 0;
 }
 
@@ -233,7 +233,7 @@ void NetworkControllerPO::_RemoveConnectorHost(int _hostID)
 
 void NetworkControllerPO::ProcessThread()
 {
-    while (m_bIsTerminated)
+    while (false == m_bIsTerminated)
     {
         //Timer 클래스에 RegisterTimer() 함수를 통해 등록된 함수를 실행한다.
         //보통 클래스 생성자에 RegisterTimer()가 존재한다.

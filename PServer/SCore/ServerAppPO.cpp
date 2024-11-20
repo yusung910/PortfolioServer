@@ -64,6 +64,7 @@ void ServerAppPO::Run()
             Sleep(10);
         }
     }
+    _Stop();
 }
 
 bool ServerAppPO::_Begin()

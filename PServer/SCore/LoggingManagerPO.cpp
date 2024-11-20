@@ -213,7 +213,26 @@ void LoggingManagerPO::_Run()
                     }
                 }
             }
+
+            if (false == localStrInfo.empty())
+            {
+
+            }
+
+            if (false == localStrErr.empty())
+            {
+
+            }
+
+            for (auto localIter = localLogList.begin(); localIter != localLogList.end(); ++localIter)
+            {
+                SafeDelete(*localIter);
+            }
         }
+
+        localUntilTime += std::chrono::milliseconds(LOG_THREAD_TICK_MS);
+        
+        std::this_thread::sleep_until(localUntilTime);
     }
 }
 

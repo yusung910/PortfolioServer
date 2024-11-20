@@ -153,10 +153,13 @@ Plugins/**/Intermediate/*
 
 
 # User added
+#빌드할 때 자동 생성 디렉터리
 Output/
+Release/
 **/**/[bB]uild/
+
+#외부에서 받아온 lib 목록
 !lib/**/*.exe
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
-Release/
