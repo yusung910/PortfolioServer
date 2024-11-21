@@ -50,6 +50,8 @@ enum EPacketProtocol:int
 	Host_ConnectFailed,
 
 	HostHi = 12,
+
+	PacketMax
 }
 
 //

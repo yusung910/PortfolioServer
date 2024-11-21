@@ -1,0 +1,11 @@
+E:\Workspace\PortfolioServer\PServer\BotClient\bin\Debug\BotClient.exe.config
+E:\Workspace\PortfolioServer\PServer\BotClient\bin\Debug\BotClient.exe
+E:\Workspace\PortfolioServer\PServer\BotClient\bin\Debug\BotClient.pdb
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj.AssemblyReference.cache
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.MainForm.resources
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.Properties.Resources.resources
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj.GenerateResource.cache
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj.CoreCompileInputs.cache
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj.Up2Date
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.exe
+E:\Workspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.pdb

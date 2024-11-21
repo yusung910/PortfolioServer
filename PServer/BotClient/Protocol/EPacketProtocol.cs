@@ -11,5 +11,6 @@ public enum EPacketProtocol : int
   Host_Close = 2,
   Host_ConnectFailed = 3,
   HostHi = 12,
+  PacketMax = 13,
 };
 
