@@ -7,3 +7,4 @@ E:\PrivateWorkspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj
 E:\PrivateWorkspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj.CoreCompileInputs.cache
 E:\PrivateWorkspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.exe
 E:\PrivateWorkspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.pdb
+E:\PrivateWorkspace\PortfolioServer\PServer\BotClient\obj\Debug\BotClient.csproj.Up2Date

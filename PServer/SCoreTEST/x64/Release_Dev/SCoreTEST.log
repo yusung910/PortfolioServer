@@ -1,1 +1,3 @@
-﻿  SCoreTEST.vcxproj -> E:\PrivateWorkspace\PortfolioServer\PServer\x64\Release_Dev\SCoreTEST.exe
+﻿  pch.cpp
+  test.cpp
+  SCoreTEST.vcxproj -> E:\PrivateWorkspace\PortfolioServer\PServer\x64\Release_Dev\SCoreTEST.exe

@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FlatBuffers.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\FlatBuffers.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -54,6 +58,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\EPacketProtocol.cs" />
+    <Compile Include="Protocol\HostClose.cs" />
+    <Compile Include="Protocol\HostConnect.cs" />
+    <Compile Include="Protocol\HostConnectFailed.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -78,6 +86,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)\..\lib\FlatBuffers\x64\flatc.exe --csharp -o $(ProjectDir)\Protocol -I $(SolutionDir)\..\Common\SCCmn\Protocol.fbs</PreBuildEvent>
+    <PreBuildEvent>$(SolutionDir)..\lib\FlatBuffers\x64\flatc.exe --csharp -o $(ProjectDir)Protocol $(SolutionDir)..\Common\SCCmn\Protocol.fbs --no-prefix --gen-object-api</PreBuildEvent>
   </PropertyGroup>
 </Project>

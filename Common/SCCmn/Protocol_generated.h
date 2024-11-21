@@ -6,13 +6,6 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-// Ensure the included flatbuffers.h is the same version as when this file was
-// generated, otherwise it may not be compatible.
-static_assert(FLATBUFFERS_VERSION_MAJOR == 23 &&
-              FLATBUFFERS_VERSION_MINOR == 5 &&
-              FLATBUFFERS_VERSION_REVISION == 26,
-             "Non-compatible flatbuffers version included");
-
 struct HostConnect;
 struct HostConnectBuilder;
 struct HostConnectT;
@@ -27,7 +20,7 @@ struct HostConnectFailedT;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-enum EPacketProtocol : int32_t {
+enum EPacketProtocol {
   None = 0,
   Host_Connect = 1,
   Host_Close = 2,
@@ -67,22 +60,28 @@ inline const char * const *EnumNamesEPacketProtocol() {
 }
 
 inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
-  if (::flatbuffers::IsOutRange(e, None, HostHi)) return "";
+  if (flatbuffers::IsOutRange(e, None, HostHi)) return "";
   const size_t index = static_cast<size_t>(e);
   return EnumNamesEPacketProtocol()[index];
 }
 
-struct HostConnectT : public ::flatbuffers::NativeTable {
+struct HostConnectT : public flatbuffers::NativeTable {
   typedef HostConnect TableType;
-  std::string peerip{};
-  int32_t peerport = 0;
-  int32_t servertype = 0;
-  int32_t serverid = 0;
-  EPacketProtocol messageid = Host_Connect;
+  std::string peerip;
+  int32_t peerport;
+  int32_t servertype;
+  int32_t serverid;
+  EPacketProtocol messageid;
+  HostConnectT()
+      : peerport(0),
+        servertype(0),
+        serverid(0),
+        messageid(Host_Connect) {
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-struct HostConnect FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct HostConnect FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef HostConnectT NativeTableType;
   typedef HostConnectBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -92,8 +91,8 @@ struct HostConnect FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
     VT_SERVERID = 10,
     VT_MESSAGEID = 12
   };
-  const ::flatbuffers::String *peerip() const {
-    return GetPointer<const ::flatbuffers::String *>(VT_PEERIP);
+  const flatbuffers::String *peerip() const {
+    return GetPointer<const flatbuffers::String *>(VT_PEERIP);
   }
   int32_t peerport() const {
     return GetField<int32_t>(VT_PEERPORT, 0);
@@ -107,26 +106,26 @@ struct HostConnect FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   EPacketProtocol messageid() const {
     return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 1));
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_PEERIP) &&
            verifier.VerifyString(peerip()) &&
-           VerifyField<int32_t>(verifier, VT_PEERPORT, 4) &&
-           VerifyField<int32_t>(verifier, VT_SERVERTYPE, 4) &&
-           VerifyField<int32_t>(verifier, VT_SERVERID, 4) &&
-           VerifyField<int32_t>(verifier, VT_MESSAGEID, 4) &&
+           VerifyField<int32_t>(verifier, VT_PEERPORT) &&
+           VerifyField<int32_t>(verifier, VT_SERVERTYPE) &&
+           VerifyField<int32_t>(verifier, VT_SERVERID) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
   }
-  HostConnectT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(HostConnectT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<HostConnect> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  HostConnectT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(HostConnectT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<HostConnect> Pack(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct HostConnectBuilder {
   typedef HostConnect Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
-  void add_peerip(::flatbuffers::Offset<::flatbuffers::String> peerip) {
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_peerip(flatbuffers::Offset<flatbuffers::String> peerip) {
     fbb_.AddOffset(HostConnect::VT_PEERIP, peerip);
   }
   void add_peerport(int32_t peerport) {
@@ -141,20 +140,21 @@ struct HostConnectBuilder {
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(HostConnect::VT_MESSAGEID, static_cast<int32_t>(messageid), 1);
   }
-  explicit HostConnectBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit HostConnectBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<HostConnect> Finish() {
+  HostConnectBuilder &operator=(const HostConnectBuilder &);
+  flatbuffers::Offset<HostConnect> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<HostConnect>(end);
+    auto o = flatbuffers::Offset<HostConnect>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<HostConnect> CreateHostConnect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
-    ::flatbuffers::Offset<::flatbuffers::String> peerip = 0,
+inline flatbuffers::Offset<HostConnect> CreateHostConnect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::String> peerip = 0,
     int32_t peerport = 0,
     int32_t servertype = 0,
     int32_t serverid = 0,
@@ -168,8 +168,8 @@ inline ::flatbuffers::Offset<HostConnect> CreateHostConnect(
   return builder_.Finish();
 }
 
-inline ::flatbuffers::Offset<HostConnect> CreateHostConnectDirect(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<HostConnect> CreateHostConnectDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
     const char *peerip = nullptr,
     int32_t peerport = 0,
     int32_t servertype = 0,
@@ -185,14 +185,17 @@ inline ::flatbuffers::Offset<HostConnect> CreateHostConnectDirect(
       messageid);
 }
 
-::flatbuffers::Offset<HostConnect> CreateHostConnect(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<HostConnect> CreateHostConnect(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct HostCloseT : public ::flatbuffers::NativeTable {
+struct HostCloseT : public flatbuffers::NativeTable {
   typedef HostClose TableType;
-  EPacketProtocol messageid = Host_Close;
+  EPacketProtocol messageid;
+  HostCloseT()
+      : messageid(Host_Close) {
+  }
 };
 
-struct HostClose FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct HostClose FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef HostCloseT NativeTableType;
   typedef HostCloseBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -201,50 +204,54 @@ struct HostClose FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
   EPacketProtocol messageid() const {
     return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 2));
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_MESSAGEID, 4) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
   }
-  HostCloseT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(HostCloseT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<HostClose> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  HostCloseT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(HostCloseT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<HostClose> Pack(flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct HostCloseBuilder {
   typedef HostClose Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(HostClose::VT_MESSAGEID, static_cast<int32_t>(messageid), 2);
   }
-  explicit HostCloseBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit HostCloseBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<HostClose> Finish() {
+  HostCloseBuilder &operator=(const HostCloseBuilder &);
+  flatbuffers::Offset<HostClose> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<HostClose>(end);
+    auto o = flatbuffers::Offset<HostClose>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<HostClose> CreateHostClose(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<HostClose> CreateHostClose(
+    flatbuffers::FlatBufferBuilder &_fbb,
     EPacketProtocol messageid = Host_Close) {
   HostCloseBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
   return builder_.Finish();
 }
 
-::flatbuffers::Offset<HostClose> CreateHostClose(::flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<HostClose> CreateHostClose(flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-struct HostConnectFailedT : public ::flatbuffers::NativeTable {
+struct HostConnectFailedT : public flatbuffers::NativeTable {
   typedef HostConnectFailed TableType;
-  EPacketProtocol messageid = Host_ConnectFailed;
+  EPacketProtocol messageid;
+  HostConnectFailedT()
+      : messageid(Host_ConnectFailed) {
+  }
 };
 
-struct HostConnectFailed FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table {
+struct HostConnectFailed FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef HostConnectFailedT NativeTableType;
   typedef HostConnectFailedBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
@@ -253,51 +260,52 @@ struct HostConnectFailed FLATBUFFERS_FINAL_CLASS : private ::flatbuffers::Table 
   EPacketProtocol messageid() const {
     return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 3));
   }
-  bool Verify(::flatbuffers::Verifier &verifier) const {
+  bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_MESSAGEID, 4) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
   }
-  HostConnectFailedT *UnPack(const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(HostConnectFailedT *_o, const ::flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static ::flatbuffers::Offset<HostConnectFailed> Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT* _o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  HostConnectFailedT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(HostConnectFailedT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<HostConnectFailed> Pack(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct HostConnectFailedBuilder {
   typedef HostConnectFailed Table;
-  ::flatbuffers::FlatBufferBuilder &fbb_;
-  ::flatbuffers::uoffset_t start_;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(HostConnectFailed::VT_MESSAGEID, static_cast<int32_t>(messageid), 3);
   }
-  explicit HostConnectFailedBuilder(::flatbuffers::FlatBufferBuilder &_fbb)
+  explicit HostConnectFailedBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  ::flatbuffers::Offset<HostConnectFailed> Finish() {
+  HostConnectFailedBuilder &operator=(const HostConnectFailedBuilder &);
+  flatbuffers::Offset<HostConnectFailed> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = ::flatbuffers::Offset<HostConnectFailed>(end);
+    auto o = flatbuffers::Offset<HostConnectFailed>(end);
     return o;
   }
 };
 
-inline ::flatbuffers::Offset<HostConnectFailed> CreateHostConnectFailed(
-    ::flatbuffers::FlatBufferBuilder &_fbb,
+inline flatbuffers::Offset<HostConnectFailed> CreateHostConnectFailed(
+    flatbuffers::FlatBufferBuilder &_fbb,
     EPacketProtocol messageid = Host_ConnectFailed) {
   HostConnectFailedBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
   return builder_.Finish();
 }
 
-::flatbuffers::Offset<HostConnectFailed> CreateHostConnectFailed(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT *_o, const ::flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<HostConnectFailed> CreateHostConnectFailed(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-inline HostConnectT *HostConnect::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<HostConnectT>(new HostConnectT());
+inline HostConnectT *HostConnect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<HostConnectT> _o = std::unique_ptr<HostConnectT>(new HostConnectT());
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void HostConnect::UnPackTo(HostConnectT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void HostConnect::UnPackTo(HostConnectT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = peerip(); if (_e) _o->peerip = _e->str(); }
@@ -307,14 +315,14 @@ inline void HostConnect::UnPackTo(HostConnectT *_o, const ::flatbuffers::resolve
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
-inline ::flatbuffers::Offset<HostConnect> HostConnect::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<HostConnect> HostConnect::Pack(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateHostConnect(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<HostConnect> CreateHostConnect(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<HostConnect> CreateHostConnect(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const HostConnectT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const HostConnectT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _peerip = _o->peerip.empty() ? 0 : _fbb.CreateString(_o->peerip);
   auto _peerport = _o->peerport;
   auto _servertype = _o->servertype;
@@ -329,52 +337,52 @@ inline ::flatbuffers::Offset<HostConnect> CreateHostConnect(::flatbuffers::FlatB
       _messageid);
 }
 
-inline HostCloseT *HostClose::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<HostCloseT>(new HostCloseT());
+inline HostCloseT *HostClose::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<HostCloseT> _o = std::unique_ptr<HostCloseT>(new HostCloseT());
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void HostClose::UnPackTo(HostCloseT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void HostClose::UnPackTo(HostCloseT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
-inline ::flatbuffers::Offset<HostClose> HostClose::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<HostClose> HostClose::Pack(flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateHostClose(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<HostClose> CreateHostClose(::flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<HostClose> CreateHostClose(flatbuffers::FlatBufferBuilder &_fbb, const HostCloseT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const HostCloseT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const HostCloseT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _messageid = _o->messageid;
   return CreateHostClose(
       _fbb,
       _messageid);
 }
 
-inline HostConnectFailedT *HostConnectFailed::UnPack(const ::flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<HostConnectFailedT>(new HostConnectFailedT());
+inline HostConnectFailedT *HostConnectFailed::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<HostConnectFailedT> _o = std::unique_ptr<HostConnectFailedT>(new HostConnectFailedT());
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void HostConnectFailed::UnPackTo(HostConnectFailedT *_o, const ::flatbuffers::resolver_function_t *_resolver) const {
+inline void HostConnectFailed::UnPackTo(HostConnectFailedT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
-inline ::flatbuffers::Offset<HostConnectFailed> HostConnectFailed::Pack(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT* _o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<HostConnectFailed> HostConnectFailed::Pack(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
   return CreateHostConnectFailed(_fbb, _o, _rehasher);
 }
 
-inline ::flatbuffers::Offset<HostConnectFailed> CreateHostConnectFailed(::flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT *_o, const ::flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<HostConnectFailed> CreateHostConnectFailed(flatbuffers::FlatBufferBuilder &_fbb, const HostConnectFailedT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { ::flatbuffers::FlatBufferBuilder *__fbb; const HostConnectFailedT* __o; const ::flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const HostConnectFailedT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _messageid = _o->messageid;
   return CreateHostConnectFailed(
       _fbb,
