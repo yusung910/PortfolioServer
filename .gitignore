@@ -156,6 +156,7 @@ Plugins/**/Intermediate/*
 #빌드할 때 자동 생성 디렉터리
 Output/
 Release/
+Release_Dev/
 **/**/[bB]uild/
 obj/
 
