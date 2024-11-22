@@ -30,15 +30,17 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lbPacketList = new System.Windows.Forms.ListBox();
+            this.btnPacketSend = new System.Windows.Forms.Button();
+            this.btnServerConnect = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.lbPacketList);
-            this.groupBox1.Location = new System.Drawing.Point(12, 41);
+            this.groupBox1.Location = new System.Drawing.Point(12, 165);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 384);
+            this.groupBox1.Size = new System.Drawing.Size(322, 497);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "PacketList";
@@ -49,15 +51,36 @@
             this.lbPacketList.ItemHeight = 12;
             this.lbPacketList.Location = new System.Drawing.Point(18, 20);
             this.lbPacketList.Name = "lbPacketList";
-            this.lbPacketList.Size = new System.Drawing.Size(316, 352);
+            this.lbPacketList.Size = new System.Drawing.Size(285, 460);
             this.lbPacketList.TabIndex = 0;
             this.lbPacketList.SelectedIndexChanged += new System.EventHandler(this.lbPacketList_SelectedIndexChanged);
+            // 
+            // btnPacketSend
+            // 
+            this.btnPacketSend.Location = new System.Drawing.Point(637, 614);
+            this.btnPacketSend.Name = "btnPacketSend";
+            this.btnPacketSend.Size = new System.Drawing.Size(120, 48);
+            this.btnPacketSend.TabIndex = 2;
+            this.btnPacketSend.Text = "PacketSend";
+            this.btnPacketSend.UseVisualStyleBackColor = true;
+            // 
+            // btnServerConnect
+            // 
+            this.btnServerConnect.Location = new System.Drawing.Point(511, 614);
+            this.btnServerConnect.Name = "btnServerConnect";
+            this.btnServerConnect.Size = new System.Drawing.Size(120, 48);
+            this.btnServerConnect.TabIndex = 3;
+            this.btnServerConnect.Text = "ServerConnect";
+            this.btnServerConnect.UseVisualStyleBackColor = true;
+            this.btnServerConnect.Click += new System.EventHandler(this.btnServerConnect_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(769, 674);
+            this.Controls.Add(this.btnServerConnect);
+            this.Controls.Add(this.btnPacketSend);
             this.Controls.Add(this.groupBox1);
             this.Name = "MainForm";
             this.Text = "BotClient";
@@ -71,6 +94,8 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListBox lbPacketList;
+        private System.Windows.Forms.Button btnPacketSend;
+        private System.Windows.Forms.Button btnServerConnect;
     }
 }
 

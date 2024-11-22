@@ -46,25 +46,25 @@
     },
     "GDB": {
       "UID": "server",
-      "PWD": "PCQ2NzIuNjojZns=",
+      "PWD": "",
       "DATABASE": "Game",
-      "HOST": "192.168.2.121",
+      "HOST": "",
       "PORT": 14335,
       "THREADS": 4
     },
     "MDB": {
       "UID": "server",
-      "PWD": "PCQ2NzIuNjojZns=",
+      "PWD": "",
       "DATABASE": "MDB",
-      "HOST": "192.168.2.121",
+      "HOST": "",
       "PORT": 14335,
       "THREADS": 4
     },
     "LDB": {
       "UID": "server",
-      "PWD": "PCQ2NzIuNjojZns=",
+      "PWD": "",
       "DATABASE": "Log",
-      "HOST": "192.168.2.121",
+      "HOST": "",
       "PORT": 14335,
       "THREADS": 1
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BotClient.Network;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,11 @@ namespace BotClient
         private void lbPacketList_SelectedIndexChanged(object sender, EventArgs e)
         {
             int msgID = (int)lbPacketList.SelectedValue;
+        }
+
+        private void btnServerConnect_Click(object sender, EventArgs e)
+        {
+            NetworkManager networkManager = new NetworkManager();
         }
     }
 }
