@@ -157,6 +157,7 @@ Plugins/**/Intermediate/*
 Output/
 Release/
 **/**/[bB]uild/
+obj/
 
 #외부에서 받아온 lib 목록
 !lib/**/*.exe
