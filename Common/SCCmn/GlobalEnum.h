@@ -1,0 +1,38 @@
+#pragma once
+// C++17 MSVC Guideline Warning (enum)
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 26812)
+#endif
+// end, C++17 MSVC Guideline Warning (enum)
+
+#ifndef FOW_SERVER_BUILD
+#	ifndef CLIENT_ONLY
+#		define CLIENT_ONLY
+#	endif
+#endif
+
+
+namespace EServer
+{
+    enum Type
+    {
+        None = 0,
+        CDN,
+        Login,	        // 로그인 서버
+        Game,	        // 게임 서버
+        Log,	        // 로그 서버
+        Platform,       // 플랫폼 (원격관리) 서버
+        Messenger,      // 메신저 서버
+        API,	        // API 서버
+        Bill,
+        Max,
+    };
+
+    inline bool IsValid(const Type& t)
+    {
+        if (t <= None || t >= Max)
+            return false;
+        return true;
+    }
+}
