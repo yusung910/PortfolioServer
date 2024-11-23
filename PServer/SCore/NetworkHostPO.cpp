@@ -360,15 +360,18 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsarecv
     if (WSARecv(m_oSocket, &localWSABUF, 1, &localBytes, &localFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
     {
-        VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSARecv length:%d, HostID:%d, IP: %s"
-            , static_cast<int>(localWSABUF.len)
-            , GetHostID()
-            , StringUtil::ToWideChar(GetIP()).c_str()
-        );
-
-
-        _ctxt.DecreaseReferenceCount();
-        return false;
+        int localErr = WSAGetLastError();
+        if (localErr != WSA_IO_PENDING)
+        {
+            VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSARecv length:%d, HostID:%d, IP: %s, Error: %d"
+                , static_cast<int>(localWSABUF.len)
+                , GetHostID()
+                , StringUtil::ToWideChar(GetIP()).c_str()
+                , localErr
+            );
+            _ctxt.DecreaseReferenceCount();
+            return false;
+        }
     }
 
     return true;
@@ -849,7 +852,7 @@ void NetworkHostPO::SetPeerPort(const int& _port)
     if (_port <= 0 || _port >= 65536)
         return;
 
-    m_nPort;
+    m_nPort = _port;
 }
 
 void NetworkHostPO::SetClientHostMode(const bool& _onoff)

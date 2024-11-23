@@ -13,6 +13,7 @@ namespace BotClient
 {
     public partial class MainForm : Form
     {
+        NetworkManager m_oManager = null;
         public MainForm()
         {
             InitializeComponent();
@@ -21,6 +22,7 @@ namespace BotClient
         private void MainForm_Load(object sender, EventArgs e)
         {
             lbPacketList.DataSource = Enum.GetValues(typeof(EPacketProtocol));
+            m_oManager = new NetworkManager();
         }
 
         private void lbPacketList_SelectedIndexChanged(object sender, EventArgs e)
@@ -30,7 +32,12 @@ namespace BotClient
 
         private void btnServerConnect_Click(object sender, EventArgs e)
         {
-            NetworkManager networkManager = new NetworkManager();
+            m_oManager.Connect();
+        }
+
+        private void btnPacketSend_Click(object sender, EventArgs e)
+        {
+            m_oManager.Send();
         }
     }
 }
