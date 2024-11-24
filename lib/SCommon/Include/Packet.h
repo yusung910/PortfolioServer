@@ -11,7 +11,7 @@
 
 #include "Object.h"
 
-constexpr size_t MAX_PACKET_BINARY_SIZE = 8192;				// 패킷 바이너리 최대 크기 (Payload)
+constexpr size_t MAX_PACKET_BINARY_SIZE = 8192 * 2;			// 패킷 바이너리 최대 크기 (Payload)
 constexpr size_t PACKET_HEADER_SIZE = 8;					// size 4 + protocol 4
 constexpr size_t MAX_PACKET_DATA_SIZE = MAX_PACKET_BINARY_SIZE - PACKET_HEADER_SIZE;	// 패킷에 들어갈수 있는 최대 데이터 크기
 constexpr unsigned int PACKET_COMPRESS_MASK = 0x80000000;	// 최상위 1비트, 압축여부

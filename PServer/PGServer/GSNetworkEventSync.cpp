@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GSNetworkEventSync.h"
 #include "GameService.h"
+#include "LoggingMacro.h"
 
 void GSNetworkEventSync::OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType)
 {
@@ -40,7 +41,7 @@ void GSNetworkEventSync::OnReceive(const int& _hostID, const int& _msgID, char* 
 	localMSG->SetPacketData(_msgID, _msg, _msgSize);
 	localMSG->HostID = _hostID;
 
-
+	VIEW_INFO("GSNetworkEventSync::OnReceive HostID: %d, MsgID: %d, Msg: %s, MsgSize:%d", _hostID, _msgID, _msg, _msgSize);
 	//
 
 	GameService::GetInst().Push(localMSG);

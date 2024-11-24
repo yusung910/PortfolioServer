@@ -10,7 +10,9 @@ public enum EPacketProtocol : int
   Host_Connect = 1,
   Host_Close = 2,
   Host_ConnectFailed = 3,
-  HostHi = 12,
-  PacketMax = 13,
+  Host_Hello = 12,
+  CS_AuthReq = 13,
+  SC_AuthRes = 14,
+  PacketMax = 15,
 };
 

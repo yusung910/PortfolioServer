@@ -49,7 +49,14 @@ enum EPacketProtocol:int
 	Host_Close,
 	Host_ConnectFailed,
 
-	HostHi = 12,
+	Host_Hello = 12,
+
+
+	//---------------------------------------------------------------------------
+	//GameServer
+	//---------------------------------------------------------------------------
+	CS_AuthReq,
+	SC_AuthRes,
 
 	PacketMax
 }
@@ -76,4 +83,32 @@ table HostClose
 table HostConnectFailed
 {
 	messageid:EPacketProtocol = Host_ConnectFailed;
+}
+
+table HostHello
+{
+	servertype:int;
+	serverid:int;
+	name:string;
+	buildtype:int;
+
+	messageid:EPacketProtocol = Host_Hello;
+}
+
+
+//------------------------------------------------------
+//GameServer Table
+//------------------------------------------------------
+table CSAuthReq
+{
+	accountid: string;
+	accountpw: string;
+	messageid:EPacketProtocol = CS_AuthReq;
+}
+
+table SCAuthRes
+{
+	accountid: string;
+	accountpw: string;
+	messageid:EPacketProtocol = SC_AuthRes;
 }

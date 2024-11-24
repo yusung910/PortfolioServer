@@ -81,12 +81,47 @@ namespace BotClient.Network
                 MessageBox.Show("Server Connect is Fail");
                 return;
             }
-            var builder = new FlatBufferBuilder(1);
-            var msg = HostConnect.CreateHostConnect(builder, builder.CreateString("127.0.0.1"), 35201, 1, (int)EPacketProtocol.Host_Connect);
+
+
+            //Flatbuffer 데이터 빌드 할 때 각각 패킷에 들어갈 데이터 먼저 빌드 해줘야한다(CreateString 등등을 먼저 해야한다)
+            FlatBufferBuilder builder = new FlatBufferBuilder(1);
+            var id = builder.CreateString("Test");
+            var pw = builder.CreateString("1234");
+            CSAuthReq.StartCSAuthReq(builder);
+            CSAuthReq.AddAccountid(builder, id);
+            CSAuthReq.AddAccountpw(builder, pw);
             
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(builder.DataBuffer.ToString());
-            m_oSendSAArgs.SetBuffer(buffer, 0, buffer.Length);
-                
+            var endoffset = CSAuthReq.EndCSAuthReq(builder);
+            
+            builder.Finish(endoffset.Value);
+            var tmp = builder.SizedByteArray();
+
+            byte[] packet = new byte[MAX_PACKET_BINARY_SIZE];
+
+            int payloadSize = builder.SizedByteArray().Length;
+            byte[] payloadSizeByte = new byte[4];
+            for (int i = 0; i < payloadSizeByte.Length; i++)
+            {
+                payloadSizeByte[i] = (byte)(payloadSize >> 24 - (i * 8));
+            }
+
+            int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;
+            byte[] msgIDBytes = new byte[4];
+            for (int i = 0; i < msgIDBytes.Length; i++)
+            {
+                msgIDBytes[i] = (byte)(tmpMsgID >> 24 - (i * 8));
+            }
+
+            Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
+
+            Array.Copy(msgIDBytes, 0, packet, 4, msgIDBytes.Length);
+
+
+            Array.Copy(tmp, 0, packet, PACKET_HEADER_SIZE, tmp.Length);
+
+
+            m_oSendSAArgs.SetBuffer(packet, 0, packet.Length);
+            
             m_oSocket.SendAsync(m_oSendSAArgs);
         }
     }
