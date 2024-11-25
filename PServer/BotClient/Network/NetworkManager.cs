@@ -1,4 +1,5 @@
 ﻿using FlatBuffers;
+using lz4;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -69,6 +70,10 @@ namespace BotClient.Network
         {
             if (_args.BytesTransferred > 0 && _args.SocketError == SocketError.Success)
             {
+
+                //압축 여부는 패킷의 맨 앞에 설정 되어 있음.
+                //LZ4를 이용해서 크기에 따라 압축, 해제 작업이 필요하다.
+                //https://github.com/IonKiwi/lz4.net
                 //buff.Get(0~3)->패킷 사이즈
                 //buff.Get(4~7)->MessageID
                 //others -> 데이터
@@ -83,6 +88,8 @@ namespace BotClient.Network
 
                         break;
                 }
+
+                //
 
                 
                 // 새로운 데이터 수신을 준비합니다.

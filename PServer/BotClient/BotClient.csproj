@@ -33,9 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlatBuffers.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\FlatBuffers.Core.dll</HintPath>
+    <Reference Include="FlatBuffers.Core">
+      <HintPath>bin\FlatBuffers.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="lz4.x64">
+      <HintPath>bin\IonKiwi.lz4.net.1.0.5\content\net45\lz4.x64.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
