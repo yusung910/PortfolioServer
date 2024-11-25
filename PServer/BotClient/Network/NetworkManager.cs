@@ -84,7 +84,7 @@ namespace BotClient.Network
                         break;
                 }
 
-
+                
                 // 새로운 데이터 수신을 준비합니다.
                 bool pending = m_oSocket.ReceiveAsync(_args);
                 if (pending == false)
