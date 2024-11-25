@@ -1,8 +1,10 @@
 ﻿using FlatBuffers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +67,29 @@ namespace BotClient.Network
 
         public void OnRecvComplete(object obj, SocketAsyncEventArgs _args)
         {
-            
+            if (_args.BytesTransferred > 0 && _args.SocketError == SocketError.Success)
+            {
+                //buff.Get(0~3)->패킷 사이즈
+                //buff.Get(4~7)->MessageID
+                //others -> 데이터
+                ByteBuffer buff = new ByteBuffer(_args.Buffer);
+                //패킷 사이즈
+                int payLoadSize = 0;
+                IFlatbufferObject packetObj = null;
+                EPacketProtocol msgID = (EPacketProtocol)13;
+                switch (msgID)
+                {
+                    case EPacketProtocol.SC_AuthRes:
+
+                        break;
+                }
+
+
+                // 새로운 데이터 수신을 준비합니다.
+                bool pending = m_oSocket.ReceiveAsync(_args);
+                if (pending == false)
+                    OnRecvComplete(null, _args);
+            }
         }
 
         public void OnSendCompleted(object obj, SocketAsyncEventArgs _args)
@@ -87,7 +111,9 @@ namespace BotClient.Network
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
             var id = builder.CreateString("Test");
             var pw = builder.CreateString("1234");
+
             CSAuthReq.StartCSAuthReq(builder);
+
             CSAuthReq.AddAccountid(builder, id);
             CSAuthReq.AddAccountpw(builder, pw);
             
@@ -96,14 +122,9 @@ namespace BotClient.Network
             builder.Finish(endoffset.Value);
             var tmp = builder.SizedByteArray();
 
-            byte[] packet = new byte[MAX_PACKET_BINARY_SIZE];
+            int payloadSize = builder.SizedByteArray().Length + PACKET_HEADER_SIZE;
+            byte[] payloadSizeByte = BitConverter.GetBytes(payloadSize);
 
-            int payloadSize = builder.SizedByteArray().Length;
-            byte[] payloadSizeByte = new byte[4];
-            for (int i = 0; i < payloadSizeByte.Length; i++)
-            {
-                payloadSizeByte[i] = (byte)(payloadSize >> 24 - (i * 8));
-            }
 
             int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;
             byte[] msgIDBytes = new byte[4];
@@ -111,6 +132,8 @@ namespace BotClient.Network
             {
                 msgIDBytes[i] = (byte)(tmpMsgID >> 24 - (i * 8));
             }
+
+            byte[] packet = new byte[payloadSize];
 
             Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
 

@@ -30,13 +30,16 @@
     <ClInclude Include="ELang.h" />
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
-    <ClInclude Include="PGPConst.h" />
+    <ClInclude Include="PGameConst.h" />
+    <ClInclude Include="PGConstVars.h" />
     <ClInclude Include="PGPDefine.h" />
     <ClInclude Include="PGPPrivate.h" />
     <ClInclude Include="PGPublic.h" />
     <ClInclude Include="ServerConfig.h" />
+    <ClInclude Include="SimpleHeroInfo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PGameConst.cpp" />
     <ClCompile Include="PGPPrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

@@ -51,9 +51,11 @@ protected:
 		typename = typename std::enable_if<std::is_base_of<Service, DispatcherType>::value>::type>
 	void RegisterHandler(bool (DispatcherType::* _handler)(int, const MessageType&))
 	{
+        if (nullptr == m_pService)
+            return;
+
 		DispatcherType* localDerived = static_cast<DispatcherType*>(this);
 
-		//MessageType::NativeTableType().messageid -> flatbuffer 
 		int localID = static_cast<int>(typename MessageType::NativeTableType().messageid);
 
 		auto localInvoker = [this, localID, localDerived, _handler](const Packet& _packet) {

@@ -10,6 +10,15 @@
     <Filter Include="Config">
       <UniqueIdentifier>{5970c7b0-ab50-4730-9bf1-a31074f2bf76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{e4400e26-c5df-4ec6-9ac8-4688a59c50e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\PC">
+      <UniqueIdentifier>{8f000c6a-b6fb-47d3-a1bb-640b4dec5b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\BaseObject">
+      <UniqueIdentifier>{39936ffb-d158-4557-8b89-1b1f35a05ce4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -18,7 +27,7 @@
     <ClInclude Include="EResult.h">
       <Filter>0_Private</Filter>
     </ClInclude>
-    <ClInclude Include="PGPConst.h">
+    <ClInclude Include="PGConstVars.h">
       <Filter>Struct</Filter>
     </ClInclude>
     <ClInclude Include="ELang.h">
@@ -36,6 +45,12 @@
     <ClInclude Include="ServerConfig.h">
       <Filter>Config</Filter>
     </ClInclude>
+    <ClInclude Include="SimpleHeroInfo.h">
+      <Filter>Object\PC</Filter>
+    </ClInclude>
+    <ClInclude Include="PGameConst.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -43,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="ServerConfig.cpp">
       <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="PGameConst.cpp">
+      <Filter>Struct</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
