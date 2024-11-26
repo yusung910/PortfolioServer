@@ -1,5 +1,4 @@
 ﻿using FlatBuffers;
-using lz4;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -165,7 +164,7 @@ namespace BotClient.Network
             if (packetBody > DEFAULT_PACKET_COMPRESS_START_SIZE)
             {
                 //패킷 암호화
-                packet = LZ4Helper.Compress(packet);
+                packet = LZ4.LZ4Codec.Wrap(packet);
             }
 
             m_oSendSAArgs.SetBuffer(packet, 0, packet.Length);

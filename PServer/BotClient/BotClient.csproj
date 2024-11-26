@@ -37,8 +37,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\FlatBuffers.Core.dll</HintPath>
     </Reference>
-    <Reference Include="lz4.AnyCPU.loader">
-      <HintPath>bin\Debug\IonKiwi.lz4.net.1.0.5\lib\net45\lz4.AnyCPU.loader.dll</HintPath>
+    <Reference Include="LZ4, Version=1.0.15.93, Culture=neutral, PublicKeyToken=62e1b5ec1eec9bdd, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\LZ4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
