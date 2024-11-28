@@ -165,6 +165,7 @@ obj/
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
+#k4os lib 경로
 !lib/**/**/**/**/*
 
 #로그 파일들
