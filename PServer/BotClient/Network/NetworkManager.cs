@@ -9,6 +9,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using lz4;
 
 namespace BotClient.Network
 {
@@ -78,8 +79,8 @@ namespace BotClient.Network
                 Byte firstByte = _args.Buffer[0];
                 ByteBuffer buff = new ByteBuffer(_args.Buffer);
                 //패킷 사이즈
-                int payLoadSize = 0;
-                IFlatbufferObject packetObj = null;
+                //int payLoadSize = 0;
+                //IFlatbufferObject packetObj = null;
                 EPacketProtocol msgID = (EPacketProtocol)13;
                 switch (msgID)
                 {
@@ -127,23 +128,17 @@ namespace BotClient.Network
             //flatbuffer byte
             var tmp = builder.SizedByteArray();
 
-            //body 사이즈
-            int packetBody = builder.SizedByteArray().Length;
-
-            //패킷 총 크기
-            int payloadSize = packetBody + PACKET_HEADER_SIZE;
-
             //패킷 payload byte 배열
             byte[] payloadSizeByte = new byte[4];
 
             //패킷 body 사이즈에 따라 압축 여부 지정
-            if (packetBody > DEFAULT_PACKET_COMPRESS_START_SIZE)
+            if (tmp.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
             {
-                payloadSizeByte = BitConverter.GetBytes(payloadSize | PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes(tmp.Length | PACKET_COMPRESS_MASK);
             }
             else
             {
-                payloadSizeByte = BitConverter.GetBytes(payloadSize & ~PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes(tmp.Length & ~PACKET_COMPRESS_MASK);
             }
 
             int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;
@@ -153,19 +148,22 @@ namespace BotClient.Network
                 msgIDBytes[i] = (byte)(tmpMsgID >> 24 - (i * 8));
             }
 
-            byte[] packet = new byte[payloadSize];
+
+            if (tmp.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
+            {
+                //패킷 암호화
+                //https://stackoverflow.com/questions/48805020/encode-and-decode-byte-array-using-lz4net
+                //tmp = LZ4.LZ4Codec.Wrap(tmp);
+                tmp = LZ4Helper.Compress(tmp);
+            }
+            //패킷 데이터 세팅
+            byte[] packet = new byte[tmp.Length + PACKET_HEADER_SIZE];
 
             Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
 
             Array.Copy(msgIDBytes, 0, packet, 4, msgIDBytes.Length);
 
             Array.Copy(tmp, 0, packet, PACKET_HEADER_SIZE, tmp.Length);
-
-            if (packetBody > DEFAULT_PACKET_COMPRESS_START_SIZE)
-            {
-                //패킷 암호화
-                packet = LZ4.LZ4Codec.Wrap(packet);
-            }
 
             m_oSendSAArgs.SetBuffer(packet, 0, packet.Length);
             

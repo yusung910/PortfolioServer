@@ -42,7 +42,7 @@ bool PacketCompressor::Decompress(char* _pBuffer, const int& _size)
         || _size <= 0)
         return false;
 
-    m_nCompressedSize = LZ4_decompress_safe(_pBuffer, m_cCompressBuffer, _size, MAX_PACKET_DATA_SIZE);
+    m_nCompressedSize = LZ4_decompress_safe(_pBuffer, m_cCompressBuffer, _size, MAX_PACKET_BINARY_SIZE);
 
     if (m_nCompressedSize <= 0)
         return false;
