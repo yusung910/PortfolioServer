@@ -165,7 +165,7 @@ obj/
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
-!lib/**/**/*.dll
+!lib/**/**/**/**/*
 
 #로그 파일들
 *.log
