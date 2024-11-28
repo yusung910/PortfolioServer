@@ -94,12 +94,6 @@
   <ItemGroup>
     <Folder Include="lib\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\lz4.AnyCpu.loader\lz4.AnyCPU.loader.csproj">
-      <Project>{8364cae8-5a20-4160-b42f-edc3d2c898f4}</Project>
-      <Name>lz4.AnyCPU.loader</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>$(SolutionDir)..\lib\FlatBuffers\x64\flatc.exe --csharp -o $(ProjectDir)Protocol $(SolutionDir)..\Common\SCCmn\Protocol.fbs --no-prefix --gen-object-api</PreBuildEvent>

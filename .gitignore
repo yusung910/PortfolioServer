@@ -165,7 +165,6 @@ obj/
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
-!PServer/BotClient/bin/Debug/IonKiwi.lz4.net.1.0.5/**/*
 
 #로그 파일들
 *.log

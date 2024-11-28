@@ -116,8 +116,8 @@ namespace BotClient.Network
 
             //Flatbuffer 데이터 빌드 할 때 각각 패킷에 들어갈 데이터 먼저 빌드 해줘야한다(CreateString 등등을 먼저 해야한다)
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
-            var id = builder.CreateString("test");
-            var pw = builder.CreateString("1234");
+            var id = builder.CreateString("yusung910@nate.com");
+            var pw = builder.CreateString("1234567890!@#$%^&*()_");
 
             CSAuthReq.StartCSAuthReq(builder);
 
@@ -135,11 +135,11 @@ namespace BotClient.Network
             //패킷 body 사이즈에 따라 압축 여부 지정
             if (tmp.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
             {
-                payloadSizeByte = BitConverter.GetBytes((tmp.Length+PACKET_HEADER_SIZE) | PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes((uint)(tmp.Length+PACKET_HEADER_SIZE) | PACKET_COMPRESS_MASK);
             }
             else
             {
-                payloadSizeByte = BitConverter.GetBytes((tmp.Length + PACKET_HEADER_SIZE) & ~PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes((uint)(tmp.Length + PACKET_HEADER_SIZE) & ~PACKET_COMPRESS_MASK);
             }
 
             int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;
@@ -154,7 +154,6 @@ namespace BotClient.Network
             {
                 //패킷 암호화
                 //https://stackoverflow.com/questions/48805020/encode-and-decode-byte-array-using-lz4net
-                //tmp = LZ4.LZ4Codec.Wrap(tmp);
                 tmp = LZ4Helper.Compress(tmp);
             }
             //패킷 데이터 세팅
@@ -163,7 +162,6 @@ namespace BotClient.Network
             Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
 
             Array.Copy(msgIDBytes, 0, packet, 4, msgIDBytes.Length);
-
 
             Array.Copy(tmp, 0, packet, PACKET_HEADER_SIZE, tmp.Length);
 

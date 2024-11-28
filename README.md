@@ -154,4 +154,11 @@ private:
     5. !! 작성한 dll(SCore), lib(SPublic) 프로젝트를 참조하는 PGameServer 프로젝트에서 dll, lib에 선언 되어 있는 함수를 실행 할 때
        함수 외부에서 전달하는 매개변수의 값이 함수 내부에서 NULL로 초기화 되는 현상 발생.
        -> 해결!! SCore 프로젝트의 빌드 결과(.dll, .lib) 파일들에 대한 경로가 맞지 않은 이유로 발생한것으로 추측.
-    6. 
+    6. LZ4 for C#에서 작업하기 위한 내용
+	   -> https://github.com/IonKiwi/lz4.net 라이브러리를 이용
+	   -> SCCommon 폴더 내에 lz4, lz4.AnyCPU.loader 프로젝트 추가(https://github.com/IonKiwi/lz4.net 프로젝트)
+	      ㅇ LZ4Loader.cs (Line: 385) 에러 발생 시 해결 방법
+	          > lz4.AnyCPU.loader 프로젝트에 있는 x64/lz4.dll 파일의 속성에서 '빌드 작업' 옵션을 '포함 리소스'로 변경해야함
+	   -> 원인을 알 수 없는 에러 발생
+	      ㅇ LZ4Loader.cs (Line: 388) 어셈블리 파일을 찾았으나 로드(load)가 안되는 이슈 발생
+
