@@ -33,148 +33,154 @@ constexpr int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;		// 60 byte ¿ÃªÛ ∫∏≥ªæﬂ «
 class Packet : public Object<Packet>
 {
 public:
-    int HostID = 0;
-    char BinaryData[MAX_PACKET_BINARY_SIZE] = { 0, };	// ∆–≈∂ πŸ¿Ã≥ ∏Æ. Message Payload
+	int HostID = 0;
+	char BinaryData[MAX_PACKET_BINARY_SIZE] = { 0, };	// ∆–≈∂ πŸ¿Ã≥ ∏Æ. Message Payload
 
 public:
-    Packet() : Packet(ObjectTag()) {};
-    Packet(ObjectTag) {};
+	Packet() : Packet(ObjectTag()) {};
+	Packet(ObjectTag) {};
 
-    /// <summary>
-    /// ≈¨∑°Ω∫ ∞™ √ ±‚»≠
-    /// </summary>
-    virtual void Reset()
-    {
-        HostID = 0;
-        memset(BinaryData, 0x00, MAX_PACKET_BINARY_SIZE);
-    }
+	/// <summary>
+	/// ≈¨∑°Ω∫ ∞™ √ ±‚»≠
+	/// </summary>
+	virtual void Reset()
+	{
+		HostID = 0;
+		memset(BinaryData, 0x00, MAX_PACKET_BINARY_SIZE);
+	}
 
-    /// <summary>
-    /// æÓ∂≤ ∆–≈∂¿Œ¡ˆ Message ID∏¶ º≥¡§«—¥Ÿ.
-    /// </summary>
-    /// <param name="messageid">Message ID</param>
-    void SetMessageID(const int& messageid)
-    {
-        *((int*)(BinaryData + sizeof(int))) = htonl(messageid);
-        SetPacketSize(PACKET_HEADER_SIZE);
-    }
+	/// <summary>
+	/// æÓ∂≤ ∆–≈∂¿Œ¡ˆ Message ID∏¶ º≥¡§«—¥Ÿ.
+	/// </summary>
+	/// <param name="messageid">Message ID</param>
+	void SetMessageID(const int& messageid)
+	{
+		*((int*)(BinaryData + sizeof(int))) = htonl(messageid);
+		SetPacketSize(PACKET_HEADER_SIZE);
+	}
 
-    /// <summary>
-    /// ∆–≈∂ø° Ω«æÓ ∫∏≥æ µ•¿Ã≈Õ∏¶ º≥¡§«—¥Ÿ.
-    /// </summary>
-    /// <param name="pData">∫∏≥æ µ•¿Ã≈Õ</param>
-    /// <param name="dataSize">∫∏≥æ µ•¿Ã≈Õ¿« ≈©±‚</param>
-    /// <returns>µ•¿Ã≈Õ º≥¡§ º∫∞¯ ø©∫Œ</returns>
-    bool SetData(const void* pData, const size_t& dataSize)
-    {
-        if (nullptr == pData)
-            return false;
+	/// <summary>
+	/// ∆–≈∂ø° Ω«æÓ ∫∏≥æ µ•¿Ã≈Õ∏¶ º≥¡§«—¥Ÿ.
+	/// </summary>
+	/// <param name="pData">∫∏≥æ µ•¿Ã≈Õ</param>
+	/// <param name="dataSize">∫∏≥æ µ•¿Ã≈Õ¿« ≈©±‚</param>
+	/// <returns>µ•¿Ã≈Õ º≥¡§ º∫∞¯ ø©∫Œ</returns>
+	bool SetData(const void* pData, const size_t& dataSize)
+	{
+		if (nullptr == pData)
+			return false;
 
-        if (dataSize > MAX_PACKET_DATA_SIZE
-            || dataSize == 0)
-            return false;
+		if (dataSize > MAX_PACKET_DATA_SIZE
+			|| dataSize == 0)
+			return false;
 
 #ifdef _MSC_VER
-        memcpy_s(BinaryData + PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE, pData, dataSize);
+		memcpy_s(BinaryData + PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE, pData, dataSize);
 #else
-        memcpy(BinaryData + PACKET_HEADER_SIZE, pData, dataSize);
+		memcpy(BinaryData + PACKET_HEADER_SIZE, pData, dataSize);
 #endif
 
-        SetPacketSize(PACKET_HEADER_SIZE + dataSize);
-        return true;
-    }
+		SetPacketSize(PACKET_HEADER_SIZE + dataSize);
+		return true;
+	}
 
-    /// <summary>
-    /// «—πÊø° ∆–≈∂ µ•¿Ã≈Õ∏¶ º≥¡§«—¥Ÿ.
-    /// pData∞° nullptr¿œ ∞ÊøÏ, Header-only ∆–≈∂¿Ã ∏∏µÈæÓ¡¯¥Ÿ.
-    /// </summary>
-    /// <param name="messageid">Message ID</param>
-    /// <param name="pData">∫∏≥æ µ•¿Ã≈Õ</param>
-    /// <param name="dataSize">∫∏≥æ µ•¿Ã≈Õ ≈©±‚</param>
-    /// <returns>∆–≈∂ µ•¿Ã≈Õ º≥¡§ º∫∞¯ ø©∫Œ</returns>
-    bool SetPacketData(const int& messageid, const void* pData = nullptr, const size_t& dataSize = 0)
-    {
-        SetMessageID(messageid);
-        if (nullptr != pData)
-            return SetData(pData, dataSize);
-        return true;
-    }
+	/// <summary>
+	/// «—πÊø° ∆–≈∂ µ•¿Ã≈Õ∏¶ º≥¡§«—¥Ÿ.
+	/// pData∞° nullptr¿œ ∞ÊøÏ, Header-only ∆–≈∂¿Ã ∏∏µÈæÓ¡¯¥Ÿ.
+	/// </summary>
+	/// <param name="messageid">Message ID</param>
+	/// <param name="pData">∫∏≥æ µ•¿Ã≈Õ</param>
+	/// <param name="dataSize">∫∏≥æ µ•¿Ã≈Õ ≈©±‚</param>
+	/// <returns>∆–≈∂ µ•¿Ã≈Õ º≥¡§ º∫∞¯ ø©∫Œ</returns>
+	bool SetPacketData(const int& messageid, const void* pData = nullptr, const size_t& dataSize = 0)
+	{
+		SetMessageID(messageid);
+		if (nullptr != pData)
+			return SetData(pData, dataSize);
+		return true;
+	}
 
-    /// <summary>
-    /// æÓ∂≤ ∆–≈∂ ¡æ∑˘¿Œ¡ˆ Message ID∏¶ æÚæÓø¬¥Ÿ.
-    /// </summary>
-    /// <returns>Message ID</returns>
-    int GetMessageID() const
-    {
-        return ntohl(*((int*)(BinaryData + sizeof(int))));
-    }
+	/// <summary>
+	/// æÓ∂≤ ∆–≈∂ ¡æ∑˘¿Œ¡ˆ Message ID∏¶ æÚæÓø¬¥Ÿ.
+	/// </summary>
+	/// <returns>Message ID</returns>
+	int GetMessageID() const
+	{
+		return ntohl(*((int*)(BinaryData + sizeof(int))));
+	}
 
-    /// <summary>
-    /// ∆–≈∂ø° ¥„∞‹ø¬, «Ï¥ı∏¶ ¡¶ø‹«— Ω«¡¶ µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ¿« ≈©±‚.
-    /// </summary>
-    /// <returns>µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ ≈©±‚</returns>
-    int GetMessageSize() const
-    {
-        return GetPacketSize() - PACKET_HEADER_SIZE;
-    }
+	/// <summary>
+	/// ∆–≈∂ø° ¥„∞‹ø¬, «Ï¥ı∏¶ ¡¶ø‹«— Ω«¡¶ µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ¿« ≈©±‚.
+	/// </summary>
+	/// <returns>µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ ≈©±‚</returns>
+	int GetMessageSize() const
+	{
+		return GetPacketSize() - PACKET_HEADER_SIZE;
+	}
 
-    /// <summary>
-    /// «Ï¥ı∏¶ ∆˜«‘«—, ¿¸√º ¿¸º€«“ ∆–≈∂¿« ≈©±‚. 
-    /// ( Payload Length )
-    /// </summary>
-    /// <returns>∆–≈∂ ¿¸√º ≈©±‚</returns>
-    int GetPacketSize() const
-    {
-        return (int)(*((unsigned int*)(BinaryData)) & ~PACKET_COMPRESS_MASK);
-    }
+	/// <summary>
+	/// «Ï¥ı∏¶ ∆˜«‘«—, ¿¸√º ¿¸º€«“ ∆–≈∂¿« ≈©±‚. 
+	/// ( Payload Length )
+	/// </summary>
+	/// <returns>∆–≈∂ ¿¸√º ≈©±‚</returns>
+	int GetPacketSize() const
+	{
+		return (int)(*((unsigned int*)(BinaryData)) & ~PACKET_COMPRESS_MASK);
+	}
 
-    /// <summary>
-    /// «Ï¥ı∏¶ ¡¶ø‹«— Ω«¡¶ µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ¿« Ω√¿€ ∆˜¿Œ≈Õ.
-    /// </summary>
-    /// <returns>µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ ∆˜¿Œ≈Õ</returns>
-    void* GetDataPtr() const
-    {
-        return (void*)(BinaryData + PACKET_HEADER_SIZE);
-    }
+	/// <summary>
+	/// «Ï¥ı∏¶ ¡¶ø‹«— Ω«¡¶ µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ¿« Ω√¿€ ∆˜¿Œ≈Õ.
+	/// </summary>
+	/// <returns>µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ ∆˜¿Œ≈Õ</returns>
+	void* GetDataPtr() const
+	{
+		return (void*)(BinaryData + PACKET_HEADER_SIZE);
+	}
 
-    /// <summary>
-    /// «ÿ¥Á ∆–≈∂¿Ã æ–√‡µ» ∆–≈∂¿Œ¡ˆ ø©∫Œ
-    /// </summary>
-    /// <returns>∆–≈∂ µ•¿Ã≈Õ¿« æ–√‡ ø©∫Œ</returns>
-    bool IsCompressed() const
-    {
-        return (*((unsigned int*)(BinaryData)) & PACKET_COMPRESS_MASK) > 0u;
-    }
+	/// <summary>
+	/// «ÿ¥Á ∆–≈∂¿Ã æ–√‡µ» ∆–≈∂¿Œ¡ˆ ø©∫Œ
+	/// </summary>
+	/// <returns>∆–≈∂ µ•¿Ã≈Õ¿« æ–√‡ ø©∫Œ</returns>
+	bool IsCompressed() const
+	{
+		return (*((unsigned int*)(BinaryData)) & PACKET_COMPRESS_MASK) > 0u;
+	}
 
-    /// <summary>
-    /// ∆–≈∂ µ•¿Ã≈Õ¿« æ–√‡ ø©∫Œ FLAG∏¶ º≥¡§«—¥Ÿ.
-    /// </summary>
-    /// <param name="onoff">º≥¡§«“ ∆–≈∂ æ–√‡ ø©∫Œ ªÛ≈¬</param>
-    void SetCompressed(const bool& onoff)
-    {
-        if (true == onoff)
-            *((unsigned int*)(BinaryData)) |= PACKET_COMPRESS_MASK;
-        else
-            *((unsigned int*)(BinaryData)) &= ~PACKET_COMPRESS_MASK;
-    }
+	/// <summary>
+	/// ∆–≈∂ µ•¿Ã≈Õ¿« æ–√‡ ø©∫Œ FLAG∏¶ º≥¡§«—¥Ÿ.
+	/// </summary>
+	/// <param name="onoff">º≥¡§«“ ∆–≈∂ æ–√‡ ø©∫Œ ªÛ≈¬</param>
+	void SetCompressed(const bool& onoff)
+	{
+		if (true == onoff)
+			*((unsigned int*)(BinaryData)) |= PACKET_COMPRESS_MASK;
+		else
+			*((unsigned int*)(BinaryData)) &= ~PACKET_COMPRESS_MASK;
+	}
 
-    /// <summary>
-    /// ≥◊∆Æøˆ≈©∑Œ ∫∏≥æ ∆–≈∂¿« ¿¸√º ≈©±‚∏¶ º≥¡§«—¥Ÿ.
-    /// ( Payload Length )
-    /// 
-    /// ∞°±ﬁ¿˚ ø‹∫Œø°º≠¥¬ ≤¿ « ø‰«— ∞ÊøÏ ¡¶ø‹«œ∞Ì¥¬ ªÁøÎ«œ¡ˆ ∏ª∞Õ.
-    /// (∆–≈∂ æ–√‡ µÓ ≥ª∫Œ ªÁ¿Ã¡Ó∞° ¡∂¿€µ«¥¬ ∞ÊøÏ ªÁøÎ)
-    /// </summary>
-    /// <param name="size">¿¸º€«“ ∆–≈∂¿« ≈©±‚. PACKET_HEADER_SIZE ∫∏¥Ÿ ¿€¿∏∏È æ»µ .</param>
-    void SetPacketSize(const size_t& size)
-    {
-        if (size < PACKET_HEADER_SIZE)
-            return;
-        bool isCompress = IsCompressed();
+	/// <summary>
+	/// ≥◊∆Æøˆ≈©∑Œ ∫∏≥æ ∆–≈∂¿« ¿¸√º ≈©±‚∏¶ º≥¡§«—¥Ÿ.
+	/// ( Payload Length )
+	/// 
+	/// ∞°±ﬁ¿˚ ø‹∫Œø°º≠¥¬ ≤¿ « ø‰«— ∞ÊøÏ ¡¶ø‹«œ∞Ì¥¬ ªÁøÎ«œ¡ˆ ∏ª∞Õ.
+	/// (∆–≈∂ æ–√‡ µÓ ≥ª∫Œ ªÁ¿Ã¡Ó∞° ¡∂¿€µ«¥¬ ∞ÊøÏ ªÁøÎ)
+	/// </summary>
+	/// <param name="size">¿¸º€«“ ∆–≈∂¿« ≈©±‚. PACKET_HEADER_SIZE ∫∏¥Ÿ ¿€¿∏∏È æ»µ .</param>
+	void SetPacketSize(const size_t& size)
+	{
+		if (size < PACKET_HEADER_SIZE)
+			return;
+		bool isCompress = IsCompressed();
 
-        *((int*)(BinaryData)) = (static_cast<int>(size));
+		*((int*)(BinaryData)) = (static_cast<int>(size));
 
-        if (true == isCompress)
-            SetCompressed(isCompress);
-    }
+		if (true == isCompress)
+			SetCompressed(isCompress);
+	}
+
+
 };
+
+
+
+

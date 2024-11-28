@@ -1,4 +1,5 @@
 ﻿using FlatBuffers;
+using lz4;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,8 +20,7 @@ namespace BotClient.Network
         private static int MAX_PACKET_BINARY_SIZE = 8192 * 2;              // 패킷 바이너리 최대 크기 (Payload)
         private static int PACKET_HEADER_SIZE = 8;                 // size 4 + protocol 4
         private static int MAX_PACKET_DATA_SIZE = MAX_PACKET_BINARY_SIZE - PACKET_HEADER_SIZE;	// 패킷에 들어갈수 있는 최대 데이터 크기
-        private static uint PACKET_COMPRESS_MASK = 0x80000000;
-        private static int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;
+
         bool m_IsConnected = false;
 
         Socket m_oSocket;
@@ -71,12 +71,13 @@ namespace BotClient.Network
         {
             if (_args.BytesTransferred > 0 && _args.SocketError == SocketError.Success)
             {
-                //패킷 압축 여부에 따라 lz4를 이용해서 압축, 해제 한다
+
+                //압축 여부는 패킷의 맨 앞에 설정 되어 있음.
+                //LZ4를 이용해서 크기에 따라 압축, 해제 작업이 필요하다.
                 //https://github.com/IonKiwi/lz4.net
                 //buff.Get(0~3)->패킷 사이즈
                 //buff.Get(4~7)->MessageID
                 //others -> 데이터
-                Byte firstByte = _args.Buffer[0];
                 ByteBuffer buff = new ByteBuffer(_args.Buffer);
                 //패킷 사이즈
                 //int payLoadSize = 0;
@@ -88,6 +89,8 @@ namespace BotClient.Network
 
                         break;
                 }
+
+                //
 
                 
                 // 새로운 데이터 수신을 준비합니다.
@@ -114,8 +117,8 @@ namespace BotClient.Network
 
             //Flatbuffer 데이터 빌드 할 때 각각 패킷에 들어갈 데이터 먼저 빌드 해줘야한다(CreateString 등등을 먼저 해야한다)
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
-            var id = builder.CreateString("yusung910@nate.com");
-            var pw = builder.CreateString("1234123AB!!@");
+            var id = builder.CreateString("Test");
+            var pw = builder.CreateString("1234");
 
             CSAuthReq.StartCSAuthReq(builder);
 
@@ -125,7 +128,6 @@ namespace BotClient.Network
             var endoffset = CSAuthReq.EndCSAuthReq(builder);
             
             builder.Finish(endoffset.Value);
-            //flatbuffer byte
             var tmp = builder.SizedByteArray();
 
             //패킷 payload byte 배열
@@ -162,6 +164,7 @@ namespace BotClient.Network
             Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
 
             Array.Copy(msgIDBytes, 0, packet, 4, msgIDBytes.Length);
+
 
             Array.Copy(tmp, 0, packet, PACKET_HEADER_SIZE, tmp.Length);
 

@@ -34,9 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlatBuffers.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\FlatBuffers.Core.dll</HintPath>
+    <Reference Include="FlatBuffers.Core">
+      <HintPath>bin\FlatBuffers.Core.dll</HintPath>
     </Reference>
     <Reference Include="lz4.AnyCPU.loader, Version=1.0.16.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
