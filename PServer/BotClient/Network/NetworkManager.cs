@@ -10,7 +10,6 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using lz4;
 
 namespace BotClient.Network
 {
@@ -20,7 +19,8 @@ namespace BotClient.Network
         private static int MAX_PACKET_BINARY_SIZE = 8192 * 2;              // 패킷 바이너리 최대 크기 (Payload)
         private static int PACKET_HEADER_SIZE = 8;                 // size 4 + protocol 4
         private static int MAX_PACKET_DATA_SIZE = MAX_PACKET_BINARY_SIZE - PACKET_HEADER_SIZE;	// 패킷에 들어갈수 있는 최대 데이터 크기
-
+        private static int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;	// 패킷 압축 최소 기준
+        private static uint PACKET_COMPRESS_MASK = 0x80000000;
         bool m_IsConnected = false;
 
         Socket m_oSocket;
@@ -114,10 +114,9 @@ namespace BotClient.Network
                 return;
             }
 
-
             //Flatbuffer 데이터 빌드 할 때 각각 패킷에 들어갈 데이터 먼저 빌드 해줘야한다(CreateString 등등을 먼저 해야한다)
             FlatBufferBuilder builder = new FlatBufferBuilder(1);
-            var id = builder.CreateString("Test");
+            var id = builder.CreateString("test");
             var pw = builder.CreateString("1234");
 
             CSAuthReq.StartCSAuthReq(builder);
@@ -136,11 +135,11 @@ namespace BotClient.Network
             //패킷 body 사이즈에 따라 압축 여부 지정
             if (tmp.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
             {
-                payloadSizeByte = BitConverter.GetBytes(tmp.Length | PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes((tmp.Length+PACKET_HEADER_SIZE) | PACKET_COMPRESS_MASK);
             }
             else
             {
-                payloadSizeByte = BitConverter.GetBytes(tmp.Length & ~PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes((tmp.Length + PACKET_HEADER_SIZE) & ~PACKET_COMPRESS_MASK);
             }
 
             int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;

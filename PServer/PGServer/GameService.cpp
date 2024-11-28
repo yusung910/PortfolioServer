@@ -66,10 +66,17 @@ bool GameService::OnCSAuthReq(int _hostID, const CSAuthReq& _msg)
     return true;
 }
 
+bool GameService::OnSCAuthReq(int _hostID, const CSAuthReq& _msg)
+{
+	VIEW_INFO("OnSCAuthReq _hostID: %d, accountid: %s, pw: %s", _hostID, _msg.accountid()->c_str(), _msg.accountpw());
+	return true;
+}
+
 void GameService::_RegisterPacketHandlers()
 {
 	RegisterHandler(&GameService::OnHostConnect);
 	RegisterHandler(&GameService::OnCSAuthReq);
+	RegisterHandler(&GameService::OnSCAuthReq);
 }
 
 void GameService::_RegisterTimers()

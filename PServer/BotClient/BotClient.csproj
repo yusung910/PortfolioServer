@@ -37,10 +37,6 @@
     <Reference Include="FlatBuffers.Core">
       <HintPath>bin\FlatBuffers.Core.dll</HintPath>
     </Reference>
-    <Reference Include="lz4.AnyCPU.loader, Version=1.0.16.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Common\lz4.AnyCpu.loader\bin\Debug\lz4.AnyCPU.loader.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -97,6 +93,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\lz4.AnyCpu.loader\lz4.AnyCPU.loader.csproj">
+      <Project>{8364cae8-5a20-4160-b42f-edc3d2c898f4}</Project>
+      <Name>lz4.AnyCPU.loader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
