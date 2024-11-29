@@ -1,5 +1,5 @@
 ﻿using FlatBuffers;
-using lz4;
+using K4os.Compression.LZ4;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -127,19 +127,19 @@ namespace BotClient.Network
             var endoffset = CSAuthReq.EndCSAuthReq(builder);
             
             builder.Finish(endoffset.Value);
-            var tmp = builder.SizedByteArray();
+            var bodyPacket = builder.SizedByteArray();
 
             //패킷 payload byte 배열
             byte[] payloadSizeByte = new byte[4];
 
             //패킷 body 사이즈에 따라 압축 여부 지정
-            if (tmp.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
+            if (bodyPacket.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
             {
-                payloadSizeByte = BitConverter.GetBytes((uint)(tmp.Length+PACKET_HEADER_SIZE) | PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes((uint)(bodyPacket.Length+PACKET_HEADER_SIZE) | PACKET_COMPRESS_MASK);
             }
             else
             {
-                payloadSizeByte = BitConverter.GetBytes((uint)(tmp.Length + PACKET_HEADER_SIZE) & ~PACKET_COMPRESS_MASK);
+                payloadSizeByte = BitConverter.GetBytes((uint)(bodyPacket.Length + PACKET_HEADER_SIZE) & ~PACKET_COMPRESS_MASK);
             }
 
             int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;
@@ -149,21 +149,22 @@ namespace BotClient.Network
                 msgIDBytes[i] = (byte)(tmpMsgID >> 24 - (i * 8));
             }
 
+            byte[] SendPacketBody = new byte[LZ4Codec.MaximumOutputSize(bodyPacket.Length)];
 
-            if (tmp.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
+            if (bodyPacket.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
             {
                 //패킷 암호화
                 //https://stackoverflow.com/questions/48805020/encode-and-decode-byte-array-using-lz4net
-                tmp = LZ4Helper.Compress(tmp);
+                LZ4Codec.Encode(bodyPacket, 0, bodyPacket.Length, SendPacketBody, 0, SendPacketBody.Length);
             }
             //패킷 데이터 세팅
-            byte[] packet = new byte[tmp.Length + PACKET_HEADER_SIZE];
+            byte[] packet = new byte[bodyPacket.Length + PACKET_HEADER_SIZE];
 
             Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
 
             Array.Copy(msgIDBytes, 0, packet, 4, msgIDBytes.Length);
 
-            Array.Copy(tmp, 0, packet, PACKET_HEADER_SIZE, tmp.Length);
+            Array.Copy(bodyPacket, 0, packet, PACKET_HEADER_SIZE, bodyPacket.Length);
 
             m_oSendSAArgs.SetBuffer(packet, 0, packet.Length);
             

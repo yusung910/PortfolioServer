@@ -37,6 +37,10 @@
     <Reference Include="FlatBuffers.Core">
       <HintPath>bin\FlatBuffers.Core.dll</HintPath>
     </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.0.0.0, Culture=neutral, PublicKeyToken=668b50653d4efca1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\K4os.Compression.LZ4_1.3.8\K4os.Compression.LZ4.Legacy\Release\net462\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
