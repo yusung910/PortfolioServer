@@ -51,6 +51,9 @@
     <ClInclude Include="PGameConst.h">
       <Filter>Struct</Filter>
     </ClInclude>
+    <ClInclude Include="BaseObject.h">
+      <Filter>Object\BaseObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="PGameConst.cpp">
       <Filter>Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseObject.cpp">
+      <Filter>Object\BaseObject</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

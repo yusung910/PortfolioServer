@@ -39,5 +39,10 @@ namespace BotClient
         {
             m_oManager.Send();
         }
+
+        private void btnLogClear_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

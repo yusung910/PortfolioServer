@@ -100,6 +100,11 @@ function test(int _a)
 		<td></td>
 	</tr>
 	<tr>
+		<td>SQL</td>
+		<td align="center">sql</td>
+		<td></td>
+	</tr>
+	<tr>
 		<td>other (class, object...)</td>
 		<td align="center">o(other)</td>
 		<td></td>
@@ -144,6 +149,11 @@ private:
     1. SCCommon -> 서버, 클라이언트가 같이 사용되는 프로젝트 디렉토리
     2. Servers -> 서버 구동에 필요한 프로젝트 디렉토리
     ... 작업 중
+
+### 1.7 to do 리스트
+    1. BotClient 작업
+	   a. 서버 패킷 별 통신 작업
+
 
 ## 2.1 작업중 이슈 내용
     1. 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.
