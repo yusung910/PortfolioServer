@@ -153,7 +153,8 @@ private:
 ### 1.7 to do 리스트
     1. BotClient 작업
 	   a. 서버 패킷 별 통신 작업
-
+	2. DB는 OLE DB를 사용.
+	   a. DBWorker 작업중
 
 ## 2.1 작업중 이슈 내용
     1. 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.

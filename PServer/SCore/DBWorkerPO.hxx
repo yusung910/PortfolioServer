@@ -31,7 +31,7 @@ private:
 	std::string m_sConnection;
 	std::string m_sDBName;
 	std::string m_sProvider;
-	HRESULT		m_ohr;
+	HRESULT		m_oHr;
 
 public:
 	DBWorkerPO() = default;
@@ -47,8 +47,10 @@ public:
 	bool Init();
 
 	CSession GetSession();
+
+	bool IsConnected();
 private:
 	bool _ConnectDB();
-	bool _CheckDBConnection();
+	void _CheckDBConnection();
 };
 

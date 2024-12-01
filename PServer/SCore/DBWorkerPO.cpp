@@ -30,8 +30,8 @@ bool DBWorkerPO::Init()
     try
     {
         //COM 초기화  
-        m_ohr = CoInitialize(0);
-        if (FAILED(m_ohr))
+        m_oHr = CoInitialize(0);
+        if (FAILED(m_oHr))
         {
             m_bInitialized = false;
             VIEW_WRITE_ERROR("DBWorker::Init() - CoInitialize(0) Fail!");
@@ -43,9 +43,9 @@ bool DBWorkerPO::Init()
         dbinit.AddProperty(DBPROP_INIT_PROMPT, (SHORT)4);
         dbinit.AddProperty(DBPROP_INIT_PROVIDERSTRING, m_sConnection.c_str());
         dbinit.AddProperty(DBPROP_INIT_LCID, (LONG)1043); //->Locale identifier  
-        m_ohr = m_ds.Open(_T("SQLOLEDB"), &dbinit);
+        m_oHr = m_ds.Open(_T("SQLOLEDB"), &dbinit);
 
-        if (FAILED(m_ohr))
+        if (FAILED(m_oHr))
         {
             m_bInitialized = false;
             VIEW_WRITE_ERROR("DBWorker::Init() - m_ds.Open() Fail!");
@@ -67,11 +67,16 @@ CSession DBWorkerPO::GetSession()
     return m_oSession;
 }
 
+bool DBWorkerPO::IsConnected()
+{
+    return !FAILED(m_oHr);
+}
+
 bool DBWorkerPO::_ConnectDB()
 {
     //세션을 시작합니다.  
-    m_ohr = m_oSession.Open(m_ds);
-    if (FAILED(m_ohr))
+    m_oHr = m_oSession.Open(m_ds);
+    if (FAILED(m_oHr))
     {
         VIEW_WRITE_ERROR("DBWorker::_ConnectDB() - m_ds.Open() Fail!");
         m_ds.Close();
@@ -80,7 +85,9 @@ bool DBWorkerPO::_ConnectDB()
     return true;
 }
 
-bool DBWorkerPO::_CheckDBConnection()
+void DBWorkerPO::_CheckDBConnection()
 {
-    return false;
+    if (!FAILED(m_oHr))
+        return;
+
 }
