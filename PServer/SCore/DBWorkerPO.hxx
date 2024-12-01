@@ -1,33 +1,54 @@
+/*!
+ *  @file DBWorkerPO.hxx
+ *  @author ShootingStar
+ *  @date 2024-11-30
+ *  @project SCore
+ *
+ *  DB 작업을 위한 클래스
+ *  OLEDB를 이용해서 MSSQL과 연결할 클래스
+ */
 #pragma once
-#include <sqlext.h>
+#pragma warning(disable : 4996)
+#include <string>
+#include <atomic>
+#include <atldbcli.h>  
+
 
 constexpr size_t PROPERTY_MAX_FIELD_SIZE = 8192;
-//constexpr size_t DEFAULT_DATABASE_TIMEOUT = 5;		// 단위는 확인 필요
+constexpr size_t DEFAULT_DATABASE_TIMEOUT = 5;		// 단위는 확인 필요
 constexpr int MAX_CONNECT_TRY_COUNT = 20;			// 최대 재접속 시도 횟수
 
-//https://jjseol.blogspot.com/2017/03/c-odbc-dbms-how-to-connect-to-dbms-with.html
+//https://webnautes.tistory.com/702#google_vignette
+
+
 class DBWorkerPO
 {
 private:
-	
-	//DB Connection Info
-	SQLHENV m_sqlHandle;
-	SQLHDBC m_sqlHDBC;
-	SQLHSTMT m_sqlHstmt;
-	SQLRETURN m_sqlRetCode;
+	static std::atomic_bool m_bInitialized;
 
-	// For specific error
-
-	SQLSMALLINT m_sqlnLength;
-	SQLINTEGER m_sqlnRec = 0, m_sqlnNative;
-	SQLCHAR m_sqlcState[7], m_sqlcMsg[256];
-
-
+	CDataSource m_ds;
+	CSession    m_oSession;
+	std::string m_sConnection;
+	std::string m_sDBName;
+	std::string m_sProvider;
+	HRESULT		m_ohr;
 
 public:
 	DBWorkerPO() = default;
 	~DBWorkerPO();
 
-	void SetDBConfig();
+	void SetDBConfig(const std::string& _provider
+		, const std::string& _userID
+		, const std::string& _password
+		, const std::string& _database
+		, const std::string& _host
+		, const std::string& _port);
+
+	bool Init();
+
+	CSession GetSession();
+private:
+	bool _ConnectDB();
+	bool _CheckDBConnection();
 };
 

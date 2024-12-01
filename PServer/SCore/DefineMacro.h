@@ -19,3 +19,6 @@
 // Need to include <mutex>
 #define AutoLock(x) std::scoped_lock __AUTO_LOCK__##x(x)
 #define AutoLock2(x, y) std::scoped_lock __AUTO_LOCK__##x##y(x,y)
+
+
+//ODBC ฐüทร define
