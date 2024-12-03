@@ -6,6 +6,7 @@ std::atomic_bool DBWorkerPO::m_bInitialized = true;
 
 DBWorkerPO::~DBWorkerPO()
 {
+    SafeDelete(m_oSession);
 }
 
 void DBWorkerPO::SetDBConfig(const std::string& _provider
@@ -18,7 +19,7 @@ void DBWorkerPO::SetDBConfig(const std::string& _provider
     char localTmpConnection[512] = { 0, };
 
     //driver = SQLOLEDB.1
-    sprintf_s(localTmpConnection, std::size(localTmpConnection), "PROVIDER=%s;SERVER=%s,%s;UID=%s;PWD=%s;DATABASE=%s", _provider, _host, _port, _userID, _password, _database);
+    sprintf_s(localTmpConnection, std::size(localTmpConnection), "PROVIDER=%s;SERVER=%s,%s;UID=%s;PWD=%s;DATABASE=%s", _provider.c_str(), _host.c_str(), _port.c_str(), _userID.c_str(), _password.c_str(), _database.c_str());
 
     m_sConnection.assign(localTmpConnection);
     m_sDBName.assign(_database);
@@ -38,30 +39,16 @@ bool DBWorkerPO::Init()
             return false;
         }
 
-        //데이터베이스 연결  
-        CDBPropSet dbinit(DBPROPSET_DBINIT);
-        dbinit.AddProperty(DBPROP_INIT_PROMPT, (SHORT)4);
-        dbinit.AddProperty(DBPROP_INIT_PROVIDERSTRING, m_sConnection.c_str());
-        dbinit.AddProperty(DBPROP_INIT_LCID, (LONG)1043); //->Locale identifier  
-        m_oHr = m_ds.Open(_T("SQLOLEDB"), &dbinit);
-
-        if (FAILED(m_oHr))
-        {
-            m_bInitialized = false;
-            VIEW_WRITE_ERROR("DBWorker::Init() - m_ds.Open() Fail!");
-            return false;
-        }
-
         _ConnectDB();
     }
     catch (...)
     {
-
+        VIEW_WRITE_ERROR("DBWorker Exception !!");
     }
     return true;
 }
 
-CSession DBWorkerPO::GetSession()
+CSession* DBWorkerPO::GetSession()
 {
     _CheckDBConnection();
     return m_oSession;
@@ -74,12 +61,27 @@ bool DBWorkerPO::IsConnected()
 
 bool DBWorkerPO::_ConnectDB()
 {
-    //세션을 시작합니다.  
-    m_oHr = m_oSession.Open(m_ds);
+    //데이터베이스 연결  
+    CDBPropSet dbinit(DBPROPSET_DBINIT);
+    dbinit.AddProperty(DBPROP_INIT_PROMPT, (SHORT)4);
+    dbinit.AddProperty(DBPROP_INIT_PROVIDERSTRING, m_sConnection.c_str());
+    dbinit.AddProperty(DBPROP_INIT_LCID, (LONG)1043); //->Locale identifier  
+    m_oHr = m_ds.Open(_T("SQLOLEDB"), &dbinit);
+
     if (FAILED(m_oHr))
     {
         VIEW_WRITE_ERROR("DBWorker::_ConnectDB() - m_ds.Open() Fail!");
+        m_nReconnectFailCount++;
+        return false;
+    }
+
+    //세션을 시작합니다.  
+    m_oHr = m_oSession->Open(m_ds);
+    if (FAILED(m_oHr))
+    {
+        VIEW_WRITE_ERROR("DBWorker::_ConnectDB() - m_oSession.Open() Fail!");
         m_ds.Close();
+        m_nReconnectFailCount++;
         return false;
     }
     return true;
@@ -87,7 +89,19 @@ bool DBWorkerPO::_ConnectDB()
 
 void DBWorkerPO::_CheckDBConnection()
 {
-    if (!FAILED(m_oHr))
+    if (true == IsConnected())
         return;
+
+    VIEW_WRITE_ERROR(L"[DB : %s] Database Disconnected... Try to Reconnecting...", StringUtil::ToWideChar(m_sDBName.c_str()));
+
+    while (false == _ConnectDB())
+    {
+        if (m_nReconnectFailCount >= MAX_CONNECT_TRY_COUNT)
+        {
+            // 이정도 재시도 했는데 전부 실패일 경우 DB 사망 또는 네트워크가 끊겼을 경우
+            VIEW_WRITE_ERROR(L"[DB: %s] Connect Fail Count Over!", StringUtil::ToWideChar(m_sDBName).c_str());
+            return;
+        }
+    }
 
 }

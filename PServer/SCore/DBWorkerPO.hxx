@@ -26,12 +26,14 @@ class DBWorkerPO
 private:
 	static std::atomic_bool m_bInitialized;
 
-	CDataSource m_ds;
-	CSession    m_oSession;
-	std::string m_sConnection;
-	std::string m_sDBName;
-	std::string m_sProvider;
-	HRESULT		m_oHr;
+	CDataSource  m_ds;
+	CSession*    m_oSession;
+	std::string  m_sConnection;
+	std::string  m_sDBName;
+	std::string  m_sProvider;
+	HRESULT	     m_oHr;
+
+    int m_nReconnectFailCount = 0;
 
 public:
 	DBWorkerPO() = default;
@@ -46,7 +48,7 @@ public:
 
 	bool Init();
 
-	CSession GetSession();
+	CSession* GetSession();
 
 	bool IsConnected();
 private:

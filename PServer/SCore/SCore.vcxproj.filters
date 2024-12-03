@@ -216,6 +216,12 @@
     <ClInclude Include="DBWorker.h">
       <Filter>Database</Filter>
     </ClInclude>
+    <ClInclude Include="DBServiceLoadBalancerMap.hxx">
+      <Filter>Dispatcher\Database\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="DBService.h">
+      <Filter>Dispatcher\Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -316,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="DBWorker.cpp">
       <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="DBServiceLoadBalancerMap.cpp">
+      <Filter>Dispatcher\Database\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="DBService.cpp">
+      <Filter>Dispatcher\Database</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
