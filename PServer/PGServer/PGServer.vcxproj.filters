@@ -7,6 +7,9 @@
     <Filter Include="1_Main">
       <UniqueIdentifier>{68fb0316-11cc-433a-8c99-ab69809847d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_DB">
+      <UniqueIdentifier>{01d04587-b047-4600-a0c4-4332e349870a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -24,6 +27,9 @@
     <ClCompile Include="GSNetworkEventSync.cpp">
       <Filter>1_Main</Filter>
     </ClCompile>
+    <ClCompile Include="GameDBService.cpp">
+      <Filter>2_DB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -37,6 +43,12 @@
     </ClInclude>
     <ClInclude Include="GSNetworkEventSync.h">
       <Filter>1_Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDBService.h">
+      <Filter>2_DB</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDBLoadBalancer.h">
+      <Filter>2_DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

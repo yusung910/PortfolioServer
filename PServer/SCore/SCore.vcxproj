@@ -33,6 +33,7 @@
     <ClInclude Include="Clock.h" />
     <ClInclude Include="ConvertUTF.hxx" />
     <ClInclude Include="DBService.h" />
+    <ClInclude Include="DBServiceLoadBalancer.h" />
     <ClInclude Include="DBServiceLoadBalancerMap.hxx" />
     <ClInclude Include="DBServicePO.hxx" />
     <ClInclude Include="DBWorker.h" />
@@ -80,6 +81,7 @@
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="ConvertUTF.cpp" />
     <ClCompile Include="DBService.cpp" />
+    <ClCompile Include="DBServiceLoadBalancer.cpp" />
     <ClCompile Include="DBServiceLoadBalancerMap.cpp" />
     <ClCompile Include="DBServicePO.cpp" />
     <ClCompile Include="DBWorker.cpp" />

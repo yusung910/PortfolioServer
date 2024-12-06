@@ -5,6 +5,8 @@
 #include "GSNetworkEventSync.h"
 
 #include "GameService.h"
+#include "GameDBService.h"
+#include "GameDBLoadBalancer.h"
 
 #include <NetworkManager.h>
 
@@ -28,8 +30,8 @@ bool PGameServerApp::Initialize()
     //로그 기록 시작
     _InitLog();
 
-    //USerDB 세팅
-
+    //GameDB 세팅
+    _InitGameDB();
     //SendServerLog(L"SendServerLog Initialize...");
 
 
@@ -80,4 +82,33 @@ void PGameServerApp::_InitLog()
     LoggingManager::GetInst().SetLogDirConfig(ServerConfig::GetInst().GetConfig().GetLogDir());
     LoggingManager::GetInst().SetServerNum(localMainInfo.m_nServerID);
     LoggingManager::GetInst().Start();
+}
+
+bool PGameServerApp::_InitGameDB()
+{
+    auto localDBInfo = ServerConfig::GetInst().GetConfig().GetDBConnectionInfo("GDB");
+
+    if (nullptr == localDBInfo)
+    {
+        VIEW_WRITE_ERROR("Game DB Connection Info is Null");
+        return false;
+    }
+
+    GameDBLoadBalancer::GetInst().SetDBConfig<GameDBService>(localDBInfo->m_sUserID, localDBInfo->m_sPassword, localDBInfo->m_sDBName, localDBInfo->m_sDBHost, std::to_string(localDBInfo->m_nDBPort), localDBInfo->m_nThreadCount);
+
+
+    //auto localService = GameDBLoadBalancer::GetInst().GetDirectService<GameDBService>();
+    //if (localService != nullptr)
+    //{
+    //    //auto localpSession = localService->GetSession();
+    //    {
+    //        //CSession& localSession = *localpSession;
+    //        //auto locaCurTick = Clock::GetTick64();
+
+    //        //BEGIN_SESSION
+    //        //END_SESSION
+
+    //    }
+    //}
+    return true;
 }

@@ -27,6 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameDBService.cpp" />
     <ClCompile Include="GameService.cpp" />
     <ClCompile Include="GSNetworkEventSync.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -38,6 +39,8 @@
     <ClCompile Include="PGameServerApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameDBLoadBalancer.h" />
+    <ClInclude Include="GameDBService.h" />
     <ClInclude Include="GameService.h" />
     <ClInclude Include="GSNetworkEventSync.h" />
     <ClInclude Include="pch.h" />

@@ -7,10 +7,7 @@
 
 //편의용 매크로 함수
 
-#define CheckSession()  auto localpSession = GetSession();                  \
-                        if(nullptr == localpSession)                        \
-                            return false;                                   \
-                        CSession& localSession = *localpSession;        
+#define CheckSession()  
 
 #define BEGIN_SESSION   try {
 #define END_SESSION     }                                                   \
@@ -30,6 +27,8 @@
 class DBWorker;
 class DBServicePO;
 
+
+
 class SCoreAPI DBService
 {
 private:
@@ -46,12 +45,14 @@ public:
     void Exit();
     bool Push(InnerPacket::SharedPtr _data);
 
-    const int& GetServerID() const noexcept;
+    int  GetServerID() const noexcept;
     void SetServerID(const int& _serverID) noexcept;
 
     bool CreateThread();
     size_t GetWorkQueueCount();
     virtual unsigned int Run();
+
+    //void SetQuery(CSession* _session, TCHAR* _query);
 
 private:
     void _RegisterHandler(const int& _protocolID, const std::function<bool(InnerPacket::SharedPtr)>& _pFunc);

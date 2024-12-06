@@ -20,6 +20,8 @@
 #include "DBWorker.h"
 
  //OLEDB를 이용한다!
+
+
 class DBServicePO : public Timer
 {
 private:
@@ -35,7 +37,6 @@ private:
 
     DBWorker m_oWorker;
     int m_nServerID = 0;
-
 
 public:
     DBServicePO() = default;
@@ -57,6 +58,9 @@ public:
 
     bool CreateThread();
     size_t GetWorkQueueCount();
+
+    void SetQuery(const CSession* _session, TCHAR* _query);
+
     virtual unsigned int Run();
 
     void RegisterHandler(const int& _protocolID, const std::function<bool(InnerPacket::SharedPtr)>& _pFunc);

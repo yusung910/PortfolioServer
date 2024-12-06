@@ -222,6 +222,9 @@
     <ClInclude Include="DBService.h">
       <Filter>Dispatcher\Database</Filter>
     </ClInclude>
+    <ClInclude Include="DBServiceLoadBalancer.h">
+      <Filter>Dispatcher\Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -327,6 +330,9 @@
       <Filter>Dispatcher\Database\Pacade</Filter>
     </ClCompile>
     <ClCompile Include="DBService.cpp">
+      <Filter>Dispatcher\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="DBServiceLoadBalancer.cpp">
       <Filter>Dispatcher\Database</Filter>
     </ClCompile>
   </ItemGroup>

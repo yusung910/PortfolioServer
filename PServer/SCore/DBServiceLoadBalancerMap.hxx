@@ -15,6 +15,10 @@ public:
     DBServiceLoadBalancerMap();
     ~DBServiceLoadBalancerMap();
 
+    bool Push(const int& _serverID, InnerPacket::SharedPtr _data);
+    bool AddService(const int& _serverID, DBService* _service);
+    bool IsExistServerID(const int& _serverID);
+    std::unordered_map<int, DBService*>& GetDBServiceList();
 
     void Exit();
 };

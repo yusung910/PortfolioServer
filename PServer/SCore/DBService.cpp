@@ -39,7 +39,7 @@ bool DBService::Push(InnerPacket::SharedPtr _data)
     return m_pDBServicePO->Push(_data);
 }
 
-const int& DBService::GetServerID() const noexcept
+int DBService::GetServerID() const noexcept
 {
     if (nullptr == m_pDBServicePO)
         return 0;
@@ -56,7 +56,7 @@ bool DBService::CreateThread()
 {
     if (nullptr == m_pDBServicePO)
         return false;
-    m_pDBServicePO->CreateThread();
+    return m_pDBServicePO->CreateThread();
 }
 
 size_t DBService::GetWorkQueueCount()
