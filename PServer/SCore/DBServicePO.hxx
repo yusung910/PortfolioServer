@@ -48,7 +48,7 @@ public:
         , const std::string& _host
         , const std::string& _port);
 
-    CSession* GetSession();
+    CSession GetSession();
 
     void Exit();
     bool Push(InnerPacket::SharedPtr _data);

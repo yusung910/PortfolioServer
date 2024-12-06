@@ -24,7 +24,7 @@ public:
 
     bool Init();
 
-    CSession* GetSession();
+    CSession GetSession();
 
     bool IsConnected();
 };

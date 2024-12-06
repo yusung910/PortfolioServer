@@ -25,10 +25,10 @@ bool DBWorker::Init()
     return m_pDBWorkerPO->Init();
 }
 
-CSession* DBWorker::GetSession()
+CSession DBWorker::GetSession()
 {
     if (nullptr == m_pDBWorkerPO)
-        return nullptr;
+        return CSession(0);
     return m_pDBWorkerPO->GetSession();
 }
 

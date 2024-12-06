@@ -19,10 +19,10 @@ void DBService::SetDBConfig(const std::string& _userID, const std::string _passw
         m_pDBServicePO->SetDBConfig(_userID, _password, _database, _host, _port);
 }
 
-CSession* DBService::GetSession()
+CSession DBService::GetSession()
 {
     if (nullptr == m_pDBServicePO)
-        return nullptr;
+        return CSession(0);
     return m_pDBServicePO->GetSession();
 }
 

@@ -40,7 +40,7 @@ public:
 
     void SetDBConfig(const std::string& _userID, const std::string _password, const std::string& _database, const std::string& _host, const std::string& _port);
 
-    CSession* GetSession();
+    CSession GetSession();
 
     void Exit();
     bool Push(InnerPacket::SharedPtr _data);
