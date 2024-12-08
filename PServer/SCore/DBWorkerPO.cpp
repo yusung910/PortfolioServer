@@ -54,42 +54,20 @@ CSession DBWorkerPO::GetSession()
     return m_oSession;
 }
 
+CxParamCmd DBWorkerPO::GetQueryCMD()
+{
+    return m_oCmd;
+}
+
 bool DBWorkerPO::IsConnected() const
 {
     return !FAILED(m_oHr);
 }
 
-bool DBWorkerPO::SetQuery(TCHAR* _query)
+void DBWorkerPO::ExecuteQuery()
 {
-    //Create
-    m_oHr = m_oCmd.Create(m_oSession, _query);
-    if (FAILED(m_oHr))
-    {
-        AtlTraceErrorRecords(m_oHr);
-        VIEW_WRITE_ERROR("DBWorker::SetQuery() - Create() Fail!!(%d)", m_oHr);
-        return false;
-    }
-
-    m_oHr = m_oCmd.Prepare();
-    if (FAILED(m_oHr))
-    {
-        AtlTraceErrorRecords(m_oHr);
-        VIEW_WRITE_ERROR("DBWorker::SetQuery() - Prepare() Fail!!(%d)", m_oHr);
-        return false;
-    }
-
-    void* localpDummy;
-
-    //쿼리 실행에 필요한 파라미터를 세팅
-    m_oHr = m_oCmd.BindParameters(&m_oCmd.m_hParameterAccessor, m_oCmd.m_spCommand, &localpDummy);
-
-    //va_list localParams;
-    //va_start(localParams, _query);
-    //_vsnwprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    //va_end(localParams);
-
-
-    return true;
+    m_oHr = m_oCmd.Open(NULL, NULL, 0);
+    m_oCmd.Bind();
 }
 
 bool DBWorkerPO::_ConnectDB()
