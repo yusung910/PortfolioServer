@@ -228,6 +228,9 @@
     <ClInclude Include="DBSession.hxx">
       <Filter>Database\Pacade</Filter>
     </ClInclude>
+    <ClInclude Include="SQL.hxx">
+      <Filter>Database\Pacade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -339,6 +342,9 @@
       <Filter>Dispatcher\Database</Filter>
     </ClCompile>
     <ClCompile Include="DBSession.cpp">
+      <Filter>Database\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="SQL.cpp">
       <Filter>Database\Pacade</Filter>
     </ClCompile>
   </ItemGroup>

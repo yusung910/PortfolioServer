@@ -70,6 +70,7 @@
     <ClInclude Include="ServerConfigInfo.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServicePO.hxx" />
+    <ClInclude Include="SQL.hxx" />
     <ClInclude Include="stdafx.hxx" />
     <ClInclude Include="StringUtil.h" />
     <ClInclude Include="TimerData.hxx" />
@@ -110,6 +111,7 @@
     <ClCompile Include="ServerAppPO.cpp" />
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="ServicePO.cpp" />
+    <ClCompile Include="SQL.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">Create</PrecompiledHeader>
