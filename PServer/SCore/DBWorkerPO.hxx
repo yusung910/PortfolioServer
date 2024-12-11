@@ -5,20 +5,17 @@
  *  @project SCore
  *
  *  DB 작업을 위한 클래스
- *  OLEDB를 이용해서 MSSQL과 연결할 클래스
- *  https://fiadot.tistory.com/477
  */
 #pragma once
 #pragma warning(disable : 4996)
 #include <string>
 #include <atomic>
 #include <atldbcli.h>  
-
+#include "DBSession.hxx"
 
 constexpr size_t PROPERTY_MAX_FIELD_SIZE = 8192;
 constexpr size_t DEFAULT_DATABASE_TIMEOUT = 5;		// 단위는 확인 필요
 constexpr int MAX_CONNECT_TRY_COUNT = 20;			// 최대 재접속 시도 횟수
-
 
 typedef CCommand<CDynamicParameterAccessor, CRowset, CMultipleResults>    CxParamCmd;
 
@@ -28,7 +25,7 @@ private:
 	static std::atomic_bool m_bInitialized;
 
 	CDataSource  m_ds;
-	CSession     m_oSession;
+    DBSession    m_oSession;
 	std::string  m_sConnection;
 	std::string  m_sDBName;
 	std::string  m_sProvider;
@@ -48,28 +45,10 @@ public:
 		, const std::string& _host
 		, const std::string& _port);
 
-	bool Init();
-
-	//때에따라 삭제 예정
-	CSession GetSession();
-
-	CxParamCmd GetQueryCMD();
+    DBSession GetSession();
 
 	bool IsConnected() const;
 
-
-	void ExecuteQuery();
-
-	template<typename T>
-	void SetQueryResult(T& _data)
-	{
-		m_oHR = m_oCmd.MoveFirst();
-		while (m_oHR == S_OK)
-		{
-
-			m_oHR = m_oCmd.MoveNext();
-		}
-	}
 private:
 	bool _ConnectDB();
 	void _CheckDBConnection();

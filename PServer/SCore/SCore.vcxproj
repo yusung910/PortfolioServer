@@ -37,6 +37,7 @@
     <ClInclude Include="DBServiceLoadBalancerMap.hxx" />
     <ClInclude Include="DBServicePO.hxx" />
     <ClInclude Include="DBSession.hxx" />
+    <ClInclude Include="DBStatements.h" />
     <ClInclude Include="DBWorker.h" />
     <ClInclude Include="DBWorkerPO.hxx" />
     <ClInclude Include="DefineMacro.h" />
@@ -70,7 +71,6 @@
     <ClInclude Include="ServerConfigInfo.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServicePO.hxx" />
-    <ClInclude Include="SQL.hxx" />
     <ClInclude Include="stdafx.hxx" />
     <ClInclude Include="StringUtil.h" />
     <ClInclude Include="TimerData.hxx" />
@@ -87,6 +87,7 @@
     <ClCompile Include="DBServiceLoadBalancerMap.cpp" />
     <ClCompile Include="DBServicePO.cpp" />
     <ClCompile Include="DBSession.cpp" />
+    <ClCompile Include="DBStatements.cpp" />
     <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="DBWorkerPO.cpp" />
     <ClCompile Include="LogData.cpp" />
@@ -111,7 +112,6 @@
     <ClCompile Include="ServerAppPO.cpp" />
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="ServicePO.cpp" />
-    <ClCompile Include="SQL.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">Create</PrecompiledHeader>

@@ -5,7 +5,6 @@ std::atomic_bool DBWorkerPO::m_bInitialized = true;
 
 DBWorkerPO::~DBWorkerPO()
 {
-    m_oSession.Close();
     m_ds.Close();
 }
 
@@ -24,95 +23,28 @@ void DBWorkerPO::SetDBConfig(const std::string& _provider
     m_sConnection.assign(localTmpConnection);
     m_sDBName.assign(_database);
     m_sProvider.assign(_provider);
+
+    DBSession session;
+    session << "exec TEST, ?, ?, OUT";
 }
 
-bool DBWorkerPO::Init()
-{
-    try
-    {
-        //COM 초기화  
-        m_oHr = CoInitialize(0);
-        if (FAILED(m_oHr))
-        {
-            m_bInitialized = false;
-            VIEW_WRITE_ERROR("DBWorker::Init() - CoInitialize(0) Fail!");
-            return false;
-        }
-
-        _ConnectDB();
-    }
-    catch (...)
-    {
-        VIEW_WRITE_ERROR("DBWorker Exception !!");
-    }
-    return true;
-}
-
-CSession DBWorkerPO::GetSession()
+DBSession DBWorkerPO::GetSession()
 {
     _CheckDBConnection();
     return m_oSession;
 }
 
-CxParamCmd DBWorkerPO::GetQueryCMD()
-{
-    return m_oCmd;
-}
 
 bool DBWorkerPO::IsConnected() const
 {
     return !FAILED(m_oHr);
 }
 
-void DBWorkerPO::ExecuteQuery()
-{
-    m_oHr = m_oCmd.Open(NULL, NULL, 0);
-    m_oCmd.Bind();
-}
-
 bool DBWorkerPO::_ConnectDB()
 {
-    //데이터베이스 연결  
-    CDBPropSet dbinit(DBPROPSET_DBINIT);
-    dbinit.AddProperty(DBPROP_INIT_PROMPT, (SHORT)4);
-    dbinit.AddProperty(DBPROP_INIT_PROVIDERSTRING, m_sConnection.c_str());
-    dbinit.AddProperty(DBPROP_INIT_LCID, (LONG)1043); //->Locale identifier  
-    m_oHr = m_ds.Open(_T("SQLOLEDB"), &dbinit);
-
-    if (FAILED(m_oHr))
-    {
-        VIEW_WRITE_ERROR("DBWorker::_ConnectDB() - m_ds.Open() Fail!");
-        m_nReconnectFailCount++;
-        return false;
-    }
-
-    //세션을 시작합니다.  
-    m_oHr = m_oSession.Open(m_ds);
-    if (FAILED(m_oHr))
-    {
-        VIEW_WRITE_ERROR("DBWorker::_ConnectDB() - m_oSession.Open() Fail!");
-        m_ds.Close();
-        m_nReconnectFailCount++;
-        return false;
-    }
-    return true;
 }
 
 void DBWorkerPO::_CheckDBConnection()
 {
-    if (true == IsConnected())
-        return;
-
-    VIEW_WRITE_ERROR("[DB : %s] Database Disconnected... Try to Reconnecting...", m_sDBName.c_str());
-
-    while (false == _ConnectDB())
-    {
-        if (m_nReconnectFailCount >= MAX_CONNECT_TRY_COUNT)
-        {
-            // 이정도 재시도 했는데 전부 실패일 경우 DB 사망 또는 네트워크가 끊겼을 경우
-            VIEW_WRITE_ERROR("[DB: %s] Connect Fail Count Over!", m_sDBName.c_str());
-            return;
-        }
-    }
 
 }
