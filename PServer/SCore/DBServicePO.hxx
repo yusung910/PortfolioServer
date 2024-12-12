@@ -59,8 +59,6 @@ public:
     bool CreateThread();
     size_t GetWorkQueueCount();
 
-    void SetQuery(const CSession* _session, TCHAR* _query);
-
     virtual unsigned int Run();
 
     void RegisterHandler(const int& _protocolID, const std::function<bool(InnerPacket::SharedPtr)>& _pFunc);
