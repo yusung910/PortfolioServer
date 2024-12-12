@@ -42,35 +42,32 @@ constexpr size_t PROPERTY_MAX_FIELD_SIZE = 8192;
 constexpr size_t DEFAULT_DATABASE_TIMEOUT = 5;		// 단위는 확인 필요
 constexpr int MAX_CONNECT_TRY_COUNT = 20;			// 최대 재접속 시도 횟수
 
-typedef CCommand<CDynamicParameterAccessor, CRowset, CMultipleResults>    CxParamCmd;
-
 class DBWorkerPO
 {
 private:
 	static std::atomic_bool m_bInitialized;
 
-	CDataSource  m_ds;
-    DBSession    m_oSession;
-	std::string  m_sConnection;
-	std::string  m_sDBName;
-	std::string  m_sProvider;
-	HRESULT      m_oHr = S_FALSE;
-	int m_nReconnectFailCount = 0;
+	Poco::Data::Session* m_pSession = nullptr;
 
-	CxParamCmd m_oCmd;
+	std::string  m_sConnection;
+	std::string  m_sODBCDriver;
+	std::string  m_sDBName;
+	int m_nReconnectFailCount = 0;
 
 public:
 	DBWorkerPO() = default;
 	~DBWorkerPO();
 
-	void SetDBConfig(const std::string& _provider
+	void SetDBConfig(const std::string& _driver
 		, const std::string& _userID
 		, const std::string& _password
 		, const std::string& _database
 		, const std::string& _host
 		, const std::string& _port);
 
-    DBSession GetSession();
+	bool Init();
+
+    Poco::Data::Session* GetSession();
 
 	bool IsConnected() const;
 
