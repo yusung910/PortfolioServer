@@ -335,11 +335,5 @@
     <ClCompile Include="DBServiceLoadBalancer.cpp">
       <Filter>Dispatcher\Database</Filter>
     </ClCompile>
-    <ClCompile Include="DBSession.cpp">
-      <Filter>Database\Pacade</Filter>
-    </ClCompile>
-    <ClCompile Include="DBStatements.cpp">
-      <Filter>Database\Pacade</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
