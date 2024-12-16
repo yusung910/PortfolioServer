@@ -225,12 +225,7 @@
     <ClInclude Include="DBServiceLoadBalancer.h">
       <Filter>Dispatcher\Database</Filter>
     </ClInclude>
-    <ClInclude Include="DBSession.hxx">
-      <Filter>Database\Pacade</Filter>
-    </ClInclude>
-    <ClInclude Include="DBStatements.h">
-      <Filter>Database\Pacade</Filter>
-    </ClInclude>
+    <ClInclude Include="DBBinding.hxx" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -341,11 +336,6 @@
     <ClCompile Include="DBServiceLoadBalancer.cpp">
       <Filter>Dispatcher\Database</Filter>
     </ClCompile>
-    <ClCompile Include="DBSession.cpp">
-      <Filter>Database\Pacade</Filter>
-    </ClCompile>
-    <ClCompile Include="DBStatements.cpp">
-      <Filter>Database\Pacade</Filter>
-    </ClCompile>
+    <ClCompile Include="DBBinding.cpp" />
   </ItemGroup>
 </Project>
