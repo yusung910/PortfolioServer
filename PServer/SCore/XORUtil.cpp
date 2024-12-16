@@ -57,8 +57,8 @@ void XORUtil::_MakeDefault()
     if (nullptr != m_pXORKey)
         return;
 
-    std::string localTmp(DEFAULT_XOR_KEY);
-    m_nXORKeySize = localTmp.size();
+    std::string lTmp(DEFAULT_XOR_KEY);
+    m_nXORKeySize = lTmp.size();
     m_pXORKey = new char[m_nXORKeySize] {0, };
-    memcpy_s(m_pXORKey, m_nXORKeySize, localTmp.c_str(), m_nXORKeySize);
+    memcpy_s(m_pXORKey, m_nXORKeySize, lTmp.c_str(), m_nXORKeySize);
 }

@@ -131,18 +131,18 @@ void NetworkContextPO::Resize(const size_t& _size)
     if (m_nBufferSize >= _size)
         return;
 
-    char* localpOldBuffer = m_pBuffer;
+    char* lpOldBuffer = m_pBuffer;
     m_pBuffer = new char[_size] {0, };
 
-    if (nullptr != localpOldBuffer)
+    if (nullptr != lpOldBuffer)
     {
         //memcpy_s(void *dest, size_t destSize, const void* src, size_t count)
         //void* dest : destination 줄임말, 복사 대상 버퍼
         //size_t destSize : 복사 대상의 버퍼 크기
         //const void* src : source 줄임말, 복사할 값을 가지고 있는 버퍼
         //size_t count : 복사할 바이트 수
-        memcpy_s(m_pBuffer, _size, localpOldBuffer, m_nBufferSize);
-        SafeDelete(localpOldBuffer);
+        memcpy_s(m_pBuffer, _size, lpOldBuffer, m_nBufferSize);
+        SafeDelete(lpOldBuffer);
     }
 
     m_nBufferSize = _size;
@@ -178,13 +178,13 @@ bool NetworkContextPO::Read(void* _dest, const size_t& _destSize)
     if (nullptr == _dest || _destSize <= 0)
         return false;
 
-    char* localSrc = GetData();
-    size_t localSrcSize = GetDataSize();
+    char* lSrc = GetData();
+    size_t lSrcSize = GetDataSize();
 
-    if (localSrc == nullptr || localSrcSize < _destSize)
+    if (lSrc == nullptr || lSrcSize < _destSize)
         return false;
 
-    memcpy_s((char*)_dest, _destSize, localSrc, _destSize);
+    memcpy_s((char*)_dest, _destSize, lSrc, _destSize);
     m_nReadSize += _destSize;
 
     return true;

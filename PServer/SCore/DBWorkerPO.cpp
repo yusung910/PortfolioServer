@@ -15,12 +15,12 @@ void DBWorkerPO::SetDBConfig(const std::string& _driver
     , const std::string& _host
     , const std::string& _port)
 {
-    char localTmpConnection[512] = { 0, };
+    char lTmpConnection[512] = { 0, };
 
     //driver = SQLOLEDB.1
-    sprintf_s(localTmpConnection, std::size(localTmpConnection), "DRIVER=%s;UID=%s;PWD=%s;DATABASE=%s;SERVER=%s,%s;", _driver.c_str(), _host.c_str(), _port.c_str(), _userID.c_str(), _password.c_str(), _database.c_str());
+    sprintf_s(lTmpConnection, std::size(lTmpConnection), "DRIVER=%s;UID=%s;PWD=%s;DATABASE=%s;SERVER=%s,%s;", _driver.c_str(), _host.c_str(), _port.c_str(), _userID.c_str(), _password.c_str(), _database.c_str());
 
-    m_sConnection.assign(localTmpConnection);
+    m_sConnection.assign(lTmpConnection);
     m_sODBCDriver.assign(_driver);
     m_sDBName.assign(_database);
 }
@@ -32,10 +32,10 @@ bool DBWorkerPO::Init()
         m_bInitialized = true;
         Poco::Data::ODBC::Connector::registerConnector();
     }
-    Poco::Data::ODBC::Utility::DriverMap localDrivers;
-    Poco::Data::ODBC::Utility::drivers(localDrivers);
+    Poco::Data::ODBC::Utility::DriverMap lDrivers;
+    Poco::Data::ODBC::Utility::drivers(lDrivers);
 
-    for (auto& driver : localDrivers)
+    for (auto& driver : lDrivers)
     {
         if (((driver.first).find(m_sODBCDriver)) != std::string::npos)
         {
@@ -64,13 +64,13 @@ bool DBWorkerPO::_ConnectDB()
 {
     try
     {
-        Poco::Data::Session* localSession = new Poco::Data::Session(Poco::Data::ODBC::Connector::KEY, m_sConnection, DEFAULT_DATABASE_TIMEOUT);
+        Poco::Data::Session* lSession = new Poco::Data::Session(Poco::Data::ODBC::Connector::KEY, m_sConnection, DEFAULT_DATABASE_TIMEOUT);
 
-        localSession->impl()->setProperty("maxFieldSize", Poco::Any(PROPERTY_MAX_FIELD_SIZE));
+        lSession->impl()->setProperty("maxFieldSize", Poco::Any(PROPERTY_MAX_FIELD_SIZE));
 
-        std::swap(m_pSession, localSession);
+        std::swap(m_pSession, lSession);
 
-        SafeDelete(localSession);
+        SafeDelete(lSession);
 
         VIEW_INFO(L"Connecting to %s", StringUtil::ToWideChar(m_sDBName).c_str());
     }
@@ -86,5 +86,17 @@ bool DBWorkerPO::_ConnectDB()
 
 void DBWorkerPO::_CheckDBConnection()
 {
+    if (true == IsConnected())
+        return;
 
+    VIEW_WRITE_ERROR(L"[DB: %s] DB Disconnected... Try to Reconnect!", StringUtil::ToWideChar(m_sDBName).c_str());
+
+    while (false == _ConnectDB())
+    {
+        if (m_nReconnectFailCount >= MAX_CONNECT_TRY_COUNT)
+        {
+            VIEW_WRITE_ERROR(L"[DB: %s] Connect Fail Try Count is Over", StringUtil::ToWideChar(m_sDBName).c_str());
+            return;
+        }
+    }
 }

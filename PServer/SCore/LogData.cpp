@@ -35,26 +35,26 @@ void LogData::SetData(const ELogLevel& _lvl, const std::wstring& _msg, const boo
 
 std::wstring LogData::ToString()
 {
-    std::tm localTimeData;
-    time_t localLogTime = std::chrono::system_clock::to_time_t(m_oLogTime);
-    if (0 != localtime_s(&localTimeData, &localLogTime))
+    std::tm lTimeData;
+    time_t lLogTime = std::chrono::system_clock::to_time_t(m_oLogTime);
+    if (0 != localtime_s(&lTimeData, &lLogTime))
         return L"Timne Error!!";
 
-    wchar_t localStrTmp[50] = { 0, };
+    wchar_t lStrTmp[50] = { 0, };
 
     //timeptr 구조의 시간 및 날짜 스펙을 와이드 문자 스트링으로 변환
-    size_t localOffset = wcsftime(localStrTmp, _countof(localStrTmp), L"[%Y-%m-%d %H:%M:%S]", &localTimeData);
+    size_t lOffset = wcsftime(lStrTmp, _countof(lStrTmp), L"[%Y-%m-%d %H:%M:%S]", &lTimeData);
 
     //
-    int localMS = (int)(std::chrono::duration_cast<std::chrono::milliseconds>(m_oLogTime.time_since_epoch()).count() & 1000);
+    int lMS = (int)(std::chrono::duration_cast<std::chrono::milliseconds>(m_oLogTime.time_since_epoch()).count() & 1000);
 
-    swprintf_s(localStrTmp + localOffset, 50 - localOffset, L".%03d]", localMS);
+    swprintf_s(lStrTmp + lOffset, 50 - lOffset, L".%03d]", lMS);
 
-    std::wstring localStrRet(localStrTmp);
-    localStrRet.append(L" ");
-    localStrRet.append(m_sLogMsg);
+    std::wstring lStrRet(lStrTmp);
+    lStrRet.append(L" ");
+    lStrRet.append(m_sLogMsg);
     
-    return localStrRet;
+    return lStrRet;
 }
 
 

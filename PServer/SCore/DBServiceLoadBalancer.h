@@ -141,21 +141,21 @@ public:
             return false;
         }
 
-        T* localpService = new T();
-        localpService->SetDBConfig(_id, _password, _database, _host, _port);
-        localpService->SetServerID(_id);
+        T* lpService = new T();
+        lpService->SetDBConfig(_id, _password, _database, _host, _port);
+        lpService->SetServerID(_id);
 
-        if (false == localpService->CreateThread())
+        if (false == lpService->CreateThread())
         {
             VIEW_INFO("DB Service By ServerID(%d) has CreateThread() Fail. (%s:%s)[]", _serverID, _host.c_str(), _port.c_str(), _database.c_str());
-            SafeDelete(localpService);
+            SafeDelete(lpService);
             return false;
         }
 
-        if (false == _AddDBService(_serverID, localpService))
+        if (false == _AddDBService(_serverID, lpService))
         {
             VIEW_INFO("DB Service By ServerID(%d) has _AddDBService() Fail. (%s:%s)[]", _serverID, _host.c_str(), _port.c_str(), _database.c_str());
-            SafeDelete(localpService);
+            SafeDelete(lpService);
             return false;
         }
 

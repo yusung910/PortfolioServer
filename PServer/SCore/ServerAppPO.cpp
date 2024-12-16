@@ -47,17 +47,17 @@ void ServerAppPO::Run()
 {
     if (true == _Begin())
     {
-        auto localName = StringUtil::ToWideChar(m_oListenerInfo.m_sServiceName);
-        VIEW_WRITE_INFO(L"Server:%s Memo:server_waiting_for_keyboard", localName.c_str());
+        auto lName = StringUtil::ToWideChar(m_oListenerInfo.m_sServiceName);
+        VIEW_WRITE_INFO(L"Server:%s Memo:server_waiting_for_keyboard", lName.c_str());
         m_bIsRunning = true;
         while (true == m_bIsRunning)
         {
             if (_kbhit())
             {
-                auto localIter = m_umCommandMap.find(_getch());
-                if (localIter != m_umCommandMap.end())
+                auto lIter = m_umCommandMap.find(_getch());
+                if (lIter != m_umCommandMap.end())
                 {
-                    (localIter->second)();
+                    (lIter->second)();
                 }
             }
 
@@ -81,18 +81,18 @@ bool ServerAppPO::_Begin()
 
     m_pEventSync->SetTimeoutMS(m_oListenerInfo.m_nTimeoutMS);
 
-    auto localServiceName = StringUtil::ToWideChar(m_oListenerInfo.m_sServiceName);
-    auto localAddress = m_oListenerInfo.m_sBindAddress;
-    auto localPort = m_oListenerInfo.m_nBindPort;
+    auto lServiceName = StringUtil::ToWideChar(m_oListenerInfo.m_sServiceName);
+    auto lAddress = m_oListenerInfo.m_sBindAddress;
+    auto lPort = m_oListenerInfo.m_nBindPort;
 
-    VIEW_SYSTEM_FORCE(L"Server:%s, Host:%s, Port:%d", localServiceName.c_str(), StringUtil::ToWideChar(localAddress).c_str(), localPort);
+    VIEW_SYSTEM_FORCE(L"Server:%s, Host:%s, Port:%d", lServiceName.c_str(), StringUtil::ToWideChar(lAddress).c_str(), lPort);
 
-    if (NetworkManager::GetInst().Listen(m_pEventSync.get(), localAddress, localPort) == false)
+    if (NetworkManager::GetInst().Listen(m_pEventSync.get(), lAddress, lPort) == false)
     {
-        VIEW_SYSTEM_FORCE(L"Server:%s, _Begin() Failed - Network Listen is false", localServiceName.c_str());
+        VIEW_SYSTEM_FORCE(L"Server:%s, _Begin() Failed - Network Listen is false", lServiceName.c_str());
     }
 
-    VIEW_SYSTEM_FORCE(L"Server:%s, is Started", localServiceName.c_str());
+    VIEW_SYSTEM_FORCE(L"Server:%s, is Started", lServiceName.c_str());
 
     return true;
 }

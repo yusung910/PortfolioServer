@@ -82,9 +82,9 @@ void Service::_RegisterInnerHandler(const int& _msgID, const std::function<bool(
 
 bool Service::_OnDeserializeFail(const int& _hostID, const int& _msgID)
 {
-	std::string localIP = NetworkManager::GetInst().GetIP(_hostID);
-	OnDeserializeFail(_hostID, localIP, _msgID);
-	VIEW_WRITE_WARNING("Packet Deserialize Failed!! Host:%d, Message:%d, IP:%s", _hostID, _msgID, localIP.c_str());
+	std::string lIP = NetworkManager::GetInst().GetIP(_hostID);
+	OnDeserializeFail(_hostID, lIP, _msgID);
+	VIEW_WRITE_WARNING("Packet Deserialize Failed!! Host:%d, Message:%d, IP:%s", _hostID, _msgID, lIP.c_str());
 
 	NetworkManager::GetInst().Close(_hostID);
 	return false;

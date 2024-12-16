@@ -7,21 +7,21 @@
 LoggingManagerPO::LoggingManagerPO()
 {
     //시간
-    tm localCurrentTime = {};
+    tm lCurrentTime = {};
     //틱
-    time_t localCurrentTick = time(nullptr);
+    time_t lCurrentTick = time(nullptr);
 
     //서버 로컬 타임 호출
-    auto localErr = localtime_s(&localCurrentTime, &localCurrentTick);
+    auto lErr = ltime_s(&lCurrentTime, &lCurrentTick);
 
     //서버 로컬 타임을 정상적으로 호출 했을 경우
-    if (localErr == 0)
+    if (lErr == 0)
     {
         //로그 파일을 저장할 폴더명을 생성
-        char localTmp[7] = { 0, };
-        sprintf_s(localTmp, sizeof(localTmp), "%02d%02d%02d", (localCurrentTime.tm_year + 1900) % 100, localCurrentTime.tm_mon + 1, localCurrentTime.tm_mday);
+        char lTmp[7] = { 0, };
+        sprintf_s(lTmp, sizeof(lTmp), "%02d%02d%02d", (lCurrentTime.tm_year + 1900) % 100, lCurrentTime.tm_mon + 1, lCurrentTime.tm_mday);
 
-        m_sLogDateFolder = localTmp;
+        m_sLogDateFolder = lTmp;
     }
     else
     {
@@ -32,13 +32,13 @@ LoggingManagerPO::LoggingManagerPO()
 LoggingManagerPO::~LoggingManagerPO()
 {
     Stop();
-    std::vector<LogData*> localLogList;
-    m_oLogDataQueue.GetList(localLogList);
-    for (auto localIter = localLogList.begin(); localIter != localLogList.end(); ++localIter)
+    std::vector<LogData*> lLogList;
+    m_oLogDataQueue.GetList(lLogList);
+    for (auto lIter = lLogList.begin(); lIter != lLogList.end(); ++lIter)
     {
-        SafeDelete(*localIter);
+        SafeDelete(*lIter);
     }
-    localLogList.clear();
+    lLogList.clear();
 }
 
 bool LoggingManagerPO::SetLogDirConfig(const std::string& _path) noexcept
@@ -76,8 +76,8 @@ bool LoggingManagerPO::Start()
         return false;
 
     // 로그 저장 폴더 경로 설정
-    std::string localTmpDir = m_sLogDirConfig + "/" + m_sLogDateFolder + "/";
-    m_oLogDirPath = std::filesystem::path(localTmpDir.c_str());
+    std::string lTmpDir = m_sLogDirConfig + "/" + m_sLogDateFolder + "/";
+    m_oLogDirPath = std::filesystem::path(lTmpDir.c_str());
 
     if (false == _MakeFolder()) return false;
 
@@ -133,9 +133,9 @@ void LoggingManagerPO::ViewForce(const std::wstring& _log, const ELogLevel& _lvl
 {
     if (false == m_bIsRunning.load())
     {
-        LogData localData(_lvl, _log, true, false);
+        LogData lData(_lvl, _log, true, false);
         _ChangeConsoleColor(_lvl);
-        std::wosyncstream(std::wcout) << localData.ToString().c_str() << std::endl;
+        std::wosyncstream(std::wcout) << lData.ToString().c_str() << std::endl;
     }
     else
     {
@@ -147,9 +147,9 @@ void LoggingManagerPO::ViewForce(const std::string& _log, const ELogLevel& _lvl)
 {
     if (false == m_bIsRunning.load())
     {
-        LogData localData(_lvl, _log, true, false);
+        LogData lData(_lvl, _log, true, false);
         _ChangeConsoleColor(_lvl);
-        std::wosyncstream(std::wcout) << localData.ToString().c_str() << std::endl;
+        std::wosyncstream(std::wcout) << lData.ToString().c_str() << std::endl;
     }
     else
     {
@@ -162,24 +162,24 @@ void LoggingManagerPO::_Run()
     if (nullptr == m_pThread)
         return;
 
-    std::vector<LogData*> localLogList;
-    std::chrono::system_clock::time_point localUntilTime = std::chrono::system_clock::now() + std::chrono::milliseconds(0);
+    std::vector<LogData*> lLogList;
+    std::chrono::system_clock::time_point lUntilTime = std::chrono::system_clock::now() + std::chrono::milliseconds(0);
 
-    std::wstring localStrInfo = L"";
-    std::wstring localStrErr = L"";
+    std::wstring lStrInfo = L"";
+    std::wstring lStrErr = L"";
 
     while (true)
     {
         if (m_bIsRunning.load() == false && m_oLogDataQueue.size() == 0)
             break;
 
-        m_oLogDataQueue.GetList(localLogList);
-        localStrInfo.clear();
-        localStrErr.clear();
+        m_oLogDataQueue.GetList(lLogList);
+        lStrInfo.clear();
+        lStrErr.clear();
 
-        if (false == localLogList.empty())
+        if (false == lLogList.empty())
         {
-            for (auto& pLog : localLogList)
+            for (auto& pLog : lLogList)
             {
                 if (nullptr == pLog)
                     continue;
@@ -197,15 +197,15 @@ void LoggingManagerPO::_Run()
                     {
                         case ELogLevel::Info:
                         {
-                            localStrInfo.append(pLog->ToString());
-                            localStrInfo.append(L"\r\n");
+                            lStrInfo.append(pLog->ToString());
+                            lStrInfo.append(L"\r\n");
                         }
                         break;
                         case ELogLevel::Warning:
                         case ELogLevel::Error:
                         {
-                            localStrErr.append(pLog->ToString());
-                            localStrErr.append(L"\r\n");
+                            lStrErr.append(pLog->ToString());
+                            lStrErr.append(L"\r\n");
                         }
                         break;
                         default:
@@ -214,35 +214,35 @@ void LoggingManagerPO::_Run()
                 }
             }
 
-            if (false == localStrInfo.empty())
+            if (false == lStrInfo.empty())
             {
-                std::wofstream localFsLog(m_oLogInfoFilePath.wstring(), std::ios::app);
-                localFsLog << localStrInfo.c_str();
-                localFsLog.close();
+                std::wofstream lFsLog(m_oLogInfoFilePath.wstring(), std::ios::app);
+                lFsLog << lStrInfo.c_str();
+                lFsLog.close();
 
                 if (true == _CheckInfoFileChangeable())
                     _ChangeInfoFile();
             }
 
-            if (false == localStrErr.empty())
+            if (false == lStrErr.empty())
             {
-                std::wofstream localFsLog(m_oLogErrorFilePath.wstring(), std::ios::app);
-                localFsLog << localStrErr.c_str();
-                localFsLog.close();
+                std::wofstream lFsLog(m_oLogErrorFilePath.wstring(), std::ios::app);
+                lFsLog << lStrErr.c_str();
+                lFsLog.close();
 
                 if (true == _CheckErrorFileChangeable())
                     _ChangeErrorFile();
             }
 
-            for (auto localIter = localLogList.begin(); localIter != localLogList.end(); ++localIter)
+            for (auto lIter = lLogList.begin(); lIter != lLogList.end(); ++lIter)
             {
-                SafeDelete(*localIter);
+                SafeDelete(*lIter);
             }
         }
 
-        localUntilTime += std::chrono::milliseconds(LOG_THREAD_TICK_MS);
+        lUntilTime += std::chrono::milliseconds(LOG_THREAD_TICK_MS);
         
-        std::this_thread::sleep_until(localUntilTime);
+        std::this_thread::sleep_until(lUntilTime);
     }
 }
 
@@ -256,11 +256,11 @@ bool LoggingManagerPO::_MakeFolder()
             return true;
     }
 
-    std::error_code localEC = {};
+    std::error_code lEC = {};
     //디렉토리 생성
-    if (false == std::filesystem::create_directories(m_oLogDirPath, localEC))
+    if (false == std::filesystem::create_directories(m_oLogDirPath, lEC))
     {
-        if (localEC.value() == 0)
+        if (lEC.value() == 0)
             return true;
 
         return false;
@@ -285,8 +285,8 @@ bool LoggingManagerPO::_CheckFileChangeable(const std::filesystem::path& _file)
     if (false == std::filesystem::exists(_file))
         return false;
 
-    auto localSize = std::filesystem::file_size(_file);
-    if (localSize > MAX_LOG_FILE_SIZE)
+    auto lSize = std::filesystem::file_size(_file);
+    if (lSize > MAX_LOG_FILE_SIZE)
         return true;
 
     return false;
@@ -294,25 +294,25 @@ bool LoggingManagerPO::_CheckFileChangeable(const std::filesystem::path& _file)
 
 bool LoggingManagerPO::_ChangeInfoFile()
 {
-    tm localCurrentTime = {};
-    time_t localCurrentTick = time(nullptr);
-    [[maybe_unused]] auto localErr = localtime_s(&localCurrentTime, &localCurrentTick);
+    tm lCurrentTime = {};
+    time_t lCurrentTick = time(nullptr);
+    [[maybe_unused]] auto lErr = localtime_s(&lCurrentTime, &lCurrentTick);
 
-    char localTmpPath[MAX_PATH] = { 0, };
-    sprintf_s(localTmpPath, sizeof(localTmpPath), "%s/%s/%s.%d_%04d%02d%02d_%02d%02d%02d.log",
+    char lTmpPath[MAX_PATH] = { 0, };
+    sprintf_s(lTmpPath, sizeof(lTmpPath), "%s/%s/%s.%d_%04d%02d%02d_%02d%02d%02d.log",
         m_sLogDirConfig.c_str(),
         m_sLogDateFolder.c_str(),
         m_sServerName.c_str(),
         m_nServerNum,
-        localCurrentTime.tm_year + 1900,
-        localCurrentTime.tm_mon + 1,
-        localCurrentTime.tm_mday,
-        localCurrentTime.tm_hour,
-        localCurrentTime.tm_min,
-        localCurrentTime.tm_sec
+        lCurrentTime.tm_year + 1900,
+        lCurrentTime.tm_mon + 1,
+        lCurrentTime.tm_mday,
+        lCurrentTime.tm_hour,
+        lCurrentTime.tm_min,
+        lCurrentTime.tm_sec
     );
 
-    std::filesystem::path checkPath(localTmpPath);
+    std::filesystem::path checkPath(lTmpPath);
     if (true == std::filesystem::exists(checkPath))
         return false;
 
@@ -322,25 +322,25 @@ bool LoggingManagerPO::_ChangeInfoFile()
 
 bool LoggingManagerPO::_ChangeErrorFile()
 {
-    tm localCurrentTime = {};
-    time_t localCurrentTick = time(nullptr);
-    [[maybe_unused]] auto localErr = localtime_s(&localCurrentTime, &localCurrentTick);
+    tm lCurrentTime = {};
+    time_t lCurrentTick = time(nullptr);
+    [[maybe_unused]] auto lErr = localtime_s(&lCurrentTime, &lCurrentTick);
 
-    char localTmpPath[MAX_PATH] = { 0, };
-    sprintf_s(localTmpPath, sizeof(localTmpPath), "%s/%s/%s.%d_%04d%02d%02d_%02d%02d%02d.err",
+    char lTmpPath[MAX_PATH] = { 0, };
+    sprintf_s(lTmpPath, sizeof(lTmpPath), "%s/%s/%s.%d_%04d%02d%02d_%02d%02d%02d.err",
         m_sLogDirConfig.c_str(),
         m_sLogDateFolder.c_str(),
         m_sServerName.c_str(),
         m_nServerNum,
-        localCurrentTime.tm_year + 1900,
-        localCurrentTime.tm_mon + 1,
-        localCurrentTime.tm_mday,
-        localCurrentTime.tm_hour,
-        localCurrentTime.tm_min,
-        localCurrentTime.tm_sec
+        lCurrentTime.tm_year + 1900,
+        lCurrentTime.tm_mon + 1,
+        lCurrentTime.tm_mday,
+        lCurrentTime.tm_hour,
+        lCurrentTime.tm_min,
+        lCurrentTime.tm_sec
     );
 
-    std::filesystem::path checkPath(localTmpPath);
+    std::filesystem::path checkPath(lTmpPath);
     if (true == std::filesystem::exists(checkPath))
         return false;
 
@@ -350,32 +350,32 @@ bool LoggingManagerPO::_ChangeErrorFile()
 
 void LoggingManagerPO::_ChangeConsoleColor(const ELogLevel& _lvl)
 {
-    WORD localColor = 7;    //LIGHT GRAY
+    WORD lColor = 7;    //LIGHT GRAY
 
     switch (_lvl)
     {
     case ELogLevel::Info:
-        localColor = 7;
+        lColor = 7;
         break;
     case ELogLevel::Warning:
-        localColor = 14; // Yellow
+        lColor = 14; // Yellow
         break;
     case ELogLevel::Error:
-        localColor = 4; // Red
+        lColor = 4; // Red
         break;
     case ELogLevel::System:
-        localColor = 10; // LIGHT GREEN
+        lColor = 10; // LIGHT GREEN
         break;
     case ELogLevel::Debug:
-        localColor = 9; // Light Blue
+        lColor = 9; // Light Blue
         break;
     default:
         break;
     }
 
-    if (localColor == m_nLastConsoleColor)
+    if (lColor == m_nLastConsoleColor)
         return;
 
-    m_nLastConsoleColor = localColor;
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), localColor);
+    m_nLastConsoleColor = lColor;
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), lColor);
 }

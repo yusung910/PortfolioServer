@@ -96,19 +96,19 @@ void NetworkHostPO::BeginSendTask()
         return;
 
     //Context 할당
-    auto localCtxt = NetworkManager::GetInst().AllocateContext();
-    if (nullptr == localCtxt)
+    auto lCtxt = NetworkManager::GetInst().AllocateContext();
+    if (nullptr == lCtxt)
     {
         VIEW_WRITE_ERROR(L"NetworkHostPO::BeginSendTask() Failed");
         EndSendTask(false);
         return;
     }
 
-    localCtxt->Ready(EContextType::Encrypt);
+    lCtxt->Ready(EContextType::Encrypt);
 
-    if (NetworkManager::GetInst().DispatchWorker(this, localCtxt) == false)
+    if (NetworkManager::GetInst().DispatchWorker(this, lCtxt) == false)
     {
-        NetworkManager::GetInst().ReleaseContext(localCtxt);
+        NetworkManager::GetInst().ReleaseContext(lCtxt);
         EndSendTask(false);
         return;
     }
@@ -146,18 +146,18 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
     //)
     //ConnectEx 함수는 지정된 소켓에 대한 연결을 설정하고 연결이 설정되면 필요에 따라 데이터를 보냅니다. ConnectEx 함수는 연결 지향 소켓에서만 지원됩니다.
     //세부 설명: https://learn.microsoft.com/ko-kr/windows/win32/api/mswsock/nc-mswsock-lpfn_connectex
-    static LPFN_CONNECTEX localConnectEx = nullptr;
+    static LPFN_CONNECTEX lConnectEx = nullptr;
 
     //ConnectEx함수 얻어온다
-    if (nullptr == localConnectEx)
+    if (nullptr == lConnectEx)
     {
         //WSAIoctl 함수에 전달된 입력 버퍼에는 값이 
         //ConnectEx 확장 함수를 식별하는 GUID(Globally Unique Identifier)인 WSAID_CONNECTEX 포함되어야 합니다.
         //성공하면 WSAIoctl 함수에서 반환된 출력에 ConnectEx 함수에 대한 포인터가 포함됨.
         // WSAID_CONNECTEX GUID는 Mswsock.h 헤더 파일에 정의되어 있습니다.
-        GUID localGUID = WSAID_CONNECTEX;
+        GUID lGUID = WSAID_CONNECTEX;
 
-        DWORD localBytes = 0;
+        DWORD lBytes = 0;
 
         // WSAIoctl() : 소켓, 전송 프로토콜 또는 통신 하위 시스템에 연결된 운영 매개 변수를 설정 또는 검색.
         // 소켓 통신을 통해 전송된 데이터(LPWSAOVERLAPPED)를 주고 받을 수 있다
@@ -184,46 +184,46 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
         // 세부 설명 :https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsaioctl
         // 두번째 인자값 dwIoControlCode에 대한 설명
         // https://learn.microsoft.com/ko-kr/windows/win32/winsock/winsock-ioctls
-        if (WSAIoctl(m_oSocket, SIO_GET_EXTENSION_FUNCTION_POINTER, &localGUID, sizeof(localGUID), &localConnectEx, sizeof(localConnectEx), &localBytes, nullptr, nullptr) != 0)
+        if (WSAIoctl(m_oSocket, SIO_GET_EXTENSION_FUNCTION_POINTER, &lGUID, sizeof(lGUID), &lConnectEx, sizeof(lConnectEx), &lBytes, nullptr, nullptr) != 0)
         {
             VIEW_WRITE_ERROR(L"NetworkHost::Connect() Failed - WSAIoctl: %d", WSAGetLastError());
             return false;
         }
     }
 
-    if (nullptr == localConnectEx)
+    if (nullptr == lConnectEx)
         return false;
 
     //로컬 포트 할당
-    SOCKADDR_IN local = {};
-    local.sin_family = AF_INET;
-    local.sin_addr.s_addr = INADDR_ANY;
+    SOCKADDR_IN l = {};
+    l.sin_family = AF_INET;
+    l.sin_addr.s_addr = INADDR_ANY;
 
     //::bind() : 로컬주소를 소켓과 연결.
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-bind
-    if (::bind(m_oSocket, (SOCKADDR*)&local, sizeof(SOCKADDR_IN)) == SOCKET_ERROR)
+    if (::bind(m_oSocket, (SOCKADDR*)&l, sizeof(SOCKADDR_IN)) == SOCKET_ERROR)
     {
         VIEW_WRITE_ERROR(L"NetworkHost::Connect() bind:%d", WSAGetLastError());
         return false;
     }
 
     //주소 정보를 가져온다
-    SOCKADDR_IN localRemote = NetworkSupporterPO::GetAddressInfo(m_sIP, m_nPort);
+    SOCKADDR_IN lRemote = NetworkSupporterPO::GetAddressInfo(m_sIP, m_nPort);
 
     //Connect 요청
     _ctxt.Ready(EContextType::Connect);
     _ctxt.IncreaseReferenceCount();
     
-    DWORD localDwBytesSent = 0; 
+    DWORD lDwBytesSent = 0; 
 
-    if (localConnectEx(m_oSocket, (sockaddr*)&localRemote, sizeof(localRemote), nullptr, 0, &localDwBytesSent, &_ctxt) == FALSE)
+    if (lConnectEx(m_oSocket, (sockaddr*)&lRemote, sizeof(lRemote), nullptr, 0, &lDwBytesSent, &_ctxt) == FALSE)
     {
-        int localConnectError = WSAGetLastError();
+        int lConnectError = WSAGetLastError();
 
         // 소켓 오류 코드 : WSA_IO_PENDING
         // 전송할 데이터가 남아 있을 경우에는 ReferenceCount를 감소하지 않는다
         // https://learn.microsoft.com/ko-kr/windows/win32/winsock/windows-sockets-error-codes-2
-        if (localConnectError != WSA_IO_PENDING)
+        if (lConnectError != WSA_IO_PENDING)
         {
             _ctxt.DecreaseReferenceCount();
             return false;
@@ -241,8 +241,8 @@ bool NetworkHostPO::Listen()
     m_eHostType = EHostType::Listener;
 
     //Port 할당
-    SOCKADDR_IN localAddr = NetworkSupporterPO::GetAddressInfo(m_sIP, m_nPort);
-    if (::bind(m_oSocket, (SOCKADDR*)&localAddr, sizeof(localAddr)) == SOCKET_ERROR)
+    SOCKADDR_IN lAddr = NetworkSupporterPO::GetAddressInfo(m_sIP, m_nPort);
+    if (::bind(m_oSocket, (SOCKADDR*)&lAddr, sizeof(lAddr)) == SOCKET_ERROR)
     {
         VIEW_WRITE_ERROR(L"NetworkHostPO::Listen() Failed - bind:%d", WSAGetLastError());
         m_pEventSync->OnListenFailed();
@@ -278,8 +278,8 @@ bool NetworkHostPO::Accept(NetworkContextPO& _ctxt)
     //WSASocket 함수는 특정 전송 서비스 공급자에 바인딩된 소켓을 만듭니다.
     //특정 protocol에 서비스 할 소켓을 생성하는 함수로 보인다
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasocketw
-    SOCKET localSock = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED);
-    if (localSock == INVALID_SOCKET)
+    SOCKET lSock = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED);
+    if (lSock == INVALID_SOCKET)
     {
         VIEW_WRITE_ERROR(L"NetworkHostPO::Accept() Failed - WSASocket:%d", WSAGetLastError());
 
@@ -288,38 +288,38 @@ bool NetworkHostPO::Accept(NetworkContextPO& _ctxt)
 
     _ctxt.IncreaseReferenceCount();
     _ctxt.Ready(EContextType::Accept);
-    _ctxt.Write(&localSock, sizeof(localSock));
+    _ctxt.Write(&lSock, sizeof(lSock));
 
     //Accept
-    DWORD localBytes;
+    DWORD lBytes;
     //AcceptEx() : AcceptEx 함수는 새 연결을 수락하고 로컬 및 원격 주소를 반환하며 클라이언트 애플리케이션에서 보낸 첫 번째 데이터 블록을 수신.
     // BOOL AcceptEx(
     //    [in]  SOCKET       sListenSocket,
     //    [in]  SOCKET       sAcceptSocket,
     //    [in]  PVOID        lpOutputBuffer,
     //    [in]  DWORD        dwReceiveDataLength,
-    //    [in]  DWORD        dwLocalAddressLength -> 로컬 주소 정보를 위해 예약된 바이트 수. 이 값은 사용 중인 전송 프로토콜의 최대 주소 길이보다 16바이트 이상이어야 하기 때문에 +16을 해줌,
+    //    [in]  DWORD        dwLAddressLength -> 로컬 주소 정보를 위해 예약된 바이트 수. 이 값은 사용 중인 전송 프로토콜의 최대 주소 길이보다 16바이트 이상이어야 하기 때문에 +16을 해줌,
     //    [in]  DWORD        dwRemoteAddressLength,
     //    [out] LPDWORD      lpdwBytesReceived,
     //    [in]  LPOVERLAPPED lpOverlapped
     //    );
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock/nf-winsock-acceptex
-    if (AcceptEx(m_oSocket, localSock, _ctxt.GetEmpty(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &localBytes, &_ctxt) == FALSE)
+    if (AcceptEx(m_oSocket, lSock, _ctxt.GetEmpty(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, &lBytes, &_ctxt) == FALSE)
     {
-        int localError = WSAGetLastError();
-        if (localError != WSA_IO_PENDING)
+        int lError = WSAGetLastError();
+        if (lError != WSA_IO_PENDING)
         {
-            VIEW_WRITE_ERROR(L"NetworkHostPO::Accept() Failed - AcceptEx:%d", localError);
+            VIEW_WRITE_ERROR(L"NetworkHostPO::Accept() Failed - AcceptEx:%d", lError);
 
-            closesocket(localSock);
+            closesocket(lSock);
             _ctxt.DecreaseReferenceCount();
             return false;
         }
 
-        int localSockAddrLen = 0;
-        int localSockRemoteAddrLen = 0;
+        int lSockAddrLen = 0;
+        int lSockRemoteAddrLen = 0;
         //GetAcceptExSockaddrs() : AcceptEx 함수 호출에서 가져온 데이터를 구문 분석하고 로컬 및 원격 주소를 sockaddr 구조체에 전달.
-        GetAcceptExSockaddrs(_ctxt.GetEmpty(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, (sockaddr**)&_ctxt.m_pLocalAddr, &localSockAddrLen, (sockaddr**)&_ctxt.m_pRemoteAddr, & localSockRemoteAddrLen);
+        GetAcceptExSockaddrs(_ctxt.GetEmpty(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, (sockaddr**)&_ctxt.m_pLocalAddr, &lSockAddrLen, (sockaddr**)&_ctxt.m_pRemoteAddr, & lSockRemoteAddrLen);
     }
 
     return true;
@@ -335,19 +335,19 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
 
     //Receive 요청
     //WSABUF 구조체 Winsock 함수에서 사용하는 데이터 버퍼를 만들거나 컨트롤 하기 위한 구조체.
-    WSABUF localWSABUF = {};
-    DWORD localBytes = 0;
-    DWORD localFlagBytes = 0;
+    WSABUF lWSABUF = {};
+    DWORD lBytes = 0;
+    DWORD lFlagBytes = 0;
 
     //송신하기 위해 NetworkContext에 비어있는 포인터 주소 위치를 가져온다
-    localWSABUF.buf = _ctxt.GetEmpty();
+    lWSABUF.buf = _ctxt.GetEmpty();
     //송신하기 위해 NetworkContext에 비어있는 메모리의 크기를 가져온다
-    localWSABUF.len = static_cast<ULONG>(_ctxt.GetEmptySize());
+    lWSABUF.len = static_cast<ULONG>(_ctxt.GetEmptySize());
 
-    if (localWSABUF.len <= 0)
+    if (lWSABUF.len <= 0)
     {
         VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSABUF length:%d, HostID:%d, IP: %s"
-            , static_cast<int>(localWSABUF.len)
+            , static_cast<int>(lWSABUF.len)
             , GetHostID()
             , StringUtil::ToWideChar(GetIP()).c_str()
         );
@@ -358,16 +358,16 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
 
     //WSARecv() : 연결된 소켓 또는 바인딩된 연결 없는 소켓에서 데이터를 수신.
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsarecv
-    if (WSARecv(m_oSocket, &localWSABUF, 1, &localBytes, &localFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
+    if (WSARecv(m_oSocket, &lWSABUF, 1, &lBytes, &lFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
     {
-        int localErr = WSAGetLastError();
-        if (localErr != WSA_IO_PENDING)
+        int lErr = WSAGetLastError();
+        if (lErr != WSA_IO_PENDING)
         {
             VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSARecv length:%d, HostID:%d, IP: %s, Error: %d"
-                , static_cast<int>(localWSABUF.len)
+                , static_cast<int>(lWSABUF.len)
                 , GetHostID()
                 , StringUtil::ToWideChar(GetIP()).c_str()
-                , localErr
+                , lErr
             );
             _ctxt.DecreaseReferenceCount();
             return false;
@@ -380,25 +380,25 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
 bool NetworkHostPO::Decrypt(NetworkContextPO& _ctxt)
 {
     //
-    char* localPacket = _ctxt.GetData();
-    int localPacketSize = static_cast<int>(_ctxt.GetDataSize());
+    char* lPacket = _ctxt.GetData();
+    int lPacketSize = static_cast<int>(_ctxt.GetDataSize());
 
-    while (localPacketSize >= PACKET_HEADER_SIZE)
+    while (lPacketSize >= PACKET_HEADER_SIZE)
     {
-        int localMsgSize = (*(u_long*)(localPacket)) - PACKET_HEADER_SIZE;
-        int localMsgID = ntohl(*(u_long*)(localPacket + sizeof(u_long)));
+        int lMsgSize = (*(u_long*)(lPacket)) - PACKET_HEADER_SIZE;
+        int lMsgID = ntohl(*(u_long*)(lPacket + sizeof(u_long)));
 
         if (USE_PACKET_COMPRESS)
         {
-            localMsgSize &= ~PACKET_COMPRESS_MASK;
+            lMsgSize &= ~PACKET_COMPRESS_MASK;
         }
 
-        if (localMsgSize < 0 || localMsgSize > MAX_PACKET_DATA_SIZE)
+        if (lMsgSize < 0 || lMsgSize > MAX_PACKET_DATA_SIZE)
         {
             VIEW_WRITE_ERROR(
                 L"NetworkHostPO::Decrypt() Failed - MessageID:%d, MessageSize:%d, HostID:%d, IPAddress:%s"
-                ,localMsgID
-                ,localMsgSize
+                ,lMsgID
+                ,lMsgSize
                 ,GetHostID()
                 ,StringUtil::ToWideChar(GetIP()).c_str()
             );
@@ -407,17 +407,17 @@ bool NetworkHostPO::Decrypt(NetworkContextPO& _ctxt)
         }
 
         // 잔여 패킷 여부 확인
-        if (localMsgSize > localPacketSize - (int)PACKET_HEADER_SIZE)
+        if (lMsgSize > lPacketSize - (int)PACKET_HEADER_SIZE)
             break;
 
-        EventReceive(localMsgID, localPacket + PACKET_HEADER_SIZE, localMsgSize);
+        EventReceive(lMsgID, lPacket + PACKET_HEADER_SIZE, lMsgSize);
 
         //패킷 데이터 Read처리
-        _ctxt.Read(static_cast<size_t>(localMsgSize) + PACKET_HEADER_SIZE);
+        _ctxt.Read(static_cast<size_t>(lMsgSize) + PACKET_HEADER_SIZE);
 
         //다음패킷 위치
-        localPacket = _ctxt.GetData();
-        localPacketSize = static_cast<int>(_ctxt.GetDataSize());
+        lPacket = _ctxt.GetData();
+        lPacketSize = static_cast<int>(_ctxt.GetDataSize());
     }
 
     //Recevie 처리
@@ -432,28 +432,28 @@ bool NetworkHostPO::Waiting(Packet::SharedPtr _packt)
         return false;
 
 #ifdef CHECK_NETWORK_HOST_SEND_QUEUE_COUNT
-    int localWaitCount = 0;
+    int lWaitCount = 0;
     {
         AutoLock(m_xSendLock);
         m_oSendWaitingList.push_back(_packt);
-        localWaitCount = static_cast<int>(m_oSendWaitingList.size());
+        lWaitCount = static_cast<int>(m_oSendWaitingList.size());
     }
 
-    if (localWaitCount >= 500)
+    if (lWaitCount >= 500)
     {
-        if (localWaitCount % 100 == 0)
+        if (lWaitCount % 100 == 0)
         {
             VIEW_WRITE_WARNING(
                 L"NetworkHostPO::Waiting() Warning - HostID: %d [%s] Send Queue Size Over 500!! (%d)"
                 , GetHostID()
                 , StringUtil::ToWideChar(GetIP()).c_str()
-                , localWaitCount
+                , lWaitCount
             );
         }
 #ifdef MANUAL_KICK_BY_SEND_QUEUE_COUNT
         if (m_eHostType == EHostType::Acceptor)
         {
-            if (localWaitCount > ManualKickSendQueueCount)
+            if (lWaitCount > ManualKickSendQueueCount)
             {
                 Close(ESocketCloseType::SendQueueExceed);
                 return false;
@@ -474,7 +474,7 @@ bool NetworkHostPO::Waiting(Packet::SharedPtr _packt)
 
 bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
 {
-    size_t localTotal = 0;
+    size_t lTotal = 0;
     {
         AutoLock(m_xSendLock);
 
@@ -486,7 +486,7 @@ bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
     {
         if (nullptr != it->get())
         {
-            if (localTotal + it->get()->GetPacketSize() > NETWORK_BUFFER_SIZE_SERVER)
+            if (lTotal + it->get()->GetPacketSize() > NETWORK_BUFFER_SIZE_SERVER)
             {
                 AutoLock(m_xSendLock);
                 //m_oSendWaitingList의 앞(m_oSendWaitingList.begin() 위치)에 
@@ -498,7 +498,7 @@ bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
 
             //NetworkContext에 기록한다
             _ctxt.Write(it->get()->BinaryData, it->get()->GetPacketSize());
-            localTotal += it->get()->GetPacketSize();
+            lTotal += it->get()->GetPacketSize();
         }
         //전송되거나 nullptr인 queue는 제거 후 iterator 이동
         it = m_oSendWorkQueue.erase(it);
@@ -519,18 +519,18 @@ bool NetworkHostPO::Send(NetworkContextPO& _ctxt)
 
     //Send 요청
     //WSABUF 구조체 Winsock 함수에서 사용하는 데이터 버퍼를 만들거나 컨트롤 하기 위한 구조체.
-    WSABUF localWSABUF = {};
-    DWORD localBytes = 0;
-    DWORD localFlagBytes = 0;
+    WSABUF lWSABUF = {};
+    DWORD lBytes = 0;
+    DWORD lFlagBytes = 0;
 
     //NetworkContext에 저장된 데이터 패킷을 전송하기위해 읽어온다
-    localWSABUF.buf = _ctxt.GetData();
-    localWSABUF.len = static_cast<ULONG>(_ctxt.GetDataSize());
+    lWSABUF.buf = _ctxt.GetData();
+    lWSABUF.len = static_cast<ULONG>(_ctxt.GetDataSize());
 
-    if (localWSABUF.len <= 0)
+    if (lWSABUF.len <= 0)
     {
         VIEW_WRITE_ERROR(L"NetworkHostPO::Send() Failed - WSABUF length:%d, HostID:%d, IP: %s"
-            , static_cast<int>(localWSABUF.len)
+            , static_cast<int>(lWSABUF.len)
             , GetHostID()
             , StringUtil::ToWideChar(GetIP()).c_str()
         );
@@ -557,13 +557,13 @@ bool NetworkHostPO::Send(NetworkContextPO& _ctxt)
     //lpOverlapped : WSAOVERLAPPED 구조체 변수의 주소 값 전달, Event 오브젝트를 사용해서 데이터 전송의 완료를 확인하는 경우에 사용되는 매개변수
     //lpCompletionRoutine : Completion Routine 이라는 함수의 주소 값 전달, 이를 통해서도 데이터 전송의 완료를 확인할 수 있다.
     // https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasend
-    if (WSASend(m_oSocket, &localWSABUF, 1, &localBytes, localFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
+    if (WSASend(m_oSocket, &lWSABUF, 1, &lBytes, lFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
     {
-        int localWSASendError = WSAGetLastError();
-        if (localWSASendError != WSA_IO_PENDING)
+        int lWSASendError = WSAGetLastError();
+        if (lWSASendError != WSA_IO_PENDING)
         {
             VIEW_WRITE_ERROR(L"NetworkHostPO::Receive() Failed - WSASend length:%d, HostID:%d, IP: %s"
-                , static_cast<int>(localWSABUF.len)
+                , static_cast<int>(lWSABUF.len)
                 , GetHostID()
                 , StringUtil::ToWideChar(GetIP()).c_str()
             );
@@ -581,11 +581,11 @@ bool NetworkHostPO::Close(ESocketCloseType _e)
 
     m_eLastSocketCloseType = _e;
 
-    LINGER localOpt = {};
-    localOpt.l_onoff = 1;
-    localOpt.l_linger = 0;
+    LINGER lOpt = {};
+    lOpt.l_onoff = 1;
+    lOpt.l_linger = 0;
 
-    setsockopt(m_oSocket, SOL_SOCKET, SO_LINGER, (char*)&localOpt, sizeof(localOpt));
+    setsockopt(m_oSocket, SOL_SOCKET, SO_LINGER, (char*)&lOpt, sizeof(lOpt));
 
     closesocket(m_oSocket);
     m_oSocket = INVALID_SOCKET;
@@ -648,14 +648,14 @@ void NetworkHostPO::Update(int64_t _appTimeMS)
 
 void NetworkHostPO::UpdateListener([[maybe_unused]] int64_t _appTimeMS)
 {
-    int localCreateCount = ACCEPT_WAIT_COUNT - m_lBaseTaskCount;
-    if (localCreateCount <= 0)
+    int lCreateCount = ACCEPT_WAIT_COUNT - m_lBaseTaskCount;
+    if (lCreateCount <= 0)
         return;
 
-    for (int i = 0; i < localCreateCount; i++)
+    for (int i = 0; i < lCreateCount; i++)
     {
-        auto localCtxt = NetworkManager::GetInst().AllocateContext();
-        if (localCtxt == nullptr)
+        auto lCtxt = NetworkManager::GetInst().AllocateContext();
+        if (lCtxt == nullptr)
         {
             VIEW_WRITE_ERROR(L"NetworkHostPO::UpdateListener - Allocate Context Failed");
             continue;
@@ -663,10 +663,10 @@ void NetworkHostPO::UpdateListener([[maybe_unused]] int64_t _appTimeMS)
 
         BeginBaseTask();
 
-        if (Accept(*localCtxt) == false)
+        if (Accept(*lCtxt) == false)
             EndBaseTask(true);
 
-        NetworkManager::GetInst().ReleaseContext(localCtxt);
+        NetworkManager::GetInst().ReleaseContext(lCtxt);
     }
 }
 
@@ -677,12 +677,12 @@ void NetworkHostPO::UpdateAccepter(int64_t _appTimeMS)
         if (_appTimeMS > m_nPacketRecvCheckTick)
         {
             m_nPacketRecvCheckTick = _appTimeMS + m_nPACKET_RECV_CHECK_TICK;
-            [[maybe_unused]] float localNetcount = m_nPacketRecvCheckCounter * 1000.0f / m_nPACKET_RECV_CHECK_TICK;
+            [[maybe_unused]] float lNetcount = m_nPacketRecvCheckCounter * 1000.0f / m_nPACKET_RECV_CHECK_TICK;
             m_nPacketRecvCheckCounter = 0;
 
-            if (localNetcount > m_fPACKET_RECV_CHECK_COUNT_PER_SEC)
+            if (lNetcount > m_fPACKET_RECV_CHECK_COUNT_PER_SEC)
             {
-                VIEW_WRITE_ERROR("Too Many Packet Close. %f (IP: %s, HostID: %d)", localNetcount, GetIP().c_str(), m_nHostID);
+                VIEW_WRITE_ERROR("Too Many Packet Close. %f (IP: %s, HostID: %d)", lNetcount, GetIP().c_str(), m_nHostID);
 
                 _GetRecvHistoryStackString();
                 Close(ESocketCloseType::ManyPacketInTime);
@@ -709,15 +709,15 @@ void NetworkHostPO::UpdateConnector(int64_t _appTimeMS)
 
 void NetworkHostPO::EventConnect(const EHostType& _type)
 {
-    int localFlag = 1;
-    setsockopt(m_oSocket, IPPROTO_TCP, TCP_NODELAY, (const char*)&localFlag, sizeof(localFlag));
+    int lFlag = 1;
+    setsockopt(m_oSocket, IPPROTO_TCP, TCP_NODELAY, (const char*)&lFlag, sizeof(lFlag));
 
     if (nullptr != m_pEventSync)
     {
         //시간 설정
-        int64_t localAppTimeMS = Clock::GetTick64();
-        m_nCheckTimeoutMS = localAppTimeMS + m_pEventSync->GetTimeoutMS();
-        m_nCheckAliveMS = localAppTimeMS + DEFAULT_NETWORK_ALIVE_MS;
+        int64_t lAppTimeMS = Clock::GetTick64();
+        m_nCheckTimeoutMS = lAppTimeMS + m_pEventSync->GetTimeoutMS();
+        m_nCheckAliveMS = lAppTimeMS + DEFAULT_NETWORK_ALIVE_MS;
 
         NetworkManager::GetInst().OnConnect(m_nHostID);
         m_pEventSync->OnConnect(m_nHostID, m_sIP, 0);
@@ -765,9 +765,9 @@ void NetworkHostPO::EventReceive(int _msgID, char* _msg, int _msgSize)
         m_pEventSync->OnReceive(m_nHostID, _msgID, _msg, _msgSize);
     }
 
-    int64_t localAppTimeMS = Clock::GetTick64();
-    m_nCheckTimeoutMS = localAppTimeMS + m_pEventSync->GetTimeoutMS();
-    _AddReceive(_msgID, localAppTimeMS);
+    int64_t lAppTimeMS = Clock::GetTick64();
+    m_nCheckTimeoutMS = lAppTimeMS + m_pEventSync->GetTimeoutMS();
+    _AddReceive(_msgID, lAppTimeMS);
 
 }
 
@@ -910,40 +910,40 @@ const wchar_t* NetworkHostPO::_GetHostType(const EHostType& _type)
 void NetworkHostPO::_GetRecvHistoryStackString()
 {
     //Array, Vector의 차이 https://dev-record.tistory.com/26
-    std::vector<std::tuple<int, int64_t>> localVecList;
+    std::vector<std::tuple<int, int64_t>> lVecList;
 
-    _GetRecvHistory(localVecList);
+    _GetRecvHistory(lVecList);
 
-    std::string localStrRet = "Message Stack [";
-    int localMsgID = 0;
-    int64_t localInterval = 0;
+    std::string lStrRet = "Message Stack [";
+    int lMsgID = 0;
+    int64_t lInterval = 0;
 
-    int localCount = 0;
-    for (const auto& it : localVecList)
+    int lCount = 0;
+    for (const auto& it : lVecList)
     {
-        localMsgID = std::get<0>(it);
-        localInterval = std::get<1>(it);
+        lMsgID = std::get<0>(it);
+        lInterval = std::get<1>(it);
 
-        if (0 == localMsgID) continue;
+        if (0 == lMsgID) continue;
 
-        localStrRet.append(std::to_string(localMsgID));
-        localStrRet.append(" ");
-        localStrRet.append(std::to_string(localInterval));
-        localStrRet.append(" ms");
+        lStrRet.append(std::to_string(lMsgID));
+        lStrRet.append(" ");
+        lStrRet.append(std::to_string(lInterval));
+        lStrRet.append(" ms");
 
-        if (++localCount >= 10)
+        if (++lCount >= 10)
         {
-            localStrRet.append("\n");
-            localCount = 0;
+            lStrRet.append("\n");
+            lCount = 0;
         }
         else
         {
-            localStrRet.append(",");
+            lStrRet.append(",");
         }
     }
-    localStrRet.append("]");
+    lStrRet.append("]");
 
-    VIEW_WRITE_ERROR("HostID : %d ReceiveHistory : %s", m_nHostID, localStrRet.c_str());
+    VIEW_WRITE_ERROR("HostID : %d ReceiveHistory : %s", m_nHostID, lStrRet.c_str());
 }
 
 void NetworkHostPO::_GetRecvHistory(std::vector<std::tuple<int, int64_t>>& _list)

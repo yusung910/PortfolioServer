@@ -19,10 +19,10 @@ void DBService::SetDBConfig(const std::string& _userID, const std::string _passw
         m_pDBServicePO->SetDBConfig(_userID, _password, _database, _host, _port);
 }
 
-CSession DBService::GetSession()
+Poco::Data::Session* DBService::GetSession()
 {
     if (nullptr == m_pDBServicePO)
-        return CSession(0);
+        return nullptr;
     return m_pDBServicePO->GetSession();
 }
 

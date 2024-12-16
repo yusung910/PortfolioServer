@@ -5,45 +5,45 @@
 
 void GSNetworkEventSync::OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType)
 {
-	flatbuffers::FlatBufferBuilder localMSG;
-	auto localObj = CreateHostConnect(localMSG
-									, localMSG.CreateString(_ip)
+	flatbuffers::FlatBufferBuilder lMSG;
+	auto lObj = CreateHostConnect(lMSG
+									, lMSG.CreateString(_ip)
 									, _port
 									, _serverType);
 
-	localMSG.Finish(localObj);
+	lMSG.Finish(lObj);
 
-	Packet::SharedPtr localPacket = Packet::New();
-	localPacket->HostID = _hostID;
+	Packet::SharedPtr lPacket = Packet::New();
+	lPacket->HostID = _hostID;
 
-	if(true == localPacket->SetPacketData(Host_Connect, localMSG.GetBufferPointer(), localMSG.GetSize()))
-		GameService::GetInst().Push(localPacket);
+	if(true == lPacket->SetPacketData(Host_Connect, lMSG.GetBufferPointer(), lMSG.GetSize()))
+		GameService::GetInst().Push(lPacket);
 }
 
 void GSNetworkEventSync::OnClose(const int& _hostID)
 {
-    flatbuffers::FlatBufferBuilder localMSG;
-    auto localObj = CreateHostClose(localMSG);
-    localMSG.Finish(localObj);
+    flatbuffers::FlatBufferBuilder lMSG;
+    auto lObj = CreateHostClose(lMSG);
+    lMSG.Finish(lObj);
 
 
-    Packet::SharedPtr localPacket = Packet::New();
-    localPacket->HostID = _hostID;
+    Packet::SharedPtr lPacket = Packet::New();
+    lPacket->HostID = _hostID;
 
-    if (true == localPacket->SetPacketData(Host_Connect, localMSG.GetBufferPointer(), localMSG.GetSize()))
-        GameService::GetInst().Push(localPacket);
+    if (true == lPacket->SetPacketData(Host_Connect, lMSG.GetBufferPointer(), lMSG.GetSize()))
+        GameService::GetInst().Push(lPacket);
 
 }
 
 void GSNetworkEventSync::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
 {
-	Packet::SharedPtr localMSG = Packet::New();
-	localMSG->SetPacketData(_msgID, _msg, _msgSize);
-	localMSG->HostID = _hostID;
+	Packet::SharedPtr lMSG = Packet::New();
+	lMSG->SetPacketData(_msgID, _msg, _msgSize);
+	lMSG->HostID = _hostID;
 
     //
 
-	GameService::GetInst().Push(localMSG);
+	GameService::GetInst().Push(lMSG);
 
 
 }

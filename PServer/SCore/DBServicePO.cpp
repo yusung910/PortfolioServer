@@ -9,8 +9,7 @@ void DBServicePO::SetDBConfig(const std::string& _userID, const std::string& _pa
         return;
     }
 
-    //driver = SQLOLEDB.1
-    m_oWorker.SetDBConfig("SQLOLEDB.3", _userID, _password, _database, _host, _port);
+    m_oWorker.SetDBConfig("SQL Server", _userID, _password, _database, _host, _port);
 
     if (false == m_oWorker.Init())
     {
@@ -23,7 +22,7 @@ void DBServicePO::SetDBConfig(const std::string& _userID, const std::string& _pa
 }
 
 
-CSession DBServicePO::GetSession()
+Poco::Data::Session* DBServicePO::GetSession()
 {
     return m_oWorker.GetSession();
 }

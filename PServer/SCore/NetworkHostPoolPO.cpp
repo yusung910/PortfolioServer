@@ -24,17 +24,17 @@ NetworkHostPoolPO::~NetworkHostPoolPO()
 
 NetworkHostPO* NetworkHostPoolPO::Allocate()
 {
-    NetworkHostPO* localHost = nullptr;
+    NetworkHostPO* lHost = nullptr;
 
     AutoLock(m_xLock);
     if (m_oFreeQueue.empty() == false)
     {
-        localHost = m_oFreeQueue.front();
+        lHost = m_oFreeQueue.front();
         m_oFreeQueue.pop_front();
     }
     else
     {
-        localHost = new NetworkHostPO;
+        lHost = new NetworkHostPO;
     }
 
     while (true)
@@ -49,13 +49,13 @@ NetworkHostPO* NetworkHostPoolPO::Allocate()
         if (m_umActiveMap.find(m_nLastHostID) != m_umActiveMap.end())
             continue;
 
-        localHost->SetHostID(m_nLastHostID);
-        m_umActiveMap[m_nLastHostID] = localHost;
+        lHost->SetHostID(m_nLastHostID);
+        m_umActiveMap[m_nLastHostID] = lHost;
 
         break;
     }
 
-    return localHost;
+    return lHost;
 }
 
 void NetworkHostPoolPO::Release(NetworkHostPO* _host)

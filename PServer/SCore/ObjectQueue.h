@@ -13,40 +13,40 @@ private:
 public:
 	void Clear()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		m_oObjects.clear();
 	}
 
 	size_t Count()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		return m_oObjects.size();
 	}
 
 public:
 	void Push(T _obj)
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		m_oObjects.push_back(_obj);
 	}
 
 	T Pop()
 	{
-		T localObj = T();
+		T lObj = T();
 
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		if (!m_oObjects.empty())
 		{
-			localObj = m_oObjects.front();
+			lObj = m_oObjects.front();
 			m_oObjects.pop_front();
 		}
 
-		return localObj;
+		return lObj;
 	}
 
 	void Swap(std::deque<T>& _List)
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		m_oObjects.swap(_List);
 	}
 
@@ -54,7 +54,7 @@ public:
 	{
 		_List.clear();
 
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		if (m_oObjects.size() <= _getSize)
 		{
 			m_oObjects.swap(_List);

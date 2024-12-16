@@ -10,15 +10,15 @@ NetworkSupporterPO::NetworkSupporterPO()
      *  Windows 소켓 구현에 대한 정보가 포함되어 있는 구조체
      *  https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/ns-winsock2-wsadata
      */
-    WSADATA localWSA = {};
+    WSADATA lWSA = {};
     /*!
      *  Winsock를 사용하기 위한 시작 함수
      *  https://learn.microsoft.com/ko-kr/windows/win32/api/winsock/nf-winsock-wsastartup
      */
-    [[maybe_unused]] int localnRet = WSAStartup(MAKEWORD(2, 2), &localWSA);
+    [[maybe_unused]] int lnRet = WSAStartup(MAKEWORD(2, 2), &lWSA);
 
-    // C28193, localnRet 이 보유한 값을 검사해야 합니다.
-    switch (localnRet)
+    // C28193, lnRet 이 보유한 값을 검사해야 합니다.
+    switch (lnRet)
     {
     case S_OK:
         break;
@@ -43,44 +43,44 @@ NetworkSupporterPO::~NetworkSupporterPO()
 
 void NetworkSupporterPO::GetLocalIPAddress(std::vector<std::string>& _addr)
 {
-    addrinfo* localpInfos = nullptr;
-    addrinfo localHints = {};
-    localHints.ai_family = AF_INET;
-    localHints.ai_socktype = SOCK_STREAM;
-    localHints.ai_protocol = IPPROTO_TCP;
+    addrinfo* lpInfos = nullptr;
+    addrinfo lHints = {};
+    lHints.ai_family = AF_INET;
+    lHints.ai_socktype = SOCK_STREAM;
+    lHints.ai_protocol = IPPROTO_TCP;
 
-    char localName[256] = {};
+    char lName[256] = {};
     /*!
      * gethostname() 로컬 컴퓨터의 표준 호스트 이름을 검색.
      * https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-gethostname
      */
-    if (gethostname(localName, 256) != SOCKET_ERROR)
+    if (gethostname(lName, 256) != SOCKET_ERROR)
     {
         /*!
          *  getaddrinfo() ANSI 호스트 이름에서 주소로 프로토콜 독립적 변환을 제공
          *  https://learn.microsoft.com/ko-kr/windows/win32/api/ws2tcpip/nf-ws2tcpip-getaddrinfo
          */
-        getaddrinfo(localName, nullptr, &localHints, &localpInfos);
-        if (localpInfos)
+        getaddrinfo(lName, nullptr, &lHints, &lpInfos);
+        if (lpInfos)
         {
-            for (addrinfo* ptr = localpInfos; ptr != nullptr ; ptr = ptr->ai_next)
+            for (addrinfo* ptr = lpInfos; ptr != nullptr ; ptr = ptr->ai_next)
             {
-                SOCKADDR_IN localRslt = {};
-                memcpy(&localRslt, ptr->ai_addr, ptr->ai_addrlen);
+                SOCKADDR_IN lRslt = {};
+                memcpy(&lRslt, ptr->ai_addr, ptr->ai_addrlen);
 
-                char localIPStr[INET_ADDRSTRLEN] = {};
+                char lIPStr[INET_ADDRSTRLEN] = {};
                 /*!
                  *  inet_ntop() IPv4 또는 IPv6 인터넷 네트워크 주소를 인터넷 표준 형식의 문자열로 변환합니다. 이 함수의 ANSI 버전은 inet_ntop.
                  */
-                inet_ntop(localRslt.sin_family, &localRslt.sin_addr, localIPStr, INET_ADDRSTRLEN);
-                _addr.push_back(localIPStr);
+                inet_ntop(lRslt.sin_family, &lRslt.sin_addr, lIPStr, INET_ADDRSTRLEN);
+                _addr.push_back(lIPStr);
             }
 
             /*!
              *  getaddrinfo() 함수가 addrinfo 구조에서 동적으로 할당하는 주소 정보를 해제
              *  https://learn.microsoft.com/ko-kr/windows/win32/api/ws2tcpip/nf-ws2tcpip-freeaddrinfo
              */
-            freeaddrinfo(localpInfos);
+            freeaddrinfo(lpInfos);
         }
         else
         {
@@ -95,8 +95,8 @@ void NetworkSupporterPO::GetLocalIPAddress(std::vector<std::string>& _addr)
 
 SOCKADDR_IN NetworkSupporterPO::GetAddressInfo(std::string _ip, int _port)
 {
-    SOCKADDR_IN localRslt = {};
-    localRslt.sin_family = AF_INET;
+    SOCKADDR_IN lRslt = {};
+    lRslt.sin_family = AF_INET;
 
     if (_ip.size() > 0)
     {
@@ -107,32 +107,32 @@ SOCKADDR_IN NetworkSupporterPO::GetAddressInfo(std::string _ip, int _port)
          */
         if (isalpha(static_cast<int>(_ip[0])))
         {
-            addrinfo* localInfos = nullptr;
-            addrinfo localHints = {};
+            addrinfo* lInfos = nullptr;
+            addrinfo lHints = {};
 
-            localHints.ai_family = localRslt.sin_family;
-            localHints.ai_socktype = SOCK_STREAM;
-            localHints.ai_protocol = IPPROTO_TCP;
+            lHints.ai_family = lRslt.sin_family;
+            lHints.ai_socktype = SOCK_STREAM;
+            lHints.ai_protocol = IPPROTO_TCP;
 
-            getaddrinfo(_ip.c_str(), nullptr, &localHints, &localInfos);
-            if (localInfos)
+            getaddrinfo(_ip.c_str(), nullptr, &lHints, &lInfos);
+            if (lInfos)
             {
-                memcpy(&localRslt, localInfos->ai_addr, localInfos->ai_addrlen);
-                freeaddrinfo(localInfos);
+                memcpy(&lRslt, lInfos->ai_addr, lInfos->ai_addrlen);
+                freeaddrinfo(lInfos);
             }
             else
             {
                 /*!
                  *  inet_pton() 텍스트 프레젠테이션 형식의 IPv4 또는 IPv6 인터넷 네트워크 주소를 숫자 이진 형식으로 변환
                  */
-                inet_pton(localRslt.sin_family, "127.0.0.1", &localRslt.sin_addr);
+                inet_pton(lRslt.sin_family, "127.0.0.1", &lRslt.sin_addr);
             }
         }
         else
         {
-            inet_pton(localRslt.sin_family, _ip.c_str(), &localRslt.sin_addr);
+            inet_pton(lRslt.sin_family, _ip.c_str(), &lRslt.sin_addr);
         }
     }
-    localRslt.sin_port = htons((unsigned short)_port);
-    return localRslt;
+    lRslt.sin_port = htons((unsigned short)_port);
+    return lRslt;
 }

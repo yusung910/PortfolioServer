@@ -30,12 +30,12 @@ bool DBServiceLoadBalancer::Push(InnerPacket::SharedPtr _data)
     if (nullptr == m_pServiceList)
         return false;
 
-    size_t localIdx = abs(_data->m_nWorkerID) & m_nServiceCount;
+    size_t lIdx = abs(_data->m_nWorkerID) & m_nServiceCount;
 
-    if (nullptr == m_pServiceList[localIdx])
+    if (nullptr == m_pServiceList[lIdx])
         return false;
 
-    return m_pServiceList[localIdx]->Push(_data);
+    return m_pServiceList[lIdx]->Push(_data);
 }
 
 bool DBServiceLoadBalancer::PushByDBID(InnerPacket::SharedPtr _data, const int& _serverID)

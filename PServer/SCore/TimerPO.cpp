@@ -17,40 +17,40 @@ bool TimerPO::RegisterTimer(const int& _intervalMS, std::function<void()> _callb
     if (_intervalMS < 0) return false;
     if (nullptr == _callback) return false;
 
-    TimerData* localTimerData = new TimerData();
+    TimerData* lTimerData = new TimerData();
 
-    if (nullptr == localTimerData)
+    if (nullptr == lTimerData)
         return false;
 
-    localTimerData->Idx = static_cast<int>(++m_nCurrentIdx);
-    localTimerData->NextTimeMS = Clock::GetTick64() + _intervalMS;
-    localTimerData->CallbackFunc = _callback;
-    localTimerData->IntervalTimeMS = _intervalMS;
+    lTimerData->Idx = static_cast<int>(++m_nCurrentIdx);
+    lTimerData->NextTimeMS = Clock::GetTick64() + _intervalMS;
+    lTimerData->CallbackFunc = _callback;
+    lTimerData->IntervalTimeMS = _intervalMS;
 
-    m_oTimerDatas.emplace_back(localTimerData);
+    m_oTimerDatas.emplace_back(lTimerData);
 
     return true;
 }
 
 void TimerPO::UpdateTimer()
 {
-    int64_t localCurrentTime = Clock::GetTick64();
-    if (m_nTimerUpdateTimeMS > localCurrentTime)
+    int64_t lCurrentTime = Clock::GetTick64();
+    if (m_nTimerUpdateTimeMS > lCurrentTime)
         return;
 
     for (auto& pData : m_oTimerDatas)
     {
         if (nullptr == pData) continue;
 
-        if (pData->NextTimeMS > localCurrentTime) continue;
+        if (pData->NextTimeMS > lCurrentTime) continue;
 
         if (nullptr != pData->CallbackFunc)
             pData->CallbackFunc();
 
-        pData->NextTimeMS = localCurrentTime + pData->IntervalTimeMS;
+        pData->NextTimeMS = lCurrentTime + pData->IntervalTimeMS;
     }
 
-    m_nTimerUpdateTimeMS = localCurrentTime + m_nUpdateInterval;
+    m_nTimerUpdateTimeMS = lCurrentTime + m_nUpdateInterval;
 }
 
 bool TimerPO::ChangeTimerInterval(const int& _updateIntervalMS)

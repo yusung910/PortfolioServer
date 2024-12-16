@@ -47,30 +47,30 @@ void NetworkStatisticsPO::Reset()
 
 int64_t NetworkStatisticsPO::GetCurrentSendBytes()
 {
-    int64_t localRet = m_nTotalSendBytes - m_nLastCheckSendBytes;
+    int64_t lRet = m_nTotalSendBytes - m_nLastCheckSendBytes;
     m_nLastCheckSendBytes.exchange(m_nTotalSendBytes);
-    return localRet;
+    return lRet;
 }
 
 int64_t NetworkStatisticsPO::GetCurrentRecvBytes()
 {
-    int64_t localRet = m_nTotalRecvBytes - m_nLastCheckRecvBytes;
+    int64_t lRet = m_nTotalRecvBytes - m_nLastCheckRecvBytes;
     m_nLastCheckRecvBytes.exchange(m_nTotalRecvBytes);
-    return localRet;
+    return lRet;
 }
 
 int64_t NetworkStatisticsPO::GetCurrentSendCount()
 {
-    int64_t localRet = m_nTotalSendCount - m_nLastCheckSendCount;
+    int64_t lRet = m_nTotalSendCount - m_nLastCheckSendCount;
     m_nLastCheckSendCount.exchange(m_nTotalSendCount);
-    return localRet;
+    return lRet;
 }
 
 int64_t NetworkStatisticsPO::GetCurrentRecvCount()
 {
-    int64_t localRet = m_nTotalRecvCount - m_nLastCheckRecvCount;
+    int64_t lRet = m_nTotalRecvCount - m_nLastCheckRecvCount;
     m_nLastCheckRecvCount.exchange(m_nTotalRecvCount);
-    return localRet;
+    return lRet;
 }
 
 int NetworkStatisticsPO::GetCurrentConnection()

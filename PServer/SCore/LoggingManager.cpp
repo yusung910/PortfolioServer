@@ -21,7 +21,7 @@ LoggingManager::~LoggingManager()
 
 void LoggingManager::Init()
 {
-    std::setlocale(LC_ALL, "ko_KR.UTF-8");
+    std::setle(LC_ALL, "ko_KR.UTF-8");
     m_pManagerPO = new LoggingManagerPO();
 }
 
@@ -78,20 +78,20 @@ void LoggingManager::ViewForce(const char* _pFunc, const ELogLevel& _lvl, const 
 
 #ifdef LOG_C6262_TUNE
     //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
-    std::shared_ptr<wchar_t> localpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
-    wchar_t* localpBuffer = localpBuf.get();
+    std::shared_ptr<wchar_t> lpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
+    wchar_t* lpBuffer = lpBuf.get();
 #else
-    wchar_t localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+    wchar_t lpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
 #endif
 
-    va_list localArgs;
-    va_start(localArgs, _fmt);
-    _vsnwprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    va_end(localArgs);
+    va_list lArgs;
+    va_start(lArgs, _fmt);
+    _vsnwprintf_s(lpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, lArgs);
+    va_end(lArgs);
 
-    std::wstring localStrRet = _GetFunctionString(_pFunc, _lvl);
-    localStrRet.append(localpBuffer);
-    m_pManagerPO->ViewForce(localStrRet, _lvl);
+    std::wstring lStrRet = _GetFunctionString(_pFunc, _lvl);
+    lStrRet.append(lpBuffer);
+    m_pManagerPO->ViewForce(lStrRet, _lvl);
 
 }
 
@@ -110,20 +110,20 @@ void LoggingManager::ViewForce(const char* _pFunc, const ELogLevel& _lvl, const 
 
 #ifdef LOG_C6262_TUNE
     //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
-    std::shared_ptr<char> localpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
-    char* localpBuffer = localpBuf.get();
+    std::shared_ptr<char> lpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
+    char* lpBuffer = lpBuf.get();
 #else
-    char localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+    char lpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
 #endif
 
-    va_list localArgs;
-    va_start(localArgs, _fmt);
-    _vsnprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    va_end(localArgs);
+    va_list lArgs;
+    va_start(lArgs, _fmt);
+    _vsnprintf_s(lpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, lArgs);
+    va_end(lArgs);
 
-    std::string localStrRet = _GetFunctionStringA(_pFunc, _lvl);
-    localStrRet.append(localpBuffer);
-    m_pManagerPO->ViewForce(localStrRet, _lvl);
+    std::string lStrRet = _GetFunctionStringA(_pFunc, _lvl);
+    lStrRet.append(lpBuffer);
+    m_pManagerPO->ViewForce(lStrRet, _lvl);
 }
 
 void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& _view, const bool& _write, const wchar_t* _fmt, ...)
@@ -132,20 +132,20 @@ void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& 
 
 #ifdef LOG_C6262_TUNE
     //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
-    std::shared_ptr<wchar_t> localpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
-    wchar_t* localpBuffer = localpBuf.get();
+    std::shared_ptr<wchar_t> lpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
+    wchar_t* lpBuffer = lpBuf.get();
 #else
-    wchar_t localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+    wchar_t lpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
 #endif
 
-    va_list localArgs;
-    va_start(localArgs, _fmt);
-    _vsnwprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    va_end(localArgs);
+    va_list lArgs;
+    va_start(lArgs, _fmt);
+    _vsnwprintf_s(lpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, lArgs);
+    va_end(lArgs);
 
-    std::wstring localStrRet = _GetFunctionString(_pFunc, _lvl);
-    localStrRet.append(localpBuffer);
-    m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
+    std::wstring lStrRet = _GetFunctionString(_pFunc, _lvl);
+    lStrRet.append(lpBuffer);
+    m_pManagerPO->Log(lStrRet, _lvl, _view, _write);
 }
 
 void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& _view, const bool& _write, const char* _fmt, ...)
@@ -154,20 +154,20 @@ void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& 
 
 #ifdef LOG_C6262_TUNE
     //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
-    std::shared_ptr<char> localpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
-    char* localpBuffer = localpBuf.get();
+    std::shared_ptr<char> lpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
+    char* lpBuffer = lpBuf.get();
 #else
-    char localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+    char lpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
 #endif
 
-    va_list localArgs;
-    va_start(localArgs, _fmt);
-    _vsnprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    va_end(localArgs);
+    va_list lArgs;
+    va_start(lArgs, _fmt);
+    _vsnprintf_s(lpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, lArgs);
+    va_end(lArgs);
 
-    std::string localStrRet = _GetFunctionStringA(_pFunc, _lvl);
-    localStrRet.append(localpBuffer);
-    m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
+    std::string lStrRet = _GetFunctionStringA(_pFunc, _lvl);
+    lStrRet.append(lpBuffer);
+    m_pManagerPO->Log(lStrRet, _lvl, _view, _write);
 }
 
 void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _lvl, const bool& _view, const bool& _write, const wchar_t* _fmt, ...)
@@ -176,21 +176,21 @@ void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _
 
 #ifdef LOG_C6262_TUNE
     //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
-    std::shared_ptr<wchar_t> localpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
-    wchar_t* localpBuffer = localpBuf.get();
+    std::shared_ptr<wchar_t> lpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
+    wchar_t* lpBuffer = lpBuf.get();
 #else
-    wchar_t localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+    wchar_t lpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
 #endif
 
-    va_list localArgs;
-    va_start(localArgs, _fmt);
-    _vsnwprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    va_end(localArgs);
+    va_list lArgs;
+    va_start(lArgs, _fmt);
+    _vsnwprintf_s(lpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, lArgs);
+    va_end(lArgs);
 
-    std::wstring localStrRet = _GetFunctionString(_pFunc, _lvl);
-    localStrRet.append(_GetLineString(_line, _lvl));
-    localStrRet.append(localpBuffer);
-    m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
+    std::wstring lStrRet = _GetFunctionString(_pFunc, _lvl);
+    lStrRet.append(_GetLineString(_line, _lvl));
+    lStrRet.append(lpBuffer);
+    m_pManagerPO->Log(lStrRet, _lvl, _view, _write);
 }
 
 void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _lvl, const bool& _view, const bool& _write, const char* _fmt, ...)
@@ -199,21 +199,21 @@ void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _
 
 #ifdef LOG_C6262_TUNE
     //unique_ptr, shared_ptr(포인터)가 delete될 때 실행 될 기본 Destructor(소멸자)를 명시한다
-    std::shared_ptr<char> localpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
-    char* localpBuffer = localpBuf.get();
+    std::shared_ptr<char> lpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
+    char* lpBuffer = lpBuf.get();
 #else
-    char localpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
+    char lpBuffer[MAX_LOG_STRING_SIZE] = { 0, };
 #endif
 
-    va_list localArgs;
-    va_start(localArgs, _fmt);
-    _vsnprintf_s(localpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, localArgs);
-    va_end(localArgs);
+    va_list lArgs;
+    va_start(lArgs, _fmt);
+    _vsnprintf_s(lpBuffer, MAX_LOG_STRING_SIZE, MAX_LOG_STRING_SIZE - 1, _fmt, lArgs);
+    va_end(lArgs);
 
-    std::string localStrRet = _GetFunctionStringA(_pFunc, _lvl);
-    localStrRet.append(_GetLineStringA(_line, _lvl));
-    localStrRet.append(localpBuffer);
-    m_pManagerPO->Log(localStrRet, _lvl, _view, _write);
+    std::string lStrRet = _GetFunctionStringA(_pFunc, _lvl);
+    lStrRet.append(_GetLineStringA(_line, _lvl));
+    lStrRet.append(lpBuffer);
+    m_pManagerPO->Log(lStrRet, _lvl, _view, _write);
 }
 
 std::wstring LoggingManager::_GetFunctionString(const char* _pFunc, const ELogLevel& _lvl)
@@ -230,10 +230,10 @@ std::wstring LoggingManager::_GetFunctionString(const char* _pFunc, const ELogLe
     if (nullptr == _pFunc)
         return L"";
 
-    wchar_t localTmp[MAX_PATH];
-    swprintf_s(localTmp, MAX_PATH, L"on\'%s\' ", StringUtil::ToWideChar(_pFunc).c_str());
+    wchar_t lTmp[MAX_PATH];
+    swprintf_s(lTmp, MAX_PATH, L"on\'%s\' ", StringUtil::ToWideChar(_pFunc).c_str());
 
-    return std::wstring(localTmp);
+    return std::wstring(lTmp);
 }
 
 std::string LoggingManager::_GetFunctionStringA(const char* _pFunc, const ELogLevel& _lvl)
@@ -250,10 +250,10 @@ std::string LoggingManager::_GetFunctionStringA(const char* _pFunc, const ELogLe
     if (nullptr == _pFunc)
         return "";
 
-    char localTmp[MAX_PATH];
-    sprintf_s(localTmp, MAX_PATH, "on\'%s\' ", _pFunc);
+    char lTmp[MAX_PATH];
+    sprintf_s(lTmp, MAX_PATH, "on\'%s\' ", _pFunc);
 
-    return std::string(localTmp);
+    return std::string(lTmp);
 }
 
 std::wstring LoggingManager::_GetLineString(int _line, const ELogLevel& _lvl)
@@ -268,10 +268,10 @@ std::wstring LoggingManager::_GetLineString(int _line, const ELogLevel& _lvl)
     }
 
 
-    wchar_t localTmp[MAX_PATH];
-    swprintf_s(localTmp, MAX_PATH, L"[line]:\'%d\' ", _line);
+    wchar_t lTmp[MAX_PATH];
+    swprintf_s(lTmp, MAX_PATH, L"[line]:\'%d\' ", _line);
 
-    return std::wstring(localTmp);
+    return std::wstring(lTmp);
 }
 
 std::string LoggingManager::_GetLineStringA(int _line, const ELogLevel& _lvl)
@@ -286,8 +286,8 @@ std::string LoggingManager::_GetLineStringA(int _line, const ELogLevel& _lvl)
     }
 
 
-    char localTmp[MAX_PATH];
-    sprintf_s(localTmp, MAX_PATH, "[line]:\'%d\' ", _line);
+    char lTmp[MAX_PATH];
+    sprintf_s(lTmp, MAX_PATH, "[line]:\'%d\' ", _line);
 
-    return std::string(localTmp);
+    return std::string(lTmp);
 }

@@ -98,102 +98,102 @@ void NetworkManagerPO::DestroyNetwork()
 bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID)
 {
     //NetworkHost 생성
-    auto localHost = AllocateHost();
-    if (localHost == nullptr)
+    auto lHost = AllocateHost();
+    if (lHost == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Host Error");
         return false;
     }
 
-    localHost->SetEventSync(_eventSync);
-    localHost->SetIP(_ip);
-    localHost->SetPeerPort(_port);
+    lHost->SetEventSync(_eventSync);
+    lHost->SetIP(_ip);
+    lHost->SetPeerPort(_port);
 
     //무슨 용도일까? "다른 서버로의 접속은 해당 Host가 클라이언트로써 작동해야한다"
-    localHost->SetClientHostMode(true);
+    lHost->SetClientHostMode(true);
 
     if (nullptr != _pHostID)
-        *_pHostID = localHost->GetHostID();
+        *_pHostID = lHost->GetHostID();
 
     //NetworkContextPO를 할당한다
-    auto localCtxt = AllocateContext();
+    auto lCtxt = AllocateContext();
 
-    if (localCtxt == nullptr)
+    if (lCtxt == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Context Error");
         //NetworkContextPO가 생성되지 않았을 경우 NetworkHost를 FreeQueue로 이동한다.
-        ReleaseHost(localHost);
+        ReleaseHost(lHost);
         return false;
     }
 
     //Context에 데이터 기록
-    localCtxt->Ready(EContextType::Connect);
-    localCtxt->Write(&localHost, sizeof(localHost));
+    lCtxt->Ready(EContextType::Connect);
+    lCtxt->Write(&lHost, sizeof(lHost));
 
-    return _DispatchController(localCtxt, localHost);
+    return _DispatchController(lCtxt, lHost);
 }
 
 bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int _port)
 {
     //NetworkHost 생성
-    auto localHost = AllocateHost();
-    if (localHost == nullptr)
+    auto lHost = AllocateHost();
+    if (lHost == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Host Error");
         return false;
     }
 
-    localHost->SetEventSync(_eventSync);
-    localHost->SetIP(_ip);
-    localHost->SetPeerPort(_port);
+    lHost->SetEventSync(_eventSync);
+    lHost->SetIP(_ip);
+    lHost->SetPeerPort(_port);
 
-    auto localCtxt = AllocateContext();
-    if (localCtxt == nullptr)
+    auto lCtxt = AllocateContext();
+    if (lCtxt == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Context Error");
-        ReleaseHost(localHost);
+        ReleaseHost(lHost);
         return false;
     }
 
     //NetworkContextPO의 ContextType을 Listen으로 변경
-    localCtxt->Ready(EContextType::Listen);
+    lCtxt->Ready(EContextType::Listen);
     //NetworkContextPO에 NetworkHostPO 데이터를 기록한다 
-    localCtxt->Write(&localHost, sizeof(localHost));
+    lCtxt->Write(&lHost, sizeof(lHost));
 
-    return _DispatchController(localCtxt, localHost);
+    return _DispatchController(lCtxt, lHost);
 }
 
 
 bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock)
 {
     //NetworkHost 생성
-    auto localHost = AllocateHost();
-    if (localHost == nullptr)
+    auto lHost = AllocateHost();
+    if (lHost == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Join() Failed - Allocate Host Error");
         return false;
     }
 
-    localHost->SetSocket(_sock);
-    localHost->SetEventSync(_eventSync);
-    localHost->SetIPInt32(_ipaddr);
-    localHost->SetIP(_ip);
-    localHost->SetPeerPort(_port);
+    lHost->SetSocket(_sock);
+    lHost->SetEventSync(_eventSync);
+    lHost->SetIPInt32(_ipaddr);
+    lHost->SetIP(_ip);
+    lHost->SetPeerPort(_port);
 
-    auto localCtxt = AllocateContext();
-    if (localCtxt == nullptr)
+    auto lCtxt = AllocateContext();
+    if (lCtxt == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Listen() Failed - Allocate Context Error");
-        ReleaseHost(localHost);
+        ReleaseHost(lHost);
         return false;
     }
 
     //NetworkContextPO의 ContextType을 Listen으로 변경
-    localCtxt->Ready(EContextType::Join);
+    lCtxt->Ready(EContextType::Join);
     //NetworkContextPO에 NetworkHostPO 데이터를 기록한다 
-    localCtxt->Write(&localHost, sizeof(localHost));
+    lCtxt->Write(&lHost, sizeof(lHost));
 
-    return _DispatchController(localCtxt, localHost);
+    return _DispatchController(lCtxt, lHost);
 }
 
 bool NetworkManagerPO::Send(const int& _hostID, Packet::SharedPtr _packet)
@@ -223,11 +223,11 @@ bool NetworkManagerPO::BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _
 
     _CompressPacket(_packet);
 
-    for (auto& localHostID : _hostIDs)
+    for (auto& lHostID : _hostIDs)
     {
-        _packet->HostID = localHostID;
+        _packet->HostID = lHostID;
 
-        m_pController->SendPacketToHost(localHostID, _packet);
+        m_pController->SendPacketToHost(lHostID, _packet);
     }
 
     return true;
@@ -238,13 +238,13 @@ bool NetworkManagerPO::Close(const int& _hostID)
     if (_hostID == 0)
         return false;
 
-    CreateCheckContext(localContext);
+    CreateCheckContext(lContext);
 
-    localContext->AddHostID(_hostID);
+    lContext->AddHostID(_hostID);
 
-    localContext->Ready(EContextType::Close);
+    lContext->Ready(EContextType::Close);
 
-    return _DispatchController(localContext);
+    return _DispatchController(lContext);
 }
 
 bool NetworkManagerPO::CloseHost(int _hostID, const std::string& _strReason)
@@ -272,12 +272,12 @@ std::string NetworkManagerPO::GetIP(int _hostID)
         return retIP;
     }
 
-    auto localHost = m_pHostPool->GetHost(_hostID);
+    auto lHost = m_pHostPool->GetHost(_hostID);
 
-    if (nullptr == localHost)
+    if (nullptr == lHost)
         return "";
 
-    return localHost->GetIP();
+    return lHost->GetIP();
 }
 
 int NetworkManagerPO::GetIPInt32(int _hostID)
@@ -288,12 +288,12 @@ int NetworkManagerPO::GetIPInt32(int _hostID)
         return 0;
     }
 
-    auto localHost = m_pHostPool->GetHost(_hostID);
+    auto lHost = m_pHostPool->GetHost(_hostID);
 
-    if (nullptr == localHost)
+    if (nullptr == lHost)
         return 0;
 
-    return localHost->GetIPInt32();
+    return lHost->GetIPInt32();
 }
 
 int NetworkManagerPO::GetConnectorHostID(const std::string& _ip, int _port)
@@ -311,12 +311,12 @@ int64_t NetworkManagerPO::GetLastPacketTick(int _hostID)
         return 0;
     }
 
-    auto localHost = m_pHostPool->GetHost(_hostID);
+    auto lHost = m_pHostPool->GetHost(_hostID);
 
-    if (nullptr == localHost)
+    if (nullptr == lHost)
         return 0;
 
-    return localHost->GetLastPacketTick();
+    return lHost->GetLastPacketTick();
 }
 
 
@@ -354,11 +354,11 @@ void NetworkManagerPO::_CompressPacket(Packet::SharedPtr& _packet)
     if (_packet->GetPacketSize() < DEFAULT_PACKET_COMPRESS_START_SIZE)
         return;
 
-    PacketCompressor::SharedPtr localCompressor = PacketCompressor::New();
-    if (true == localCompressor->Compress(static_cast<char*>(_packet->GetDataPtr()), _packet->GetMessageSize()))
+    PacketCompressor::SharedPtr lCompressor = PacketCompressor::New();
+    if (true == lCompressor->Compress(static_cast<char*>(_packet->GetDataPtr()), _packet->GetMessageSize()))
     {
-        memcpy_s(_packet->GetDataPtr(), MAX_PACKET_DATA_SIZE, localCompressor->m_cCompressBuffer, localCompressor->m_nCompressedSize);
-        _packet->SetPacketSize(localCompressor->m_nCompressedSize + PACKET_HEADER_SIZE);
+        memcpy_s(_packet->GetDataPtr(), MAX_PACKET_DATA_SIZE, lCompressor->m_cCompressBuffer, lCompressor->m_nCompressedSize);
+        _packet->SetPacketSize(lCompressor->m_nCompressedSize + PACKET_HEADER_SIZE);
         _packet->SetCompressed(true);
     }
 }
@@ -408,12 +408,12 @@ int NetworkManagerPO::GetContextUseCount()
         VIEW_WRITE_ERROR("NetworkManagerPO::GetContextUseCount() Failed - NetworkContext Pool is null!");
         return 0;
     }
-    size_t localAlloc = 0ll;
-    size_t localFree = 0ll;
+    size_t lAlloc = 0ll;
+    size_t lFree = 0ll;
 
-    m_pContextPool->GetUsage(localFree, localAlloc);
+    m_pContextPool->GetUsage(lFree, lAlloc);
 
-    return (int)(localAlloc - localFree);
+    return (int)(lAlloc - lFree);
 }
 
 int NetworkManagerPO::GetContextFreeCount()
@@ -565,12 +565,12 @@ size_t NetworkManagerPO::GetContextUsingCount()
     if (nullptr == m_pContextPool)
         return 0;
 
-    size_t localAlloc = 0;
-    size_t localNFree = 0;
+    size_t lAlloc = 0;
+    size_t lNFree = 0;
 
-    m_pContextPool->GetUsage(localNFree, localAlloc);
+    m_pContextPool->GetUsage(lNFree, lAlloc);
 
-    return localAlloc - localNFree;
+    return lAlloc - lNFree;
 }
 
 void NetworkManagerPO::SetClientHostMode(const int& _hostID, const bool& _onoff)
@@ -580,11 +580,11 @@ void NetworkManagerPO::SetClientHostMode(const int& _hostID, const bool& _onoff)
         VIEW_WRITE_ERROR("NetworkManagerPO::SetClientHostMode() Failed - Network HostPool is nullptr");
         return;
     }
-    auto localHost = m_pHostPool->GetHost(_hostID);
-    if (nullptr == localHost)
+    auto lHost = m_pHostPool->GetHost(_hostID);
+    if (nullptr == lHost)
         return;
     
-    localHost->SetClientHostMode(_onoff);
+    lHost->SetClientHostMode(_onoff);
 }
 
 //----------------------------------------------------------

@@ -34,10 +34,10 @@ struct ConnectorTargetInfo
         if (m_nPort != _port)
             return false;
 
-        int localIP = 0;
-        InetPtonA(AF_INET, _ip.c_str(), &localIP);
+        int lIP = 0;
+        InetPtonA(AF_INET, _ip.c_str(), &lIP);
 
-        return localIP == m_nHostIP;
+        return lIP == m_nHostIP;
     }
 
     bool IsSame(int _ip, int _port)

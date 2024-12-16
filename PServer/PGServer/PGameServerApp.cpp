@@ -50,19 +50,19 @@ bool PGameServerApp::RunLoop()
     }
 
     //MainLoop
-    auto& localMainInfo = ServerConfig::GetInst().GetConfig().GetMainListenerInfo();
-    VIEW_SYSTEM("Server Configuration Load Complated Profile Service:%s ID:%d", localMainInfo.m_sServiceName.c_str(), localMainInfo.m_nServerID);
+    auto& lMainInfo = ServerConfig::GetInst().GetConfig().GetMainListenerInfo();
+    VIEW_SYSTEM("Server Configuration Load Complated Profile Service:%s ID:%d", lMainInfo.m_sServiceName.c_str(), lMainInfo.m_nServerID);
 
-    auto localApp = std::make_shared<ServerApp>();
-    auto localEventSync = std::make_shared<GSNetworkEventSync>();
+    auto lApp = std::make_shared<ServerApp>();
+    auto lEventSync = std::make_shared<GSNetworkEventSync>();
 
     //액션 없을 때 자동으로 연결 끊는 시간 설정 삭제
-    //localEventSync->SetTimeoutMS(INT_MAX);
+    //lEventSync->SetTimeoutMS(INT_MAX);
 
-    localApp->SetListenerInfo(localMainInfo);
-    localApp->BindEventSync(localEventSync);
+    lApp->SetListenerInfo(lMainInfo);
+    lApp->BindEventSync(lEventSync);
     //SendServerLog(L"Live!");
-    localApp->Run();
+    lApp->Run();
 
 
     GameService::GetInst().GetInst().Exit();
@@ -76,39 +76,40 @@ bool PGameServerApp::RunLoop()
 
 void PGameServerApp::_InitLog()
 {
-    auto& localMainInfo = ServerConfig::GetInst().GetConfig().GetMainListenerInfo();
+    auto& lMainInfo = ServerConfig::GetInst().GetConfig().GetMainListenerInfo();
 
-    LoggingManager::GetInst().SetServerName(localMainInfo.m_sServiceName);
+    LoggingManager::GetInst().SetServerName(lMainInfo.m_sServiceName);
     LoggingManager::GetInst().SetLogDirConfig(ServerConfig::GetInst().GetConfig().GetLogDir());
-    LoggingManager::GetInst().SetServerNum(localMainInfo.m_nServerID);
+    LoggingManager::GetInst().SetServerNum(lMainInfo.m_nServerID);
     LoggingManager::GetInst().Start();
 }
 
 bool PGameServerApp::_InitGameDB()
 {
-    auto localDBInfo = ServerConfig::GetInst().GetConfig().GetDBConnectionInfo("GDB");
+    auto lDBInfo = ServerConfig::GetInst().GetConfig().GetDBConnectionInfo("GDB");
 
-    if (nullptr == localDBInfo)
+    if (nullptr == lDBInfo)
     {
         VIEW_WRITE_ERROR("Game DB Connection Info is Null");
         return false;
     }
 
-    GameDBLoadBalancer::GetInst().SetDBConfig<GameDBService>(localDBInfo->m_sUserID, localDBInfo->m_sPassword, localDBInfo->m_sDBName, localDBInfo->m_sDBHost, std::to_string(localDBInfo->m_nDBPort), localDBInfo->m_nThreadCount);
+    GameDBLoadBalancer::GetInst().SetDBConfig<GameDBService>(lDBInfo->m_sUserID, lDBInfo->m_sPassword, lDBInfo->m_sDBName, lDBInfo->m_sDBHost, std::to_string(lDBInfo->m_nDBPort), lDBInfo->m_nThreadCount);
 
 
-    //auto localService = GameDBLoadBalancer::GetInst().GetDirectService<GameDBService>();
-    //if (localService != nullptr)
-    //{
-    //    //auto localpSession = localService->GetSession();
-    //    {
-    //        //CSession& localSession = *localpSession;
-    //        //auto locaCurTick = Clock::GetTick64();
+    auto lService = GameDBLoadBalancer::GetInst().GetDirectService<GameDBService>();
+    if (lService != nullptr)
+    {
+        auto lpSession = lService->GetSession();
+        {
+            Poco::Data::Session& lSess = *lpSession;
 
-    //        //BEGIN_SESSION
-    //        //END_SESSION
+            auto locaCurTick = Clock::GetTick64();
 
-    //    }
-    //}
+            BEGIN_SESSION
+
+            END_SESSION
+        }
+    }
     return true;
 }

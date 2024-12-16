@@ -22,29 +22,29 @@ NetworkContextPoolPO::~NetworkContextPoolPO()
 
 NetworkContextPO* NetworkContextPoolPO::Allocate()
 {
-    NetworkContextPO* localContext = nullptr;
+    NetworkContextPO* lContext = nullptr;
     {
         AutoLock(m_xLock);
         if (m_oFreeList.empty() == true)
         {
             //메모리 할당
-            localContext = new NetworkContextPO;
-            m_oAllocatedList.push_back(localContext);
+            lContext = new NetworkContextPO;
+            m_oAllocatedList.push_back(lContext);
             m_nAllocatedSize++;
         }
         else
         {
             //m_oFreeList의 맨 첫 데이터를 반환
-            localContext = m_oFreeList.front();
+            lContext = m_oFreeList.front();
 
             //m_oFreeList의 맨 첫 데이터를 삭제
             m_oFreeList.pop_front();
         }
     }
 
-    localContext->IncreaseReferenceCount();
+    lContext->IncreaseReferenceCount();
 
-    return localContext;
+    return lContext;
 }
 
 void NetworkContextPoolPO::Release(NetworkContextPO* _ctxt)
@@ -64,13 +64,13 @@ void NetworkContextPoolPO::Reserve(size_t _size)
     if (_size <= m_nAllocatedSize)
         return;
 
-    size_t localGap = _size - m_nAllocatedSize;
+    size_t lGap = _size - m_nAllocatedSize;
 
-    for (size_t i = 0; i < localGap; ++i)
+    for (size_t i = 0; i < lGap; ++i)
     {
-        auto localpContext = new NetworkContextPO;
-        m_oAllocatedList.push_back(localpContext);
-        m_oFreeList.push_back(localpContext);
+        auto lpContext = new NetworkContextPO;
+        m_oAllocatedList.push_back(lpContext);
+        m_oFreeList.push_back(lpContext);
     }
 
     m_nAllocatedSize = _size;

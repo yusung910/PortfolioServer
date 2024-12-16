@@ -17,27 +17,27 @@ bool ServerConfigData::LoadConfig(const std::wstring& _configFile)
     if (true == _configFile.empty())
         return false;
 
-    std::error_code localEC;
-    auto localCurrentDir = fs::current_path(localEC);
-    if (localEC.value() != 0)
+    std::error_code lEC;
+    auto lCurrentDir = fs::current_path(lEC);
+    if (lEC.value() != 0)
         return false;   //파일 경로 호출 에러
 
-    std::wstring localwsPath(localCurrentDir.c_str() + std::wstring(L"\\") + _configFile);
+    std::wstring lwsPath(lCurrentDir.c_str() + std::wstring(L"\\") + _configFile);
 
-    auto localFilePath = fs::path(localwsPath);
+    auto lFilePath = fs::path(lwsPath);
 
-    if (false == fs::exists(localFilePath, localEC))
+    if (false == fs::exists(lFilePath, lEC))
         return false;
-    if (false == fs::is_regular_file(localFilePath, localEC))
+    if (false == fs::is_regular_file(lFilePath, lEC))
         return false;
 
-    auto localFileSize = fs::file_size(localFilePath, localEC);
-    if (localEC.value() != 0)
+    auto lFileSize = fs::file_size(lFilePath, lEC);
+    if (lEC.value() != 0)
         return false;
 
     m_sConfigFileName = _configFile;
 
-    m_bIsLoaded = _LoadConfig(localwsPath.c_str(), localFileSize);
+    m_bIsLoaded = _LoadConfig(lwsPath.c_str(), lFileSize);
     _LoadCPUCount();
 
 
@@ -49,25 +49,25 @@ bool ServerConfigData::Reload()
     if (true == m_bIsLoaded)
         return false;
 
-    std::error_code localEC;
-    auto localCurrentDir = fs::current_path(localEC);
-    if (localEC.value() != 0)
+    std::error_code lEC;
+    auto lCurrentDir = fs::current_path(lEC);
+    if (lEC.value() != 0)
         return false;   //파일 경로 호출 에러
 
-    std::wstring localwsPath(localCurrentDir.c_str() + std::wstring(L"\\") + m_sConfigFileName);
+    std::wstring lwsPath(lCurrentDir.c_str() + std::wstring(L"\\") + m_sConfigFileName);
 
-    auto localFilePath = fs::path(localwsPath);
+    auto lFilePath = fs::path(lwsPath);
 
-    if (false == fs::exists(localFilePath, localEC))
+    if (false == fs::exists(lFilePath, lEC))
         return false;
-    if (false == fs::is_regular_file(localFilePath, localEC))
-        return false;
-
-    auto localFileSize = fs::file_size(localFilePath, localEC);
-    if (localEC.value() != 0)
+    if (false == fs::is_regular_file(lFilePath, lEC))
         return false;
 
-    return _LoadConfig(localwsPath.c_str(), localFileSize);
+    auto lFileSize = fs::file_size(lFilePath, lEC);
+    if (lEC.value() != 0)
+        return false;
+
+    return _LoadConfig(lwsPath.c_str(), lFileSize);
 }
 
 const ServerListenerInfo& ServerConfigData::GetMainListenerInfo() const
@@ -77,24 +77,24 @@ const ServerListenerInfo& ServerConfigData::GetMainListenerInfo() const
 
 const ServerListenerInfo* ServerConfigData::GetSubListenerInfo(const std::string& _subName) const
 {
-    if (auto localIT = m_umSubListenInfo.find(_subName); localIT != m_umSubListenInfo.end())
-        return &localIT->second;
+    if (auto lIT = m_umSubListenInfo.find(_subName); lIT != m_umSubListenInfo.end())
+        return &lIT->second;
 
     return nullptr;
 }
 
 const ConnectorInfo* ServerConfigData::GetConnectorInfo(const std::string& _connectName) const
 {
-    if (auto localIT = m_umConnectorInfo.find(_connectName); localIT != m_umConnectorInfo.end())
-        return &localIT->second;
+    if (auto lIT = m_umConnectorInfo.find(_connectName); lIT != m_umConnectorInfo.end())
+        return &lIT->second;
 
     return nullptr;
 }
 
 const DBInfo* ServerConfigData::GetDBConnectionInfo(const std::string& _dbTypeName) const
 {
-    if (auto localIT = m_umDBConnectionInfo.find(_dbTypeName); localIT != m_umDBConnectionInfo.end())
-        return &localIT->second;
+    if (auto lIT = m_umDBConnectionInfo.find(_dbTypeName); lIT != m_umDBConnectionInfo.end())
+        return &lIT->second;
 
     return nullptr;
 }
@@ -126,8 +126,8 @@ std::string ServerConfigData::GetDumpDir() const
 
 const int ServerConfigData::GetObjectPoolSize(const std::string& _strName) const
 {
-    if (auto localIT = m_umObjectPoolInfo.find(_strName); localIT != m_umObjectPoolInfo.end())
-        return localIT->second;
+    if (auto lIT = m_umObjectPoolInfo.find(_strName); lIT != m_umObjectPoolInfo.end())
+        return lIT->second;
 
     return 0;
 }
@@ -229,31 +229,31 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
     if (_fileSize == 0 || _fileSize == (uintmax_t)~0)
         return false;
 
-    std::ifstream localIS(_confFile);
-    if (false == localIS.is_open())
+    std::ifstream lIS(_confFile);
+    if (false == lIS.is_open())
         return false;
 
-    std::string localStrBuffer;
-    localStrBuffer.reserve(_fileSize);
+    std::string lStrBuffer;
+    lStrBuffer.reserve(_fileSize);
 
-    std::string localStrLine;
-    while (getline(localIS, localStrLine))
-        localStrBuffer.append(localStrLine);
+    std::string lStrLine;
+    while (getline(lIS, lStrLine))
+        lStrBuffer.append(lStrLine);
 
-    localIS.close();
+    lIS.close();
 
-    Json::CharReaderBuilder localJsonBuilder;
-    auto localReader = localJsonBuilder.newCharReader();
-    JSONCPP_STRING localErr;
-    Json::Value localRoot;
+    Json::CharReaderBuilder lJsonBuilder;
+    auto lReader = lJsonBuilder.newCharReader();
+    JSONCPP_STRING lErr;
+    Json::Value lRoot;
 
-    if (false == localReader->parse(localStrBuffer.c_str(), localStrBuffer.c_str() + _fileSize, &localRoot, &localErr))
+    if (false == lReader->parse(lStrBuffer.c_str(), lStrBuffer.c_str() + _fileSize, &lRoot, &lErr))
         return false;
 
 
     //암,복호화
-    XORUtil localXORUtil;
-    Base64Util localBase64;
+    XORUtil lXORUtil;
+    Base64Util lBase64;
 
     //MainListener
     {
@@ -274,21 +274,21 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
          *  }
          */
 
-        const auto& localMainListenerInfo = localRoot["MainListener"];
+        const auto& lMainListenerInfo = lRoot["MainListener"];
 
         //MainListener가 없을 경우 종료
-        if (true == localMainListenerInfo.isNull())
+        if (true == lMainListenerInfo.isNull())
             return false;
 
-        m_oMainListenInfo.m_sServiceName = localMainListenerInfo.get("Name", "Server").asString();
-        m_oMainListenInfo.m_nServerID = localMainListenerInfo.get("ServerID", 0).asInt();
-        m_oMainListenInfo.m_sBindAddress = localMainListenerInfo.get("BindAddress", "127.0.0.1").asString();
-        m_oMainListenInfo.m_nBindPort = localMainListenerInfo.get("BindPort", 0).asInt();
-        m_oMainListenInfo.m_nTimeoutMS = localMainListenerInfo.get("TimeoutMS", DEFAULT_TIMEOUT_MS).asInt();
-        m_oMainListenInfo.m_nMaxConnection = localMainListenerInfo.get("MaxConnection", DEFAULT_CONNECTION_COUNT).asInt();
-        m_oMainListenInfo.m_nControlConnection = localMainListenerInfo.get("ControlConnection", DEFAULT_CONNECTION_CONTROL_COUNT).asInt();
-        m_oMainListenInfo.m_nSendContextLimitCount = localMainListenerInfo.get("SendContextLimitCount", DEFAULT_SEND_CONTEXT_LIMIT_COUNT).asInt();
-        m_oMainListenInfo.m_sServiceType = localMainListenerInfo.get("ServiceType", "Live").asString();
+        m_oMainListenInfo.m_sServiceName = lMainListenerInfo.get("Name", "Server").asString();
+        m_oMainListenInfo.m_nServerID = lMainListenerInfo.get("ServerID", 0).asInt();
+        m_oMainListenInfo.m_sBindAddress = lMainListenerInfo.get("BindAddress", "127.0.0.1").asString();
+        m_oMainListenInfo.m_nBindPort = lMainListenerInfo.get("BindPort", 0).asInt();
+        m_oMainListenInfo.m_nTimeoutMS = lMainListenerInfo.get("TimeoutMS", DEFAULT_TIMEOUT_MS).asInt();
+        m_oMainListenInfo.m_nMaxConnection = lMainListenerInfo.get("MaxConnection", DEFAULT_CONNECTION_COUNT).asInt();
+        m_oMainListenInfo.m_nControlConnection = lMainListenerInfo.get("ControlConnection", DEFAULT_CONNECTION_CONTROL_COUNT).asInt();
+        m_oMainListenInfo.m_nSendContextLimitCount = lMainListenerInfo.get("SendContextLimitCount", DEFAULT_SEND_CONTEXT_LIMIT_COUNT).asInt();
+        m_oMainListenInfo.m_sServiceType = lMainListenerInfo.get("ServiceType", "Live").asString();
 
         if (m_oMainListenInfo.m_sServiceType == "Live")
         {
@@ -299,7 +299,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             m_oMainListenInfo.m_bIsLive = false;
         }
 
-        m_oMainListenInfo.m_nClientVer = localMainListenerInfo.get("ClientVer", 0).asInt();
+        m_oMainListenInfo.m_nClientVer = lMainListenerInfo.get("ClientVer", 0).asInt();
 
         if (m_oMainListenInfo.m_sServiceName == "Login")
             m_oMainListenInfo.m_eServerType = EServer::Login;
@@ -312,7 +312,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
         else if (m_oMainListenInfo.m_sServiceName == "Messenger")
             m_oMainListenInfo.m_eServerType = EServer::Messenger;
 
-        m_oMainListenInfo.m_bIsMaintenanceMode = localMainListenerInfo.get("MaintenanceMode", false).asBool();
+        m_oMainListenInfo.m_bIsMaintenanceMode = lMainListenerInfo.get("MaintenanceMode", false).asBool();
     }
 
     //GameServer List
@@ -332,32 +332,32 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
      *      }
      *  }
      */
-    if (const auto& localSubListen = localRoot["GameServerList"]; false == localSubListen.isNull())
+    if (const auto& lSubListen = lRoot["GameServerList"]; false == lSubListen.isNull())
     {
-        for (const auto& localSubName : localSubListen.getMemberNames())
+        for (const auto& lSubName : lSubListen.getMemberNames())
         {
-            const auto& localSubListenInfo = localSubListen[localSubName];
+            const auto& lSubListenInfo = lSubListen[lSubName];
 
-            if (true == localSubListenInfo.isNull())
+            if (true == lSubListenInfo.isNull())
                 continue;
 
-            ServerListenerInfo localInsertInfo;
-            localInsertInfo.m_nServerGroupID = localSubListenInfo.get("ServerGroupID", 0).asInt();
-            localInsertInfo.m_nServerID = localSubListenInfo.get("ServerID", 0).asInt();
-            localInsertInfo.m_sBindAddress = localSubListenInfo.get("BindAddress", 0).asString();
-            localInsertInfo.m_nBindPort = localSubListenInfo.get("BindPort", 0).asInt();
+            ServerListenerInfo lInsertInfo;
+            lInsertInfo.m_nServerGroupID = lSubListenInfo.get("ServerGroupID", 0).asInt();
+            lInsertInfo.m_nServerID = lSubListenInfo.get("ServerID", 0).asInt();
+            lInsertInfo.m_sBindAddress = lSubListenInfo.get("BindAddress", 0).asString();
+            lInsertInfo.m_nBindPort = lSubListenInfo.get("BindPort", 0).asInt();
 
-            localInsertInfo.m_sPublicHost = localSubListenInfo.get("PublicHost", 0).asString();
-            localInsertInfo.m_nPublicPort = localSubListenInfo.get("PublicPort", 0).asInt();
+            lInsertInfo.m_sPublicHost = lSubListenInfo.get("PublicHost", 0).asString();
+            lInsertInfo.m_nPublicPort = lSubListenInfo.get("PublicPort", 0).asInt();
 
-            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            if (lInsertInfo.m_sPublicHost.empty() || lInsertInfo.m_nPublicPort == 0)
             {
                 std::cout << "Wrong Server Config. Check 'GameServerList' Info" << std::endl;
                 continue;
             }
 
-            m_umGameServers.insert(std::pair(localSubName, localInsertInfo));
-            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Game);
+            m_umGameServers.insert(std::pair(lSubName, lInsertInfo));
+            m_umServerTypeByServerID.insert_or_assign(lInsertInfo.m_nServerID, EServer::Game);
         }
     }
 
@@ -377,223 +377,223 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
      *      }
      *  }
      */
-    if (const auto& localSubListen = localRoot["LoginServerList"]; false == localSubListen.isNull())
+    if (const auto& lSubListen = lRoot["LoginServerList"]; false == lSubListen.isNull())
     {
-        for (const auto& localSubName : localSubListen.getMemberNames())
+        for (const auto& lSubName : lSubListen.getMemberNames())
         {
-            const auto& localInfo = localSubListen[localSubName];
-            if (true == localInfo.isNull())
+            const auto& lInfo = lSubListen[lSubName];
+            if (true == lInfo.isNull())
                 continue;
 
-            ServerListenerInfo localInsertInfo;
-            localInsertInfo.m_nServerID = localInfo.get("ServerID", 0).asInt();
-            localInsertInfo.m_sBindAddress = localInfo.get("IP", "127.0.0.1").asString();
-            localInsertInfo.m_nBindPort = localInfo.get("Port", 0).asInt();
+            ServerListenerInfo lInsertInfo;
+            lInsertInfo.m_nServerID = lInfo.get("ServerID", 0).asInt();
+            lInsertInfo.m_sBindAddress = lInfo.get("IP", "127.0.0.1").asString();
+            lInsertInfo.m_nBindPort = lInfo.get("Port", 0).asInt();
 
-            localInsertInfo.m_sPublicHost = localInfo.get("PublicHost", 0).asString();
-            localInsertInfo.m_nPublicPort = localInfo.get("PublicPort", 0).asInt();
+            lInsertInfo.m_sPublicHost = lInfo.get("PublicHost", 0).asString();
+            lInsertInfo.m_nPublicPort = lInfo.get("PublicPort", 0).asInt();
 
-            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            if (lInsertInfo.m_sPublicHost.empty() || lInsertInfo.m_nPublicPort == 0)
             {
                 std::cout << "Wrong Server Config. Check 'LoginServerList' Info" << std::endl;
                 continue;
             }
 
-            m_umLoginServers.insert(std::pair(localSubName, localInsertInfo));
+            m_umLoginServers.insert(std::pair(lSubName, lInsertInfo));
 
-            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Login);
+            m_umServerTypeByServerID.insert_or_assign(lInsertInfo.m_nServerID, EServer::Login);
         }
 
     }
 
     //MessengerServer List
     m_umMessengerServers.clear();
-    if (const auto& localSubListen = localRoot["MessengerServerList"]; false == localSubListen.isNull())
+    if (const auto& lSubListen = lRoot["MessengerServerList"]; false == lSubListen.isNull())
     {
-        for (const auto& localSubName : localSubListen.getMemberNames())
+        for (const auto& lSubName : lSubListen.getMemberNames())
         {
-            const auto& localInfo = localSubListen[localSubName];
-            if (true == localInfo.isNull())
+            const auto& lInfo = lSubListen[lSubName];
+            if (true == lInfo.isNull())
                 continue;
 
-            ServerListenerInfo localInsertInfo;
-            localInsertInfo.m_nServerGroupID = localInfo.get("ServerGroupID", 0).asInt();
-            localInsertInfo.m_nServerID = localInfo.get("ServerID", 0).asInt();
-            localInsertInfo.m_sBindAddress = localInfo.get("IP", "127.0.0.1").asString();
-            localInsertInfo.m_nBindPort = localInfo.get("Port", 0).asInt();
+            ServerListenerInfo lInsertInfo;
+            lInsertInfo.m_nServerGroupID = lInfo.get("ServerGroupID", 0).asInt();
+            lInsertInfo.m_nServerID = lInfo.get("ServerID", 0).asInt();
+            lInsertInfo.m_sBindAddress = lInfo.get("IP", "127.0.0.1").asString();
+            lInsertInfo.m_nBindPort = lInfo.get("Port", 0).asInt();
 
-            localInsertInfo.m_sPublicHost = localInfo.get("PublicHost", 0).asString();
-            localInsertInfo.m_nPublicPort = localInfo.get("PublicPort", 0).asInt();
+            lInsertInfo.m_sPublicHost = lInfo.get("PublicHost", 0).asString();
+            lInsertInfo.m_nPublicPort = lInfo.get("PublicPort", 0).asInt();
 
-            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            if (lInsertInfo.m_sPublicHost.empty() || lInsertInfo.m_nPublicPort == 0)
             {
                 std::cout << "Wrong Server Config. Check 'MessengerServer' Info" << std::endl;
                 continue;
             }
 
-            m_umMessengerServers.insert(std::pair(localSubName, localInsertInfo));
+            m_umMessengerServers.insert(std::pair(lSubName, lInsertInfo));
 
-            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Messenger);
+            m_umServerTypeByServerID.insert_or_assign(lInsertInfo.m_nServerID, EServer::Messenger);
         }
     }
 
     //LogServerList Start
     m_umLogServers.clear();
-    if (const auto& localSubListen = localRoot["LogServerList"]; false == localSubListen.isNull())
+    if (const auto& lSubListen = lRoot["LogServerList"]; false == lSubListen.isNull())
     {
-        for (const auto& localSubName : localSubListen.getMemberNames())
+        for (const auto& lSubName : lSubListen.getMemberNames())
         {
-            const auto& localInfo = localSubListen[localSubName];
-            if (true == localInfo.isNull())
+            const auto& lInfo = lSubListen[lSubName];
+            if (true == lInfo.isNull())
                 continue;
 
-            ServerListenerInfo localInsertInfo;
-            localInsertInfo.m_nServerID = localInfo.get("ServerID", 0).asInt();
-            localInsertInfo.m_sBindAddress = localInfo.get("IP", "127.0.0.1").asString();
-            localInsertInfo.m_nBindPort = localInfo.get("Port", 0).asInt();
+            ServerListenerInfo lInsertInfo;
+            lInsertInfo.m_nServerID = lInfo.get("ServerID", 0).asInt();
+            lInsertInfo.m_sBindAddress = lInfo.get("IP", "127.0.0.1").asString();
+            lInsertInfo.m_nBindPort = lInfo.get("Port", 0).asInt();
 
-            if (localInsertInfo.m_sPublicHost.empty() || localInsertInfo.m_nPublicPort == 0)
+            if (lInsertInfo.m_sPublicHost.empty() || lInsertInfo.m_nPublicPort == 0)
             {
                 std::cout << "Wrong Server Config. Check 'LogServerList' Info" << std::endl;
                 continue;
             }
 
-            m_umLogServers.insert(std::pair(localSubName, localInsertInfo));
+            m_umLogServers.insert(std::pair(lSubName, lInsertInfo));
 
-            auto localFindIter = m_umServerTypeByServerID.find(localInsertInfo.m_nServerID);
+            auto lFindIter = m_umServerTypeByServerID.find(lInsertInfo.m_nServerID);
 
-            if (localFindIter == m_umServerTypeByServerID.end())
+            if (lFindIter == m_umServerTypeByServerID.end())
             {
-                std::cout << "Check LogServer Config! LogServerID (" << localSubName << ") not matched GameServer" << std::endl;
+                std::cout << "Check LogServer Config! LogServerID (" << lSubName << ") not matched GameServer" << std::endl;
                 return false;
             }
 
-            if (localFindIter->second != EServer::Game)
+            if (lFindIter->second != EServer::Game)
             {
-                std::cout << "Check LogServer Config! LogServerID (" << localSubName << ") not matched GameServer" << std::endl;
+                std::cout << "Check LogServer Config! LogServerID (" << lSubName << ") not matched GameServer" << std::endl;
                 return false;
             }
 
 
-            m_umServerTypeByServerID.insert_or_assign(localInsertInfo.m_nServerID, EServer::Log);
+            m_umServerTypeByServerID.insert_or_assign(lInsertInfo.m_nServerID, EServer::Log);
         }
     }
     //LogServerList End
 
     //Sub Listener
     m_umSubListenInfo.clear();
-    if (const auto& localSubListen = localRoot["SubListener"]; false == localSubListen.isNull())
+    if (const auto& lSubListen = lRoot["SubListener"]; false == lSubListen.isNull())
     {
-        for (const auto& localSubName : localSubListen.getMemberNames())
+        for (const auto& lSubName : lSubListen.getMemberNames())
         {
-            const auto& localSubListenInfo = localSubListen[localSubName];
-            if (true == localSubListenInfo.isNull())
+            const auto& lSubListenInfo = lSubListen[lSubName];
+            if (true == lSubListenInfo.isNull())
                 continue;
 
-            ServerListenerInfo localInsertInfo;
-            localInsertInfo.m_sBindAddress = localSubListenInfo.get("BindAddress", 0).asString();
-            localInsertInfo.m_nBindPort = localSubListenInfo.get("BindPort", 0).asInt();
+            ServerListenerInfo lInsertInfo;
+            lInsertInfo.m_sBindAddress = lSubListenInfo.get("BindAddress", 0).asString();
+            lInsertInfo.m_nBindPort = lSubListenInfo.get("BindPort", 0).asInt();
 
-            m_umSubListenInfo.insert(std::pair(localSubName, localInsertInfo));
+            m_umSubListenInfo.insert(std::pair(lSubName, lInsertInfo));
         }
     }
     //end Sub Listener
 
     //Connector
     m_umConnectorInfo.clear();
-    if (const auto& localConnector = localRoot["Connect"]; false == localConnector.isNull())
+    if (const auto& lConnector = lRoot["Connect"]; false == lConnector.isNull())
     {
-        for (const auto& localSubName : localConnector.getMemberNames())
+        for (const auto& lSubName : lConnector.getMemberNames())
         {
-            const auto& localConnectorInfo = localConnector[localSubName];
-            if (true == localConnectorInfo.isNull())
+            const auto& lConnectorInfo = lConnector[lSubName];
+            if (true == lConnectorInfo.isNull())
                 continue;
 
-            ConnectorInfo localInsertInfo;
-            localInsertInfo.m_sBindAddress = localConnectorInfo.get("Host", 0).asString();
-            localInsertInfo.m_nBindPort = localConnectorInfo.get("Port", 0).asInt();
+            ConnectorInfo lInsertInfo;
+            lInsertInfo.m_sBindAddress = lConnectorInfo.get("Host", 0).asString();
+            lInsertInfo.m_nBindPort = lConnectorInfo.get("Port", 0).asInt();
 
         }
     }
 
     //DB Integrated
     m_umDBConnectionInfo.clear();
-    if (const auto& localDB = localRoot["DB"]; false == localDB.isNull())
+    if (const auto& lDB = lRoot["DB"]; false == lDB.isNull())
     {
-        for (const auto& localName : localDB.getMemberNames())
+        for (const auto& lName : lDB.getMemberNames())
         {
-            const auto& localDBInfo = localDB[localName];
-            if (true == localDBInfo.isNull())
+            const auto& lDBInfo = lDB[lName];
+            if (true == lDBInfo.isNull())
                 continue;
 
-            DBInfo localInertInfo;
-            localInertInfo.m_sDBHost = localDBInfo.get("Host", "127.0.0.1").asString();
-            localInertInfo.m_nDBPort = localDBInfo.get("Port", 1433).asInt();
-            localInertInfo.m_sDBName = localDBInfo.get("DATABASE", "").asString();
+            DBInfo lInertInfo;
+            lInertInfo.m_sDBHost = lDBInfo.get("Host", "127.0.0.1").asString();
+            lInertInfo.m_nDBPort = lDBInfo.get("Port", 1433).asInt();
+            lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
-            localInertInfo.m_sUserID = localDBInfo.get("UID", "server").asString();
-            localInertInfo.m_nThreadCount = localDBInfo.get("Thread", 0).asInt();
+            lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
+            lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
 
-            std::string localTmpPwd = localDBInfo.get("Password", "").asString();
+            std::string lTmpPwd = lDBInfo.get("Password", "").asString();
 
-            char localTmp[1024] = { 0, };
-            char localTmpForXOR[1024] = { 0, };
+            char lTmp[1024] = { 0, };
+            char lTmpForXOR[1024] = { 0, };
 
-            size_t localDecodeSize = localBase64.Decode(localTmpPwd, localTmp, 1024);
+            size_t lDecodeSize = lBase64.Decode(lTmpPwd, lTmp, 1024);
 
-            if (true == localXORUtil.Encrypt(localTmp, localDecodeSize, localTmpForXOR, 1024))
+            if (true == lXORUtil.Encrypt(lTmp, lDecodeSize, lTmpForXOR, 1024))
             {
-                localInertInfo.m_sPassword = std::string(localTmpForXOR);
+                lInertInfo.m_sPassword = std::string(lTmpForXOR);
             }
 
-            m_umDBConnectionInfo.insert(std::pair(localName, localInertInfo));
+            m_umDBConnectionInfo.insert(std::pair(lName, lInertInfo));
         }
     }
     // end DataBase
 
     // GDB for MessengerServer
     m_umGDBConnectionInfo.clear();
-    if (const auto& localDB = localRoot["GDB"]; false == localDB.isNull())
+    if (const auto& lDB = lRoot["GDB"]; false == lDB.isNull())
     {
-        for (const auto& localName : localDB.getMemberNames())
+        for (const auto& lName : lDB.getMemberNames())
         {
-            const auto& localDBInfo = localDB[localName];
-            if (true == localDBInfo.isNull())
+            const auto& lDBInfo = lDB[lName];
+            if (true == lDBInfo.isNull())
                 continue;
-            DBInfo localInertInfo;
-            localInertInfo.m_sDBHost = localDBInfo.get("Host", "127.0.0.1").asString();
-            localInertInfo.m_nDBPort = localDBInfo.get("Port", 1433).asInt();
-            localInertInfo.m_sDBName = localDBInfo.get("DATABASE", "").asString();
+            DBInfo lInertInfo;
+            lInertInfo.m_sDBHost = lDBInfo.get("Host", "127.0.0.1").asString();
+            lInertInfo.m_nDBPort = lDBInfo.get("Port", 1433).asInt();
+            lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
-            localInertInfo.m_sUserID = localDBInfo.get("UID", "server").asString();
-            localInertInfo.m_nThreadCount = localDBInfo.get("Thread", 0).asInt();
+            lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
+            lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
 
-            std::string localTmpPwd = localDBInfo.get("Password", "").asString();
+            std::string lTmpPwd = lDBInfo.get("Password", "").asString();
 
-            char localTmp[1024] = { 0, };
-            char localTmpForXOR[1024] = { 0, };
+            char lTmp[1024] = { 0, };
+            char lTmpForXOR[1024] = { 0, };
 
-            size_t localDecodeSize = localBase64.Decode(localTmpPwd, localTmp, 1024);
+            size_t lDecodeSize = lBase64.Decode(lTmpPwd, lTmp, 1024);
 
-            if (true == localXORUtil.Encrypt(localTmp, localDecodeSize, localTmpForXOR, 1024))
+            if (true == lXORUtil.Encrypt(lTmp, lDecodeSize, lTmpForXOR, 1024))
             {
-                localInertInfo.m_sPassword = std::string(localTmpForXOR);
+                lInertInfo.m_sPassword = std::string(lTmpForXOR);
             }
 
-            m_umGDBConnectionInfo.insert(std::pair(stoi(localName), localInertInfo));
+            m_umGDBConnectionInfo.insert(std::pair(stoi(lName), lInertInfo));
 
-            int localServerID = std::atoi(localName.c_str());
-            auto localFindIter = m_umServerTypeByServerID.find(localServerID);
+            int lServerID = std::atoi(lName.c_str());
+            auto lFindIter = m_umServerTypeByServerID.find(lServerID);
 
-            if (localFindIter == m_umServerTypeByServerID.end())
+            if (lFindIter == m_umServerTypeByServerID.end())
             {
-                std::cout << "Check GDB Config! ServerID (" << localName << ") not matched GameServer" << std::endl;
+                std::cout << "Check GDB Config! ServerID (" << lName << ") not matched GameServer" << std::endl;
                 return false;
             }
 
-            if (localFindIter->second != EServer::Game)
+            if (lFindIter->second != EServer::Game)
             {
-                std::cout << "Check GDB Config! ServerID (" << localName << ") not matched GameServer" << std::endl;
+                std::cout << "Check GDB Config! ServerID (" << lName << ") not matched GameServer" << std::endl;
                 return false;
             }
         }
@@ -602,89 +602,89 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
 
     //LDB
     m_umLDBConnectionInfo.clear();
-    if (const auto& localDB = localRoot["LDB"]; false == localDB.isNull())
+    if (const auto& lDB = lRoot["LDB"]; false == lDB.isNull())
     {
-        for (const auto& localName : localDB.getMemberNames())
+        for (const auto& lName : lDB.getMemberNames())
         {
-            const auto& localDBInfo = localDB[localName];
-            if (true == localDBInfo.isNull())
+            const auto& lDBInfo = lDB[lName];
+            if (true == lDBInfo.isNull())
                 continue;
 
-            DBInfo localInertInfo;
-            localInertInfo.m_sDBHost = localDBInfo.get("Host", "127.0.0.1").asString();
-            localInertInfo.m_nDBPort = localDBInfo.get("Port", 1433).asInt();
-            localInertInfo.m_sDBName = localDBInfo.get("DATABASE", "").asString();
+            DBInfo lInertInfo;
+            lInertInfo.m_sDBHost = lDBInfo.get("Host", "127.0.0.1").asString();
+            lInertInfo.m_nDBPort = lDBInfo.get("Port", 1433).asInt();
+            lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
-            localInertInfo.m_sUserID = localDBInfo.get("UID", "server").asString();
-            localInertInfo.m_nThreadCount = localDBInfo.get("Thread", 0).asInt();
+            lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
+            lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
 
-            std::string localTmpPwd = localDBInfo.get("Password", "").asString();
+            std::string lTmpPwd = lDBInfo.get("Password", "").asString();
 
-            char localTmp[1024] = { 0, };
-            char localTmpForXOR[1024] = { 0, };
+            char lTmp[1024] = { 0, };
+            char lTmpForXOR[1024] = { 0, };
 
-            size_t localDecodeSize = localBase64.Decode(localTmpPwd, localTmp, 1024);
+            size_t lDecodeSize = lBase64.Decode(lTmpPwd, lTmp, 1024);
 
-            if (true == localXORUtil.Encrypt(localTmp, localDecodeSize, localTmpForXOR, 1024))
+            if (true == lXORUtil.Encrypt(lTmp, lDecodeSize, lTmpForXOR, 1024))
             {
-                localInertInfo.m_sPassword = std::string(localTmpForXOR);
+                lInertInfo.m_sPassword = std::string(lTmpForXOR);
             }
 
-            m_umLDBConnectionInfo.insert(std::pair(stoi(localName), localInertInfo));
+            m_umLDBConnectionInfo.insert(std::pair(stoi(lName), lInertInfo));
         }
     }
     // end LDB
 
     //ObjectPool
     m_umObjectPoolInfo.clear();
-    if (const auto& localPool = localRoot["ObjectPools"]; false == localPool.isNull())
+    if (const auto& lPool = lRoot["ObjectPools"]; false == lPool.isNull())
     {
-        for (const auto& localName : localPool.getMemberNames())
+        for (const auto& lName : lPool.getMemberNames())
         {
-            const auto& localPoolInfo = localPool[localName];
-            if (true == localPoolInfo.isNull())
+            const auto& lPoolInfo = lPool[lName];
+            if (true == lPoolInfo.isNull())
                 continue;
 
-            int localVal = localPool.get(localName, 0).asInt();
+            int lVal = lPool.get(lName, 0).asInt();
 
-            m_umObjectPoolInfo.insert(std::pair(localName, localVal));
+            m_umObjectPoolInfo.insert(std::pair(lName, lVal));
         }
     }
 
 
     //Protocol Checker
-    if (const auto& localProtocolCheck = localRoot["ProtocolChecker"]; false == localProtocolCheck.isNull())
+    if (const auto& lProtocolCheck = lRoot["ProtocolChecker"]; false == lProtocolCheck.isNull())
     {
-        m_bProtocolCheck = localProtocolCheck.get("Enable", false).asBool();
+        m_bProtocolCheck = lProtocolCheck.get("Enable", false).asBool();
     }
 
     //TracePacket
-    if (const auto& localTracePacket = localRoot["TracePacket"]; false == localTracePacket.isNull())
+    if (const auto& lTracePacket = lRoot["TracePacket"]; false == lTracePacket.isNull())
     {
-        m_bTracePacket = localTracePacket.get("Enable", false).asBool();
-        m_bTracePacketIgnoreBattle = localTracePacket.get("IgnoreBattle", false).asBool();
+        m_bTracePacket = lTracePacket.get("Enable", false).asBool();
+        m_bTracePacketIgnoreBattle = lTracePacket.get("IgnoreBattle", false).asBool();
     }
 
     //Use MDB
-    if (const auto& localMDB = localRoot["MDB"]; false == localMDB.isNull())
+    if (const auto& lMDB = lRoot["MDB"]; false == lMDB.isNull())
     {
-        m_bUseMDB = localMDB.get("Enable", false).asBool();
-        m_sMDBPath = localMDB.get("Path", "").asString();
+        m_bUseMDB = lMDB.get("Enable", false).asBool();
+        m_sMDBPath = lMDB.get("Path", "").asString();
     }
 
     //log
-    if (const auto& localLog = localRoot["Log"]; false == localLog.isNull())
+    if (const auto& lLog = lRoot["Log"]; false == lLog.isNull())
     {
-        m_sLogDir = localLog.get("Dir", "../Log/").asString();
-        m_nLogLvl = localLog.get("Level", 0).asInt();
+        m_sLogDir = lLog.get("Dir", "../Log/").asString();
+        m_nLogLvl = lLog.get("Level", 0).asInt();
     }
 
 
     //Map
-    m_sMapInfoDir = localRoot.get("MapDir", "").asString();
+    m_sMapInfoDir = lRoot.get("MapDir", "").asString();
 
     //DumpDir
-    m_sDumpDir = localRoot.get("DumpDir", "").asString();
+    m_sDumpDir = lRoot.get("DumpDir", "").asString();
     return true;
 }
 
@@ -703,10 +703,10 @@ void ServerConfigData::_Clear()
 
 void ServerConfigData::_LoadCPUCount()
 {
-    SYSTEM_INFO localInfo;
-    GetSystemInfo(&localInfo);
+    SYSTEM_INFO lInfo;
+    GetSystemInfo(&lInfo);
 
-    m_nProcessCount = (int)localInfo.dwNumberOfProcessors;
+    m_nProcessCount = (int)lInfo.dwNumberOfProcessors;
 
     if (m_nProcessCount <= 0)
         m_nProcessCount = 0;
@@ -733,22 +733,22 @@ bool ServerConfig::LoadConfig(const std::wstring& _confFile)
 
 bool ServerConfig::ReloadConfig()
 {
-    int localIdx = (m_nSwitch.load() + 1) % CONFIG_SWITCH_SIZE;
+    int lIdx = (m_nSwitch.load() + 1) % CONFIG_SWITCH_SIZE;
 
-    ServerConfigData localLoadData;
-    if (false == localLoadData.LoadConfig(m_sConfigFileName))
+    ServerConfigData lLoadData;
+    if (false == lLoadData.LoadConfig(m_sConfigFileName))
         return false;
 
-    std::swap(m_oServerConfigData[localIdx], localLoadData);
+    std::swap(m_oServerConfigData[lIdx], lLoadData);
 
-    m_nSwitch.store(localIdx);
+    m_nSwitch.store(lIdx);
     return true;
 }
 
 ServerConfigData& ServerConfig::GetConfig()
 {
-    int localIdx = m_nSwitch.load() % CONFIG_SWITCH_SIZE;
-    return m_oServerConfigData[localIdx];
+    int lIdx = m_nSwitch.load() % CONFIG_SWITCH_SIZE;
+    return m_oServerConfigData[lIdx];
 }
 
 int ServerConfig::GetServerID()

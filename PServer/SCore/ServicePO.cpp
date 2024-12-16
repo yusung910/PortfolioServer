@@ -61,7 +61,7 @@ void ServicePO::AddAdditionalFunc(std::function<void()> _func)
 
 void ServicePO::RegisterHandler(const int& _msgID, std::function<bool(const Packet&)> _func)
 {
-	if (auto localIter = m_umOuterPacketHandler.find(_msgID); localIter == m_umOuterPacketHandler.end())
+	if (auto lIter = m_umOuterPacketHandler.find(_msgID); lIter == m_umOuterPacketHandler.end())
 		m_umOuterPacketHandler.insert_or_assign(_msgID, _func);
 }
 
@@ -90,10 +90,10 @@ void ServicePO::UnRegisterInnerHandler(const int& _protocolID)
 
 bool ServicePO::_DispatchPacket(const Packet& _packet)
 {
-	if (auto localIter = m_umOuterPacketHandler.find(_packet.GetMessageID()); localIter != m_umOuterPacketHandler.end())
+	if (auto lIter = m_umOuterPacketHandler.find(_packet.GetMessageID()); lIter != m_umOuterPacketHandler.end())
 	{
-		if (nullptr != localIter->second)
-			return localIter->second(_packet);
+		if (nullptr != lIter->second)
+			return lIter->second(_packet);
 	}
 	return false;
 }
@@ -103,15 +103,15 @@ void ServicePO::_DispatchPacketProcess()
 	m_oOuterPacketWorkList.clear();
 	m_oOuterPacketQueue.Swap(m_oOuterPacketWorkList);
 
-	for (auto& localPacket : m_oOuterPacketWorkList)
+	for (auto& lPacket : m_oOuterPacketWorkList)
 	{
-		if (false == _DispatchPacket(*localPacket))
+		if (false == _DispatchPacket(*lPacket))
 		{
 			//Dispatch Packet 에러 발생시 에러 로그 작성 부분
-            VIEW_WRITE_ERROR("DispatchPacket Fail! is not Packet Function(), MessageID: %d", localPacket->GetMessageID());
+            VIEW_WRITE_ERROR("DispatchPacket Fail! is not Packet Function(), MessageID: %d", lPacket->GetMessageID());
 		}
 
-		localPacket.reset(); // 소멸처리
+		lPacket.reset(); // 소멸처리
 	}
 
 	if (true == m_oOuterPacketWorkList.empty())
@@ -123,10 +123,10 @@ bool ServicePO::_DispatchInnerPacket(InnerPacket::SharedPtr& _packet)
 	if (nullptr == _packet)
 		return false;
 
-	if (auto localIter = m_umInnerPacketHandler.find(_packet->m_nProtocol); localIter != m_umInnerPacketHandler.end())
+	if (auto lIter = m_umInnerPacketHandler.find(_packet->m_nProtocol); lIter != m_umInnerPacketHandler.end())
 	{
-		if (nullptr != localIter->second)
-			return localIter->second(_packet);
+		if (nullptr != lIter->second)
+			return lIter->second(_packet);
 	}
 
 	return false;
@@ -137,22 +137,22 @@ void ServicePO::_InnerPacketProcess()
 	m_oInnerPacketWorkList.clear();
 	m_oInnerPacketQueue.Swap(m_oInnerPacketWorkList);
 
-	for (auto& localData : m_oInnerPacketWorkList)
+	for (auto& lData : m_oInnerPacketWorkList)
 	{
-		if (auto localIter = m_umInnerPacketHandler.find(localData->m_nProtocol); localIter != m_umInnerPacketHandler.end())
+		if (auto lIter = m_umInnerPacketHandler.find(lData->m_nProtocol); lIter != m_umInnerPacketHandler.end())
 		{
-			if (nullptr != localIter->second)
-				localIter->second(localData);
+			if (nullptr != lIter->second)
+				lIter->second(lData);
 		}
 	}
 }
 
 void ServicePO::_AdditionalWorkProcess()
 {
-	for (auto localIter = m_oFuncList.begin(); localIter != m_oFuncList.end(); ++localIter)
+	for (auto lIter = m_oFuncList.begin(); lIter != m_oFuncList.end(); ++lIter)
 	{
-		if (nullptr != *localIter)
-			(*localIter)();
+		if (nullptr != *lIter)
+			(*lIter)();
 	}
 }
 

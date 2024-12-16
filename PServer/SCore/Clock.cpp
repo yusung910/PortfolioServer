@@ -9,10 +9,10 @@ int64_t Clock::GetTick64()
 
 int64_t Clock::GetFileTime()
 {
-    FILETIME localFT = {};
-    GetSystemTimeAsFileTime(&localFT);
+    FILETIME lFT = {};
+    GetSystemTimeAsFileTime(&lFT);
 
-    int64_t localFileTime100ns = ((int64_t)localFT.dwLowDateTime << 32) + (((int64_t)localFT.dwLowDateTime));
+    int64_t lFileTime100ns = ((int64_t)lFT.dwLowDateTime << 32) + (((int64_t)lFT.dwLowDateTime));
 
-    return localFileTime100ns;
+    return lFileTime100ns;
 }

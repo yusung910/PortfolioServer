@@ -123,11 +123,11 @@ private:
 ```
     
 
-### 1.4 함수 내부의 지역 변수는 local로 시작 후 대문자로 시작하는 명사로 작성
+### 1.4 함수 내부의 지역 변수는 l(Local)로 시작 후 대문자로 시작하는 명사로 작성
 ```c
 int Test(int _t)
 {
-    int localNumber = 0;
+    int lNumber = 0;
 }
 ```
 

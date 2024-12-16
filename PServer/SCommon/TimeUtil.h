@@ -24,8 +24,8 @@ class TimeUtil
 		// 1601-01-01 부터 1970-01-01까지의 날짜를 초(second)로 계산하면 11644473600000
 		// tick은 millisec이기 때문에 계산한 값에서 1000을 나눈다
 		//출처 : https://sunshine2k.blogspot.com/2014/08/where-does-116444736000000000-come-from.html
-		time_t localRet = (_tick - WINDOWS_XNIX_TIME_GAP) / 1000ll;
-		return localRet;
+		time_t lRet = (_tick - WINDOWS_XNIX_TIME_GAP) / 1000ll;
+		return lRet;
 	}
 		
 	/// <summary>
@@ -38,8 +38,8 @@ class TimeUtil
 		if (_timestamp == 0)
 			return 0ll;
 
-		int64_t localRet = (_timestamp * 1000ll) + WINDOWS_XNIX_TIME_GAP;
-		return localRet;
+		int64_t lRet = (_timestamp * 1000ll) + WINDOWS_XNIX_TIME_GAP;
+		return lRet;
 	}
 
 	

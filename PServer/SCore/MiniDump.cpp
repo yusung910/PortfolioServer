@@ -34,7 +34,7 @@ void MiniDump::SetupExceptionHandler(bool _autoRestart)
 
     std::filesystem::path fullPath(appName);
 
-    DWORD localDumpType = MiniDumpWithFullMemory // the contents of every readable page in the process address space is included in the dump.
+    DWORD lDumpType = MiniDumpWithFullMemory // the contents of every readable page in the process address space is included in the dump.
         | MiniDumpWithHandleData // includes info about all handles in the process handle table.
         | MiniDumpWithThreadInfo // includes thread times, start address and affinity.
         | MiniDumpWithProcessThreadData // includes contents of process and thread environment blocks.
@@ -55,7 +55,7 @@ void MiniDump::SetupExceptionHandler(bool _autoRestart)
         BT_SetFlags(BTF_DETAILEDMODE);
 
     BT_SetActivityType(BTA_SAVEREPORT);
-    BT_SetDumpType(localDumpType);
+    BT_SetDumpType(lDumpType);
 
     std::wstring DumpPath = fullPath.parent_path().c_str();
     DumpPath.append(L".\\Dump\\");

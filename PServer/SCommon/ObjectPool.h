@@ -34,20 +34,20 @@ public:
 
 	size_t GetAllocationCount()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 
 		return m_nAllocationCnt;
 	}
 
 	size_t GetUsingCnt()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		return m_nAllocationCnt - m_oPool.size();
 	}
 
 	AutoReleaseUniuqePtr Acquire()
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 
 		if (m_oPool.empty())
 		{
@@ -55,7 +55,7 @@ public:
 			m_nAllocationCnt++;
 		}
 
-		AutoReleaseUniuqePtr localPtr
+		AutoReleaseUniuqePtr lPtr
 		(
 			m_oPool.top().release()
 			, [this](T* _obj) { this->Release(std::unique_ptr<T>(_obj)); }
@@ -63,14 +63,14 @@ public:
 
 		m_oPool.pop();
 
-		return localPtr;
+		return lPtr;
 	}
 
 private:
 	ObjectPool() = default;
 	void Release(std::unique_ptr<T> _obj)
 	{
-		std::lock_guard<std::recursive_mutex> localGuard(m_xLock);
+		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 		_obj->Reset();
 		m_oPool.push(std::move(_obj));
 	}

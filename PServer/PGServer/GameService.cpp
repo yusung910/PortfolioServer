@@ -46,15 +46,15 @@ bool GameService::OnCSAuthReq(int _hostID, const CSAuthReq& _msg)
 {
     VIEW_INFO("OnCSAuthReq _hostID: %d, accountid: %s", _hostID, _msg.accountid()->c_str());
 
-    flatbuffers::FlatBufferBuilder localFB;
+    flatbuffers::FlatBufferBuilder lFB;
 
-    auto localPacket = CreateSCAuthRes(localFB, localFB.CreateString(_msg.accountid()), localFB.CreateString(_msg.accountpw()));
-    localFB.Finish(localPacket);
+    auto lPacket = CreateSCAuthRes(lFB, lFB.CreateString(_msg.accountid()), lFB.CreateString(_msg.accountpw()));
+    lFB.Finish(lPacket);
 
-    Packet::SharedPtr localpPacket = Packet::New();
-    if (true == localpPacket->SetPacketData(CS_AuthReq, localFB.GetBufferPointer(), localFB.GetSize()))
+    Packet::SharedPtr lpPacket = Packet::New();
+    if (true == lpPacket->SetPacketData(CS_AuthReq, lFB.GetBufferPointer(), lFB.GetSize()))
     {
-        NetworkManager::GetInst().Send(_hostID, localpPacket);
+        NetworkManager::GetInst().Send(_hostID, lpPacket);
         VIEW_INFO("Send Packet to User(hostID: %d) MessageID(%d, %s)", _hostID, CS_AuthReq, EnumNameEPacketProtocol(CS_AuthReq));
     }
     else

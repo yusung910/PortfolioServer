@@ -7,13 +7,13 @@
 //기존에 프로세스가 실행되고 있는지 확인한다.
 bool IsRedundantExecution([[maybe_unused]] const std::wstring& _prjName = L"PSGame")
 {
-    HANDLE localMutex = nullptr;
+    HANDLE lMutex = nullptr;
 
     //명명되거나 명명되지 않은 mutex 객체를 생성하는 함수.
     //https://learn.microsoft.com/ko-kr/windows/win32/api/synchapi/nf-synchapi-createmutexa
-    localMutex = CreateMutex(nullptr, false, L"PGServer");
+    lMutex = CreateMutex(nullptr, false, L"PGServer");
 
-    if (nullptr == localMutex)
+    if (nullptr == lMutex)
     {
         MessageBox(nullptr, L"Mutex 생성 실패 - 프로그램을 종료합니다.", _prjName.c_str(), MB_OK);
         
@@ -23,8 +23,8 @@ bool IsRedundantExecution([[maybe_unused]] const std::wstring& _prjName = L"PSGa
     //기존에 이미 서버가 실행되어있는지 여부를 확인한다.
     if (::GetLastError() == ERROR_ALREADY_EXISTS)
     {
-        CloseHandle(localMutex);
-        localMutex = INVALID_HANDLE_VALUE;
+        CloseHandle(lMutex);
+        lMutex = INVALID_HANDLE_VALUE;
         MessageBox(nullptr, L"프로그램이 이미 실행 중입니다.", _prjName.c_str(), MB_OK);
         return false;
     }

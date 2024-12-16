@@ -54,25 +54,25 @@ protected:
         if (nullptr == m_pService)
             return;
 
-		DispatcherType* localDerived = static_cast<DispatcherType*>(this);
+		DispatcherType* lDerived = static_cast<DispatcherType*>(this);
 
-		int localID = static_cast<int>(typename MessageType::NativeTableType().messageid);
+		int lID = static_cast<int>(typename MessageType::NativeTableType().messageid);
 
-		auto localInvoker = [this, localID, localDerived, _handler](const Packet& _packet) {
-			auto localMSG = flatbuffers::GetRoot<MessageType>(_packet.GetDataPtr());
+		auto lInvoker = [this, lID, lDerived, _handler](const Packet& _packet) {
+			auto lMSG = flatbuffers::GetRoot<MessageType>(_packet.GetDataPtr());
 
-			if (nullptr == localMSG)
+			if (nullptr == lMSG)
 				return false;
 
-			flatbuffers::Verifier localVerifier{ (uint8_t*)_packet.GetDataPtr(), (flatbuffers::uoffset_t)_packet.GetMessageSize() };
+			flatbuffers::Verifier lVerifier{ (uint8_t*)_packet.GetDataPtr(), (flatbuffers::uoffset_t)_packet.GetMessageSize() };
 
-			if (false == localMSG->Verify(localVerifier))
-				return _OnDeserializeFail(_packet.HostID, localID);
+			if (false == lMSG->Verify(lVerifier))
+				return _OnDeserializeFail(_packet.HostID, lID);
 
-			return (localDerived->*_handler)(_packet.HostID, *localMSG);
+			return (lDerived->*_handler)(_packet.HostID, *lMSG);
 		};
 
-		_RegisterHandler(localID, localInvoker);
+		_RegisterHandler(lID, lInvoker);
 	};
 
 
@@ -83,15 +83,15 @@ protected:
 		if (nullptr == m_pService)
 			return;
 
-		int localID = static_cast<int>(_msgID);
-		DispatcherType* localDerived = static_cast<DispatcherType*>(this);
-		auto localInvoker = [localDerived, _handler](InnerPacket::SharedPtr _packet) {
+		int lID = static_cast<int>(_msgID);
+		DispatcherType* lDerived = static_cast<DispatcherType*>(this);
+		auto lInvoker = [lDerived, _handler](InnerPacket::SharedPtr _packet) {
 			if (nullptr == _packet.get())
 				return false;
-			return (localDerived->*_handler)(_packet);
+			return (lDerived->*_handler)(_packet);
 		};
 
-		_RegisterInnerHandler(localID, localInvoker);
+		_RegisterInnerHandler(lID, lInvoker);
 	}
 
 	void UnRegisterHandler(int _msgID)

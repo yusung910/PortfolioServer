@@ -23,7 +23,7 @@ namespace BotClient.Network
 
         public void SetPacketData()
         {
-            Offset<SCAuthRes> test;
+            //Offset<SCAuthRes> test;
         }
 
     }

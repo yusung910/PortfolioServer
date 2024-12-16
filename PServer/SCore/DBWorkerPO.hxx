@@ -7,9 +7,9 @@
  *  DB 작업을 위한 클래스
  */
 #pragma once
-#pragma warning(disable : 4996)
 #include <string>
 #include <atomic>
+
  // Poco Include 관련
 #ifndef POCO_STATIC
 #	define POCO_STATIC 1

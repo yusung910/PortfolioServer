@@ -33,32 +33,32 @@ bool NetworkWorkerPO::CreateThread()
     // IOCP 핸들 생성
     // CreateIoCompletionPort() : IOCP 커널 객체를 생성하거나 IOCP와 디바이스를 연결하는 작업을 진행. 
     // https://learn.microsoft.com/ko-kr/windows/win32/fileio/createiocompletionport
-    auto localIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0,0);
+    auto lIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0,0);
 
-    if (localIOCP == NULL || localIOCP == INVALID_HANDLE_VALUE)
+    if (lIOCP == NULL || lIOCP == INVALID_HANDLE_VALUE)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::CreateThread() CreateIoCompletionPort() Failed:%d", GetLastError());
 
         return false;
     }
 
-    m_hIOCP = localIOCP;
+    m_hIOCP = lIOCP;
 
     //스레드 생성
-    SYSTEM_INFO localInfo;
-    GetSystemInfo(&localInfo);
+    SYSTEM_INFO lInfo;
+    GetSystemInfo(&lInfo);
 
-    for (unsigned int n = 0; n < localInfo.dwNumberOfProcessors; ++n)
+    for (unsigned int n = 0; n < lInfo.dwNumberOfProcessors; ++n)
     {
-        auto localHandle = (HANDLE)_beginthreadex(nullptr, 0, ExecuteThread, this, 0, nullptr);
+        auto lHandle = (HANDLE)_beginthreadex(nullptr, 0, ExecuteThread, this, 0, nullptr);
 
-        if (localHandle == nullptr || localHandle == INVALID_HANDLE_VALUE)
+        if (lHandle == nullptr || lHandle == INVALID_HANDLE_VALUE)
         {
             TerminateThread();
             return false;
         }
 
-        m_oHandleList.push_back(localHandle);
+        m_oHandleList.push_back(lHandle);
     }
 
     Sleep(100);
@@ -90,9 +90,9 @@ void NetworkWorkerPO::TerminateThread()
 
 unsigned int WINAPI NetworkWorkerPO::ExecuteThread(void* _arg)
 {
-    auto& localParent = *(NetworkWorkerPO*)_arg;
-    localParent.ProcessThread();
-    localParent.TerminateThread();
+    auto& lParent = *(NetworkWorkerPO*)_arg;
+    lParent.ProcessThread();
+    lParent.TerminateThread();
 
     return 0;
 }
@@ -129,8 +129,8 @@ bool NetworkWorkerPO::RegisterThread(NetworkHostPO* _host)
         return false;
     }
     
-    auto localSocket = _host->GetSocket();
-    if (localSocket == INVALID_SOCKET)
+    auto lSocket = _host->GetSocket();
+    if (lSocket == INVALID_SOCKET)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::RegisterThread() Failed - Socket is null");
         return false;
@@ -139,7 +139,7 @@ bool NetworkWorkerPO::RegisterThread(NetworkHostPO* _host)
     // IOCP 핸들 생성
     // CreateIoCompletionPort() : IOCP 커널 객체를 생성하거나 IOCP와 디바이스를 연결하는 작업을 진행. 
     // https://learn.microsoft.com/ko-kr/windows/win32/fileio/createiocompletionport
-    if (CreateIoCompletionPort((HANDLE)localSocket, m_hIOCP, (ULONG_PTR)_host, 0) == nullptr)
+    if (CreateIoCompletionPort((HANDLE)lSocket, m_hIOCP, (ULONG_PTR)_host, 0) == nullptr)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::RegisterThread() Failed - CreateIoCompletionPort: %d", GetLastError());
         return false;
@@ -152,12 +152,12 @@ void NetworkWorkerPO::ProcessThread()
 {
     while (false == m_bIsTerminated)
     {
-        bool localRslt = true;
-        DWORD localTransferred = 0;
-        ULONG_PTR localKey = 0;
-        LPOVERLAPPED localOverlapped = 0;
+        bool lRslt = true;
+        DWORD lTransferred = 0;
+        ULONG_PTR lKey = 0;
+        LPOVERLAPPED lOverlapped = 0;
 
-        DWORD localDwLastError = 0;
+        DWORD lDwLastError = 0;
         // GetQueuedCompletionStatus() : 
         // 이 함수를 호출하면 호출한 스레드는 I/O completion queue에서 데이터를 가져온다 
         // 만약 데이터가 없을 경우 데이터가 전달 될 때 까지 대기.
@@ -175,72 +175,72 @@ void NetworkWorkerPO::ProcessThread()
         //  dwMilliseconds : 대기를 수행할 시간(밀리초)을 입력합니다.
         //    return = TRUE 성공, FALSE 실패
         // https://jungwoong.tistory.com/43
-        if (GetQueuedCompletionStatus(m_hIOCP, &localTransferred, &localKey, &localOverlapped, INFINITE) == TRUE)
+        if (GetQueuedCompletionStatus(m_hIOCP, &lTransferred, &lKey, &lOverlapped, INFINITE) == TRUE)
         {
-            if (localKey == 0
-                && localTransferred == 0
-                && localOverlapped == 0)
+            if (lKey == 0
+                && lTransferred == 0
+                && lOverlapped == 0)
                 break;
             
         }
         else
         {
-            localDwLastError = GetLastError();
+            lDwLastError = GetLastError();
             // ERROR_NETNAME_DELETED: 클라이언트가 HardClose한 경우 발생
             // 일종의 강제 종료
             // https://goguri.tistory.com/749
-            if (localDwLastError != ERROR_NETNAME_DELETED)
-                localRslt = false;
+            if (lDwLastError != ERROR_NETNAME_DELETED)
+                lRslt = false;
         }
 
-        auto localHost = (NetworkHostPO*)localKey;
-        auto localCtxt = (NetworkContextPO*)localOverlapped;
+        auto lHost = (NetworkHostPO*)lKey;
+        auto lCtxt = (NetworkContextPO*)lOverlapped;
 
-        if (localHost == nullptr
-            || localCtxt == nullptr)
+        if (lHost == nullptr
+            || lCtxt == nullptr)
         {
             VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessThread() Failed - Parameter Error");
 
             continue;
         }
 
-        switch (localCtxt->GetContextType())
+        switch (lCtxt->GetContextType())
         {
         case EContextType::Accept:
-            ProcessAccept(*localHost, *localCtxt, localRslt);
+            ProcessAccept(*lHost, *lCtxt, lRslt);
             break;
         case EContextType::Connect:
-            ProcessConnect(*localHost, *localCtxt, localRslt);
+            ProcessConnect(*lHost, *lCtxt, lRslt);
             break;
         case EContextType::Receive:
-            ProcessReceive(*localHost, *localCtxt, localRslt, (int)localTransferred);
+            ProcessReceive(*lHost, *lCtxt, lRslt, (int)lTransferred);
             break;
         case EContextType::Encrypt:
-            ProcessEncrypt(*localHost, *localCtxt);
+            ProcessEncrypt(*lHost, *lCtxt);
             break;
         case EContextType::Send:
-            ProcessSend(*localHost, *localCtxt, localRslt, (int)localTransferred);
+            ProcessSend(*lHost, *lCtxt, lRslt, (int)lTransferred);
             break;
         default:
-            VIEW_WRITE_ERROR("NetworkWorkerPO::ProcessThread() Failed - ContextType :%d", localCtxt->GetContextType());
+            VIEW_WRITE_ERROR("NetworkWorkerPO::ProcessThread() Failed - ContextType :%d", lCtxt->GetContextType());
             break;
         }
 
         // Error Exception 처리
-        if (false == localRslt)
+        if (false == lRslt)
         {
-            bool localCustom = false;
-            switch (localCtxt->GetContextType())
+            bool lCustom = false;
+            switch (lCtxt->GetContextType())
             {
             case EContextType::Connect:
             {
-                localCustom = true;
-                switch (localDwLastError)
+                lCustom = true;
+                switch (lDwLastError)
                 {
                     case ERROR_CONNECTION_REFUSED:
                     case ERROR_SEM_TIMEOUT:
                     {
-                        VIEW_WRITE_ERROR(L"Connect to [%S:%d] Failed (%d) (Code : %d [%x])", localHost->GetIP().c_str(), localHost->GetPeerPort(), localHost->GetHostID(), localDwLastError, localDwLastError);
+                        VIEW_WRITE_ERROR(L"Connect to [%S:%d] Failed (%d) (Code : %d [%x])", lHost->GetIP().c_str(), lHost->GetPeerPort(), lHost->GetHostID(), lDwLastError, lDwLastError);
                     }
                     break;
 
@@ -251,10 +251,10 @@ void NetworkWorkerPO::ProcessThread()
             break;
             case EContextType::Receive:
             {
-                if (localDwLastError == ERROR_GRACEFUL_DISCONNECT)
+                if (lDwLastError == ERROR_GRACEFUL_DISCONNECT)
                 {
-                    localCustom = true;
-                    VIEW_WRITE_ERROR(L"Host Gracefull Disconnected (%d), [%S:%d] ",  localHost->GetHostID(), localHost->GetIP().c_str(), localHost->GetPeerPort());
+                    lCustom = true;
+                    VIEW_WRITE_ERROR(L"Host Gracefull Disconnected (%d), [%S:%d] ",  lHost->GetHostID(), lHost->GetIP().c_str(), lHost->GetPeerPort());
                 }
             }
             break;
@@ -262,28 +262,28 @@ void NetworkWorkerPO::ProcessThread()
                 break;
             }
 
-            if (false == localCustom)
+            if (false == lCustom)
             {
-                switch (localDwLastError)
+                switch (lDwLastError)
                 {
                 case ERROR_CONNECTION_ABORTED: // 접속 끊어짐. Socket Clost 메세지 참조
                     break;
                 default:
-                    VIEW_WRITE_ERROR(L"Host(%d) Result Failed (Code : %d [%x]) [%S]", localHost->GetHostID(), localDwLastError, localDwLastError, localHost->GetIP().c_str());
+                    VIEW_WRITE_ERROR(L"Host(%d) Result Failed (Code : %d [%x]) [%S]", lHost->GetHostID(), lDwLastError, lDwLastError, lHost->GetIP().c_str());
                     break;
                 }
             }
         }
 
-        NetworkManager::GetInst().ReleaseContext(localCtxt);
+        NetworkManager::GetInst().ReleaseContext(lCtxt);
     }
 }
 
 void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt)
 {
     //Accept 완료 처리
-    SOCKET localSocket = INVALID_SOCKET;
-    _ctxt.Read(&localSocket, sizeof(localSocket));
+    SOCKET lSocket = INVALID_SOCKET;
+    _ctxt.Read(&lSocket, sizeof(lSocket));
 
     if (_rslt == true)
     {
@@ -292,32 +292,32 @@ void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctx
 
         //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock/nf-winsock-setsockopt
         //소켓의 옵션을 SO_UPDATE_ACCEPT_CONTEXT 값으로 세팅한다 
-        SOCKET localListener = _host.GetSocket();
-        if (setsockopt(localSocket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&localListener, sizeof(localListener)) == SOCKET_ERROR)
+        SOCKET lListener = _host.GetSocket();
+        if (setsockopt(lSocket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&lListener, sizeof(lListener)) == SOCKET_ERROR)
         {
             VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessAccept() Failed - SO_UPDATE_ACCEPT_CONTEXT: %d", WSAGetLastError());
         }
 
         //접속 주소 생성
-        std::string localIP = "";
-        int localPort = 0;
-        int localIPAddr = 0;
+        std::string lIP = "";
+        int lPort = 0;
+        int lIPAddr = 0;
         if (nullptr != _ctxt.m_pRemoteAddr)
         {
-            localIPAddr = _ctxt.m_pRemoteAddr->sin_addr.S_un.S_addr;
+            lIPAddr = _ctxt.m_pRemoteAddr->sin_addr.S_un.S_addr;
             char tmpIPAddr[INET_ADDRSTRLEN] = { 0, };
             inet_ntop(AF_INET, &_ctxt.m_pRemoteAddr->sin_addr, tmpIPAddr, sizeof(tmpIPAddr));
 
-            localIP = tmpIPAddr;
-            localPort = (int)ntohs(_ctxt.m_pRemoteAddr->sin_port);
+            lIP = tmpIPAddr;
+            lPort = (int)ntohs(_ctxt.m_pRemoteAddr->sin_port);
         }
         
-        NetworkManager::GetInst().Join(_host.GetEvnetSync(), localIPAddr, localIP, localPort, localSocket);
+        NetworkManager::GetInst().Join(_host.GetEvnetSync(), lIPAddr, lIP, lPort, lSocket);
 
     }
     else
     {
-        closesocket(localSocket);
+        closesocket(lSocket);
     }
 
     //NetworkContextPO 초기화

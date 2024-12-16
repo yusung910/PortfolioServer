@@ -7,14 +7,22 @@
 
 //편의용 매크로 함수
 
-#define CheckSession()  
+#define CheckSession()  auto lTmpSess = GetSession();                       \
+                        if(nullptr == lTmpSess)                             \
+                            return false;                                   \
+                        Poco::Data::Session& lSess = *lTmpSess;             \
 
 #define BEGIN_SESSION   try {
 #define END_SESSION     }                                                   \
+                        catch(Poco::Data::ODBC::StatementException& ex)     \
+                        {                                                   \
+                            VIEW_WRITE_ERROR("\n%s", StringUtil::UTF8_WSTR(ex.message().c_str()).c_str());  \
+                        }                                                   \
                         catch(std::exception& e)                            \
                         {                                                   \
                             VIEW_WRITE_ERROR("\nDB Error : %s", e.what());  \
                         }
+                        
 
 //Statement를 이용한 Select 결과 데이터 존재 여부 확인
 #define HasResult(x) (false == x.toString().empty())
@@ -40,7 +48,7 @@ public:
 
     void SetDBConfig(const std::string& _userID, const std::string _password, const std::string& _database, const std::string& _host, const std::string& _port);
 
-    CSession GetSession();
+    Poco::Data::Session* GetSession();
 
     void Exit();
     bool Push(InnerPacket::SharedPtr _data);
@@ -65,18 +73,18 @@ protected:
         if (nullptr == m_pDBServicePO)
             return;
 
-        int localID = static_cast<int>(_msgID);
-        DispatcherType* localDerived = static_cast<DispatcherType*>(this);
+        int lID = static_cast<int>(_msgID);
+        DispatcherType* lDerived = static_cast<DispatcherType*>(this);
 
-        auto localInvoker = [localDerived, _handler](InnerPacket::SharedPtr _packet)
+        auto lInvoker = [lDerived, _handler](InnerPacket::SharedPtr _packet)
             {
                 if (nullptr == _packet.get())
                     return false;
 
-                return (localDerived->*_handler)(_packet);
+                return (lDerived->*_handler)(_packet);
             };
 
-        _RegisterHandler(localID, localInvoker);
+        _RegisterHandler(lID, lInvoker);
 
     }
 };
