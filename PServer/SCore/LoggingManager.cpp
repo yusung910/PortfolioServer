@@ -21,7 +21,7 @@ LoggingManager::~LoggingManager()
 
 void LoggingManager::Init()
 {
-    std::setle(LC_ALL, "ko_KR.UTF-8");
+    std::setlocale(LC_ALL, "ko_KR.UTF-8");
     m_pManagerPO = new LoggingManagerPO();
 }
 

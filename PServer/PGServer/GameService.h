@@ -31,6 +31,8 @@ protected:
 
     //system
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
+    bool OnHostClose(int _hostID, const HostClose& _msg);
+
 
     //Game
     bool OnCSAuthReq(int _hostID, const CSAuthReq& _msg);

@@ -12,7 +12,7 @@ LoggingManagerPO::LoggingManagerPO()
     time_t lCurrentTick = time(nullptr);
 
     //서버 로컬 타임 호출
-    auto lErr = ltime_s(&lCurrentTime, &lCurrentTick);
+    auto lErr = localtime_s(&lCurrentTime, &lCurrentTick);
 
     //서버 로컬 타임을 정상적으로 호출 했을 경우
     if (lErr == 0)

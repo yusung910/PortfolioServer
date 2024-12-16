@@ -42,6 +42,13 @@ bool GameService::OnHostConnect([[maybe_unused]] int _hostID, [[maybe_unused]] c
 	return true;
 }
 
+bool GameService::OnHostClose(int _hostID, const HostClose& _msg)
+{
+    VIEW_INFO("HostID(%d) Has Disconnected!(%d)", _hostID, _msg.messageid());
+    NetworkManager::GetInst().OnDisconnect(_hostID);
+    return false;
+}
+
 bool GameService::OnCSAuthReq(int _hostID, const CSAuthReq& _msg)
 {
     VIEW_INFO("OnCSAuthReq _hostID: %d, accountid: %s", _hostID, _msg.accountid()->c_str());
@@ -75,6 +82,7 @@ bool GameService::OnSCAuthReq(int _hostID, const CSAuthReq& _msg)
 void GameService::_RegisterPacketHandlers()
 {
 	RegisterHandler(&GameService::OnHostConnect);
+	RegisterHandler(&GameService::OnHostClose);
 	RegisterHandler(&GameService::OnCSAuthReq);
 	RegisterHandler(&GameService::OnSCAuthReq);
 }

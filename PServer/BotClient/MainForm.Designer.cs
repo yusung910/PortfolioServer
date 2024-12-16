@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.grbPacketParameters = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnPacketSearch = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.lbPacketList = new System.Windows.Forms.ListBox();
             this.btnPacketSend = new System.Windows.Forms.Button();
             this.btnServerConnect = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.grbPacketParameters = new System.Windows.Forms.GroupBox();
+            this.btnDisconnect = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.lbLogs = new System.Windows.Forms.ListBox();
-            this.btnLogClear = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.btnPacketSearch = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.btnLogSearch = new System.Windows.Forms.Button();
-            this.btnDisconnect = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.btnLogClear = new System.Windows.Forms.Button();
+            this.lbLogs = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -62,6 +62,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Protocol";
             // 
+            // grbPacketParameters
+            // 
+            this.grbPacketParameters.Location = new System.Drawing.Point(295, 20);
+            this.grbPacketParameters.Name = "grbPacketParameters";
+            this.grbPacketParameters.Size = new System.Drawing.Size(508, 208);
+            this.grbPacketParameters.TabIndex = 4;
+            this.grbPacketParameters.TabStop = false;
+            this.grbPacketParameters.Text = "Packet Parameters";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.btnPacketSearch);
@@ -73,6 +82,22 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "PacketList";
+            // 
+            // btnPacketSearch
+            // 
+            this.btnPacketSearch.Location = new System.Drawing.Point(211, 17);
+            this.btnPacketSearch.Name = "btnPacketSearch";
+            this.btnPacketSearch.Size = new System.Drawing.Size(56, 23);
+            this.btnPacketSearch.TabIndex = 2;
+            this.btnPacketSearch.Text = "Search";
+            this.btnPacketSearch.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(6, 17);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(198, 21);
+            this.textBox1.TabIndex = 1;
             // 
             // lbPacketList
             // 
@@ -116,14 +141,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "ServerList";
             // 
-            // grbPacketParameters
+            // btnDisconnect
             // 
-            this.grbPacketParameters.Location = new System.Drawing.Point(295, 20);
-            this.grbPacketParameters.Name = "grbPacketParameters";
-            this.grbPacketParameters.Size = new System.Drawing.Size(508, 208);
-            this.grbPacketParameters.TabIndex = 4;
-            this.grbPacketParameters.TabStop = false;
-            this.grbPacketParameters.Text = "Packet Parameters";
+            this.btnDisconnect.Location = new System.Drawing.Point(44, 233);
+            this.btnDisconnect.Name = "btnDisconnect";
+            this.btnDisconnect.Size = new System.Drawing.Size(84, 23);
+            this.btnDisconnect.TabIndex = 5;
+            this.btnDisconnect.Text = "Disconnect";
+            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
             // 
             // listBox1
             // 
@@ -147,14 +173,21 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Log";
             // 
-            // lbLogs
+            // btnLogSearch
             // 
-            this.lbLogs.FormattingEnabled = true;
-            this.lbLogs.ItemHeight = 12;
-            this.lbLogs.Location = new System.Drawing.Point(5, 44);
-            this.lbLogs.Name = "lbLogs";
-            this.lbLogs.Size = new System.Drawing.Size(1019, 352);
-            this.lbLogs.TabIndex = 0;
+            this.btnLogSearch.Location = new System.Drawing.Point(384, 17);
+            this.btnLogSearch.Name = "btnLogSearch";
+            this.btnLogSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnLogSearch.TabIndex = 3;
+            this.btnLogSearch.Text = "Search";
+            this.btnLogSearch.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(7, 17);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(371, 21);
+            this.textBox2.TabIndex = 2;
             // 
             // btnLogClear
             // 
@@ -166,46 +199,14 @@
             this.btnLogClear.UseVisualStyleBackColor = true;
             this.btnLogClear.Click += new System.EventHandler(this.btnLogClear_Click);
             // 
-            // textBox1
+            // lbLogs
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 17);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(198, 21);
-            this.textBox1.TabIndex = 1;
-            // 
-            // btnPacketSearch
-            // 
-            this.btnPacketSearch.Location = new System.Drawing.Point(211, 17);
-            this.btnPacketSearch.Name = "btnPacketSearch";
-            this.btnPacketSearch.Size = new System.Drawing.Size(56, 23);
-            this.btnPacketSearch.TabIndex = 2;
-            this.btnPacketSearch.Text = "Search";
-            this.btnPacketSearch.UseVisualStyleBackColor = true;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(7, 17);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(371, 21);
-            this.textBox2.TabIndex = 2;
-            // 
-            // btnLogSearch
-            // 
-            this.btnLogSearch.Location = new System.Drawing.Point(384, 17);
-            this.btnLogSearch.Name = "btnLogSearch";
-            this.btnLogSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnLogSearch.TabIndex = 3;
-            this.btnLogSearch.Text = "Search";
-            this.btnLogSearch.UseVisualStyleBackColor = true;
-            // 
-            // btnDisconnect
-            // 
-            this.btnDisconnect.Location = new System.Drawing.Point(44, 233);
-            this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(84, 23);
-            this.btnDisconnect.TabIndex = 5;
-            this.btnDisconnect.Text = "Disconnect";
-            this.btnDisconnect.UseVisualStyleBackColor = true;
+            this.lbLogs.FormattingEnabled = true;
+            this.lbLogs.ItemHeight = 12;
+            this.lbLogs.Location = new System.Drawing.Point(5, 44);
+            this.lbLogs.Name = "lbLogs";
+            this.lbLogs.Size = new System.Drawing.Size(1019, 352);
+            this.lbLogs.TabIndex = 0;
             // 
             // MainForm
             // 

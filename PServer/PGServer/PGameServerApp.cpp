@@ -31,7 +31,7 @@ bool PGameServerApp::Initialize()
     _InitLog();
 
     //GameDB 세팅
-    _InitGameDB();
+    //_InitGameDB();
     //SendServerLog(L"SendServerLog Initialize...");
 
 
@@ -100,15 +100,17 @@ bool PGameServerApp::_InitGameDB()
     auto lService = GameDBLoadBalancer::GetInst().GetDirectService<GameDBService>();
     if (lService != nullptr)
     {
-        auto lpSession = lService->GetSession();
+        // 서버가 실행 된 시간을 DB에 저장한다.
+        // 프테 서버에 있는 내용인데 굳이 필요한지는 추후에 확인하여 작업.
+        //auto lpSession = lService->GetSession();
         {
-            Poco::Data::Session& lSess = *lpSession;
+            //Poco::Data::Session& lSess = *lpSession;
 
-            auto locaCurTick = Clock::GetTick64();
+            //auto locaCurTick = Clock::GetTick64();
 
-            BEGIN_SESSION
-
-            END_SESSION
+            //BEGIN_SESSION
+                //lSess << 
+            //END_SESSION
         }
     }
     return true;

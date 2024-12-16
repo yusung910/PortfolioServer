@@ -44,5 +44,10 @@ namespace BotClient
         {
 
         }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            m_oManager.Disconnect();
+        }
     }
 }

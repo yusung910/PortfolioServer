@@ -19,15 +19,15 @@ public:
 	static UniquePtr New()
 	{
 #ifdef USE_MEMORY_POOL
-		auto localPool = ObjectPool<T>::GetInst();
-		return localPool->Acquire();
+		auto lPool = ObjectPool<T>::GetInst();
+		return lPool->Acquire();
 #else
-		UniquePtr localPtr
+		UniquePtr lPtr
 		(
 			new T(ObjectTag())
 			, [](T* _obj) {_obj->Reset(); delete _obj; }
 		);
-		return localPtr;
+		return lPtr;
 #endif // USE_MEMORY_POOL
 	}
 

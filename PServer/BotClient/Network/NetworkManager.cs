@@ -3,6 +3,7 @@ using K4os.Compression.LZ4;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
@@ -170,6 +171,15 @@ namespace BotClient.Network
             
             m_oSocket.SendAsync(m_oSendSAArgs);
         }
-    }
 
+        public void Disconnect()
+        {
+            if (m_oSocket != null)
+            {
+                m_oSocket.Disconnect(true);
+                m_oSocket.Close();
+                m_oSocket = null;
+            }   
+        }
+    }
 }
