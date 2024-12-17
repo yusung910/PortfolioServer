@@ -59,32 +59,26 @@ bool GameService::OnCSAuthReq(int _hostID, const CSAuthReq& _msg)
     lFB.Finish(lPacket);
 
     Packet::SharedPtr lpPacket = Packet::New();
-    if (true == lpPacket->SetPacketData(CS_AuthReq, lFB.GetBufferPointer(), lFB.GetSize()))
+    if (true == lpPacket->SetPacketData(SC_AuthRes, lFB.GetBufferPointer(), lFB.GetSize()))
     {
         NetworkManager::GetInst().Send(_hostID, lpPacket);
-        VIEW_INFO("Send Packet to User(hostID: %d) MessageID(%d, %s)", _hostID, CS_AuthReq, EnumNameEPacketProtocol(CS_AuthReq));
+        VIEW_INFO("Send Packet to User(hostID: %d) MessageID(%d, %s)", _hostID, SC_AuthRes, EnumNameEPacketProtocol(SC_AuthRes));
     }
     else
     {
-        VIEW_WRITE_ERROR("PC(hostID: %d) Send Packet Fail!! MessageID(%d, %s)", _hostID, CS_AuthReq, EnumNameEPacketProtocol(CS_AuthReq));
+        VIEW_WRITE_ERROR("PC(hostID: %d) Send Packet Fail!! MessageID(%d, %s)", _hostID, SC_AuthRes, EnumNameEPacketProtocol(SC_AuthRes));
     }
 
 
     return true;
 }
 
-bool GameService::OnSCAuthReq(int _hostID, const CSAuthReq& _msg)
-{
-	VIEW_INFO("OnSCAuthReq _hostID: %d, accountid: %s, pw: %s", _hostID, _msg.accountid()->c_str(), _msg.accountpw());
-	return true;
-}
 
 void GameService::_RegisterPacketHandlers()
 {
 	RegisterHandler(&GameService::OnHostConnect);
 	RegisterHandler(&GameService::OnHostClose);
 	RegisterHandler(&GameService::OnCSAuthReq);
-	RegisterHandler(&GameService::OnSCAuthReq);
 }
 
 void GameService::_RegisterTimers()

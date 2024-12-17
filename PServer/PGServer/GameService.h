@@ -36,7 +36,6 @@ protected:
 
     //Game
     bool OnCSAuthReq(int _hostID, const CSAuthReq& _msg);
-    bool OnSCAuthReq(int _hostID, const CSAuthReq& _msg);
 
     //======================================================================
     //Packet Process Area end

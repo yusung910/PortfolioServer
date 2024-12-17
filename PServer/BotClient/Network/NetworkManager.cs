@@ -28,16 +28,19 @@ namespace BotClient.Network
 
         SocketAsyncEventArgs m_oSendSAArgs;
 
-        public NetworkManager() { }
+        Packet mPacket;
+
+        public NetworkManager() {}
 
         public void Connect()
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 35201);
             m_oSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+            //SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+            Packet args = new Packet();
             args.Completed += ConnectComplete;
             args.RemoteEndPoint = endPoint;
-            
+
             m_oSocket.ConnectAsync(args);
 
             m_IsConnected = true;
@@ -48,12 +51,12 @@ namespace BotClient.Network
             if (_args.SocketError == SocketError.Success)
             {
                 //데이터 송신 전용 객체
-                m_oSendSAArgs = new SocketAsyncEventArgs();
-                m_oSendSAArgs.Completed += OnSendCompleted;
+                mPacket = new Packet();
+                mPacket.Completed += OnSendCompleted;
 
                 //데이터 수신 객체
-                SocketAsyncEventArgs recvArgs = new SocketAsyncEventArgs();
-                recvArgs.SetBuffer(new byte[MAX_PACKET_DATA_SIZE], 0 , MAX_PACKET_DATA_SIZE);
+                Packet recvArgs = new Packet();
+                recvArgs.SetBuffer(new byte[MAX_PACKET_DATA_SIZE], 0, MAX_PACKET_DATA_SIZE);
                 recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvComplete);
 
                 bool isPending = m_oSocket.ReceiveAsync(recvArgs);
@@ -80,20 +83,12 @@ namespace BotClient.Network
                 //buff.Get(4~7)->MessageID
                 //others -> 데이터
                 ByteBuffer buff = new ByteBuffer(_args.Buffer);
-                //패킷 사이즈
-                //int payLoadSize = 0;
-                //IFlatbufferObject packetObj = null;
-                EPacketProtocol msgID = (EPacketProtocol)13;
-                switch (msgID)
-                {
-                    case EPacketProtocol.SC_AuthRes:
 
-                        break;
-                }
+                byte[] packetSize = buff.ToArray(0, 4);
+                byte[] msgID = buff.ToArray(4, 4);
 
-                //
+                bool isCompress = BitConverter.ToBoolean(packetSize, 0);
 
-                
                 // 새로운 데이터 수신을 준비합니다.
                 bool pending = m_oSocket.ReceiveAsync(_args);
                 if (pending == false)
@@ -104,72 +99,21 @@ namespace BotClient.Network
         public void OnSendCompleted(object obj, SocketAsyncEventArgs _args)
         {
             if (_args.BytesTransferred > 0 && _args.SocketError == SocketError.Success)
-                m_oSendSAArgs.BufferList = null;
+                mPacket.BufferList = null;
         }
 
         public void Send()
         {
-            if (m_oSendSAArgs == null)
+            if (mPacket == null)
             {
                 MessageBox.Show("Server Connect is Fail");
                 return;
             }
 
-            //Flatbuffer 데이터 빌드 할 때 각각 패킷에 들어갈 데이터 먼저 빌드 해줘야한다(CreateString 등등을 먼저 해야한다)
-            FlatBufferBuilder builder = new FlatBufferBuilder(1);
-            var id = builder.CreateString("yusung910@nate.com");
-            var pw = builder.CreateString("1234567890!@#$%^&*()_");
+            string[] data = { "yusung910@nate.com", "ABCDEFGABC" };
+            mPacket.SetPacketData(EPacketProtocol.CS_AuthReq, data);
 
-            CSAuthReq.StartCSAuthReq(builder);
-
-            CSAuthReq.AddAccountid(builder, id);
-            CSAuthReq.AddAccountpw(builder, pw);
-            
-            var endoffset = CSAuthReq.EndCSAuthReq(builder);
-            
-            builder.Finish(endoffset.Value);
-            var bodyPacket = builder.SizedByteArray();
-
-            //패킷 payload byte 배열
-            byte[] payloadSizeByte = new byte[4];
-
-            //패킷 body 사이즈에 따라 압축 여부 지정
-            if (bodyPacket.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
-            {
-                payloadSizeByte = BitConverter.GetBytes((uint)(bodyPacket.Length+PACKET_HEADER_SIZE) | PACKET_COMPRESS_MASK);
-            }
-            else
-            {
-                payloadSizeByte = BitConverter.GetBytes((uint)(bodyPacket.Length + PACKET_HEADER_SIZE) & ~PACKET_COMPRESS_MASK);
-            }
-
-            int tmpMsgID = (int)EPacketProtocol.CS_AuthReq;
-            byte[] msgIDBytes = new byte[4];
-            for (int i = 0; i < msgIDBytes.Length; i++)
-            {
-                msgIDBytes[i] = (byte)(tmpMsgID >> 24 - (i * 8));
-            }
-
-            byte[] SendPacketBody = new byte[LZ4Codec.MaximumOutputSize(bodyPacket.Length)];
-
-            if (bodyPacket.Length > DEFAULT_PACKET_COMPRESS_START_SIZE)
-            {
-                //패킷 암호화
-                //https://stackoverflow.com/questions/48805020/encode-and-decode-byte-array-using-lz4net
-                LZ4Codec.Encode(bodyPacket, 0, bodyPacket.Length, SendPacketBody, 0, SendPacketBody.Length);
-            }
-            //패킷 데이터 세팅
-            byte[] packet = new byte[bodyPacket.Length + PACKET_HEADER_SIZE];
-
-            Array.Copy(payloadSizeByte, 0, packet, 0, msgIDBytes.Length);
-
-            Array.Copy(msgIDBytes, 0, packet, 4, msgIDBytes.Length);
-
-            Array.Copy(bodyPacket, 0, packet, PACKET_HEADER_SIZE, bodyPacket.Length);
-
-            m_oSendSAArgs.SetBuffer(packet, 0, packet.Length);
-            
-            m_oSocket.SendAsync(m_oSendSAArgs);
+            m_oSocket.SendAsync(mPacket);
         }
 
         public void Disconnect()
@@ -179,7 +123,7 @@ namespace BotClient.Network
                 m_oSocket.Disconnect(true);
                 m_oSocket.Close();
                 m_oSocket = null;
-            }   
+            }
         }
     }
 }

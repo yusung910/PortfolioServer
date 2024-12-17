@@ -121,9 +121,9 @@
             // 
             // btnServerConnect
             // 
-            this.btnServerConnect.Location = new System.Drawing.Point(134, 231);
+            this.btnServerConnect.Location = new System.Drawing.Point(134, 234);
             this.btnServerConnect.Name = "btnServerConnect";
-            this.btnServerConnect.Size = new System.Drawing.Size(76, 26);
+            this.btnServerConnect.Size = new System.Drawing.Size(76, 24);
             this.btnServerConnect.TabIndex = 3;
             this.btnServerConnect.Text = "Connect";
             this.btnServerConnect.UseVisualStyleBackColor = true;
@@ -145,7 +145,7 @@
             // 
             this.btnDisconnect.Location = new System.Drawing.Point(44, 233);
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(84, 23);
+            this.btnDisconnect.Size = new System.Drawing.Size(84, 24);
             this.btnDisconnect.TabIndex = 5;
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.UseVisualStyleBackColor = true;

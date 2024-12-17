@@ -61,7 +61,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Network\NetworkManager.cs" />
-    <Compile Include="Network\Packet.cs" />
+    <Compile Include="Network\Packet\Packet.cs" />
+    <Compile Include="Network\Packet\PacketDataBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\CSAuthReq.cs" />
