@@ -26,5 +26,14 @@ namespace BotClient.Network.Util
             bits.CopyTo(array, 0);
             return array[0];
         }
+
+        public static byte[] IntToBitArray(int value)
+        {
+            BitArray b = new BitArray(new int[] { value });
+            bool[] bits = new bool[b.Count];
+            b.CopyTo(bits, 0);
+            byte[] bitValues = bits.Select(bit => (byte)(bit ? 1 : 0)).ToArray();
+            return bitValues;
+        }
     }
 }

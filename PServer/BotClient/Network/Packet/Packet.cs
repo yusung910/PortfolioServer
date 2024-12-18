@@ -9,15 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BotClient.Network.Const;
+using BotClient.Network.Util;
+using System.Collections;
 namespace BotClient.Network
 {
     public class Packet : SocketAsyncEventArgs
-    {   
+    {
         private bool m_bIsCompress = false;
 
         PacketDataBuilder m_PacketBuilder = new PacketDataBuilder();
 
-        public Packet(){}
+        public Packet() { }
 
         public void SetPacketData(EPacketProtocol _msgID, string[] _args)
         {
@@ -30,11 +32,8 @@ namespace BotClient.Network
             //패킷 압축 여부 비트 지정
             m_bIsCompress = (lBodyPacket.Length > NetworkGlobalConst.DEFAULT_PACKET_COMPRESS_START_SIZE);
 
-            byte[] msgIDBytes = new byte[4];
-            for (int i = 0; i < msgIDBytes.Length; i++)
-            {
-                msgIDBytes[i] = (byte)(((int)_msgID) >> 24 - (i * 8));
-            }
+            //byte[] msgIDBytes = new byte[4];
+            byte[] msgIDBytes = BitArrayConverter.IntToBitArray((int)_msgID);
 
             //패킷 크기를 저장하는 byte
             byte[] lPayloadSizeByte = new byte[4];
