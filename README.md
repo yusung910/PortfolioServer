@@ -178,3 +178,4 @@ private:
 	   -> 해결! K4os.Compression.LZ4의 net462 버전의 dll 파일을 참조 추가로 사용할 수 있게 됨, BotClient에 작업 완료!
     7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
        -> 제거되지 않을 경우 패킷 데이터 배열에 영향을 끼치게 되어 통신 데이터 상에 문제가 발생
+	8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
