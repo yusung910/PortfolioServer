@@ -11,23 +11,16 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BotClient.Network.Const;
+
 
 namespace BotClient.Network
 {
     public class NetworkManager
     {
-
-        private static int MAX_PACKET_BINARY_SIZE = 8192 * 2;              // 패킷 바이너리 최대 크기 (Payload)
-        private static int PACKET_HEADER_SIZE = 8;                 // size 4 + protocol 4
-        private static int MAX_PACKET_DATA_SIZE = MAX_PACKET_BINARY_SIZE - PACKET_HEADER_SIZE;	// 패킷에 들어갈수 있는 최대 데이터 크기
-        private static int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;	// 패킷 압축 최소 기준
-        private static uint PACKET_COMPRESS_MASK = 0x80000000;
         bool m_IsConnected = false;
 
         Socket m_oSocket;
-
-        SocketAsyncEventArgs m_oSendSAArgs;
-
         Packet mPacket;
 
         public NetworkManager() {}
@@ -36,7 +29,6 @@ namespace BotClient.Network
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 35201);
             m_oSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            //SocketAsyncEventArgs args = new SocketAsyncEventArgs();
             Packet args = new Packet();
             args.Completed += ConnectComplete;
             args.RemoteEndPoint = endPoint;
@@ -56,7 +48,7 @@ namespace BotClient.Network
 
                 //데이터 수신 객체
                 Packet recvArgs = new Packet();
-                recvArgs.SetBuffer(new byte[MAX_PACKET_DATA_SIZE], 0, MAX_PACKET_DATA_SIZE);
+                recvArgs.SetBuffer(new byte[NetworkGlobalConst.MAX_PACKET_DATA_SIZE], 0, NetworkGlobalConst.MAX_PACKET_DATA_SIZE);
                 recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvComplete);
 
                 bool isPending = m_oSocket.ReceiveAsync(recvArgs);
@@ -86,9 +78,26 @@ namespace BotClient.Network
 
                 byte[] packetSize = buff.ToArray(0, 4);
                 byte[] msgID = buff.ToArray(4, 4);
+                byte[] msgBody = buff.ToArray(8, buff.Length - NetworkGlobalConst.PACKET_HEADER_SIZE);
+                int packetLen = 0;
 
                 bool isCompress = BitConverter.ToBoolean(packetSize, 0);
+                if (isCompress)
+                {
+                    byte[] uncompressPacketData = new byte[LZ4Codec.MaximumOutputSize(msgBody.Length)];
+                    LZ4Codec.Decode(msgBody, 0, msgBody.Length, uncompressPacketData, 0, uncompressPacketData.Length);
+                    msgBody = uncompressPacketData;
+                    packetSize = BitConverter.GetBytes((NetworkGlobalConst.PACKET_HEADER_SIZE) & ~NetworkGlobalConst.PACKET_COMPRESS_MASK);
+                }
+                else
+                {
+                    packetSize = BitConverter.GetBytes((NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
+                }
 
+                packetLen = BitConverter.ToInt32(packetSize, 3);
+                var test = SCAuthRes.GetRootAsSCAuthRes(new ByteBuffer(msgBody));
+
+                
                 // 새로운 데이터 수신을 준비합니다.
                 bool pending = m_oSocket.ReceiveAsync(_args);
                 if (pending == false)

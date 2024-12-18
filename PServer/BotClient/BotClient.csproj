@@ -60,6 +60,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Network\Const\NetworkGlobalConst.cs" />
     <Compile Include="Network\NetworkManager.cs" />
     <Compile Include="Network\Packet\Packet.cs" />
     <Compile Include="Network\Packet\PacketDataBuilder.cs" />
