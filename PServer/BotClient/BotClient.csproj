@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Log\LogManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +75,7 @@
     <Compile Include="Protocol\HostConnectFailed.cs" />
     <Compile Include="Protocol\HostHello.cs" />
     <Compile Include="Protocol\SCAuthRes.cs" />
+    <Compile Include="Util\Singleton.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

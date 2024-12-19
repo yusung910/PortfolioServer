@@ -15,6 +15,7 @@ using System.Collections;
 
 using BotClient.Network.Const;
 using BotClient.Network.Util;
+using System.Threading;
 //using BotClient.Network.Util;
 
 namespace BotClient.Network
@@ -87,7 +88,12 @@ namespace BotClient.Network
                 bool isCompress = packetHeaderBit.Get(31);
 
                 //패킷 메세지 id
-                byte[] msgID = buff.ToArray(4, 4);
+                byte[] msgIDByte = buff.ToArray(4, 4);
+
+                // If the system architecture is little-endian (that is, little end first),
+                // reverse the byte array.
+                Array.Reverse(msgIDByte);
+                EPacketProtocol msgID = (EPacketProtocol)BitConverter.ToInt32(msgIDByte, 0);
 
                 //패킷 body 길이
                 int msgBodyLen = 0;
@@ -107,7 +113,8 @@ namespace BotClient.Network
                     Array.Clear(msgBody, 0, msgBody.Length);
                     msgBody = uncompressPacketData;
                 }
-                
+
+                mPacket.GetPacketData(msgID, msgBody);
                 // 새로운 데이터 수신을 준비합니다.
                 bool pending = m_oSocket.ReceiveAsync(_args);
                 if (pending == false)

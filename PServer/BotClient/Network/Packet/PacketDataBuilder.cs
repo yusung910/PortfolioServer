@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using BotClient.Util;
 using FlatBuffers;
 
 namespace BotClient.Network
 {
-    public class PacketDataBuilder
+    public class PacketDataBuilder : Singleton<PacketDataBuilder>
     {
         public PacketDataBuilder() { }
-
 
         public FlatBufferBuilder SetPacketBuildData(EPacketProtocol _msgID, string[] _args)
         {
@@ -35,6 +36,22 @@ namespace BotClient.Network
             }
 
             return retBuilder;
+        }
+
+        public string[] GetPacketBuildData(EPacketProtocol _msgID, byte[] _msg)
+        {
+            ByteBuffer bb = new ByteBuffer(_msg);
+            string[] ret = new string[0];
+            switch (_msgID)
+            {
+                case EPacketProtocol.SC_AuthRes:
+                    SCAuthRes res = SCAuthRes.GetRootAsSCAuthRes(bb);
+                    res.ToString();
+                    break;
+            }
+
+
+            return ret;
         }
 
     }

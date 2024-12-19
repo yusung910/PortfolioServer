@@ -14,6 +14,7 @@ namespace BotClient.Network.Util
         {
             byte[] ret = new byte[(bits.Length - 1) / 8 + 1];
             bits.CopyTo(ret, 0);
+            Array.Reverse(ret, 0, ret.Length);
             return ret;
         }
 
@@ -27,7 +28,7 @@ namespace BotClient.Network.Util
             return array[0];
         }
 
-        public static byte[] IntToBitArray(int value)
+        public static byte[] IntToBoolByteArray(int value)
         {
             BitArray b = new BitArray(new int[] { value });
             bool[] bits = new bool[b.Count];

@@ -17,14 +17,14 @@ namespace BotClient.Network
     {
         private bool m_bIsCompress = false;
 
-        PacketDataBuilder m_PacketBuilder = new PacketDataBuilder();
+        PacketDataBuilder m_packetBuilder = PacketDataBuilder.Instance;
 
         public Packet() { }
 
         public void SetPacketData(EPacketProtocol _msgID, string[] _args)
         {
             //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
-            FlatBufferBuilder builder = m_PacketBuilder.SetPacketBuildData(_msgID, _args);
+            FlatBufferBuilder builder = m_packetBuilder.SetPacketBuildData(_msgID, _args);
 
             //body 패킷
             var lBodyPacket = builder.SizedByteArray();
@@ -33,7 +33,7 @@ namespace BotClient.Network
             m_bIsCompress = (lBodyPacket.Length > NetworkGlobalConst.DEFAULT_PACKET_COMPRESS_START_SIZE);
 
             //byte[] msgIDBytes = new byte[4];
-            byte[] msgIDBytes = BitArrayConverter.IntToBitArray((int)_msgID);
+            byte[] msgIDBytes = BitArrayConverter.BitArrayToByteArray(new BitArray(new int[] { (int)_msgID }));
 
             //패킷 크기를 저장하는 byte
             byte[] lPayloadSizeByte = new byte[4];
@@ -68,6 +68,11 @@ namespace BotClient.Network
             Array.Copy(lBodyPacket, 0, buf, NetworkGlobalConst.PACKET_HEADER_SIZE, PacketbodyLen);
 
             SetBuffer(buf, 0, buf.Length);
+        }
+
+        public string[] GetPacketData(EPacketProtocol _msgID, byte[] _args)
+        {
+            return m_packetBuilder.GetPacketBuildData(_msgID, _args);
         }
     }
     
