@@ -16,13 +16,16 @@ using System.Collections;
 using BotClient.Network.Const;
 using BotClient.Network.Util;
 using System.Threading;
+using Newtonsoft.Json;
+using System.IO;
+using Newtonsoft.Json.Linq;
 //using BotClient.Network.Util;
 
 namespace BotClient.Network
 {
     public class NetworkManager
     {
-        bool m_IsConnected = false;
+        JsonParsing m_jsonParse = new JsonParsing();
 
         Socket m_oSocket;
         Packet mPacket;
@@ -38,8 +41,6 @@ namespace BotClient.Network
             args.RemoteEndPoint = endPoint;
 
             m_oSocket.ConnectAsync(args);
-
-            m_IsConnected = true;
         }
 
         public void ConnectComplete(object _obj, SocketAsyncEventArgs _args)
@@ -79,7 +80,7 @@ namespace BotClient.Network
                 //buff.Get(4~7)->MessageID
                 //others -> 데이터
                 ByteBuffer buff = new ByteBuffer(_args.Buffer);
-                
+
                 //패킷 헤더
                 byte[] packetHeader = buff.ToArray(0, 4);
                 BitArray packetHeaderBit = new BitArray(packetHeader);
@@ -114,7 +115,8 @@ namespace BotClient.Network
                     msgBody = uncompressPacketData;
                 }
 
-                mPacket.GetPacketData(msgID, msgBody);
+                JObject tmp = m_jsonParse.ConvertToJsonObj(msgID, msgBody);
+                
                 // 새로운 데이터 수신을 준비합니다.
                 bool pending = m_oSocket.ReceiveAsync(_args);
                 if (pending == false)

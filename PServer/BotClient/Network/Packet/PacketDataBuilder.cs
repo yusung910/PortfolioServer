@@ -37,22 +37,5 @@ namespace BotClient.Network
 
             return retBuilder;
         }
-
-        public string[] GetPacketBuildData(EPacketProtocol _msgID, byte[] _msg)
-        {
-            ByteBuffer bb = new ByteBuffer(_msg);
-            string[] ret = new string[0];
-            switch (_msgID)
-            {
-                case EPacketProtocol.SC_AuthRes:
-                    SCAuthRes res = SCAuthRes.GetRootAsSCAuthRes(bb);
-                    res.ToString();
-                    break;
-            }
-
-
-            return ret;
-        }
-
     }
 }

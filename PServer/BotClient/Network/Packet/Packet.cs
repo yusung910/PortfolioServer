@@ -69,11 +69,5 @@ namespace BotClient.Network
 
             SetBuffer(buf, 0, buf.Length);
         }
-
-        public string[] GetPacketData(EPacketProtocol _msgID, byte[] _args)
-        {
-            return m_packetBuilder.GetPacketBuildData(_msgID, _args);
-        }
     }
-    
 }
