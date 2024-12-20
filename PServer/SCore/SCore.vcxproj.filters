@@ -79,6 +79,12 @@
     <Filter Include="Database\Pacade">
       <UniqueIdentifier>{4473cb19-cd7c-44a8-bc5f-6d3006edc9e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{ce7eeace-1a74-4096-a349-933c5a5fd63a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Geometry">
+      <UniqueIdentifier>{242f0b2e-c85f-4280-96c1-3aef7e92d009}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -225,6 +231,15 @@
     <ClInclude Include="DBServiceLoadBalancer.h">
       <Filter>Dispatcher\Database</Filter>
     </ClInclude>
+    <ClInclude Include="CmnMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Position2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -334,6 +349,12 @@
     </ClCompile>
     <ClCompile Include="DBServiceLoadBalancer.cpp">
       <Filter>Dispatcher\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Position2D.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

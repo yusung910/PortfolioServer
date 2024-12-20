@@ -31,6 +31,7 @@
     <ClInclude Include="BlockingQueue.h" />
     <ClInclude Include="BuildConfig.hxx" />
     <ClInclude Include="Clock.h" />
+    <ClInclude Include="CmnMath.h" />
     <ClInclude Include="ConvertUTF.hxx" />
     <ClInclude Include="DBService.h" />
     <ClInclude Include="DBServiceLoadBalancer.h" />
@@ -62,6 +63,8 @@
     <ClInclude Include="NetworkWorkerPO.hxx" />
     <ClInclude Include="ObjectQueue.h" />
     <ClInclude Include="PacketCompressor.hxx" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="Position2D.h" />
     <ClInclude Include="SConnectorTargetInfo.h" />
     <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="ServerApp.h" />
@@ -103,6 +106,8 @@
     <ClCompile Include="NetworkSupporterPO.cpp" />
     <ClCompile Include="NetworkWorkerPO.cpp" />
     <ClCompile Include="PacketCompressor.cpp" />
+    <ClCompile Include="Position.cpp" />
+    <ClCompile Include="Position2D.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />
     <ClCompile Include="ServerApp.cpp" />
     <ClCompile Include="ServerAppPO.cpp" />

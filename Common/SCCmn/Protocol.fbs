@@ -103,6 +103,7 @@ table CSAuthReq
 {
 	accountid: string;
 	accountpw: string;
+    hostid: int;
 	messageid:EPacketProtocol = CS_AuthReq;
 }
 

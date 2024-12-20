@@ -19,6 +19,7 @@ using System.Threading;
 using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using BotClient.Log;
 //using BotClient.Network.Util;
 
 namespace BotClient.Network
@@ -26,7 +27,7 @@ namespace BotClient.Network
     public class NetworkManager
     {
         JsonParsing m_jsonParse = new JsonParsing();
-
+        LogManager logging = new LogManager();
         Socket m_oSocket;
         Packet mPacket;
 
@@ -115,8 +116,7 @@ namespace BotClient.Network
                     msgBody = uncompressPacketData;
                 }
 
-                JObject tmp = m_jsonParse.ConvertToJsonObj(msgID, msgBody);
-                
+                logging.Log(m_jsonParse.ConvertToJsonObj(msgID, msgBody));
                 // 새로운 데이터 수신을 준비합니다.
                 bool pending = m_oSocket.ReceiveAsync(_args);
                 if (pending == false)

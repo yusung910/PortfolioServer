@@ -1,5 +1,6 @@
 ﻿using BotClient.Network;
 using BotClient.Util;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,20 @@ namespace BotClient.Log
         public LogManager() { }
 
 
-        public void Log()    
+        public void Log(JObject _data)
         {
+            if (_data != null)
+            {
+                IEnumerator<KeyValuePair<string, JToken>> _ienum = _data.GetEnumerator();
+                while (true == _ienum.MoveNext())
+                {
+                    if (_ienum.Current.Key != "ByteBuffer")
+                    { 
+                        Console.WriteLine(_ienum.Current.ToString());  
+                    }
+                }
+            }
+            
         }
     }
 }
