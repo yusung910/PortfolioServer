@@ -30,6 +30,7 @@ public:
     //Set
     void Reset();
     void Set(const float& _x = 0.0f, const float& _y = 0.0f, const float& _z = 0.0f);
+    void Set(Position& _pos);
 
     //정규화:
     //Vector의 크기가 1이고 방향 값만 있는 vector로 만든다

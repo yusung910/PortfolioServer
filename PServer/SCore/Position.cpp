@@ -101,6 +101,13 @@ void Position::Set(const float& _x, const float& _y, const float& _z)
     z = _z;
 }
 
+void Position::Set(Position& _pos)
+{
+    x = _pos.x;
+    y = _pos.y;
+    z = _pos.z;
+}
+
 bool Position::Normalize()
 {
     float lLength = GetLength();
@@ -150,4 +157,12 @@ float Position::GetDirectionDegree2D() const
 
 void Position::SetDirectionDegree2D(const float& _deg)
 {
+    if (true == IsValidValue(_deg))
+        return;
+    float lDegree = DegreeToRadian(_deg);
+
+    x = cos(lDegree);
+    y = sin(lDegree);
+    z = 0.0f;
+
 }

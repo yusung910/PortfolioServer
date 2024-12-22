@@ -85,6 +85,15 @@
     <Filter Include="Math\Geometry">
       <UniqueIdentifier>{242f0b2e-c85f-4280-96c1-3aef7e92d009}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math\Random">
+      <UniqueIdentifier>{35bfc5e7-a6fd-4422-812f-8ae25cc76f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Random\Pacade">
+      <UniqueIdentifier>{1b7359f8-8dc6-469a-a7d5-4da3c4cb8eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Random\Pacade\MersenneTwister">
+      <UniqueIdentifier>{25c4405b-409c-4ef0-9746-db9e9305a841}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.hxx">
@@ -240,6 +249,18 @@
     <ClInclude Include="Position2D.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="IShape.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomPO.hxx">
+      <Filter>Math\Random\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="mt19937.hxx">
+      <Filter>Math\Random\Pacade\MersenneTwister</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -355,6 +376,15 @@
     </ClCompile>
     <ClCompile Include="Position2D.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomPO.cpp">
+      <Filter>Math\Random\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="mt19937.c">
+      <Filter>Math\Random\Pacade\MersenneTwister</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
