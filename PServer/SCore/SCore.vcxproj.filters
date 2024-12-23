@@ -261,6 +261,18 @@
     <ClInclude Include="mt19937.hxx">
       <Filter>Math\Random\Pacade\MersenneTwister</Filter>
     </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Math\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Fan.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -385,6 +397,18 @@
     </ClCompile>
     <ClCompile Include="mt19937.c">
       <Filter>Math\Random\Pacade\MersenneTwister</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Math\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Fan.cpp">
+      <Filter>Math\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

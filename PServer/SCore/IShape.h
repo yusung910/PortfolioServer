@@ -19,6 +19,10 @@ enum class EShape
 	Donut
 };
 
+/*!
+ *  게임에서 사용하게 될 도형의 parent 클래스
+ *  각각의 도형을 회전시키거나 이동시킬 때는 DirectX 함수를 이용한다
+ */
 class IShape
 {
 protected:
@@ -70,7 +74,7 @@ protected:
 	bool IsCrossOver(const Vec2& _beginPt1
 				   , const Vec2& _endPt1
 				   , const Vec2& _beginPt2
-		           , const Vec2& _endPt2 )
+		           , const Vec2& _endPt2 ) const
 	{
 		float t, s;
 

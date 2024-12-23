@@ -31,6 +31,7 @@
     <ClInclude Include="BlockingQueue.h" />
     <ClInclude Include="Box.h" />
     <ClInclude Include="BuildConfig.hxx" />
+    <ClInclude Include="Circle.h" />
     <ClInclude Include="Clock.h" />
     <ClInclude Include="CmnMath.h" />
     <ClInclude Include="ConvertUTF.hxx" />
@@ -66,11 +67,14 @@
     <ClInclude Include="NetworkWorkerPO.hxx" />
     <ClInclude Include="ObjectQueue.h" />
     <ClInclude Include="PacketCompressor.hxx" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Position2D.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="RandomPO.hxx" />
     <ClInclude Include="SConnectorTargetInfo.h" />
     <ClInclude Include="SCoreAPI.h" />
+    <ClInclude Include="Fan.h" />
     <ClInclude Include="ServerApp.h" />
     <ClInclude Include="ServerAppPO.hxx" />
     <ClInclude Include="ServerConfigInfo.h" />
@@ -86,6 +90,7 @@
   <ItemGroup>
     <ClCompile Include="Base64Util.cpp" />
     <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Clock.cpp" />
     <ClCompile Include="ConvertUTF.cpp" />
     <ClCompile Include="DBService.cpp" />
@@ -112,10 +117,13 @@
     <ClCompile Include="NetworkSupporterPO.cpp" />
     <ClCompile Include="NetworkWorkerPO.cpp" />
     <ClCompile Include="PacketCompressor.cpp" />
+    <ClCompile Include="Point.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="Position2D.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="RandomPO.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />
+    <ClCompile Include="Fan.cpp" />
     <ClCompile Include="ServerApp.cpp" />
     <ClCompile Include="ServerAppPO.cpp" />
     <ClCompile Include="Service.cpp" />

@@ -6,6 +6,8 @@ constexpr float MATH_PI = 3.14159265f;
 constexpr float DEGREE_180 = 180.0f;
 constexpr float DEGREE_360 = 360.0f;
 constexpr float RADIAN_180 = MATH_PI;
+
+//호도법 -> 원에서 반지름 길이 만큼의 각
 constexpr float RADIAN_360 = 2.0f * MATH_PI;
 
 constexpr float DEGREE_TO_RADIAN = MATH_PI / 180.0f;
@@ -58,4 +60,9 @@ inline float DegreeToRadian(const float& _deg)
 inline float RadianToDegree(const float& _deg)
 {
     return RadianNormalize(_deg) * RADIAN_TO_DEGREE;
+}
+
+inline bool IsIn360Degree(const float& _deg)
+{
+    return (_deg >= 0.0f && _deg < DEGREE_360);
 }
