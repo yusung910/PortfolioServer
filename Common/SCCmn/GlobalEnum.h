@@ -36,3 +36,32 @@ namespace EServer
         return true;
     }
 }
+
+namespace EServerStatus
+{
+    enum Type :int
+    {
+        None = 0,
+
+        Maintain,   //점검 중
+        Normal,     //정상 -> 적은 부하 
+        Confusion,  //혼잡 => 중간 부하 
+        Overflow,   //포화 -> 높은 부하 
+        Max,
+    };
+
+    inline bool IsServerOn(const Type& _t)
+    {
+        switch (_t)
+        {
+        case Normal:
+        case Confusion:
+        case Overflow:
+            return true;
+        default:
+            break;
+        }
+
+        return false;
+    }
+}

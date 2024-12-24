@@ -2,12 +2,14 @@
 #include "SCoreAPI.h"
 #include "IShape.h"
 
+constexpr float ARC_ROUGH_DIVIDE_DEGREE = 30.0f;
+
 class Fan : public IShape
 {
 private:
     float m_fRadius = 0.0f;
     Vec2 m_vDirection = {};
-    float m_nAngleDegree = 0.0f;
+    float m_fAngleDegree = 0.0f;
 
     //
     float m_fDirAngleDegree = 0.0f;

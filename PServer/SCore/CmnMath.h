@@ -61,8 +61,3 @@ inline float RadianToDegree(const float& _deg)
 {
     return RadianNormalize(_deg) * RADIAN_TO_DEGREE;
 }
-
-inline bool IsIn360Degree(const float& _deg)
-{
-    return (_deg >= 0.0f && _deg < DEGREE_360);
-}
