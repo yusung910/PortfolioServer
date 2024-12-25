@@ -27,5 +27,12 @@ protected:
     bool OnHostClose(int _hostID, const HostConnect& _msg);
 
 
+private:
+    void _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick);
+    void _KickProcess();
+
+    void _Statistics();
+    void _UpdateTitle();
+
 };
 

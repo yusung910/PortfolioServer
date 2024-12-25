@@ -1,17 +1,23 @@
 #include "pch.h"
 #include "LoginService.h"
 #include "StringUtil.h"
+#include "Clock.h"
 
 #include <NetworkManager.h>
 
 LoginService::LoginService()
 {
-    RegisterHandler(&LoginService::OnHostClose);
+    RegisterHandler(&LoginService::OnHostConnect);
     RegisterHandler(&LoginService::OnHostClose);
 }
 
 LoginService::~LoginService()
 {
+}
+
+bool LoginService::Start()
+{
+    return false;
 }
 
 bool LoginService::OnHostConnect(int _hostID, const HostConnect& _msg)
@@ -37,5 +43,36 @@ bool LoginService::OnHostClose(int _hostID, const HostConnect& _msg)
     //LoginUserManager::GetInstance().Remove(hostid);
     VIEW_DEBUG(L"Host(%d) Disconnected.", _hostID);
     NetworkManager::GetInst().OnDisconnect(_hostID);
-    return false;
+    return true;
+}
+
+void LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick)
+{
+    flatbuffers::FlatBufferBuilder lFbb;
+    auto lPacket = CreateSCIntegrationErrorNotification(lFbb, _msgID, (int)_errorMsg);
+
+    if (true == _kick)
+    {
+        //AddKickReserve(hostid);
+    }
+}
+
+void LoginService::_KickProcess()
+{
+    int64_t lNow = Clock::GetTick64();
+
+    AutoLock(m_xKickList);
+
+    for (auto it = m_umKickList.begin(); it != m_umKickList.end(); ++it)
+    {
+        if (lNow > it->second)
+        {
+            NetworkManager::GetInst().CloseHost(it->first, "");
+
+            it = m_umKickList.erase(it);
+            continue;
+        }
+        
+    }
+
 }
