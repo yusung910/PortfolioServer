@@ -2,7 +2,7 @@
 #include "LoginService.h"
 #include "StringUtil.h"
 #include "Clock.h"
-
+#include "ServerConfig.h"
 #include <NetworkManager.h>
 
 LoginService::LoginService()
@@ -18,6 +18,11 @@ LoginService::~LoginService()
 bool LoginService::Start()
 {
     return false;
+}
+
+void LoginService::AddKickReserve(const int& _hostID)
+{
+    AutoLock(m_xKickLock);
 }
 
 bool LoginService::OnHostConnect(int _hostID, const HostConnect& _msg)
@@ -53,7 +58,7 @@ void LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _error
 
     if (true == _kick)
     {
-        //AddKickReserve(hostid);
+        AddKickReserve(_hostID);
     }
 }
 
@@ -61,7 +66,7 @@ void LoginService::_KickProcess()
 {
     int64_t lNow = Clock::GetTick64();
 
-    AutoLock(m_xKickList);
+    AutoLock(m_xKickLock);
 
     for (auto it = m_umKickList.begin(); it != m_umKickList.end(); ++it)
     {
@@ -75,4 +80,12 @@ void LoginService::_KickProcess()
         
     }
 
+}
+
+void LoginService::_UpdateTitle()
+{
+    char lTmp[MAX_PATH] = { 0, };
+    int lServerID = ServerConfig::GetInst().GetConfig().GetServerID();
+
+    int lVer = GetServerVersion();
 }

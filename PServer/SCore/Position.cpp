@@ -129,7 +129,10 @@ float Position::GetDistance3D(const Position& _other) const
 
 float Position::GetXYDistanceNotSqrt(const Position& _other) const
 {
-    return 0.0f;
+    float lDx = abs(_other.x - this->x);
+    float lDy = abs(_other.y - this->y);
+
+    return (lDx > lDy) ? lDx : lDy;
 }
 
 float Position::GetLength() const
@@ -140,7 +143,7 @@ float Position::GetLength() const
 
 float Position::GetLengthPow() const
 {
-    return (x * x) + (y * y) + (z * z);
+    return x * x + y * y + z * z;
 }
 
 float Position::GetDirectionDegree2D() const

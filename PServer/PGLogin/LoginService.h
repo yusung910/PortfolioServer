@@ -13,7 +13,7 @@ class LoginService : public Service, public RefSingleton<LoginService>
 private:
 
     std::unordered_map<int, int64_t> m_umKickList;
-    std::mutex m_xKickList;
+    std::mutex m_xKickLock;
 
 public:
     LoginService();
@@ -21,7 +21,7 @@ public:
 
     bool Start();
         
-
+    void AddKickReserve(const int& _hostID);
 protected:
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
     bool OnHostClose(int _hostID, const HostConnect& _msg);
