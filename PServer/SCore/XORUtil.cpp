@@ -41,7 +41,7 @@ bool XORUtil::Encrypt(const char* _srcBuffer, const size_t& _srcSize, char* _des
         || 0 == _srcSize
         || nullptr == _destBuffer
         || 0 == _destSize
-        || _srcBuffer > _destBuffer)
+        || _srcSize > _destSize)
         return false;
 
     for (size_t i = 0; i < _srcSize; i++)

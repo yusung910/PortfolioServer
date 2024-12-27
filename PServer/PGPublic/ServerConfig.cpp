@@ -527,18 +527,21 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
                 continue;
 
             DBInfo lInertInfo;
-            lInertInfo.m_sDBHost = lDBInfo.get("Host", "127.0.0.1").asString();
-            lInertInfo.m_nDBPort = lDBInfo.get("Port", 1433).asInt();
+            lInertInfo.m_sDBHost = lDBInfo.get("HOST", "127.0.0.1").asString();
+            lInertInfo.m_nDBPort = lDBInfo.get("PORT", 1433).asInt();
             lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
             lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
             lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
 
-            std::string lTmpPwd = lDBInfo.get("Password", "").asString();
+            std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 
+            //DB 패스워드의 암호화 순서는 복호화 역순
+            //암호화 : XORUtil -> Base64
+            //복호화 : Base64 -> XORUtil
             char lTmp[1024] = { 0, };
             char lTmpForXOR[1024] = { 0, };
-
+            
             size_t lDecodeSize = lBase64.Decode(lTmpPwd, lTmp, 1024);
 
             if (true == lXORUtil.Encrypt(lTmp, lDecodeSize, lTmpForXOR, 1024))
@@ -561,14 +564,14 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             if (true == lDBInfo.isNull())
                 continue;
             DBInfo lInertInfo;
-            lInertInfo.m_sDBHost = lDBInfo.get("Host", "127.0.0.1").asString();
-            lInertInfo.m_nDBPort = lDBInfo.get("Port", 1433).asInt();
+            lInertInfo.m_sDBHost = lDBInfo.get("HOST", "127.0.0.1").asString();
+            lInertInfo.m_nDBPort = lDBInfo.get("PORT", 1433).asInt();
             lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
             lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
             lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
 
-            std::string lTmpPwd = lDBInfo.get("Password", "").asString();
+            std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 
             char lTmp[1024] = { 0, };
             char lTmpForXOR[1024] = { 0, };
@@ -611,14 +614,14 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
                 continue;
 
             DBInfo lInertInfo;
-            lInertInfo.m_sDBHost = lDBInfo.get("Host", "127.0.0.1").asString();
-            lInertInfo.m_nDBPort = lDBInfo.get("Port", 1433).asInt();
+            lInertInfo.m_sDBHost = lDBInfo.get("HOST", "127.0.0.1").asString();
+            lInertInfo.m_nDBPort = lDBInfo.get("PORT", 1433).asInt();
             lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
             lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
             lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
 
-            std::string lTmpPwd = lDBInfo.get("Password", "").asString();
+            std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 
             char lTmp[1024] = { 0, };
             char lTmpForXOR[1024] = { 0, };

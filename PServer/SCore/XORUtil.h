@@ -15,7 +15,6 @@ public:
 
     bool Encrypt(const char* _srcBuffer, const size_t& _srcSize, char* _destBuffer, const size_t& _destSize);
 
-
 private:
     void _MakeDefault();
 };

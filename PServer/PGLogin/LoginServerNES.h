@@ -14,7 +14,7 @@ public:
      *      @param [in] _port
      *      @param [in] _serverType
      */
-    virtual void OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType = 0) = 0;
+    virtual void OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType = 0);
 
     /*!
      *
@@ -22,12 +22,12 @@ public:
      *
      *      @param [in] _hostID
      */
-    virtual void OnClose(const int& _hostID) = 0;
+    virtual void OnClose(const int& _hostID);
 
 
     /*!
      *  서버에서 NetworkManager에서 Receive 함수 실행 될 때 실행될 이벤트 함수
      */
-    virtual void OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize) = 0;
+    virtual void OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize);
 };
 

@@ -36,28 +36,28 @@
   },
 
   "DB": {
-    "UDB": {
-      "UID": "server",
-      "PWD": "",
-      "DATABASE": "User",
-      "HOST": "",
-      "PORT": 14335,
+    "ADB": {
+      "UID": "pgdba",
+      "PWD": "KjZjZXJrZ219Zmly",
+      "DATABASE": "Account",
+      "HOST": "192.168.45.212",
+      "PORT": 14350,
       "THREADS": 1
     },
     "GDB": {
-      "UID": "server",
-      "PWD": "",
+      "UID": "pgdba",
+      "PWD": "KjZjZXJrZ219Zmly",
       "DATABASE": "Game",
-      "HOST": "",
-      "PORT": 14335,
+      "HOST": "192.168.45.212",
+      "PORT": 14350,
       "THREADS": 4
     },
     "MDB": {
       "UID": "server",
-      "PWD": "",
+      "PWD": "KjZjZXJrZ219Zmly",
       "DATABASE": "MDB",
-      "HOST": "",
-      "PORT": 14335,
+      "HOST": "192.168.45.212",
+      "PORT": 14350,
       "THREADS": 4
     },
     "LDB": {

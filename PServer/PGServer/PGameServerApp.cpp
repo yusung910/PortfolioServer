@@ -31,7 +31,7 @@ bool PGameServerApp::Initialize()
     _InitLog();
 
     //GameDB 세팅
-    //_InitGameDB();
+    _InitGameDB();
     //SendServerLog(L"SendServerLog Initialize...");
 
 

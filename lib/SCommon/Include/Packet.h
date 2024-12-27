@@ -11,37 +11,37 @@
 
 #include "Object.h"
 
-constexpr size_t MAX_PACKET_BINARY_SIZE = 8192 * 2;			// ÆĞÅ¶ ¹ÙÀÌ³Ê¸® ÃÖ´ë Å©±â (Payload)
+constexpr size_t MAX_PACKET_BINARY_SIZE = 8192 * 2;			// íŒ¨í‚· ë°”ì´ë„ˆë¦¬ ìµœëŒ€ í¬ê¸° (Payload)
 constexpr size_t PACKET_HEADER_SIZE = 8;					// size 4 + protocol 4
-constexpr size_t MAX_PACKET_DATA_SIZE = MAX_PACKET_BINARY_SIZE - PACKET_HEADER_SIZE;	// ÆĞÅ¶¿¡ µé¾î°¥¼ö ÀÖ´Â ÃÖ´ë µ¥ÀÌÅÍ Å©±â
-constexpr unsigned int PACKET_COMPRESS_MASK = 0x80000000;	// ÃÖ»óÀ§ 1ºñÆ®, ¾ĞÃà¿©ºÎ
-constexpr int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;		// 60 byte ÀÌ»ó º¸³»¾ß ÇÒ ¶§ ¾ĞÃà.
+constexpr size_t MAX_PACKET_DATA_SIZE = MAX_PACKET_BINARY_SIZE - PACKET_HEADER_SIZE;	// íŒ¨í‚·ì— ë“¤ì–´ê°ˆìˆ˜ ìˆëŠ” ìµœëŒ€ ë°ì´í„° í¬ê¸°
+constexpr unsigned int PACKET_COMPRESS_MASK = 0x80000000;	// ìµœìƒìœ„ 1ë¹„íŠ¸, ì••ì¶•ì—¬ë¶€
+constexpr int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;		// 60 byte ì´ìƒ ë³´ë‚´ì•¼ í•  ë•Œ ì••ì¶•.
 
-// ÆĞÅ¶ ¾ĞÃà »ç¿ë¿©ºÎ
-#define USE_PACKET_COMPRESS true	// ÆĞÅ¶ ¾ĞÃà »ç¿ë ¿©ºÎ
+// íŒ¨í‚· ì••ì¶• ì‚¬ìš©ì—¬ë¶€
+#define USE_PACKET_COMPRESS true	// íŒ¨í‚· ì••ì¶• ì‚¬ìš© ì—¬ë¶€
 
 
 /* *********************************************************************************
 * [ 4 byte ]     [ 4 byte ] [ n bytes (max MAX_PACKET_DATA_SIZE) ]
-*    size         messageid    binaryData (¾øÀ» ¼ö ÀÖÀ½)
+*    size         messageid    binaryData (ì—†ì„ ìˆ˜ ìˆìŒ)
 * (payload size)
 *
 *  ** Optional **
-*  size ÃÖ»óÀ§ ºñÆ® = compress mask [1000 0000 0000 0000 0000 0000 0000 0000]
+*  size ìµœìƒìœ„ ë¹„íŠ¸ = compress mask [1000 0000 0000 0000 0000 0000 0000 0000]
 ********************************************************************************* */
 
 class Packet : public Object<Packet>
 {
 public:
 	int HostID = 0;
-	char BinaryData[MAX_PACKET_BINARY_SIZE] = { 0, };	// ÆĞÅ¶ ¹ÙÀÌ³Ê¸®. Message Payload
+	char BinaryData[MAX_PACKET_BINARY_SIZE] = { 0, };	// íŒ¨í‚· ë°”ì´ë„ˆë¦¬. Message Payload
 
 public:
 	Packet() : Packet(ObjectTag()) {};
 	Packet(ObjectTag) {};
 
 	/// <summary>
-	/// Å¬·¡½º °ª ÃÊ±âÈ­
+	/// í´ë˜ìŠ¤ ê°’ ì´ˆê¸°í™”
 	/// </summary>
 	virtual void Reset()
 	{
@@ -50,7 +50,7 @@ public:
 	}
 
 	/// <summary>
-	/// ¾î¶² ÆĞÅ¶ÀÎÁö Message ID¸¦ ¼³Á¤ÇÑ´Ù.
+	/// ì–´ë–¤ íŒ¨í‚·ì¸ì§€ Message IDë¥¼ ì„¤ì •í•œë‹¤.
 	/// </summary>
 	/// <param name="messageid">Message ID</param>
 	void SetMessageID(const int& messageid)
@@ -60,11 +60,11 @@ public:
 	}
 
 	/// <summary>
-	/// ÆĞÅ¶¿¡ ½Ç¾î º¸³¾ µ¥ÀÌÅÍ¸¦ ¼³Á¤ÇÑ´Ù.
+	/// íŒ¨í‚·ì— ì‹¤ì–´ ë³´ë‚¼ ë°ì´í„°ë¥¼ ì„¤ì •í•œë‹¤.
 	/// </summary>
-	/// <param name="pData">º¸³¾ µ¥ÀÌÅÍ</param>
-	/// <param name="dataSize">º¸³¾ µ¥ÀÌÅÍÀÇ Å©±â</param>
-	/// <returns>µ¥ÀÌÅÍ ¼³Á¤ ¼º°ø ¿©ºÎ</returns>
+	/// <param name="pData">ë³´ë‚¼ ë°ì´í„°</param>
+	/// <param name="dataSize">ë³´ë‚¼ ë°ì´í„°ì˜ í¬ê¸°</param>
+	/// <returns>ë°ì´í„° ì„¤ì • ì„±ê³µ ì—¬ë¶€</returns>
 	bool SetData(const void* pData, const size_t& dataSize)
 	{
 		if (nullptr == pData)
@@ -85,13 +85,13 @@ public:
 	}
 
 	/// <summary>
-	/// ÇÑ¹æ¿¡ ÆĞÅ¶ µ¥ÀÌÅÍ¸¦ ¼³Á¤ÇÑ´Ù.
-	/// pData°¡ nullptrÀÏ °æ¿ì, Header-only ÆĞÅ¶ÀÌ ¸¸µé¾îÁø´Ù.
+	/// í•œë°©ì— íŒ¨í‚· ë°ì´í„°ë¥¼ ì„¤ì •í•œë‹¤.
+	/// pDataê°€ nullptrì¼ ê²½ìš°, Header-only íŒ¨í‚·ì´ ë§Œë“¤ì–´ì§„ë‹¤.
 	/// </summary>
 	/// <param name="messageid">Message ID</param>
-	/// <param name="pData">º¸³¾ µ¥ÀÌÅÍ</param>
-	/// <param name="dataSize">º¸³¾ µ¥ÀÌÅÍ Å©±â</param>
-	/// <returns>ÆĞÅ¶ µ¥ÀÌÅÍ ¼³Á¤ ¼º°ø ¿©ºÎ</returns>
+	/// <param name="pData">ë³´ë‚¼ ë°ì´í„°</param>
+	/// <param name="dataSize">ë³´ë‚¼ ë°ì´í„° í¬ê¸°</param>
+	/// <returns>íŒ¨í‚· ë°ì´í„° ì„¤ì • ì„±ê³µ ì—¬ë¶€</returns>
 	bool SetPacketData(const int& messageid, const void* pData = nullptr, const size_t& dataSize = 0)
 	{
 		SetMessageID(messageid);
@@ -101,7 +101,7 @@ public:
 	}
 
 	/// <summary>
-	/// ¾î¶² ÆĞÅ¶ Á¾·ùÀÎÁö Message ID¸¦ ¾ò¾î¿Â´Ù.
+	/// ì–´ë–¤ íŒ¨í‚· ì¢…ë¥˜ì¸ì§€ Message IDë¥¼ ì–»ì–´ì˜¨ë‹¤.
 	/// </summary>
 	/// <returns>Message ID</returns>
 	int GetMessageID() const
@@ -110,46 +110,46 @@ public:
 	}
 
 	/// <summary>
-	/// ÆĞÅ¶¿¡ ´ã°Ü¿Â, Çì´õ¸¦ Á¦¿ÜÇÑ ½ÇÁ¦ µ¥ÀÌÅÍ ¹ÙÀÌ³Ê¸®ÀÇ Å©±â.
+	/// íŒ¨í‚·ì— ë‹´ê²¨ì˜¨, í—¤ë”ë¥¼ ì œì™¸í•œ ì‹¤ì œ ë°ì´í„° ë°”ì´ë„ˆë¦¬ì˜ í¬ê¸°.
 	/// </summary>
-	/// <returns>µ¥ÀÌÅÍ ¹ÙÀÌ³Ê¸® Å©±â</returns>
+	/// <returns>ë°ì´í„° ë°”ì´ë„ˆë¦¬ í¬ê¸°</returns>
 	int GetMessageSize() const
 	{
 		return GetPacketSize() - PACKET_HEADER_SIZE;
 	}
 
 	/// <summary>
-	/// Çì´õ¸¦ Æ÷ÇÔÇÑ, ÀüÃ¼ Àü¼ÛÇÒ ÆĞÅ¶ÀÇ Å©±â. 
+	/// í—¤ë”ë¥¼ í¬í•¨í•œ, ì „ì²´ ì „ì†¡í•  íŒ¨í‚·ì˜ í¬ê¸°. 
 	/// ( Payload Length )
 	/// </summary>
-	/// <returns>ÆĞÅ¶ ÀüÃ¼ Å©±â</returns>
+	/// <returns>íŒ¨í‚· ì „ì²´ í¬ê¸°</returns>
 	int GetPacketSize() const
 	{
 		return (int)(*((unsigned int*)(BinaryData)) & ~PACKET_COMPRESS_MASK);
 	}
 
 	/// <summary>
-	/// Çì´õ¸¦ Á¦¿ÜÇÑ ½ÇÁ¦ µ¥ÀÌÅÍ ¹ÙÀÌ³Ê¸®ÀÇ ½ÃÀÛ Æ÷ÀÎÅÍ.
+	/// í—¤ë”ë¥¼ ì œì™¸í•œ ì‹¤ì œ ë°ì´í„° ë°”ì´ë„ˆë¦¬ì˜ ì‹œì‘ í¬ì¸í„°.
 	/// </summary>
-	/// <returns>µ¥ÀÌÅÍ ¹ÙÀÌ³Ê¸® Æ÷ÀÎÅÍ</returns>
+	/// <returns>ë°ì´í„° ë°”ì´ë„ˆë¦¬ í¬ì¸í„°</returns>
 	void* GetDataPtr() const
 	{
 		return (void*)(BinaryData + PACKET_HEADER_SIZE);
 	}
 
 	/// <summary>
-	/// ÇØ´ç ÆĞÅ¶ÀÌ ¾ĞÃàµÈ ÆĞÅ¶ÀÎÁö ¿©ºÎ
+	/// í•´ë‹¹ íŒ¨í‚·ì´ ì••ì¶•ëœ íŒ¨í‚·ì¸ì§€ ì—¬ë¶€
 	/// </summary>
-	/// <returns>ÆĞÅ¶ µ¥ÀÌÅÍÀÇ ¾ĞÃà ¿©ºÎ</returns>
+	/// <returns>íŒ¨í‚· ë°ì´í„°ì˜ ì••ì¶• ì—¬ë¶€</returns>
 	bool IsCompressed() const
 	{
 		return (*((unsigned int*)(BinaryData)) & PACKET_COMPRESS_MASK) > 0u;
 	}
 
 	/// <summary>
-	/// ÆĞÅ¶ µ¥ÀÌÅÍÀÇ ¾ĞÃà ¿©ºÎ FLAG¸¦ ¼³Á¤ÇÑ´Ù.
+	/// íŒ¨í‚· ë°ì´í„°ì˜ ì••ì¶• ì—¬ë¶€ FLAGë¥¼ ì„¤ì •í•œë‹¤.
 	/// </summary>
-	/// <param name="onoff">¼³Á¤ÇÒ ÆĞÅ¶ ¾ĞÃà ¿©ºÎ »óÅÂ</param>
+	/// <param name="onoff">ì„¤ì •í•  íŒ¨í‚· ì••ì¶• ì—¬ë¶€ ìƒíƒœ</param>
 	void SetCompressed(const bool& onoff)
 	{
 		if (true == onoff)
@@ -159,13 +159,13 @@ public:
 	}
 
 	/// <summary>
-	/// ³×Æ®¿öÅ©·Î º¸³¾ ÆĞÅ¶ÀÇ ÀüÃ¼ Å©±â¸¦ ¼³Á¤ÇÑ´Ù.
+	/// ë„¤íŠ¸ì›Œí¬ë¡œ ë³´ë‚¼ íŒ¨í‚·ì˜ ì „ì²´ í¬ê¸°ë¥¼ ì„¤ì •í•œë‹¤.
 	/// ( Payload Length )
 	/// 
-	/// °¡±ŞÀû ¿ÜºÎ¿¡¼­´Â ²À ÇÊ¿äÇÑ °æ¿ì Á¦¿ÜÇÏ°í´Â »ç¿ëÇÏÁö ¸»°Í.
-	/// (ÆĞÅ¶ ¾ĞÃà µî ³»ºÎ »çÀÌÁî°¡ Á¶ÀÛµÇ´Â °æ¿ì »ç¿ë)
+	/// ê°€ê¸‰ì  ì™¸ë¶€ì—ì„œëŠ” ê¼­ í•„ìš”í•œ ê²½ìš° ì œì™¸í•˜ê³ ëŠ” ì‚¬ìš©í•˜ì§€ ë§ê²ƒ.
+	/// (íŒ¨í‚· ì••ì¶• ë“± ë‚´ë¶€ ì‚¬ì´ì¦ˆê°€ ì¡°ì‘ë˜ëŠ” ê²½ìš° ì‚¬ìš©)
 	/// </summary>
-	/// <param name="size">Àü¼ÛÇÒ ÆĞÅ¶ÀÇ Å©±â. PACKET_HEADER_SIZE º¸´Ù ÀÛÀ¸¸é ¾ÈµÊ.</param>
+	/// <param name="size">ì „ì†¡í•  íŒ¨í‚·ì˜ í¬ê¸°. PACKET_HEADER_SIZE ë³´ë‹¤ ì‘ìœ¼ë©´ ì•ˆë¨.</param>
 	void SetPacketSize(const size_t& size)
 	{
 		if (size < PACKET_HEADER_SIZE)
@@ -180,7 +180,3 @@ public:
 
 
 };
-
-
-
-
