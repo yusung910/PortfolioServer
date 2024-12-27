@@ -2,6 +2,6 @@
 #include <cstdint>
 
 
-//Game Server¿¡¼­¸¸ »ç¿ëµÇ´Â »ó¼ö ¸ğÀ½
+//Game Serverì—ì„œë§Œ ì‚¬ìš©ë˜ëŠ” ìƒìˆ˜ ëª¨ìŒ
 
 constexpr int   TRAFFIC_CHECK_TIME_MS = 30000; //30 sec

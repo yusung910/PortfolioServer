@@ -6,27 +6,27 @@ static NetworkSupporterPO G_INST;
 NetworkSupporterPO::NetworkSupporterPO()
 {
     /*!
-     *  WSADATA ±¸Á¶Ã¼
-     *  Windows ¼ÒÄÏ ±¸Çö¿¡ ´ëÇÑ Á¤º¸°¡ Æ÷ÇÔµÇ¾î ÀÖ´Â ±¸Á¶Ã¼
+     *  WSADATA êµ¬ì¡°ì²´
+     *  Windows ì†Œì¼“ êµ¬í˜„ì— ëŒ€í•œ ì •ë³´ê°€ í¬í•¨ë˜ì–´ ìˆëŠ” êµ¬ì¡°ì²´
      *  https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/ns-winsock2-wsadata
      */
     WSADATA lWSA = {};
     /*!
-     *  Winsock¸¦ »ç¿ëÇÏ±â À§ÇÑ ½ÃÀÛ ÇÔ¼ö
+     *  Winsockë¥¼ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ì‹œì‘ í•¨ìˆ˜
      *  https://learn.microsoft.com/ko-kr/windows/win32/api/winsock/nf-winsock-wsastartup
      */
     [[maybe_unused]] int lnRet = WSAStartup(MAKEWORD(2, 2), &lWSA);
 
-    // C28193, lnRet ÀÌ º¸À¯ÇÑ °ªÀ» °Ë»çÇØ¾ß ÇÕ´Ï´Ù.
+    // C28193, lnRet ì´ ë³´ìœ í•œ ê°’ì„ ê²€ì‚¬í•´ì•¼ í•©ë‹ˆë‹¤.
     switch (lnRet)
     {
     case S_OK:
         break;
-    case WSASYSNOTREADY:		// ³×Æ®¿öÅ© Åë½ÅÀÌ ÁØºñµÇÁö ¾ÊÀº »óÅÂ.
-    case WSAVERNOTSUPPORTED:	// ÀÌ ½Ã½ºÅÛ¿¡¼­ ÇØ´ç ¹öÀü ¼ÒÄÏÀ» Áö¿øÇÏÁö ¾ÊÀ½. (2.2)
-    case WSAEINPROGRESS:		// blocking Socket 1.1 ÀÛ¾÷ÀÌ ÁøÇàÁßÀÌ¶ó°í ÇÔ...
-    case WSAEPROCLIM:			// Windows¿¡¼­ »ç¿ë °¡´ÉÇÑ ¼ÒÄÏ ÀÛ¾÷ Á¦ÇÑ¿¡ µµ´ŞÇÔ.
-    case WSAEFAULT:				// WSADATA °ªÀÌ ÀÌ»óÇÏ´Ù°í ÇÔ. 
+    case WSASYSNOTREADY:		// ë„¤íŠ¸ì›Œí¬ í†µì‹ ì´ ì¤€ë¹„ë˜ì§€ ì•Šì€ ìƒíƒœ.
+    case WSAVERNOTSUPPORTED:	// ì´ ì‹œìŠ¤í…œì—ì„œ í•´ë‹¹ ë²„ì „ ì†Œì¼“ì„ ì§€ì›í•˜ì§€ ì•ŠìŒ. (2.2)
+    case WSAEINPROGRESS:		// blocking Socket 1.1 ì‘ì—…ì´ ì§„í–‰ì¤‘ì´ë¼ê³  í•¨...
+    case WSAEPROCLIM:			// Windowsì—ì„œ ì‚¬ìš© ê°€ëŠ¥í•œ ì†Œì¼“ ì‘ì—… ì œí•œì— ë„ë‹¬í•¨.
+    case WSAEFAULT:				// WSADATA ê°’ì´ ì´ìƒí•˜ë‹¤ê³  í•¨. 
         return;
     }
     // end, C28193
@@ -35,7 +35,7 @@ NetworkSupporterPO::NetworkSupporterPO()
 NetworkSupporterPO::~NetworkSupporterPO()
 {
     /*!
-     *  Winsock »ç¿ëÀ» Á¾·áÇÏ´Â ÇÔ¼ö.
+     *  Winsock ì‚¬ìš©ì„ ì¢…ë£Œí•˜ëŠ” í•¨ìˆ˜.
      *  https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsacleanup
      */
     WSACleanup();
@@ -51,33 +51,33 @@ void NetworkSupporterPO::GetLocalIPAddress(std::vector<std::string>& _addr)
 
     char lName[256] = {};
     /*!
-     * gethostname() ·ÎÄÃ ÄÄÇ»ÅÍÀÇ Ç¥ÁØ È£½ºÆ® ÀÌ¸§À» °Ë»ö.
+     * gethostname() ë¡œì»¬ ì»´í“¨í„°ì˜ í‘œì¤€ í˜¸ìŠ¤íŠ¸ ì´ë¦„ì„ ê²€ìƒ‰.
      * https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-gethostname
      */
     if (gethostname(lName, 256) != SOCKET_ERROR)
     {
         /*!
-         *  getaddrinfo() ANSI È£½ºÆ® ÀÌ¸§¿¡¼­ ÁÖ¼Ò·Î ÇÁ·ÎÅäÄİ µ¶¸³Àû º¯È¯À» Á¦°ø
+         *  getaddrinfo() ANSI í˜¸ìŠ¤íŠ¸ ì´ë¦„ì—ì„œ ì£¼ì†Œë¡œ í”„ë¡œí† ì½œ ë…ë¦½ì  ë³€í™˜ì„ ì œê³µ
          *  https://learn.microsoft.com/ko-kr/windows/win32/api/ws2tcpip/nf-ws2tcpip-getaddrinfo
          */
         getaddrinfo(lName, nullptr, &lHints, &lpInfos);
         if (lpInfos)
         {
-            for (addrinfo* ptr = lpInfos; ptr != nullptr ; ptr = ptr->ai_next)
+            for (addrinfo* ptr = lpInfos; ptr != nullptr; ptr = ptr->ai_next)
             {
                 SOCKADDR_IN lRslt = {};
                 memcpy(&lRslt, ptr->ai_addr, ptr->ai_addrlen);
 
                 char lIPStr[INET_ADDRSTRLEN] = {};
                 /*!
-                 *  inet_ntop() IPv4 ¶Ç´Â IPv6 ÀÎÅÍ³İ ³×Æ®¿öÅ© ÁÖ¼Ò¸¦ ÀÎÅÍ³İ Ç¥ÁØ Çü½ÄÀÇ ¹®ÀÚ¿­·Î º¯È¯ÇÕ´Ï´Ù. ÀÌ ÇÔ¼öÀÇ ANSI ¹öÀüÀº inet_ntop.
+                 *  inet_ntop() IPv4 ë˜ëŠ” IPv6 ì¸í„°ë„· ë„¤íŠ¸ì›Œí¬ ì£¼ì†Œë¥¼ ì¸í„°ë„· í‘œì¤€ í˜•ì‹ì˜ ë¬¸ìì—´ë¡œ ë³€í™˜í•©ë‹ˆë‹¤. ì´ í•¨ìˆ˜ì˜ ANSI ë²„ì „ì€ inet_ntop.
                  */
                 inet_ntop(lRslt.sin_family, &lRslt.sin_addr, lIPStr, INET_ADDRSTRLEN);
                 _addr.push_back(lIPStr);
             }
 
             /*!
-             *  getaddrinfo() ÇÔ¼ö°¡ addrinfo ±¸Á¶¿¡¼­ µ¿ÀûÀ¸·Î ÇÒ´çÇÏ´Â ÁÖ¼Ò Á¤º¸¸¦ ÇØÁ¦
+             *  getaddrinfo() í•¨ìˆ˜ê°€ addrinfo êµ¬ì¡°ì—ì„œ ë™ì ìœ¼ë¡œ í• ë‹¹í•˜ëŠ” ì£¼ì†Œ ì •ë³´ë¥¼ í•´ì œ
              *  https://learn.microsoft.com/ko-kr/windows/win32/api/ws2tcpip/nf-ws2tcpip-freeaddrinfo
              */
             freeaddrinfo(lpInfos);
@@ -102,8 +102,8 @@ SOCKADDR_IN NetworkSupporterPO::GetAddressInfo(std::string _ip, int _port)
     {
 
         /*!
-         *  isalpha() ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº int°¡ ¿µ¹®ÀÚ¸¦ ³ªÅ¸³»´Â ¿µ¹®ÀÚÀÎÁö È®ÀÎÇÏ´Â ÇÔ¼ö
-         *  
+         *  isalpha() ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ intê°€ ì˜ë¬¸ìë¥¼ ë‚˜íƒ€ë‚´ëŠ” ì˜ë¬¸ìì¸ì§€ í™•ì¸í•˜ëŠ” í•¨ìˆ˜
+         *
          */
         if (isalpha(static_cast<int>(_ip[0])))
         {
@@ -123,7 +123,7 @@ SOCKADDR_IN NetworkSupporterPO::GetAddressInfo(std::string _ip, int _port)
             else
             {
                 /*!
-                 *  inet_pton() ÅØ½ºÆ® ÇÁ·¹Á¨Å×ÀÌ¼Ç Çü½ÄÀÇ IPv4 ¶Ç´Â IPv6 ÀÎÅÍ³İ ³×Æ®¿öÅ© ÁÖ¼Ò¸¦ ¼ıÀÚ ÀÌÁø Çü½ÄÀ¸·Î º¯È¯
+                 *  inet_pton() í…ìŠ¤íŠ¸ í”„ë ˆì  í…Œì´ì…˜ í˜•ì‹ì˜ IPv4 ë˜ëŠ” IPv6 ì¸í„°ë„· ë„¤íŠ¸ì›Œí¬ ì£¼ì†Œë¥¼ ìˆ«ì ì´ì§„ í˜•ì‹ìœ¼ë¡œ ë³€í™˜
                  */
                 inet_pton(lRslt.sin_family, "127.0.0.1", &lRslt.sin_addr);
             }

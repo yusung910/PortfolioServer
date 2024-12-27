@@ -9,7 +9,7 @@ ServerAppPO::ServerAppPO()
 #ifdef DEV_TEST
     RegisterCommand('q', std::bind(&ServerAppPO::ProcessQuit, this));
 #endif // DEV_TEST
-    
+
 }
 
 ServerAppPO::~ServerAppPO()
@@ -69,10 +69,10 @@ void ServerAppPO::Run()
 
 bool ServerAppPO::_Begin()
 {
-    //³×Æ®¿öÅ© »ı¼º
+    //ë„¤íŠ¸ì›Œí¬ ìƒì„±
     NetworkManager::GetInst().CreateNetwork();
 
-    //¼­¹ö º° NetworkEventSync°¡ »ı¼º µÇÁö ¾Ê¾ÒÀ» °æ¿ì Áß´Ü
+    //ì„œë²„ ë³„ NetworkEventSyncê°€ ìƒì„± ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° ì¤‘ë‹¨
     if (nullptr == m_pEventSync)
     {
         VIEW_WRITE_ERROR(L"Server:%s _Begin() Failed - m_pEventSync is nullptr", StringUtil::ToWideChar(m_oListenerInfo.m_sServiceName).c_str());

@@ -19,12 +19,12 @@ namespace EServer
     {
         None = 0,
         CDN,
-        Login,	        // ·Î±×ÀÎ ¼­¹ö
-        Game,	        // °ÔÀÓ ¼­¹ö
-        Log,	        // ·Î±× ¼­¹ö
-        Platform,       // ÇÃ·§Æû (¿ø°Ý°ü¸®) ¼­¹ö
-        Messenger,      // ¸Þ½ÅÀú ¼­¹ö
-        API,	        // API ¼­¹ö
+        Login,	        // ë¡œê·¸ì¸ ì„œë²„
+        Game,	        // ê²Œìž„ ì„œë²„
+        Log,	        // ë¡œê·¸ ì„œë²„
+        Platform,       // í”Œëž«í¼ (ì›ê²©ê´€ë¦¬) ì„œë²„
+        Messenger,      // ë©”ì‹ ì € ì„œë²„
+        API,	        // API ì„œë²„
         Bill,
         Max,
     };
@@ -43,10 +43,10 @@ namespace EServerStatus
     {
         None = 0,
 
-        Maintain,   //Á¡°Ë Áß
-        Normal,     //Á¤»ó -> ÀûÀº ºÎÇÏ 
-        Confusion,  //È¥Àâ => Áß°£ ºÎÇÏ 
-        Overflow,   //Æ÷È­ -> ³ôÀº ºÎÇÏ 
+        Maintain,   //ì ê²€ ì¤‘
+        Normal,     //ì •ìƒ -> ì ì€ ë¶€í•˜ 
+        Confusion,  //í˜¼ìž¡ => ì¤‘ê°„ ë¶€í•˜ 
+        Overflow,   //í¬í™” -> ë†’ì€ ë¶€í•˜ 
         Max,
     };
 

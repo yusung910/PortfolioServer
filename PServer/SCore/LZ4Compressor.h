@@ -8,64 +8,64 @@ public:
     LZ4Compressor() = delete;
     LZ4Compressor(const LZ4Compressor&) = delete;
     ~LZ4Compressor() = delete;
-    
+
     /*!
-     * µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇÑ´Ù. ÀÔ·Â°ªÀÌ Àß¸øµÇ°Å³ª, ¹öÆÛ°¡ ÀÛ°Å³ª ÇÒ °æ¿ì ½ÇÆĞÇÑ´Ù.
-     * ¾ĞÃàÀ» ÇßÁö¸¸ ¾ĞÃà ÀÌÈÄ Å©±â°¡ ´õ Å«°æ¿ìµµ ½ÇÆĞÃ³¸®.
+     * ë°ì´í„°ë¥¼ ì••ì¶•í•œë‹¤. ì…ë ¥ê°’ì´ ì˜ëª»ë˜ê±°ë‚˜, ë²„í¼ê°€ ì‘ê±°ë‚˜ í•  ê²½ìš° ì‹¤íŒ¨í•œë‹¤.
+     * ì••ì¶•ì„ í–ˆì§€ë§Œ ì••ì¶• ì´í›„ í¬ê¸°ê°€ ë” í°ê²½ìš°ë„ ì‹¤íŒ¨ì²˜ë¦¬.
      *
-     * ¿øº» µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇÑ µÚ, ¿øº» µ¥ÀÌÅÍÀÇ ¹öÆÛ¿¡ ¾ĞÃàÇÑ µ¥ÀÌÅÍ¸¦ µ¤¾î¾´´Ù.
+     * ì›ë³¸ ë°ì´í„°ë¥¼ ì••ì¶•í•œ ë’¤, ì›ë³¸ ë°ì´í„°ì˜ ë²„í¼ì— ì••ì¶•í•œ ë°ì´í„°ë¥¼ ë®ì–´ì“´ë‹¤.
      *
-     *      @param [in,out] pSrcDstData_io      : ¿øº» µ¥ÀÌÅÍ ¹× Ãâ·Â µ¥ÀÌÅÍ
-     *      @param [in]     nSrcSize            : ¾ĞÃà µ¥ÀÌÅÍ Å©±â
-     *      @param [in]     nSrcBufferMaxSize   : ¹öÆÛ µ¥ÀÌÅÍ Å©±â
-     *      @param [in,out] pTempBuffer         : ¾ĞÃà¿¡ »ç¿ë µÉ ÀÓ½Ã ¹öÆÛ
-     *      @param [in]     nTempBufferSize     : ÀÓ½Ã ¹öÆÛ »çÀÌÁî
+     *      @param [in,out] pSrcDstData_io      : ì›ë³¸ ë°ì´í„° ë° ì¶œë ¥ ë°ì´í„°
+     *      @param [in]     nSrcSize            : ì••ì¶• ë°ì´í„° í¬ê¸°
+     *      @param [in]     nSrcBufferMaxSize   : ë²„í¼ ë°ì´í„° í¬ê¸°
+     *      @param [in,out] pTempBuffer         : ì••ì¶•ì— ì‚¬ìš© ë  ì„ì‹œ ë²„í¼
+     *      @param [in]     nTempBufferSize     : ì„ì‹œ ë²„í¼ ì‚¬ì´ì¦ˆ
      *
      *      @return
      */
     static int Compress(char* pSrcDstData_io, const int& nSrcSize, const int& nSrcBufferMaxSize, char* pTempBuffer, const int& nTempBufferSize);
 
     /*!
-     *  ¾ĞÃàµÈ µ¥ÀÌÅÍ¸¦ ÇØÁ¦ÇÑ´Ù. ÀÔ·Â°ªÀÌ Àß¸øµÇ°Å³ª, ¹öÆÛ°¡ ÀÛ°Å³ª ÇÒ °æ¿ì ½ÇÆĞÇÑ´Ù.
-     *  ¾ĞÃàÀ» ÇØÁ¦ÇÑ µÚ, ¾ĞÃàµÈ ÀÔ·Â ¹öÆÛ¿¡ ¾ĞÃà ÇØÁ¦ÇÑ µ¥ÀÌÅÍ¸¦ µ¤¾î¾´´Ù.
+     *  ì••ì¶•ëœ ë°ì´í„°ë¥¼ í•´ì œí•œë‹¤. ì…ë ¥ê°’ì´ ì˜ëª»ë˜ê±°ë‚˜, ë²„í¼ê°€ ì‘ê±°ë‚˜ í•  ê²½ìš° ì‹¤íŒ¨í•œë‹¤.
+     *  ì••ì¶•ì„ í•´ì œí•œ ë’¤, ì••ì¶•ëœ ì…ë ¥ ë²„í¼ì— ì••ì¶• í•´ì œí•œ ë°ì´í„°ë¥¼ ë®ì–´ì“´ë‹¤.
      *
-     *      @param [in,out] pSrcDstData_io      : ¿øº» µ¥ÀÌÅÍ ¹× Ãâ·Â µ¥ÀÌÅÍ
-     *      @param [in]     nSrcSize            : ¿øº» µ¥ÀÌÅÍ »çÀÌÁî
-     *      @param [in]     nSrcBufferMaxSize   : ¹öÆÛ µ¥ÀÌÅÍ Å©±â
-     *      @param [in,out] pTempBuffer         : ÀÓ½Ã ¹öÆÛ
-     *      @param [in]     nTempBufferSize     : ÀÓ½Ã ¹öÆÛ »çÀÌÁî
+     *      @param [in,out] pSrcDstData_io      : ì›ë³¸ ë°ì´í„° ë° ì¶œë ¥ ë°ì´í„°
+     *      @param [in]     nSrcSize            : ì›ë³¸ ë°ì´í„° ì‚¬ì´ì¦ˆ
+     *      @param [in]     nSrcBufferMaxSize   : ë²„í¼ ë°ì´í„° í¬ê¸°
+     *      @param [in,out] pTempBuffer         : ì„ì‹œ ë²„í¼
+     *      @param [in]     nTempBufferSize     : ì„ì‹œ ë²„í¼ ì‚¬ì´ì¦ˆ
      *
      *      @return
      */
     static int Decompress(char* pSrcDstData_io, const int& nSrcSize, const int& nSrcBufferMaxSize, char* pTempBuffer, const int& nTempBufferSize);
 
     /*!
-     * µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇÑ´Ù. ÀÔ·Â°ªÀÌ Àß¸øµÇ°Å³ª, ¹öÆÛ°¡ ÀÛ°Å³ª ÇÒ °æ¿ì ½ÇÆĞÇÑ´Ù.
-     * ¾ĞÃàÀ» ÇßÁö¸¸ ¾ĞÃà ÀÌÈÄ Å©±â°¡ ´õ Å«°æ¿ìµµ ½ÇÆĞÃ³¸®.
+     * ë°ì´í„°ë¥¼ ì••ì¶•í•œë‹¤. ì…ë ¥ê°’ì´ ì˜ëª»ë˜ê±°ë‚˜, ë²„í¼ê°€ ì‘ê±°ë‚˜ í•  ê²½ìš° ì‹¤íŒ¨í•œë‹¤.
+     * ì••ì¶•ì„ í–ˆì§€ë§Œ ì••ì¶• ì´í›„ í¬ê¸°ê°€ ë” í°ê²½ìš°ë„ ì‹¤íŒ¨ì²˜ë¦¬.
      *
-     * ¿øº» µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇÑ µÚ, ¿øº» µ¥ÀÌÅÍÀÇ ¹öÆÛ¿¡ ¾ĞÃàÇÑ µ¥ÀÌÅÍ¸¦ µ¤¾î¾´´Ù.
+     * ì›ë³¸ ë°ì´í„°ë¥¼ ì••ì¶•í•œ ë’¤, ì›ë³¸ ë°ì´í„°ì˜ ë²„í¼ì— ì••ì¶•í•œ ë°ì´í„°ë¥¼ ë®ì–´ì“´ë‹¤.
      *
-     *      @param [in]     pSrcData        : ¿øº» µ¥ÀÌÅÍ
-     *      @param [in]     nSrcSize        : ¿øº» µ¥ÀÌÅÍ Å©±â
-     *      @param [in,out] pDstBuffer      : ¾ĞÃà °á°ú µ¥ÀÌÅÍ
-     *      @param [in]     nDstBufferSize  : ¾ĞÃà °á°ú µ¥ÀÌÅÍ Å©±â
-     *      @param [in,out] pTempBuffer     : ÀÓ½Ã ¹öÆÛ
-     *      @param [in]     nTempBufferSize : ÀÓ½Ã ¹öÆÛ Å©±â
+     *      @param [in]     pSrcData        : ì›ë³¸ ë°ì´í„°
+     *      @param [in]     nSrcSize        : ì›ë³¸ ë°ì´í„° í¬ê¸°
+     *      @param [in,out] pDstBuffer      : ì••ì¶• ê²°ê³¼ ë°ì´í„°
+     *      @param [in]     nDstBufferSize  : ì••ì¶• ê²°ê³¼ ë°ì´í„° í¬ê¸°
+     *      @param [in,out] pTempBuffer     : ì„ì‹œ ë²„í¼
+     *      @param [in]     nTempBufferSize : ì„ì‹œ ë²„í¼ í¬ê¸°
      *
      *      @return
      */
     static int Compress(const char* pSrcData, const int& nSrcSize, char* pDstBuffer, const int& nDstBufferSize, char* pTempBuffer, const int& nTempBufferSize);
 
     /*!
-     *  ¾ĞÃàµÈ µ¥ÀÌÅÍ¸¦ ÇØÁ¦ÇÑ´Ù. ÀÔ·Â°ªÀÌ Àß¸øµÇ°Å³ª, ¹öÆÛ°¡ ÀÛ°Å³ª ÇÒ °æ¿ì ½ÇÆĞÇÑ´Ù.
-     *  ¾ĞÃàÀ» ÇØÁ¦ÇÑ µÚ, ¾ĞÃàµÈ ÀÔ·Â ¹öÆÛ¿¡ ¾ĞÃà ÇØÁ¦ÇÑ µ¥ÀÌÅÍ¸¦ µ¤¾î¾´´Ù.
+     *  ì••ì¶•ëœ ë°ì´í„°ë¥¼ í•´ì œí•œë‹¤. ì…ë ¥ê°’ì´ ì˜ëª»ë˜ê±°ë‚˜, ë²„í¼ê°€ ì‘ê±°ë‚˜ í•  ê²½ìš° ì‹¤íŒ¨í•œë‹¤.
+     *  ì••ì¶•ì„ í•´ì œí•œ ë’¤, ì••ì¶•ëœ ì…ë ¥ ë²„í¼ì— ì••ì¶• í•´ì œí•œ ë°ì´í„°ë¥¼ ë®ì–´ì“´ë‹¤.
      *
-     *      @param [in]     pSrcData        : ¿øº» µ¥ÀÌÅÍ
-     *      @param [in]     nSrcSize        : ¿øº» µ¥ÀÌÅÍ Å©±â
-     *      @param [in,out] pDstBuffer      : ¾ĞÃà °á°ú µ¥ÀÌÅÍ
-     *      @param [in]     nDstBufferSize  : ¾ĞÃà °á°ú µ¥ÀÌÅÍ Å©±â
-     *      @param [in,out] pTempBuffer     : ÀÓ½Ã ¹öÆÛ
-     *      @param [in]     nTempBufferSize : ÀÓ½Ã ¹öÆÛ Å©±â
+     *      @param [in]     pSrcData        : ì›ë³¸ ë°ì´í„°
+     *      @param [in]     nSrcSize        : ì›ë³¸ ë°ì´í„° í¬ê¸°
+     *      @param [in,out] pDstBuffer      : ì••ì¶• ê²°ê³¼ ë°ì´í„°
+     *      @param [in]     nDstBufferSize  : ì••ì¶• ê²°ê³¼ ë°ì´í„° í¬ê¸°
+     *      @param [in,out] pTempBuffer     : ì„ì‹œ ë²„í¼
+     *      @param [in]     nTempBufferSize : ì„ì‹œ ë²„í¼ í¬ê¸°
      *
      *      @return
      */

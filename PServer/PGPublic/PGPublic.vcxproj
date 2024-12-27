@@ -36,6 +36,7 @@
     <ClInclude Include="PGPDefine.h" />
     <ClInclude Include="PGPPrivate.h" />
     <ClInclude Include="PGPublic.h" />
+    <ClInclude Include="RevUtil.h" />
     <ClInclude Include="ServerConfig.h" />
     <ClInclude Include="SimpleHeroInfo.h" />
   </ItemGroup>
@@ -47,6 +48,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RevUtil.cpp" />
     <ClCompile Include="ServerConfig.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -227,12 +229,13 @@
 
 CD $(SolutionDir)
 
-SET revision=git rev-list --count HEAD
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
 
 CD $(ProjectDir)
 
 ECHO #pragma once &gt; BuildVersion.hxx
-ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -262,12 +265,13 @@ ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Co
 
 CD $(SolutionDir)
 
-SET revision=git rev-list --count HEAD
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
 
 CD $(ProjectDir)
 
 ECHO #pragma once &gt; BuildVersion.hxx
-ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
@@ -297,12 +301,13 @@ ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Co
 
 CD $(SolutionDir)
 
-SET revision=git rev-list --count HEAD
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
 
 CD $(ProjectDir)
 
 ECHO #pragma once &gt; BuildVersion.hxx
-ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

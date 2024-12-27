@@ -19,6 +19,9 @@
     <Filter Include="Object\BaseObject">
       <UniqueIdentifier>{39936ffb-d158-4557-8b89-1b1f35a05ce4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{9a901c6e-1381-437b-b4ae-c7ea10f0babe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="BaseObject.h">
       <Filter>Object\BaseObject</Filter>
     </ClInclude>
+    <ClInclude Include="RevUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -67,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="BaseObject.cpp">
       <Filter>Object\BaseObject</Filter>
+    </ClCompile>
+    <ClCompile Include="RevUtil.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

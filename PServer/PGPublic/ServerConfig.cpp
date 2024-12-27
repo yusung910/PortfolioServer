@@ -20,7 +20,7 @@ bool ServerConfigData::LoadConfig(const std::wstring& _configFile)
     std::error_code lEC;
     auto lCurrentDir = fs::current_path(lEC);
     if (lEC.value() != 0)
-        return false;   //ÆÄÀÏ °æ·Î È£Ãâ ¿¡·¯
+        return false;   //íŒŒì¼ ê²½ë¡œ í˜¸ì¶œ ì—ëŸ¬
 
     std::wstring lwsPath(lCurrentDir.c_str() + std::wstring(L"\\") + _configFile);
 
@@ -52,7 +52,7 @@ bool ServerConfigData::Reload()
     std::error_code lEC;
     auto lCurrentDir = fs::current_path(lEC);
     if (lEC.value() != 0)
-        return false;   //ÆÄÀÏ °æ·Î È£Ãâ ¿¡·¯
+        return false;   //íŒŒì¼ ê²½ë¡œ í˜¸ì¶œ ì—ëŸ¬
 
     std::wstring lwsPath(lCurrentDir.c_str() + std::wstring(L"\\") + m_sConfigFileName);
 
@@ -251,7 +251,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
         return false;
 
 
-    //¾Ï,º¹È£È­
+    //ì•”,ë³µí˜¸í™”
     XORUtil lXORUtil;
     Base64Util lBase64;
 
@@ -276,7 +276,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
 
         const auto& lMainListenerInfo = lRoot["MainListener"];
 
-        //MainListener°¡ ¾øÀ» °æ¿ì Á¾·á
+        //MainListenerê°€ ì—†ì„ ê²½ìš° ì¢…ë£Œ
         if (true == lMainListenerInfo.isNull())
             return false;
 
@@ -318,7 +318,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
     //GameServer List
     m_umGameServers.clear();
     /*!
-     *  JsonExample) Root ¾Æ·¡¿¡ ³Ö¾î¾ßÇÑ´Ù.
+     *  JsonExample) Root ì•„ë˜ì— ë„£ì–´ì•¼í•œë‹¤.
      *  {
      *      GameServerList:{
      *          "10101" : {
@@ -364,7 +364,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
     //LoginServer List
     m_umLoginServers.clear();
     /*!
-     *  JsonExample) Root ¾Æ·¡¿¡ ³Ö¾î¾ßÇÑ´Ù.
+     *  JsonExample) Root ì•„ë˜ì— ë„£ì–´ì•¼í•œë‹¤.
      *  {
      *      LoginServerList:{
      *          "1" : {

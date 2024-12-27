@@ -15,19 +15,19 @@ private:
 	HANDLE m_hThread = INVALID_HANDLE_VALUE;
 	bool m_bShouldExit = false;
 
-	// ¸Å Æ½(tick)¸¶´Ù Ã³¸®ÇÒ ÇÔ¼ö
+	// ë§¤ í‹±(tick)ë§ˆë‹¤ ì²˜ë¦¬í•  í•¨ìˆ˜
 	std::vector<std::function<void()>> m_oFuncList;
 
-	// ¿ÜºÎ ÆĞÅ¶ Ã³¸®
+	// ì™¸ë¶€ íŒ¨í‚· ì²˜ë¦¬
 	ObjectQueue<std::shared_ptr<Packet>> m_oOuterPacketQueue;
 	std::unordered_map<int, std::function<bool(const Packet&)>> m_umOuterPacketHandler;
 
-	// ³»ºÎ ÆĞÅ¶ Ã³¸®
+	// ë‚´ë¶€ íŒ¨í‚· ì²˜ë¦¬
 	ObjectQueue<InnerPacket::SharedPtr> m_oInnerPacketQueue;
 	std::unordered_map<int, std::function<bool(InnerPacket::SharedPtr)>> m_umInnerPacketHandler;
 
 
-	// ½ºÀ§Äª¿¡ »ç¿ëµÉ º¯¼ö
+	// ìŠ¤ìœ„ì¹­ì— ì‚¬ìš©ë  ë³€ìˆ˜
 	std::deque<std::shared_ptr<Packet>> m_oOuterPacketWorkList;
 	std::deque<std::shared_ptr<InnerPacket>> m_oInnerPacketWorkList;
 

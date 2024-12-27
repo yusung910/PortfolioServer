@@ -12,8 +12,8 @@ Box::Box()
 
 bool Box::IsValid() const
 {
-    //isnan() : float À» 0À¸·Î ³ª´« °ªÀÎÁö È®ÀÎ
-    //isinf() : float °ªÀÌ infinityÀÎÁö È®ÀÎ
+    //isnan() : float ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+    //isinf() : float ï¿½ï¿½ï¿½ï¿½ infinityï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     if (true == isnan(m_fWidth)
         || true == isinf(m_fWidth)
         || true == isnan(m_fHeight)
@@ -22,7 +22,8 @@ bool Box::IsValid() const
         || true == isinf(m_fRotationDegree)
         || m_fWidth <= 0.0f
         || m_fHeight <= 0.0f
-        || false == IsIn360Degree(m_fRotationDegree))
+        || m_fRotationDegree < 0.0f
+        || m_fRotationDegree >= DEGREE_360)
         return false;
 
     return true;
@@ -50,7 +51,7 @@ bool Box::GetRandomPosition(float& o_x, float& o_y) const
     if (false == IsValid())
         return false;
 
-    // -1.0 ~ 1.0 ³­¼ö »ı¼º
+    // -1.0 ~ 1.0 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     float lx = Random::GetInst()->GetRandomRange(0, 200) * 0.01f;
     float ly = Random::GetInst()->GetRandomRange(0, 200) * 0.01f;
     lx -= 1.0f;
@@ -66,14 +67,14 @@ bool Box::GetRandomPosition(float& o_x, float& o_y) const
     lCalcPos.m128_f32[3] = 0.0f;
 
     //https://learn.microsoft.com/ko-kr/windows/win32/api/directxmath/nf-directxmath-xmmatrixrotationz
-    //XMMatrixRotationZ(): ZÃàÀ¸·Î È¸ÀüÇÏ´Â Çà·ÄÀ» ºôµå
+    //XMMatrixRotationZ(): Zì¶•ìœ¼ë¡œ íšŒì „í•˜ëŠ” í–‰ë ¬ì„ ë¹Œë“œ
     DirectX::XMMATRIX lMat = DirectX::XMMatrixRotationZ(m_fRotationDegree);
 
-    //Çà·ÄÀ» 2D Vector·Î º¯È¯
+    //í–‰ë ¬ì„ 2D Vectorë¡œ ë³€í™˜
     lCalcPos = DirectX::XMVector2Transform(lCalcPos, lMat);
 
     o_x = lCalcPos.m128_f32[0] + m_vCenter.x;
-    o_x = lCalcPos.m128_f32[0] + m_vCenter.y;
+    o_y = lCalcPos.m128_f32[0] + m_vCenter.y;
 
     return true;
 }

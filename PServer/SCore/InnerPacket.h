@@ -1,7 +1,7 @@
 #pragma once
 #include <Object.h>
 
-// InnerPacketÀ» »ç¿ëÇÏ±â À§ÇÑ ºÎ¸ğ Å¬·¡½º, »ó¼ÓÇÏ¿© »ç¿ëÇÑ´Ù
+// InnerPacketì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ë¶€ëª¨ í´ë˜ìŠ¤, ìƒì†í•˜ì—¬ ì‚¬ìš©í•œë‹¤
 class InnerData
 {
 public:
@@ -11,7 +11,7 @@ public:
         Release();
     }
 
-    virtual void Release() {}; // ÇØÁ¦ÇÏ´Â ÇÔ¼ö
+    virtual void Release() {}; // í•´ì œí•˜ëŠ” í•¨ìˆ˜
 };
 
 
@@ -19,11 +19,11 @@ class InnerPacket : public Object<InnerPacket>
 {
 public:
     int m_nHostID = 0;
-    int m_nProtocol = 0;    //¾î¶² DB ÀÛ¾÷ÀÎÁö MessageID 
+    int m_nProtocol = 0;    //ì–´ë–¤ DB ì‘ì—…ì¸ì§€ MessageID 
 
     InnerData* m_pData = nullptr;
 
-    int m_nWorkerID = 0;    // ·Îµå¹ë·±½º¿¡ »ç¿ëµÇ´Â Å°°ª, ´ë»ó ¼­¹öID, AccountUniqueID µî ºĞ±â¿¡ »ç¿ëµÇ´Â ±¸ºĞ °ª
+    int m_nWorkerID = 0;    // ë¡œë“œë°¸ëŸ°ìŠ¤ì— ì‚¬ìš©ë˜ëŠ” í‚¤ê°’, ëŒ€ìƒ ì„œë²„ID, AccountUniqueID ë“± ë¶„ê¸°ì— ì‚¬ìš©ë˜ëŠ” êµ¬ë¶„ ê°’
 
 public:
     InnerPacket() : InnerPacket(ObjectTag()) {};

@@ -2,8 +2,8 @@
 #include <mutex>
 #include <queue>
 
-//template <class T>¿Í template <typename T>ÀÇ ±â´É»ó Â÷ÀÌ´Â ¾øÀ½
-//½Äº°ÇÏ±â À§ÇÑ ¿ëµµ·Î ¸¹ÀÌ »ç¿ëµÇ´Â °ÍÀ¸·Î È®ÀÎ
+//template <class T>ì™€ template <typename T>ì˜ ê¸°ëŠ¥ìƒ ì°¨ì´ëŠ” ì—†ìŒ
+//ì‹ë³„í•˜ê¸° ìœ„í•œ ìš©ë„ë¡œ ë§ì´ ì‚¬ìš©ë˜ëŠ” ê²ƒìœ¼ë¡œ í™•ì¸
 //https://m.blog.naver.com/oh-mms/222030206308
 template <class T>
 class BlockingQueue
@@ -77,7 +77,7 @@ public:
     {
         std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 
-        while(false == m_oQueue.empty())
+        while (false == m_oQueue.empty())
         {
             _oList.push_back(m_oQueue.front());
             m_oQueue.pop();

@@ -4,30 +4,30 @@
  *  @date 2024-10-14
  *  @project SCore
  *
- *  OVERLAPPED ±¸Á¶Ã¼¸¦ »ó¼Ó ¹Ş´Â´Ù
- *  IOCP Åë½Å¿¡ »ç¿ëµÇ´Â ±¸Á¶Ã¼
+ *  OVERLAPPED êµ¬ì¡°ì²´ë¥¼ ìƒì† ë°›ëŠ”ë‹¤
+ *  IOCP í†µì‹ ì— ì‚¬ìš©ë˜ëŠ” êµ¬ì¡°ì²´
  * typedef struct _OVERLAPPED {
- * 
-    ULONG_PTR Internal; I/O ¿äÃ»¿¡ ´ëÇÑ »óÅÂ ÄÚµå
+ *
+    ULONG_PTR Internal; I/O ìš”ì²­ì— ëŒ€í•œ ìƒíƒœ ì½”ë“œ
 
-    ULONG_PTR InternalHigh; I/O ¿äÃ»¿¡ ´ëÇØ Àü¼ÛµÈ ¹ÙÀÌÆ® ¼ö 
+    ULONG_PTR InternalHigh; I/O ìš”ì²­ì— ëŒ€í•´ ì „ì†¡ëœ ë°”ì´íŠ¸ ìˆ˜
 
     union {
         struct {
-            DWORD Offset; »ç¿ëÀÚ°¡ ÁöÁ¤ÇÑ ´ë·Î I/O ¿äÃ»À» ½ÃÀÛÇÒ ÆÄÀÏ À§Ä¡ÀÇ ÇÏÀ§ ºÎºĞ
-            DWORD OffsetHigh; »ç¿ëÀÚ°¡ ÁöÁ¤ÇÑ ´ë·Î I/O ¿äÃ»À» ½ÃÀÛÇÒ ÆÄÀÏ À§Ä¡ÀÇ »óÀ§ ºÎºĞ
+            DWORD Offset; ì‚¬ìš©ìê°€ ì§€ì •í•œ ëŒ€ë¡œ I/O ìš”ì²­ì„ ì‹œì‘í•  íŒŒì¼ ìœ„ì¹˜ì˜ í•˜ìœ„ ë¶€ë¶„
+            DWORD OffsetHigh; ì‚¬ìš©ìê°€ ì§€ì •í•œ ëŒ€ë¡œ I/O ìš”ì²­ì„ ì‹œì‘í•  íŒŒì¼ ìœ„ì¹˜ì˜ ìƒìœ„ ë¶€ë¶„
         } DUMMYSTRUCTNAME;
-        PVOID Pointer; ½Ã½ºÅÛ »ç¿ëÀ» À§ÇØ ¿¹¾àµÊ; ¸¦ 0À¸·Î ÃÊ±âÈ­ÇÑ ÈÄ¿¡´Â ¸¦ »ç¿ëÇÏÁö ¸¶¼¼¿ä.
-    } DUMMYUNIONNAME;  
+        PVOID Pointer; ì‹œìŠ¤í…œ ì‚¬ìš©ì„ ìœ„í•´ ì˜ˆì•½ë¨; ë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”í•œ í›„ì—ëŠ” ë¥¼ ì‚¬ìš©í•˜ì§€ ë§ˆì„¸ìš”.
+    } DUMMYUNIONNAME;
 
-    HANDLE  hEvent; ÀÛ¾÷ÀÌ ¿Ï·áµÉ ¶§ ½Ã½ºÅÛ¿¡¼­ ½ÅÈ£¸¦ ¹Ş´Â »óÅÂ·Î ¼³Á¤µÇ´Â ÀÌº¥Æ®¿¡ ´ëÇÑ ÇÚµé
+    HANDLE  hEvent; ì‘ì—…ì´ ì™„ë£Œë  ë•Œ ì‹œìŠ¤í…œì—ì„œ ì‹ í˜¸ë¥¼ ë°›ëŠ” ìƒíƒœë¡œ ì„¤ì •ë˜ëŠ” ì´ë²¤íŠ¸ì— ëŒ€í•œ í•¸ë“¤
 } OVERLAPPED, *LPOVERLAPPED;
  *  https://learn.microsoft.com/ko-kr/windows/win32/api/minwinbase/ns-minwinbase-overlapped
- * 
- * ³×Æ®¿öÅ© Åë½Å¿¡ ÇÊ¿äÇÑ Á¤º¸¸¦ Á¤ÀÇÇÏ´Â Å¬·¡½º
- * Å¬¶óÀÌ¾ğÆ®¿Í ¼­¹ö Åë½Å°£¿¡ ÇÊ¿äÇÑ ¼­¹öÀÇ Á¤º¸¸¦ ¼­¹ö ÄÄÇ»ÅÍ ¸Ş¸ğ¸®¿¡ ±â·ÏÇÏ±â À§ÇÑ Å¬·¡½º
- * ¼­¹ö¿¡ Á¢¼ÓÇÑ HostID °ªµéÀ» °ü¸®ÇÑ´Ù
- * ex) ¸ŞÀÌÇÃ½ºÅä¸® Å©·Î¾Æ ¼­¹ö ³»ºÎÀÇ Ã¤³Î °°Àº °³³ä.
+ *
+ * ë„¤íŠ¸ì›Œí¬ í†µì‹ ì— í•„ìš”í•œ ì •ë³´ë¥¼ ì •ì˜í•˜ëŠ” í´ë˜ìŠ¤
+ * í´ë¼ì´ì–¸íŠ¸ì™€ ì„œë²„ í†µì‹ ê°„ì— í•„ìš”í•œ ì„œë²„ì˜ ì •ë³´ë¥¼ ì„œë²„ ì»´í“¨í„° ë©”ëª¨ë¦¬ì— ê¸°ë¡í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤
+ * ì„œë²„ì— ì ‘ì†í•œ HostID ê°’ë“¤ì„ ê´€ë¦¬í•œë‹¤
+ * ex) ë©”ì´í”ŒìŠ¤í† ë¦¬ í¬ë¡œì•„ ì„œë²„ ë‚´ë¶€ì˜ ì±„ë„ ê°™ì€ ê°œë….
  */
 #pragma once
 #include "NetworkCommon.h"
@@ -36,30 +36,30 @@
 class NetworkContextPO : public OVERLAPPED
 {
 public:
-    sockaddr_in* m_pLocalAddr = nullptr; //·ÎÄÃ ÁÖ¼Ò
-    sockaddr_in* m_pRemoteAddr = nullptr; //¿ø°İ ÁÖ¼Ò 
+    sockaddr_in* m_pLocalAddr = nullptr; //ë¡œì»¬ ì£¼ì†Œ
+    sockaddr_in* m_pRemoteAddr = nullptr; //ì›ê²© ì£¼ì†Œ 
 
 private:
     EContextType m_eType = EContextType::None;
 
     //volatile : https://m.blog.naver.com/classic2u/50003118713
-    //volatile -> ÈÖ¹ß¼º ¸Ş¸ğ¸®¿¡ º¯¼ö¸¦ »ı¼º
-    //¸Ş¸ğ¸®¿¡ Á÷Á¢ ÂüÁ¶ÇÔÀ¸·Î½á º¯¼öÀÇ °ªÀÌ ´Ù¾çÇÑ »óÈ²¿¡ ÀÇÇØ º¯ÇÒ ¼ö ÀÖÀ½
+    //volatile -> íœ˜ë°œì„± ë©”ëª¨ë¦¬ì— ë³€ìˆ˜ë¥¼ ìƒì„±
+    //ë©”ëª¨ë¦¬ì— ì§ì ‘ ì°¸ì¡°í•¨ìœ¼ë¡œì¨ ë³€ìˆ˜ì˜ ê°’ì´ ë‹¤ì–‘í•œ ìƒí™©ì— ì˜í•´ ë³€í•  ìˆ˜ ìˆìŒ
     volatile long m_nReferenceCount;
-    
-    //HostID¸¦ ÀúÀåÇÒ vector
+
+    //HostIDë¥¼ ì €ì¥í•  vector
     std::vector<int> m_oHostIDs;
 
-    //¼­¹ö Æ©´×¿¡ »ç¿ëµÉ º¯¼ö
-    //µ¥ÀÌÅÍ°¡ ÀúÀåµÇ´Â º¯¼ö
-    char* m_pBuffer = nullptr;  
+    //ì„œë²„ íŠœë‹ì— ì‚¬ìš©ë  ë³€ìˆ˜
+    //ë°ì´í„°ê°€ ì €ì¥ë˜ëŠ” ë³€ìˆ˜
+    char* m_pBuffer = nullptr;
 
-    //¹öÆÛ »çÀÌÁî
+    //ë²„í¼ ì‚¬ì´ì¦ˆ
     size_t m_nBufferSize = 0;
 
-    //±â·ÏµÈ buffer Å©±â
+    //ê¸°ë¡ëœ buffer í¬ê¸°
     size_t m_nWriteSize = 0;
-    //ÀĞÀº buffer Å©±â
+    //ì½ì€ buffer í¬ê¸°
     size_t m_nReadSize = 0;
 
 public:
@@ -69,102 +69,102 @@ public:
     //Destructor
     virtual ~NetworkContextPO();
 
-    //ContextÁ¤º¸ ÃÊ±âÈ­
+    //Contextì •ë³´ ì´ˆê¸°í™”
     void Reset();
-    //ContextÀÇ Buffer »çÀÌÁî ÃÊ±âÈ­
+    //Contextì˜ Buffer ì‚¬ì´ì¦ˆ ì´ˆê¸°í™”
     void ResetBuffer();
 
-    //Context ÂüÁ¶ ¼ö Áõ°¡
+    //Context ì°¸ì¡° ìˆ˜ ì¦ê°€
     long IncreaseReferenceCount();
-    //Context ÂüÁ¶ ¼ö °¨¼Ò
+    //Context ì°¸ì¡° ìˆ˜ ê°ì†Œ
     long DecreaseReferenceCount();
 
     /*!
-     *  NetworkContextPO::Read() ÇÔ¼ö¿¡ ÀÇÇØ ÀĞÇôÁø µ¥ÀÌÅÍÀÇ Æ÷ÀÎÅÍ¸¦ ¹İÈ¯
-     *  
-     *  m_pBuffer¿¡¼­ m_nReadSize¸¸Å­ Áõ°¡µÈ Æ÷ÀÎÅÍ ÁÖ¼Ò¸¦ ¹İÈ¯ÇÑ´Ù
+     *  NetworkContextPO::Read() í•¨ìˆ˜ì— ì˜í•´ ì½í˜€ì§„ ë°ì´í„°ì˜ í¬ì¸í„°ë¥¼ ë°˜í™˜
+     *
+     *  m_pBufferì—ì„œ m_nReadSizeë§Œí¼ ì¦ê°€ëœ í¬ì¸í„° ì£¼ì†Œë¥¼ ë°˜í™˜í•œë‹¤
      *      @return The data pointer.
      */
     char* GetData();
 
     /*!
-     * NetworkContextPO::Read() ÇÔ¼ö¿¡ ÀÇÇØ ÀĞÇôÁø µ¥ÀÌÅÍÀÇ Å©±â¸¦ ¹İÈ¯
+     * NetworkContextPO::Read() í•¨ìˆ˜ì— ì˜í•´ ì½í˜€ì§„ ë°ì´í„°ì˜ í¬ê¸°ë¥¼ ë°˜í™˜
      */
-    size_t GetDataSize(); 
+    size_t GetDataSize();
 
     /*!
-     *  ¸Ş¸ğ¸®°¡ ºñ¾îÀÖ´Â °ø°£ÀÇ char* Æ÷ÀÎÅÍ¸¦ °¡Á®¿À±â À§ÇÑ ÇÔ¼ö
-     *  m_pBufferÀÇ nullptr ¿©ºÎ È®ÀÎ ÈÄ Align()·Î
-     *  m_nWriteSize¿Í m_nReadSizeÀÇ »çÀÌÁî¸¦ Á¶Á¤ÇÑ ÈÄ
-     *  m_pBuffer¿¡ ±â·ÏÇÒ Æ÷ÀÎÅÍ ÁÖ¼Ò¸¦ ¹İÈ¯ÇÑ´Ù
+     *  ë©”ëª¨ë¦¬ê°€ ë¹„ì–´ìˆëŠ” ê³µê°„ì˜ char* í¬ì¸í„°ë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ í•¨ìˆ˜
+     *  m_pBufferì˜ nullptr ì—¬ë¶€ í™•ì¸ í›„ Align()ë¡œ
+     *  m_nWriteSizeì™€ m_nReadSizeì˜ ì‚¬ì´ì¦ˆë¥¼ ì¡°ì •í•œ í›„
+     *  m_pBufferì— ê¸°ë¡í•  í¬ì¸í„° ì£¼ì†Œë¥¼ ë°˜í™˜í•œë‹¤
      *      @return The empty.
      */
     char* GetEmpty();
 
     /*!
-     *  m_pBuffer¿¡ ºñ¾îÀÖ´Â »çÀÌÁî¸¦ ¹İÈ¯ÇÑ´Ù
+     *  m_pBufferì— ë¹„ì–´ìˆëŠ” ì‚¬ì´ì¦ˆë¥¼ ë°˜í™˜í•œë‹¤
      *
      *      @return The empty size.
      */
     size_t GetEmptySize();
 
     /*!
-     *  IOCP Åë½ÅÀ» ÇÏ±âÀ§ÇÑ OVERLAPPED ±¸Á¶Ã¼ÀÇ µ¥ÀÌÅÍ¿Í m_eTypeÀ» ÁØºñ»óÅÂ·Î ¼¼ÆÃ
-     *  ÀÎÀÚ°ªÀ» EContextTypeÀ¸·Î Àü´Ş¹Ş¾Æ ÇØ´ç »óÅÂ·Î ¼¼ÆÃ
-     *      @param [in] EContextType& _type 
+     *  IOCP í†µì‹ ì„ í•˜ê¸°ìœ„í•œ OVERLAPPED êµ¬ì¡°ì²´ì˜ ë°ì´í„°ì™€ m_eTypeì„ ì¤€ë¹„ìƒíƒœë¡œ ì„¸íŒ…
+     *  ì¸ìê°’ì„ EContextTypeìœ¼ë¡œ ì „ë‹¬ë°›ì•„ í•´ë‹¹ ìƒíƒœë¡œ ì„¸íŒ…
+     *      @param [in] EContextType& _type
      */
     void Ready(const EContextType& _type);
 
     /*!
-     *  NetworkContextPO::Read()¿Í NetworkContextPO::Write()ÇÔ¼ö¿¡ ÀÇÇØ
-     *  ±â·Ï(Write), ÀĞ±â(Read)µÈ µ¥ÀÌÅÍ ¸¸Å­ m_pBufferÀÇ µ¥ÀÌÅÍ¸¦ ¸Ş¸ğ¸®¿¡¼­ ÀÌµ¿½ÃÅ²´Ù
+     *  NetworkContextPO::Read()ì™€ NetworkContextPO::Write()í•¨ìˆ˜ì— ì˜í•´
+     *  ê¸°ë¡(Write), ì½ê¸°(Read)ëœ ë°ì´í„° ë§Œí¼ m_pBufferì˜ ë°ì´í„°ë¥¼ ë©”ëª¨ë¦¬ì—ì„œ ì´ë™ì‹œí‚¨ë‹¤
      */
     void Align();
 
     /*!
-     *  ±âÁ¸¿¡ m_pBuffer ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ ¿Å±â°í
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº _size¸¸Å­ m_pBufferÅ©±â¸¦ ´Ã¸°´Ù
+     *  ê¸°ì¡´ì— m_pBuffer ì €ì¥ëœ ë°ì´í„°ë¥¼ ì˜®ê¸°ê³ 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ _sizeë§Œí¼ m_pBufferí¬ê¸°ë¥¼ ëŠ˜ë¦°ë‹¤
      *
-     *      @param [in] size_t& _size 
+     *      @param [in] size_t& _size
      */
     void Resize(const size_t& _size);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº _src µ¥ÀÌÅÍ¸¦ ±â·ÏÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ _src ë°ì´í„°ë¥¼ ê¸°ë¡í•œë‹¤
      *
-     *      @param [in,out] _src     
-     *      @param [in]     _srcSize 
+     *      @param [in,out] _src
+     *      @param [in]     _srcSize
      *
-     *      @return 
+     *      @return
      */
     bool Write(void* _src, const size_t& _srcSize);
 
     /*!
-     *  _srcSize¸¸Å­ m_nWriteSize¿¡ ´õÇÑ´Ù
-     *  ±â·ÏÇÒ µ¥ÀÌÅÍ Å©±â¸¸Å­ m_nWriteSize Áõ°¡
-     *      @param [in] _srcSize 
+     *  _srcSizeë§Œí¼ m_nWriteSizeì— ë”í•œë‹¤
+     *  ê¸°ë¡í•  ë°ì´í„° í¬ê¸°ë§Œí¼ m_nWriteSize ì¦ê°€
+     *      @param [in] _srcSize
      *
-     *      @return 
+     *      @return
      */
     bool Write(const size_t& _srcSize);
 
     /*!
-     *  m_pBuffer¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ _destSize Å©±â ¸¸Å­
-     *  _dest¿¡ ¹İÈ¯ÇÑ´Ù
-     *  
-     *      @param [in,out] _dest     
-     *      @param [in]     _destSize 
+     *  m_pBufferì— ì €ì¥ëœ ë°ì´í„°ë¥¼ _destSize í¬ê¸° ë§Œí¼
+     *  _destì— ë°˜í™˜í•œë‹¤
      *
-     *      @return 
+     *      @param [in,out] _dest
+     *      @param [in]     _destSize
+     *
+     *      @return
      */
     bool Read(void* _dest, const size_t& _destSize);
 
     /*!
-     *  m_nReadSize¿¡ _size¸¸Å­ ´õÇÑ´Ù
+     *  m_nReadSizeì— _sizeë§Œí¼ ë”í•œë‹¤
      *
-     *      @param [in] _size 
+     *      @param [in] _size
      *
-     *      @return 
+     *      @return
      */
     bool Read(const size_t& _size);
 

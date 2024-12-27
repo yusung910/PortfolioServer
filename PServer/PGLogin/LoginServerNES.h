@@ -7,7 +7,7 @@ public:
     virtual ~LoginServerNES() = default;
 
     /*!
-     *  ¼­¹ö¿¡¼­ NetworkManager·Î Connect() ½ÇÇà ÇÒ ¶§ ¹ß»ıÇÒ ÀÌº¥Æ® ÇÔ¼ö
+     *  ì„œë²„ì—ì„œ NetworkManagerë¡œ Connect() ì‹¤í–‰ í•  ë•Œ ë°œìƒí•  ì´ë²¤íŠ¸ í•¨ìˆ˜
      *
      *      @param [in] _hostID
      *      @param [in] _ip
@@ -18,7 +18,7 @@ public:
 
     /*!
      *
-     *  ¼­¹ö¿¡¼­ NetworkManager·Î Close() ½ÇÇà ÇÒ ¶§ ¹ß»ıÇÒ ÀÌº¥Æ® ÇÔ¼ö
+     *  ì„œë²„ì—ì„œ NetworkManagerë¡œ Close() ì‹¤í–‰ í•  ë•Œ ë°œìƒí•  ì´ë²¤íŠ¸ í•¨ìˆ˜
      *
      *      @param [in] _hostID
      */
@@ -26,7 +26,7 @@ public:
 
 
     /*!
-     *  ¼­¹ö¿¡¼­ NetworkManager¿¡¼­ Receive ÇÔ¼ö ½ÇÇà µÉ ¶§ ½ÇÇàµÉ ÀÌº¥Æ® ÇÔ¼ö
+     *  ì„œë²„ì—ì„œ NetworkManagerì—ì„œ Receive í•¨ìˆ˜ ì‹¤í–‰ ë  ë•Œ ì‹¤í–‰ë  ì´ë²¤íŠ¸ í•¨ìˆ˜
      */
     virtual void OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize) = 0;
 };

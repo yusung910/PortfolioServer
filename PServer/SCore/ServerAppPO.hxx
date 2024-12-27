@@ -30,11 +30,11 @@ public:
     void BindEventSync(std::shared_ptr<NetworkEventSync> _eventSync);
 
     /*!
-     *  Å°º¸µå ÀÔ·Â °ª¿¡ ÇØ´çÇÏ´Â ÇÔ¼ö¸¦ µî·ÏÇÏ´Â ÇÔ¼ö.
-     *  ÀÌ ÇÔ¼ö´Â º¸Åë »ı¼ºÀÚ¿¡¼­ ½ÇÇàµÈ´Ù
+     *  í‚¤ë³´ë“œ ì…ë ¥ ê°’ì— í•´ë‹¹í•˜ëŠ” í•¨ìˆ˜ë¥¼ ë“±ë¡í•˜ëŠ” í•¨ìˆ˜.
+     *  ì´ í•¨ìˆ˜ëŠ” ë³´í†µ ìƒì„±ìì—ì„œ ì‹¤í–‰ëœë‹¤
      *
-     *      @param [in] _cmd  
-     *      @param [in] _func 
+     *      @param [in] _cmd
+     *      @param [in] _func
      */
     void RegisterCommand(int _cmd, std::function<void(void)> _func);
     void ProcessQuit();

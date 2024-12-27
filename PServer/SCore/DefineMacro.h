@@ -21,4 +21,4 @@
 #define AutoLock2(x, y) std::scoped_lock __AUTO_LOCK__##x##y(x,y)
 
 
-//ODBC °ü·Ã define
+//ODBC ê´€ë ¨ define

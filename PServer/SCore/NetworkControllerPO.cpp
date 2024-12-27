@@ -30,9 +30,9 @@ NetworkControllerPO::~NetworkControllerPO()
 
 bool NetworkControllerPO::CreateThread()
 {
-    //¾²·¹µå ÇÚµé »ý¼º
+    //ì“°ë ˆë“œ í•¸ë“¤ ìƒì„±
     auto lHandle = (HANDLE)_beginthreadex(nullptr, 0, ExcuteThread, this, 0, nullptr);
-    
+
     if (lHandle == nullptr
         || lHandle == INVALID_HANDLE_VALUE)
     {
@@ -41,9 +41,9 @@ bool NetworkControllerPO::CreateThread()
     }
 
     m_hNetworkControl = lHandle;
-    
 
-    //´ë±â
+
+    //ëŒ€ê¸°
     Sleep(100);
 
     if (true == m_bIsTerminated)
@@ -119,7 +119,7 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
         auto lIter = m_umHostList.find(_host->GetHostID());
         if (lIter != m_umHostList.end())
         {
-            //m_umHostList¿¡ µî·ÏµÇ¾î ÀÖÀ» °æ¿ì Á¦°ÅÇÏ°í ÇÔ¼ö Á¾·á
+            //m_umHostListì— ë“±ë¡ë˜ì–´ ìžˆì„ ê²½ìš° ì œê±°í•˜ê³  í•¨ìˆ˜ ì¢…ë£Œ
             VIEW_WRITE_ERROR(L"NetworkControllerPO::_AddHost() - Failed, Duplicated HostID (%d)", _host->GetHostID());
             _host->Close(ESocketCloseType::AddFailHostMap);
             _host->EventClose();
@@ -130,11 +130,11 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
         m_umHostList[_host->GetHostID()] = _host;
     }
 
-    //¼ÒÄÏ »ý¼º
+    //ì†Œì¼“ ìƒì„±
     SOCKET lSocket = _host->GetSocket();
     if (lSocket == INVALID_SOCKET)
     {
-        // WSASocket ¼ÒÄÏ »ý¼º, °ü·Ã ¿É¼Ç ÂüÁ¶
+        // WSASocket ì†Œì¼“ ìƒì„±, ê´€ë ¨ ì˜µì…˜ ì°¸ì¡°
         // https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasocketw
         lSocket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED);
 
@@ -156,7 +156,7 @@ bool NetworkControllerPO::_AddHost(NetworkHostPO* _host)
         return false;
     }
 
-    //ÀÎÀÚ°ªÀ¸·Î Àü´Þ¹ÞÀº NetworkHostPO¸¦ ¸â¹öº¯¼ö m_ConnectorHostList¿¡ µî·ÏÇÑ´Ù
+    //ì¸ìžê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkHostPOë¥¼ ë©¤ë²„ë³€ìˆ˜ m_ConnectorHostListì— ë“±ë¡í•œë‹¤
     _AddConnectorHost(_host);
 
     return true;
@@ -195,8 +195,8 @@ void NetworkControllerPO::_UpdateHost()
 
         _RemoveConnectorHost(lIter->first);
 
-        //m_umHostList¿¡ ÀÕ´Â °ª Áß lIter À§Ä¡ ÇÑ °ªÀ» Áö¿ì°í
-        //±× ´ÙÀ½¿¡ ÀÖ´Â °ªÀ» lIter°¡ °¡¸£Å°°Ô ÇÑ´Ù
+        //m_umHostListì— ìž‡ëŠ” ê°’ ì¤‘ lIter ìœ„ì¹˜ í•œ ê°’ì„ ì§€ìš°ê³ 
+        //ê·¸ ë‹¤ìŒì— ìžˆëŠ” ê°’ì„ lIterê°€ ê°€ë¥´í‚¤ê²Œ í•œë‹¤
         lIter = m_umHostList.erase(lIter);
     }
 }
@@ -235,8 +235,8 @@ void NetworkControllerPO::ProcessThread()
 {
     while (false == m_bIsTerminated)
     {
-        //Timer Å¬·¡½º¿¡ RegisterTimer() ÇÔ¼ö¸¦ ÅëÇØ µî·ÏµÈ ÇÔ¼ö¸¦ ½ÇÇàÇÑ´Ù.
-        //º¸Åë Å¬·¡½º »ý¼ºÀÚ¿¡ RegisterTimer()°¡ Á¸ÀçÇÑ´Ù.
+        //Timer í´ëž˜ìŠ¤ì— RegisterTimer() í•¨ìˆ˜ë¥¼ í†µí•´ ë“±ë¡ëœ í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•œë‹¤.
+        //ë³´í†µ í´ëž˜ìŠ¤ ìƒì„±ìžì— RegisterTimer()ê°€ ì¡´ìž¬í•œë‹¤.
         UpdateTimer();
 
         auto lCtxt = m_oMsgQueue.Pop();
@@ -265,21 +265,21 @@ void NetworkControllerPO::ProcessThread()
 
 void NetworkControllerPO::ProcessConnect(NetworkContextPO& _ctxt)
 {
-    //ÀÎÀÚ°ªÀ¸·Î Àü´Þ¹ÞÀº NetworkContextPO °´Ã¼ÀÇ µ¥ÀÌÅÍ¸¦ Áö¿ªº¯¼ö¿¡ ÀúÀåÇÑ´Ù
+    //ì¸ìžê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPO ê°ì²´ì˜ ë°ì´í„°ë¥¼ ì§€ì—­ë³€ìˆ˜ì— ì €ìž¥í•œë‹¤
     NetworkHostPO* lHost = nullptr;
     _ctxt.Read(&lHost, sizeof(lHost));
 
-    //NetworkHost »ý¼º
+    //NetworkHost ìƒì„±
     if (_AddHost(lHost) == false)
     {
         VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessConnect() - Failed : _AddHost()");
         return;
     }
 
-    //NetworkContextPO ÃÊ±âÈ­
+    //NetworkContextPO ì´ˆê¸°í™”
     _ctxt.ResetBuffer();
 
-    //Connect ¿äÃ»
+    //Connect ìš”ì²­
     lHost->BeginBaseTask();
 
     if (lHost->Connect(_ctxt) == false)
@@ -292,7 +292,7 @@ void NetworkControllerPO::ProcessConnect(NetworkContextPO& _ctxt)
 
 void NetworkControllerPO::ProcessListen(NetworkContextPO& _ctxt)
 {
-    //ÀÎÀÚ°ªÀ¸·Î Àü´Þ¹ÞÀº NetworkContextPO °´Ã¼ÀÇ µ¥ÀÌÅÍ¸¦ Áö¿ªº¯¼ö¿¡ ÀúÀåÇÑ´Ù
+    //ì¸ìžê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPO ê°ì²´ì˜ ë°ì´í„°ë¥¼ ì§€ì—­ë³€ìˆ˜ì— ì €ìž¥í•œë‹¤
     NetworkHostPO* lHost = nullptr;
     _ctxt.Read(&lHost, sizeof(lHost));
 
@@ -303,7 +303,7 @@ void NetworkControllerPO::ProcessListen(NetworkContextPO& _ctxt)
     }
 
 
-    //Host Listen ¿äÃ»
+    //Host Listen ìš”ì²­
     if (lHost->Listen() == false)
     {
         VIEW_WRITE_ERROR(L"NetworkControllerPO::ProcessListen() - Failed : Host->Listen()");
@@ -315,7 +315,7 @@ void NetworkControllerPO::ProcessListen(NetworkContextPO& _ctxt)
 
 void NetworkControllerPO::ProcessJoin(NetworkContextPO& _ctxt)
 {
-    //ÀÎÀÚ°ªÀ¸·Î Àü´Þ¹ÞÀº NetworkContextPO °´Ã¼ÀÇ µ¥ÀÌÅÍ¸¦ Áö¿ªº¯¼ö¿¡ ÀúÀåÇÑ´Ù
+    //ì¸ìžê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPO ê°ì²´ì˜ ë°ì´í„°ë¥¼ ì§€ì—­ë³€ìˆ˜ì— ì €ìž¥í•œë‹¤
     NetworkHostPO* lHost = nullptr;
     _ctxt.Read(&lHost, sizeof(lHost));
 
@@ -325,7 +325,7 @@ void NetworkControllerPO::ProcessJoin(NetworkContextPO& _ctxt)
         return;
     }
 
-    //Á¢¼Ó ÀÌº¥Æ® È£Ãâ
+    //ì ‘ì† ì´ë²¤íŠ¸ í˜¸ì¶œ
     lHost->EventConnect(EHostType::Acceptor);
 
     //Context Reset

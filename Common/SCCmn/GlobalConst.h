@@ -8,19 +8,19 @@
 #endif
 
 #ifndef SERVER_BUILD
-    #ifndef CLIENT_ONLY
-        #define CLIENT_ONLY
-    #endif
+#ifndef CLIENT_ONLY
+#define CLIENT_ONLY
+#endif
 #endif // !SERVER_BUILD
 
 
-// ¼­¹ö Àü¿ª¿¡¼­ »ç¿ëÇÒ º¯¼öµé ¼±¾ð
+// ì„œë²„ ì „ì—­ì—ì„œ ì‚¬ìš©í•  ë³€ìˆ˜ë“¤ ì„ ì–¸
 
-//UTF-32±îÁö Áö¿øÇÏ±â À§ÇØ ±ÛÀÚ ¼ö °è»ê½Ã °öÇØ¾ßÇÒ Å©±â
+//UTF-32ê¹Œì§€ ì§€ì›í•˜ê¸° ìœ„í•´ ê¸€ìž ìˆ˜ ê³„ì‚°ì‹œ ê³±í•´ì•¼í•  í¬ê¸°
 const int32_t   G_N_CHAR_SIZE = 4;
 
-//°ÔÀÓ ÃÖ´ë ·¹º§
+//ê²Œìž„ ìµœëŒ€ ë ˆë²¨
 const int32_t   G_N_MAX_LEVEL = 100;
 
-//·¹º§¾÷ ½Ã Áõ°¡ÇÒ Æ÷ÀÎÆ®
+//ë ˆë²¨ì—… ì‹œ ì¦ê°€í•  í¬ì¸íŠ¸
 const int32_t   G_N_LEVEL_UP_STATUS_POINT = 5;

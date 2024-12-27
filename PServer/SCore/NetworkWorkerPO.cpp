@@ -21,7 +21,7 @@ NetworkWorkerPO::~NetworkWorkerPO()
     {
         WaitForSingleObject(handle, INFINITE);
     }
-    
+
     CloseHandle(m_hIOCP);
     m_oHandleList.clear();
 }
@@ -30,10 +30,10 @@ bool NetworkWorkerPO::CreateThread()
 {
     VIEW_WRITE_INFO(L"NetworkWorkerPO::CreateThread() - Begin");
 
-    // IOCP ÇÚµé »ı¼º
-    // CreateIoCompletionPort() : IOCP Ä¿³Î °´Ã¼¸¦ »ı¼ºÇÏ°Å³ª IOCP¿Í µğ¹ÙÀÌ½º¸¦ ¿¬°áÇÏ´Â ÀÛ¾÷À» ÁøÇà. 
+    // IOCP í•¸ë“¤ ìƒì„±
+    // CreateIoCompletionPort() : IOCP ì»¤ë„ ê°ì²´ë¥¼ ìƒì„±í•˜ê±°ë‚˜ IOCPì™€ ë””ë°”ì´ìŠ¤ë¥¼ ì—°ê²°í•˜ëŠ” ì‘ì—…ì„ ì§„í–‰. 
     // https://learn.microsoft.com/ko-kr/windows/win32/fileio/createiocompletionport
-    auto lIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0,0);
+    auto lIOCP = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0);
 
     if (lIOCP == NULL || lIOCP == INVALID_HANDLE_VALUE)
     {
@@ -44,7 +44,7 @@ bool NetworkWorkerPO::CreateThread()
 
     m_hIOCP = lIOCP;
 
-    //½º·¹µå »ı¼º
+    //ìŠ¤ë ˆë“œ ìƒì„±
     SYSTEM_INFO lInfo;
     GetSystemInfo(&lInfo);
 
@@ -83,7 +83,7 @@ void NetworkWorkerPO::TerminateThread()
     m_bIsStarted = false;
     m_bIsTerminated = true;
 
-    //PostQueuedCompletionStatus() ÀÎÀÚ°ªÀ¸·Î Àü´Ş ¹ŞÀº °ªÀ» ÆĞÅ¶À¸·Î Àü¼Û
+    //PostQueuedCompletionStatus() ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ ë°›ì€ ê°’ì„ íŒ¨í‚·ìœ¼ë¡œ ì „ì†¡
     //https://learn.microsoft.com/ko-kr/windows/win32/fileio/postqueuedcompletionstatus
     PostQueuedCompletionStatus(m_hIOCP, 0, (ULONG_PTR)nullptr, nullptr);
 }
@@ -112,7 +112,7 @@ bool NetworkWorkerPO::PushThread(NetworkHostPO* _host, NetworkContextPO* _ctxt)
         return false;
     }
 
-    //ÀÎÀÚ°ªÀ¸·Î Àü´ŞÇÑ _host, _ctxt¿¡ ÀúÀåµÈ °ªÀ» ÆĞÅ¶À¸·Î Àü¼ÛÇÑ´Ù
+    //ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬í•œ _host, _ctxtì— ì €ì¥ëœ ê°’ì„ íŒ¨í‚·ìœ¼ë¡œ ì „ì†¡í•œë‹¤
     if (PostQueuedCompletionStatus(m_hIOCP, 0, (ULONG_PTR)_host, _ctxt) == FALSE)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::PushThread() Failed - PostQueuedCompletionStatus:%d", GetLastError());
@@ -128,7 +128,7 @@ bool NetworkWorkerPO::RegisterThread(NetworkHostPO* _host)
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::RegisterThread() Failed - Parameter is nullptr");
         return false;
     }
-    
+
     auto lSocket = _host->GetSocket();
     if (lSocket == INVALID_SOCKET)
     {
@@ -136,8 +136,8 @@ bool NetworkWorkerPO::RegisterThread(NetworkHostPO* _host)
         return false;
     }
 
-    // IOCP ÇÚµé »ı¼º
-    // CreateIoCompletionPort() : IOCP Ä¿³Î °´Ã¼¸¦ »ı¼ºÇÏ°Å³ª IOCP¿Í µğ¹ÙÀÌ½º¸¦ ¿¬°áÇÏ´Â ÀÛ¾÷À» ÁøÇà. 
+    // IOCP í•¸ë“¤ ìƒì„±
+    // CreateIoCompletionPort() : IOCP ì»¤ë„ ê°ì²´ë¥¼ ìƒì„±í•˜ê±°ë‚˜ IOCPì™€ ë””ë°”ì´ìŠ¤ë¥¼ ì—°ê²°í•˜ëŠ” ì‘ì—…ì„ ì§„í–‰. 
     // https://learn.microsoft.com/ko-kr/windows/win32/fileio/createiocompletionport
     if (CreateIoCompletionPort((HANDLE)lSocket, m_hIOCP, (ULONG_PTR)_host, 0) == nullptr)
     {
@@ -159,8 +159,8 @@ void NetworkWorkerPO::ProcessThread()
 
         DWORD lDwLastError = 0;
         // GetQueuedCompletionStatus() : 
-        // ÀÌ ÇÔ¼ö¸¦ È£ÃâÇÏ¸é È£ÃâÇÑ ½º·¹µå´Â I/O completion queue¿¡¼­ µ¥ÀÌÅÍ¸¦ °¡Á®¿Â´Ù 
-        // ¸¸¾à µ¥ÀÌÅÍ°¡ ¾øÀ» °æ¿ì µ¥ÀÌÅÍ°¡ Àü´Ş µÉ ¶§ ±îÁö ´ë±â.
+        // ì´ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•˜ë©´ í˜¸ì¶œí•œ ìŠ¤ë ˆë“œëŠ” I/O completion queueì—ì„œ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¨ë‹¤ 
+        // ë§Œì•½ ë°ì´í„°ê°€ ì—†ì„ ê²½ìš° ë°ì´í„°ê°€ ì „ë‹¬ ë  ë•Œ ê¹Œì§€ ëŒ€ê¸°.
         //BOOL GetQueuedCompletionStatus(
         //HANDLE       CompletionPort,
         //    LPDWORD      lpNumberOfBytesTransferred,
@@ -168,12 +168,12 @@ void NetworkWorkerPO::ProcessThread()
         //    LPOVERLAPPED* lpOverlapped,
         //    DWORD        dwMilliseconds
         // )
-        //  CompletionPort : ´ë±â¸¦ ¼öÇàÇÒ ´ë»ó IOCP ÇÚµéÀ» ÀÔ·Â
-        //  lpNumberOfBytesTransferred : ¼Û¼ö½ÅµÈ ¹ÙÀÌÆ® ¼ö(output)
-        //  lpCompletionKey	: ºñµ¿±â I / O ¿äÃ»ÀÌ ¹ß»ıÇÑ µğ¹ÙÀÌ½ºÀÇ completionKey(output)
-        //  lpOverlapped : ºñµ¿±â È£Ãâ½Ã Àü´ŞÇÑ Overlapped ±¸Á¶Ã¼ÀÇ ÁÖ¼Ò(output)
-        //  dwMilliseconds : ´ë±â¸¦ ¼öÇàÇÒ ½Ã°£(¹Ğ¸®ÃÊ)À» ÀÔ·ÂÇÕ´Ï´Ù.
-        //    return = TRUE ¼º°ø, FALSE ½ÇÆĞ
+        //  CompletionPort : ëŒ€ê¸°ë¥¼ ìˆ˜í–‰í•  ëŒ€ìƒ IOCP í•¸ë“¤ì„ ì…ë ¥
+        //  lpNumberOfBytesTransferred : ì†¡ìˆ˜ì‹ ëœ ë°”ì´íŠ¸ ìˆ˜(output)
+        //  lpCompletionKey	: ë¹„ë™ê¸° I / O ìš”ì²­ì´ ë°œìƒí•œ ë””ë°”ì´ìŠ¤ì˜ completionKey(output)
+        //  lpOverlapped : ë¹„ë™ê¸° í˜¸ì¶œì‹œ ì „ë‹¬í•œ Overlapped êµ¬ì¡°ì²´ì˜ ì£¼ì†Œ(output)
+        //  dwMilliseconds : ëŒ€ê¸°ë¥¼ ìˆ˜í–‰í•  ì‹œê°„(ë°€ë¦¬ì´ˆ)ì„ ì…ë ¥í•©ë‹ˆë‹¤.
+        //    return = TRUE ì„±ê³µ, FALSE ì‹¤íŒ¨
         // https://jungwoong.tistory.com/43
         if (GetQueuedCompletionStatus(m_hIOCP, &lTransferred, &lKey, &lOverlapped, INFINITE) == TRUE)
         {
@@ -181,13 +181,13 @@ void NetworkWorkerPO::ProcessThread()
                 && lTransferred == 0
                 && lOverlapped == 0)
                 break;
-            
+
         }
         else
         {
             lDwLastError = GetLastError();
-            // ERROR_NETNAME_DELETED: Å¬¶óÀÌ¾ğÆ®°¡ HardCloseÇÑ °æ¿ì ¹ß»ı
-            // ÀÏÁ¾ÀÇ °­Á¦ Á¾·á
+            // ERROR_NETNAME_DELETED: í´ë¼ì´ì–¸íŠ¸ê°€ HardCloseí•œ ê²½ìš° ë°œìƒ
+            // ì¼ì¢…ì˜ ê°•ì œ ì¢…ë£Œ
             // https://goguri.tistory.com/749
             if (lDwLastError != ERROR_NETNAME_DELETED)
                 lRslt = false;
@@ -226,7 +226,7 @@ void NetworkWorkerPO::ProcessThread()
             break;
         }
 
-        // Error Exception Ã³¸®
+        // Error Exception ì²˜ë¦¬
         if (false == lRslt)
         {
             bool lCustom = false;
@@ -237,15 +237,15 @@ void NetworkWorkerPO::ProcessThread()
                 lCustom = true;
                 switch (lDwLastError)
                 {
-                    case ERROR_CONNECTION_REFUSED:
-                    case ERROR_SEM_TIMEOUT:
-                    {
-                        VIEW_WRITE_ERROR(L"Connect to [%S:%d] Failed (%d) (Code : %d [%x])", lHost->GetIP().c_str(), lHost->GetPeerPort(), lHost->GetHostID(), lDwLastError, lDwLastError);
-                    }
-                    break;
+                case ERROR_CONNECTION_REFUSED:
+                case ERROR_SEM_TIMEOUT:
+                {
+                    VIEW_WRITE_ERROR(L"Connect to [%S:%d] Failed (%d) (Code : %d [%x])", lHost->GetIP().c_str(), lHost->GetPeerPort(), lHost->GetHostID(), lDwLastError, lDwLastError);
+                }
+                break;
 
-                    default:
-                        break;
+                default:
+                    break;
                 }
             }
             break;
@@ -254,7 +254,7 @@ void NetworkWorkerPO::ProcessThread()
                 if (lDwLastError == ERROR_GRACEFUL_DISCONNECT)
                 {
                     lCustom = true;
-                    VIEW_WRITE_ERROR(L"Host Gracefull Disconnected (%d), [%S:%d] ",  lHost->GetHostID(), lHost->GetIP().c_str(), lHost->GetPeerPort());
+                    VIEW_WRITE_ERROR(L"Host Gracefull Disconnected (%d), [%S:%d] ", lHost->GetHostID(), lHost->GetIP().c_str(), lHost->GetPeerPort());
                 }
             }
             break;
@@ -266,7 +266,7 @@ void NetworkWorkerPO::ProcessThread()
             {
                 switch (lDwLastError)
                 {
-                case ERROR_CONNECTION_ABORTED: // Á¢¼Ó ²÷¾îÁü. Socket Clost ¸Ş¼¼Áö ÂüÁ¶
+                case ERROR_CONNECTION_ABORTED: // ì ‘ì† ëŠì–´ì§. Socket Clost ë©”ì„¸ì§€ ì°¸ì¡°
                     break;
                 default:
                     VIEW_WRITE_ERROR(L"Host(%d) Result Failed (Code : %d [%x]) [%S]", lHost->GetHostID(), lDwLastError, lDwLastError, lHost->GetIP().c_str());
@@ -281,24 +281,24 @@ void NetworkWorkerPO::ProcessThread()
 
 void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt)
 {
-    //Accept ¿Ï·á Ã³¸®
+    //Accept ì™„ë£Œ ì²˜ë¦¬
     SOCKET lSocket = INVALID_SOCKET;
     _ctxt.Read(&lSocket, sizeof(lSocket));
 
     if (_rslt == true)
     {
-         //Accept ¼º°ø ½Ã ÁÖ¼ÒÁ¤º¸»çÀÌÁî(sizeof(SOCKADDR_IN) + 16 * 2)¸¦ ´Ã¸°´Ù
+        //Accept ì„±ê³µ ì‹œ ì£¼ì†Œì •ë³´ì‚¬ì´ì¦ˆ(sizeof(SOCKADDR_IN) + 16 * 2)ë¥¼ ëŠ˜ë¦°ë‹¤
         _ctxt.Write((sizeof(SOCKADDR_IN) + 16 * 2));
 
         //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock/nf-winsock-setsockopt
-        //¼ÒÄÏÀÇ ¿É¼ÇÀ» SO_UPDATE_ACCEPT_CONTEXT °ªÀ¸·Î ¼¼ÆÃÇÑ´Ù 
+        //ì†Œì¼“ì˜ ì˜µì…˜ì„ SO_UPDATE_ACCEPT_CONTEXT ê°’ìœ¼ë¡œ ì„¸íŒ…í•œë‹¤ 
         SOCKET lListener = _host.GetSocket();
         if (setsockopt(lSocket, SOL_SOCKET, SO_UPDATE_ACCEPT_CONTEXT, (char*)&lListener, sizeof(lListener)) == SOCKET_ERROR)
         {
             VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessAccept() Failed - SO_UPDATE_ACCEPT_CONTEXT: %d", WSAGetLastError());
         }
 
-        //Á¢¼Ó ÁÖ¼Ò »ı¼º
+        //ì ‘ì† ì£¼ì†Œ ìƒì„±
         std::string lIP = "";
         int lPort = 0;
         int lIPAddr = 0;
@@ -311,7 +311,7 @@ void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctx
             lIP = tmpIPAddr;
             lPort = (int)ntohs(_ctxt.m_pRemoteAddr->sin_port);
         }
-        
+
         NetworkManager::GetInst().Join(_host.GetEvnetSync(), lIPAddr, lIP, lPort, lSocket);
 
     }
@@ -320,13 +320,13 @@ void NetworkWorkerPO::ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctx
         closesocket(lSocket);
     }
 
-    //NetworkContextPO ÃÊ±âÈ­
+    //NetworkContextPO ì´ˆê¸°í™”
     _ctxt.ResetBuffer();
 
-    //´Ù½Ã Accept ¿äÃ»
+    //ë‹¤ì‹œ Accept ìš”ì²­
     if (_host.Accept(_ctxt) == false)
     {
-        //Listen SocketÀ» Á¾·á½ÃÅ°Áö ¾Ê±â À§ÇØ Accept´Â ½ÇÆĞÇØµµ ¼º°øÀ¸·Î Ã³¸®.
+        //Listen Socketì„ ì¢…ë£Œì‹œí‚¤ì§€ ì•Šê¸° ìœ„í•´ AcceptëŠ” ì‹¤íŒ¨í•´ë„ ì„±ê³µìœ¼ë¡œ ì²˜ë¦¬.
         _host.EndBaseTask(true);
         return;
     }
@@ -343,7 +343,7 @@ void NetworkWorkerPO::ProcessConnect(NetworkHostPO& _host, NetworkContextPO& _ct
         return;
     }
 
-    //Á¢¼Ó ÀÌº¥Æ® È£Ãâ
+    //ì ‘ì† ì´ë²¤íŠ¸ í˜¸ì¶œ
     _host.EventConnect(EHostType::Connector);
 
     //Receive
@@ -361,12 +361,12 @@ void NetworkWorkerPO::ProcessConnect(NetworkHostPO& _host, NetworkContextPO& _ct
 
 void NetworkWorkerPO::ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt, int _transferred)
 {
-    //¿äÃ» °á°ú Ã¼Å©
+    //ìš”ì²­ ê²°ê³¼ ì²´í¬
     if (_rslt == false || _transferred <= 0)
     {
-        //NetworkHostTypeÀÌ EHostType::AcceptorÀÌ ¾Æ´Ï°í(and)
-        //_rslt °ªÀÌ false ÀÌ¸ç(and)
-        //_transferredÀÇ °ªÀÌ 0º¸´Ù Å¬(_transferred > 0) °æ¿ì(and)
+        //NetworkHostTypeì´ EHostType::Acceptorì´ ì•„ë‹ˆê³ (and)
+        //_rslt ê°’ì´ false ì´ë©°(and)
+        //_transferredì˜ ê°’ì´ 0ë³´ë‹¤ í´(_transferred > 0) ê²½ìš°(and)
         if (!(_host.GetHostType() == EHostType::Acceptor
             && _rslt == true
             && _transferred == 0))
@@ -379,10 +379,10 @@ void NetworkWorkerPO::ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ct
         return;
     }
 
-    //Receive ÇÑ Å©±â Ãß°¡
+    //Receive í•œ í¬ê¸° ì¶”ê°€
     _ctxt.Write(_transferred);
 
-    //º¹È£È­ Ã³¸®
+    //ë³µí˜¸í™” ì²˜ë¦¬
     if (_host.Decrypt(_ctxt) == false)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessReceive() Failed - _host.Decrypt()");
@@ -396,7 +396,7 @@ void NetworkWorkerPO::ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ct
 
 void NetworkWorkerPO::ProcessEncrypt(NetworkHostPO& _host, NetworkContextPO& _ctxt)
 {
-    //¿äÃ» °á°ú Ã¼Å©
+    //ìš”ì²­ ê²°ê³¼ ì²´í¬
     if (_host.Encrypt(_ctxt) == false)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessEncrypt() Failed - _host.Encrypt()");
@@ -417,9 +417,9 @@ void NetworkWorkerPO::ProcessEncrypt(NetworkHostPO& _host, NetworkContextPO& _ct
 
 void NetworkWorkerPO::ProcessSend(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt, int _transferred)
 {
-    //¿äÃ» °á°ú Ã¼Å©
+    //ìš”ì²­ ê²°ê³¼ ì²´í¬
 #ifdef SEALED_SEND_SUCCESS_TRANSFERRED_0
-    if(_rslt == false
+    if (_rslt == false
         || _transferred <= 0)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessSend() Failed - Result(%s), Transferred(%d), HostID(%d), IP(%s)"
@@ -427,12 +427,12 @@ void NetworkWorkerPO::ProcessSend(NetworkHostPO& _host, NetworkContextPO& _ctxt,
             , _transferred
             , _host.GetHostID()
             , StringUtil::ToWideChar(_host.GetIP()).c_str()
-            );
+        );
         _host.EndSendTask(false);
         return;
     }
 #else
-    //Transferred 0ÀÏ °æ¿ì¿¡µµ ÀÏ´Ü Àü¼Û
+    //Transferred 0ì¼ ê²½ìš°ì—ë„ ì¼ë‹¨ ì „ì†¡
     if (_rslt == false)
     {
         VIEW_WRITE_ERROR(L"NetworkWorkerPO::ProcessSend() Failed - Result is False");
@@ -441,7 +441,7 @@ void NetworkWorkerPO::ProcessSend(NetworkHostPO& _host, NetworkContextPO& _ctxt,
     }
 #endif // SEALED_SEND_SUCCESS_TRANSFERRED_0
 
-    // Àü¼Û ¿©ºÎ Ã¼Å©
+    // ì „ì†¡ ì—¬ë¶€ ì²´í¬
     if (_ctxt.GetDataSize() != static_cast<size_t>(_transferred))
     {
         VIEW_WRITE_WARNING(L"NetworkWorkerPO::ProcessSend() - Transferred:%d, %d", _ctxt.GetDataSize(), _transferred);
@@ -450,6 +450,6 @@ void NetworkWorkerPO::ProcessSend(NetworkHostPO& _host, NetworkContextPO& _ctxt,
     if (_host.GetHostType() != EHostType::Connector)
         NetworkManager::GetInst().OnSend(_transferred);
 
-    //Send ¿Ï·á Ã³¸®
+    //Send ì™„ë£Œ ì²˜ë¦¬
     _host.EndSendTask(true);
 }

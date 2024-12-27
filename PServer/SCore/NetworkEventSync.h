@@ -4,11 +4,11 @@
  *  @date 2024-10-15
  *  @project SCore
  *
- *  ³×Æ®¿öÅ© ¿¬°á°ú °ü·ÃµÈ ÀÌº¥Æ® ½ÌÅ©¿¡ »ç¿ëµÇ´Â Å¬·¡½º¿¡¼­ »ó¼Ó ¹Ş¾Æ »ç¿ëÇÏ´Â Å¬·¡½º
- *  °¢°¢ ¼­¹ö(billing, game µî)¿¡¼­ NetworkConnect¸¦ ÁøÇà ÇÒ ¶§
- *  ÀÎÀÚ°ªÀ¸·Î NetworkEventSync¸¦ »ó¼Ó¹Ş´Â Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ Àü´ŞÇÒ ¶§ »ç¿ëÇÑ´Ù.
- *  
- *  ÀÎÅÍÆäÀÌ½º ¼º°İÀÌ Å­
+ *  ë„¤íŠ¸ì›Œí¬ ì—°ê²°ê³¼ ê´€ë ¨ëœ ì´ë²¤íŠ¸ ì‹±í¬ì— ì‚¬ìš©ë˜ëŠ” í´ë˜ìŠ¤ì—ì„œ ìƒì† ë°›ì•„ ì‚¬ìš©í•˜ëŠ” í´ë˜ìŠ¤
+ *  ê°ê° ì„œë²„(billing, game ë“±)ì—ì„œ NetworkConnectë¥¼ ì§„í–‰ í•  ë•Œ
+ *  ì¸ìê°’ìœ¼ë¡œ NetworkEventSyncë¥¼ ìƒì†ë°›ëŠ” í´ë˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì „ë‹¬í•  ë•Œ ì‚¬ìš©í•œë‹¤.
+ *
+ *  ì¸í„°í˜ì´ìŠ¤ ì„±ê²©ì´ í¼
  */
 #pragma once
 #include "SCoreAPI.h"
@@ -25,33 +25,33 @@ public:
     virtual ~NetworkEventSync() = default;
 
     /*!
-     *  ¼­¹ö¿¡¼­ NetworkManager·Î Connect() ½ÇÇà ÇÒ ¶§ ¹ß»ıÇÒ ÀÌº¥Æ® ÇÔ¼ö
+     *  ì„œë²„ì—ì„œ NetworkManagerë¡œ Connect() ì‹¤í–‰ í•  ë•Œ ë°œìƒí•  ì´ë²¤íŠ¸ í•¨ìˆ˜
      *
-     *      @param [in] _hostID     
-     *      @param [in] _ip         
-     *      @param [in] _port       
-     *      @param [in] _serverType 
+     *      @param [in] _hostID
+     *      @param [in] _ip
+     *      @param [in] _port
+     *      @param [in] _serverType
      */
     virtual void OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType = 0) = 0;
 
     /*!
-     *   
-     *  ¼­¹ö¿¡¼­ NetworkManager·Î Close() ½ÇÇà ÇÒ ¶§ ¹ß»ıÇÒ ÀÌº¥Æ® ÇÔ¼ö
      *
-     *      @param [in] _hostID 
+     *  ì„œë²„ì—ì„œ NetworkManagerë¡œ Close() ì‹¤í–‰ í•  ë•Œ ë°œìƒí•  ì´ë²¤íŠ¸ í•¨ìˆ˜
+     *
+     *      @param [in] _hostID
      */
     virtual void OnClose(const int& _hostID) = 0;
-    
-    
+
+
     /*!
-     *  ¼­¹ö¿¡¼­ NetworkManager¿¡¼­ Receive ÇÔ¼ö ½ÇÇà µÉ ¶§ ½ÇÇàµÉ ÀÌº¥Æ® ÇÔ¼ö
+     *  ì„œë²„ì—ì„œ NetworkManagerì—ì„œ Receive í•¨ìˆ˜ ì‹¤í–‰ ë  ë•Œ ì‹¤í–‰ë  ì´ë²¤íŠ¸ í•¨ìˆ˜
      */
     virtual void OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize) = 0;
 
     /*!
-     *  
-     *  ¼­¹ö ¿¬°á ½Ãµµ ½ÇÆĞ ÇßÀ» °æ¿ì 
-     *      @param [in] _hostID 
+     *
+     *  ì„œë²„ ì—°ê²° ì‹œë„ ì‹¤íŒ¨ í–ˆì„ ê²½ìš°
+     *      @param [in] _hostID
      */
     virtual void OnConnectedFailed(const int& _hostID)
     {
@@ -59,26 +59,26 @@ public:
     }
 
     /*!
-     *  Listen»óÅÂ°¡ µÇ¾úÀ» ¶§
+     *  Listenìƒíƒœê°€ ë˜ì—ˆì„ ë•Œ
      */
     virtual void OnListen() {};
 
     /*!
-     *  
+     *
      */
     virtual void OnListenFailed() {};
 
-    
+
     /*!
      *  Sets the network event sync's timeout ms.
      *
-     *      @param [in] _ms 
+     *      @param [in] _ms
      *
-     *      @return 
+     *      @return
      */
     void SetTimeoutMS(const int& _ms = DEFAULT_HOST_TIMEOUT_MS) noexcept
     {
-        //ÃÖ¼Ò°ª º¸Á¤
+        //ìµœì†Œê°’ ë³´ì •
         if (MIN_HOST_TIMEOUT_MS < _ms)
             m_nTimeoutMS = _ms;
     }
@@ -93,6 +93,6 @@ public:
         return m_nTimeoutMS;
     }
 
-    
+
 
 };

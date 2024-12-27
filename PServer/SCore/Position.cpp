@@ -137,7 +137,7 @@ float Position::GetXYDistanceNotSqrt(const Position& _other) const
 
 float Position::GetLength() const
 {
-    //sqrtf Á¦°ö±Ù
+    //sqrtf ì œê³±ê·¼
     return sqrtf(GetLengthPow());
 }
 
@@ -154,7 +154,7 @@ float Position::GetDirectionDegree2D() const
     if (false == lRet.Normalize())
         return 0.f;
 
-    //atan2f() -> y / x ÀÇ ¾ÆÅ©ÅºÁ¨Æ®(2d)
+    //atan2f() -> y / x 
     return DEGREE_180 * atan2f(y, x) / MATH_PI;
 }
 

@@ -4,9 +4,9 @@
  *  @date 2024-10-18
  *  @project SCore
  *
- *  ³×Æ®¿öÅ© Åë½Å¿¡ ÇÊ¿äÇÑ °¢°¢ÀÇ Å¬·¡½ºµé°ú
- *  ¿ÜºÎ ´Ù¸¥ Å¬·¡½ºµéÀÌ Á¢±ÙÇÏ±â À§ÇÑ Å¬·¡½º
- *  
+ *  ë„¤íŠ¸ì›Œí¬ í†µì‹ ì— í•„ìš”í•œ ê°ê°ì˜ í´ë˜ìŠ¤ë“¤ê³¼
+ *  ì™¸ë¶€ ë‹¤ë¥¸ í´ë˜ìŠ¤ë“¤ì´ ì ‘ê·¼í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤
+ *
  *  other Class <-> NetworkManagerPO <-> NetworkContextPO, NetworkContextPoolPO ...
  */
 #pragma once
@@ -37,52 +37,52 @@ private:
 
 public:
     /*!
-     *  ³×Æ®¿öÅ© °ü·Ã °´Ã¼µéÀ» »ı¼ºÇÑ´Ù
-     *  
+     *  ë„¤íŠ¸ì›Œí¬ ê´€ë ¨ ê°ì²´ë“¤ì„ ìƒì„±í•œë‹¤
+     *
      *  new NetworkContextPoolPO(_reserveContext);
      *  new NetworkHostPoolPO();
      *  new NetworkControllerPO();
      *  new NetworkWorkerPO();
      *  new NetworkStatistics();
      *
-     *      @param [in] _reserveContext 
+     *      @param [in] _reserveContext
      */
     NetworkManagerPO(size_t _reserveContext = 100);
 
     /*!
      *  Destructor
-     *  NetworkManager °´Ã¼°¡ ¼Ò¸êµÉ ¶§ »ı¼ºÀÚ¿¡¼­ »ı¼ºµÈ °´Ã¼¿Í °ü·Ã ¸â¹öµéÀ» Á¦°ÅÇÑ´Ù
+     *  NetworkManager ê°ì²´ê°€ ì†Œë©¸ë  ë•Œ ìƒì„±ìì—ì„œ ìƒì„±ëœ ê°ì²´ì™€ ê´€ë ¨ ë©¤ë²„ë“¤ì„ ì œê±°í•œë‹¤
      */
     virtual ~NetworkManagerPO();
 
     /*!
-     *  NetworkContextPoolPO¿¡ NetworkContextPO¸¦ ÀúÀåÇÒ std::deque °ø°£À» ÇÒ´çÇÑ´Ù
+     *  NetworkContextPoolPOì— NetworkContextPOë¥¼ ì €ì¥í•  std::deque ê³µê°„ì„ í• ë‹¹í•œë‹¤
      *
-     *      @param [in] _reserveContext 
+     *      @param [in] _reserveContext
      */
     void ReserveContext(size_t _reserveContext);
 
     /*!
-     *  NetworkContextPoolPO¿¡ NetworkContextPO°¡ ÀúÀåµÉ °ø°£ °¹¼ö¸¦ °¡Á®¿Â´Ù
+     *  NetworkContextPoolPOì— NetworkContextPOê°€ ì €ì¥ë  ê³µê°„ ê°¯ìˆ˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤
      *
      *      @return The context allocate count.
      */
     size_t GetContextAllocateCount() const;
 
     /*!
-     *  ³×Æ®¿öÅ© Åë½ÅÀ» À§ÇÑ NetworkWorkerPO¿Í NetworkControllerPOÀÇ ½º·¹µå¸¦ ½ÇÇàÇÑ´Ù
+     *  ë„¤íŠ¸ì›Œí¬ í†µì‹ ì„ ìœ„í•œ NetworkWorkerPOì™€ NetworkControllerPOì˜ ìŠ¤ë ˆë“œë¥¼ ì‹¤í–‰í•œë‹¤
      */
     void CreateNetwork();
     /*!
-     *  ³×Æ®¿öÅ© Åë½ÅÀ» À§ÇÑ NetworkWorkerPO¿Í NetworkControllerPOÀÇ ½º·¹µå¸¦ Á¾·áÇÑ´Ù
+     *  ë„¤íŠ¸ì›Œí¬ í†µì‹ ì„ ìœ„í•œ NetworkWorkerPOì™€ NetworkControllerPOì˜ ìŠ¤ë ˆë“œë¥¼ ì¢…ë£Œí•œë‹¤
      */
     void DestroyNetwork();
 
     /*!
-     *  NetworkHostPOÀ» »ı¼ºÇÏ°í
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº IP¿Í PORTÀ» NetworkHostPO¿¡ ÇÒ´çÇÑ NetworkHostPO¸¦
-     *  NetworkContextPO¿¡ ±â·ÏÇÏ°í NetworkControllerÀÇ ½º·¹µå¿¡ PushÇÑ´Ù
-     *  ÀÌ¶§ NetworkContextPO¿¡ EContextTypeÀ» Connect·Î ÁöÁ¤ÇÑ´Ù
+     *  NetworkHostPOì„ ìƒì„±í•˜ê³ 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ IPì™€ PORTì„ NetworkHostPOì— í• ë‹¹í•œ NetworkHostPOë¥¼
+     *  NetworkContextPOì— ê¸°ë¡í•˜ê³  NetworkControllerì˜ ìŠ¤ë ˆë“œì— Pushí•œë‹¤
+     *  ì´ë•Œ NetworkContextPOì— EContextTypeì„ Connectë¡œ ì§€ì •í•œë‹¤
      *
      *      @param [in,out] _eventSync
      *      @param [in]     _ip
@@ -94,23 +94,23 @@ public:
     bool Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID = nullptr);
 
     /*!
-     *  NetworkHostPOÀ» »ı¼ºÇÏ°í
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº IP¿Í PORTÀ» NetworkHostPO¿¡ ÇÒ´çÇÑ NetworkHostPO¸¦
-     *  NetworkContextPO¿¡ ±â·ÏÇÏ°í NetworkControllerÀÇ ½º·¹µå¿¡ PushÇÑ´Ù
-     *  ÀÌ¶§ NetworkContextPO¿¡ EContextTypeÀ» Listen·Î ÁöÁ¤ÇÑ´Ù
-     *      @param [in,out] _eventSync 
-     *      @param [in]     _ip        
-     *      @param [in]     _port      
+     *  NetworkHostPOì„ ìƒì„±í•˜ê³ 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ IPì™€ PORTì„ NetworkHostPOì— í• ë‹¹í•œ NetworkHostPOë¥¼
+     *  NetworkContextPOì— ê¸°ë¡í•˜ê³  NetworkControllerì˜ ìŠ¤ë ˆë“œì— Pushí•œë‹¤
+     *  ì´ë•Œ NetworkContextPOì— EContextTypeì„ Listenë¡œ ì§€ì •í•œë‹¤
+     *      @param [in,out] _eventSync
+     *      @param [in]     _ip
+     *      @param [in]     _port
      *
-     *      @return 
+     *      @return
      */
     bool Listen(NetworkEventSync* _eventSync, std::string _ip, int _port);
 
     /*!
-     *  NetworkHostPOÀ» »ı¼ºÇÏ°í
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº IP¿Í PORTÀ» NetworkHostPO¿¡ ÇÒ´çÇÑ NetworkHostPO¸¦
-     *  NetworkContextPO¿¡ ±â·ÏÇÏ°í NetworkControllerÀÇ ½º·¹µå¿¡ PushÇÑ´Ù
-     *  ÀÌ¶§ NetworkContextPO¿¡ EContextTypeÀ» Join·Î ÁöÁ¤ÇÑ´Ù
+     *  NetworkHostPOì„ ìƒì„±í•˜ê³ 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ IPì™€ PORTì„ NetworkHostPOì— í• ë‹¹í•œ NetworkHostPOë¥¼
+     *  NetworkContextPOì— ê¸°ë¡í•˜ê³  NetworkControllerì˜ ìŠ¤ë ˆë“œì— Pushí•œë‹¤
+     *  ì´ë•Œ NetworkContextPOì— EContextTypeì„ Joinë¡œ ì§€ì •í•œë‹¤
      *      @param [in,out] _eventSync
      *      @param [in]     _ipaddr
      *      @param [in]     _ip
@@ -122,76 +122,76 @@ public:
     bool Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº hostID¿¡ PacketÀ» Àü¼ÛÇÑ´Ù.
-     *  ÆĞÅ¶ »óÅÂ¿¡ µû¶ó ¾ĞÃà ÇÏ°í
-     *  ÇØ´ç ÆĞÅ¶À» Àü¼ÛÇÏ±â À§ÇØ NetworkControllerÀÇ SendPacketToHost()¸¦
-     *  ½ÇÇàÇÑ´Ù.
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ hostIDì— Packetì„ ì „ì†¡í•œë‹¤.
+     *  íŒ¨í‚· ìƒíƒœì— ë”°ë¼ ì••ì¶• í•˜ê³ 
+     *  í•´ë‹¹ íŒ¨í‚·ì„ ì „ì†¡í•˜ê¸° ìœ„í•´ NetworkControllerì˜ SendPacketToHost()ë¥¼
+     *  ì‹¤í–‰í•œë‹¤.
      *
-     *      @param [in] _hostID 
-     *      @param [in]         
+     *      @param [in] _hostID
+     *      @param [in]
      *
-     *      @return 
+     *      @return
      */
     bool Send(const int& _hostID, Packet::SharedPtr _packet);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº _hostIDs ¹è¿­¿¡ ÀúÀåµÈ ¸ğµç HostID¿¡
-     *  ÀÎÀÚ°ªÀÎ Packet µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇØ¼­ Àü¼ÛÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ _hostIDs ë°°ì—´ì— ì €ì¥ëœ ëª¨ë“  HostIDì—
+     *  ì¸ìê°’ì¸ Packet ë°ì´í„°ë¥¼ ì••ì¶•í•´ì„œ ì „ì†¡í•œë‹¤
      *
-     *      @param [in,out] _hostIDs 
-     *      @param [in]     _packet  
+     *      @param [in,out] _hostIDs
+     *      @param [in]     _packet
      *
-     *      @return 
+     *      @return
      */
     bool BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _packet);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº HostIDÀÇ NetworkContext¸¦ Close ÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ HostIDì˜ NetworkContextë¥¼ Close í•œë‹¤
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      *
-     *      @return 
+     *      @return
      */
     bool Close(const int& _hostID);
 
     /*!
-     *  NetworkHost¸¦ CloseÇÑ´Ù
+     *  NetworkHostë¥¼ Closeí•œë‹¤
      */
     virtual bool CloseHost(int _hostID, const std::string& _strReason); //override
 
     /*!
-     *  Á¢¼ÓµÈ NetworkHostPO¿¡ ÇØ´çÇÏ´Â IP ÁÖ¼Ò¸¦ ¹İÈ¯ÇÑ´Ù.
+     *  ì ‘ì†ëœ NetworkHostPOì— í•´ë‹¹í•˜ëŠ” IP ì£¼ì†Œë¥¼ ë°˜í™˜í•œë‹¤.
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      *
      *      @return
      */
     std::string GetIP(int _hostID);
 
     /*!
-     *  Á¢¼ÓµÈ NetworkHostPO¿¡ ÇØ´çÇÏ´Â int Å¸ÀÔÀÇ IP ÁÖ¼Ò°ªÀ» ¹İÈ¯ÇÑ´Ù
-     *    
-     *      @param [in] _hostID 
+     *  ì ‘ì†ëœ NetworkHostPOì— í•´ë‹¹í•˜ëŠ” int íƒ€ì…ì˜ IP ì£¼ì†Œê°’ì„ ë°˜í™˜í•œë‹¤
+     *
+     *      @param [in] _hostID
      *
      *      @return
      */
     int GetIPInt32(int _hostID);
 
     /*!
-     *  ÀÎÀÚ °ªÀ¸·Î Àü´Ş¹ŞÀº IP¿Í, Port·Î
-     *  NetworkControllerPO¿¡ ¿¬°áµÇ¾î ÀÖ´Â HostID¸¦ °Ë»öÇÏ¿© ¹İÈ¯ÇÑ´Ù.
-     *  
-     *      @param [in] _ip   
-     *      @param [in] _port 
+     *  ì¸ì ê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ IPì™€, Portë¡œ
+     *  NetworkControllerPOì— ì—°ê²°ë˜ì–´ ìˆëŠ” HostIDë¥¼ ê²€ìƒ‰í•˜ì—¬ ë°˜í™˜í•œë‹¤.
      *
-     *      @return 
+     *      @param [in] _ip
+     *      @param [in] _port
+     *
+     *      @return
      */
     int GetConnectorHostID(const std::string& _ip, int _port);
 
     /*!
      *  Returns the network manager's last packet tick.
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      *
      *      @return The last packet tick.
      */
@@ -200,22 +200,22 @@ public:
 
 private:
     /*!
-     *  NetworkControllerPOÀÇ ½º·¹µå¿¡ NetworkContextPO¸¦ Ãß°¡ÇÑ´Ù
-     *  NetworkControllerPO ½º·¹µå Ãß°¡¿¡ ½ÇÆĞ ÇÒ °æ¿ì
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº NetworkContextPO¿Í, NetworkHostPO¸¦ Á¦°Å ÇÑ´Ù
+     *  NetworkControllerPOì˜ ìŠ¤ë ˆë“œì— NetworkContextPOë¥¼ ì¶”ê°€í•œë‹¤
+     *  NetworkControllerPO ìŠ¤ë ˆë“œ ì¶”ê°€ì— ì‹¤íŒ¨ í•  ê²½ìš°
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPOì™€, NetworkHostPOë¥¼ ì œê±° í•œë‹¤
      *
-     *      @param [in,out] _ctxt 
-     *      @param [in,out] _host 
+     *      @param [in,out] _ctxt
+     *      @param [in,out] _host
      *
-     *      @return 
+     *      @return
      */
     bool _DispatchController(NetworkContextPO* _ctxt, NetworkHostPO* _host = nullptr);
 
     /*!
-     *  Packet Å©±â°¡ 80Byte ÀÌ»óÀÏ °æ¿ì
-     *  LZ4 ¶óÀÌºê·¯¸®¸¦ ÀÌ¿ëÇØ¼­ Packet µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇÑ´Ù
-     *  
-     *      @param [in,out] _packet 
+     *  Packet í¬ê¸°ê°€ 80Byte ì´ìƒì¼ ê²½ìš°
+     *  LZ4 ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì´ìš©í•´ì„œ Packet ë°ì´í„°ë¥¼ ì••ì¶•í•œë‹¤
+     *
+     *      @param [in,out] _packet
      */
     void _CompressPacket(Packet::SharedPtr& _packet);
 
@@ -231,35 +231,35 @@ private:
 
 public:
     /*!
-     *  NetworkContextPoolPO¿¡ NetworkContextPO¸¦ ÇÒ´çÇÑ´Ù
+     *  NetworkContextPoolPOì— NetworkContextPOë¥¼ í• ë‹¹í•œë‹¤
      *
-     *      @return ÇÒ´çµÈ NetworkContextPO
+     *      @return í• ë‹¹ëœ NetworkContextPO
      */
     NetworkContextPO* AllocateContext();
 
     /*!
-     *  Àü´Ş¹ŞÀº NetworkContextPO¸¦ ÃÊ±âÈ­ ÇÏ°í »ç¿ë´ë±â »óÅÂ·Î ÀüÈ¯
+     *  ì „ë‹¬ë°›ì€ NetworkContextPOë¥¼ ì´ˆê¸°í™” í•˜ê³  ì‚¬ìš©ëŒ€ê¸° ìƒíƒœë¡œ ì „í™˜
      *
-     *      @param [in,out] _context 
+     *      @param [in,out] _context
      */
     void ReleaseContext(NetworkContextPO* _context);
 
     /*!
-     *  NetworkContextPoolPO¿¡ ÇÒ´çµÈ NetworkContextPO °¹¼ö¸¦ ¹İÈ¯ÇÑ´Ù
+     *  NetworkContextPoolPOì— í• ë‹¹ëœ NetworkContextPO ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤
      *
      *      @return
      */
     int GetContextAllocateCount();
 
     /*!
-     *  NetworkContextPoolPO¿¡¼­ »ç¿ëÁßÀÎ NetworkContextPO °¹¼ö¸¦ ¹İÈ¯ÇÑ´Ù
+     *  NetworkContextPoolPOì—ì„œ ì‚¬ìš©ì¤‘ì¸ NetworkContextPO ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤
      *
      *      @return The context use count.
      */
     int GetContextUseCount();
 
     /*!
-     *  NetworkContextPoolPO¿¡¼­ »ç¿ë ´ë±âÁßÀÎ NetworkContextPO °¹¼ö¸¦ ¹İÈ¯ÇÑ´Ù
+     *  NetworkContextPoolPOì—ì„œ ì‚¬ìš© ëŒ€ê¸°ì¤‘ì¸ NetworkContextPO ê°¯ìˆ˜ë¥¼ ë°˜í™˜í•œë‹¤
      *
      *      @return The context free count.
      */
@@ -279,23 +279,23 @@ public:
     /*!
      *  Allocates the host.
      *
-     *      @return 
+     *      @return
      */
     NetworkHostPO* AllocateHost();
 
     /*!
      *  Releases the host.
      *
-     *      @param [in,out] _host 
+     *      @param [in,out] _host
      */
     void ReleaseHost(NetworkHostPO* _host);
 
     /*!
      *  Checks the host.
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      *
-     *      @return 
+     *      @return
      */
     bool CheckHost(int _hostID);
 
@@ -313,19 +313,19 @@ public:
     /*!
      *  Registers the worker.
      *
-     *      @param [in,out] _host 
+     *      @param [in,out] _host
      *
-     *      @return 
+     *      @return
      */
     bool RegisterWorker(NetworkHostPO* _host);
 
     /*!
      *  Dispatches the worker.
      *
-     *      @param [in,out] _host 
-     *      @param [in,out] _ctxt 
+     *      @param [in,out] _host
+     *      @param [in,out] _ctxt
      *
-     *      @return 
+     *      @return
      */
     bool DispatchWorker(NetworkHostPO* _host, NetworkContextPO* _ctxt);
 
@@ -343,75 +343,75 @@ private:
     std::mutex m_xConnectionListLock;
 public:
     /*!
-     *  m_oUsingHostIDList¿¡ ¿¬°áµÈ hostID¸¦ ³Ö°í
-     *  NetworkStatisticsÀÇ Connect()¸¦ ½ÇÇà
+     *  m_oUsingHostIDListì— ì—°ê²°ëœ hostIDë¥¼ ë„£ê³ 
+     *  NetworkStatisticsì˜ Connect()ë¥¼ ì‹¤í–‰
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      */
     void OnConnect(int _hostID);
     /*!
-     *  m_oUsingHostIDList¿¡ ¿¬°á ÇØÁ¦µÈ HostID¸¦ Á¦°ÅÇÏ°í
-     *  NetworkStatisticsÀÇ Disconnect() ½ÇÇà
-     *      @param [in] _hostID 
+     *  m_oUsingHostIDListì— ì—°ê²° í•´ì œëœ HostIDë¥¼ ì œê±°í•˜ê³ 
+     *  NetworkStatisticsì˜ Disconnect() ì‹¤í–‰
+     *      @param [in] _hostID
      */
     void OnDisconnect(int _hostID);
 
     /*!
-     *  ¼Û½Å bytes¸¦ statistics¿¡ ±â·Ï
+     *  ì†¡ì‹  bytesë¥¼ statisticsì— ê¸°ë¡
      *
-     *      @param [in] _bytes 
+     *      @param [in] _bytes
      */
     void OnSend(const int& _bytes);
 
     /*!
-     *  ¼ö½Å bytes¸¦ statistics¿¡ ±â·Ï
+     *  ìˆ˜ì‹  bytesë¥¼ statisticsì— ê¸°ë¡
      *
-     *      @param [in] _bytes 
+     *      @param [in] _bytes
      */
     void OnRecv(const int& _bytes);
 
     /*!
-     *  ÇØ´ç HostID°¡ ¿¬°á µÇ¾îÀÖÀ» ¶§ true ÇØÁ¦µÇ¾îÀÖÀ» °æ¿ì false
-     *  ¿¬°á ¿©ºÎ´Â m_oUsingHostIDList vector¿¡ ÀÖ´ÂÁö ¾ø´ÂÁö¿¡ µû¶ó È®ÀÎÇÑ´Ù
-     *      @param [in] _hostID 
+     *  í•´ë‹¹ HostIDê°€ ì—°ê²° ë˜ì–´ìˆì„ ë•Œ true í•´ì œë˜ì–´ìˆì„ ê²½ìš° false
+     *  ì—°ê²° ì—¬ë¶€ëŠ” m_oUsingHostIDList vectorì— ìˆëŠ”ì§€ ì—†ëŠ”ì§€ì— ë”°ë¼ í™•ì¸í•œë‹¤
+     *      @param [in] _hostID
      *
      *      @return True if connected. False if not.
      */
     bool IsConnected(const int& _hostID);
 
     /*!
-     *  ³×Æ®¿öÅ© ÇöÈ² (¿¬°á, Á¢¼Ó µî)À» °ü¸®ÇÏ´Â °´Ã¼¸¦ ¹İÈ¯ÇÏ´Â ÇÔ¼ö
+     *  ë„¤íŠ¸ì›Œí¬ í˜„í™© (ì—°ê²°, ì ‘ì† ë“±)ì„ ê´€ë¦¬í•˜ëŠ” ê°ì²´ë¥¼ ë°˜í™˜í•˜ëŠ” í•¨ìˆ˜
      *
      *      @return The statistics.
      */
     NetworkStatistics* GetStatistics();
 
     /*!
-     *  NetworkHost¿¡ ¿¬°áµÇ¾î ÀÖ´Â HostID ¸ñ·ÏÀ» ¹İÈ¯ÇÑ´Ù.
+     *  NetworkHostì— ì—°ê²°ë˜ì–´ ìˆëŠ” HostID ëª©ë¡ì„ ë°˜í™˜í•œë‹¤.
      *
-     *      @param [in,out] _list 
+     *      @param [in,out] _list
      */
     void GetConnectedList(std::vector<int>& _list);
 
     /*!
-     *  Network Åë½Å¿¡ ÇÊ¿äÇÑ IOCP ¼¼ÆÃ ÃÊ±âÈ­ ¿©ºÎ(m_bIsNetworkInitialized)¸¦ ¹İÈ¯ÇÑ´Ù
+     *  Network í†µì‹ ì— í•„ìš”í•œ IOCP ì„¸íŒ… ì´ˆê¸°í™” ì—¬ë¶€(m_bIsNetworkInitialized)ë¥¼ ë°˜í™˜í•œë‹¤
      *
      *      @return True if initialized. False if not.
      */
     bool IsInitialized() const;
 
     /*!
-     *  NetworkContextPoolÀÇ ÇöÀç »ç¿ë ¼ö (ÇÒ´ç ¼ö - ¹Ì»ç¿ë ¼ö)¸¦ ¹İÈ¯ÇÑ´Ù
+     *  NetworkContextPoolì˜ í˜„ì¬ ì‚¬ìš© ìˆ˜ (í• ë‹¹ ìˆ˜ - ë¯¸ì‚¬ìš© ìˆ˜)ë¥¼ ë°˜í™˜í•œë‹¤
      *
      *      @return The context using count.
      */
     size_t GetContextUsingCount();
 
     /*!
-     *  HostIDÀÇ ClientHostMode¸¦ ¼³Á¤ÇÑ´Ù
+     *  HostIDì˜ ClientHostModeë¥¼ ì„¤ì •í•œë‹¤
      *
-     *      @param [in] _hostID 
-     *      @param [in] _onoff  
+     *      @param [in] _hostID
+     *      @param [in] _onoff
      */
     void SetClientHostMode(const int& _hostID, const bool& _onoff);
 

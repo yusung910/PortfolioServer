@@ -23,9 +23,9 @@ public:
     float GetRandomRange(const float& _min, const float& _max);
 
     //[[deprecated("Use GetRandomRange(float, float) instead.")]]
-    //´õ ÀÌ»ó »ç¿ëµÇÁö ¾Ê°Å³ª ÃßÈÄ ¼öÁ¤»çÇ×ÀÌ ¾ø´Â ÇÔ¼ö¿¡ ´ëÇÑ °æ°í ¸Ş¼¼Áö¸¦ Ãâ·ÂÇÒ ¶§ »ç¿ë
+    //ë” ì´ìƒ ì‚¬ìš©ë˜ì§€ ì•Šê±°ë‚˜ ì¶”í›„ ìˆ˜ì •ì‚¬í•­ì´ ì—†ëŠ” í•¨ìˆ˜ì— ëŒ€í•œ ê²½ê³  ë©”ì„¸ì§€ë¥¼ ì¶œë ¥í•  ë•Œ ì‚¬ìš©
     [[deprecated("Use GetRandomRange(float, float) instead.")]]
-    float GetRandomRange(const float& _range);
+    float GetRandomRange(const int& _range);
 
     bool GetProbability10K(const int& _prob);
     bool GetProbability1M(const int& _prob);
@@ -35,8 +35,8 @@ public:
 
 private:
     //https://mufflemumble.tistory.com/14
-    //»ı¼ºÀÚ¸¦ º°µµ·Î private·Î ¼±¾ğÇÒ ¶§
-    //static inst·Î »ı¼ºµÈ °´Ã¼¸¦ ¸®ÅÏÇÑ´Ù
+    //ìƒì„±ìë¥¼ ë³„ë„ë¡œ privateë¡œ ì„ ì–¸í•  ë•Œ
+    //static instë¡œ ìƒì„±ëœ ê°ì²´ë¥¼ ë¦¬í„´í•œë‹¤
     Random();
 };
 

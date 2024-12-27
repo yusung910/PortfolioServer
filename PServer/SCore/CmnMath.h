@@ -7,7 +7,7 @@ constexpr float DEGREE_180 = 180.0f;
 constexpr float DEGREE_360 = 360.0f;
 constexpr float RADIAN_180 = MATH_PI;
 
-//È£µµ¹ı -> ¿ø¿¡¼­ ¹İÁö¸§ ±æÀÌ ¸¸Å­ÀÇ °¢
+//í˜¸ë„ë²• -> ì›ì—ì„œ ë°˜ì§€ë¦„ ê¸¸ì´ ë§Œí¼ì˜ ê°
 constexpr float RADIAN_360 = 2.0f * MATH_PI;
 
 constexpr float DEGREE_TO_RADIAN = MATH_PI / 180.0f;
@@ -23,15 +23,15 @@ inline bool IsValidValue(const float& _val)
 
 
 // Math Angle function
-//Radian Á¤±ÔÈ­ ÇÔ¼ö
+//Radian ì •ê·œí™” í•¨ìˆ˜
 inline float RadianNormalize(const float& _rad)
 {
     if (false == IsValidValue(_rad))
         return 0.0f;
 
-    //ºÎµ¿ ¼Ò¼öÁ¡ ³ª¸ÓÁö ¿¬»ê(a/b)
+    //ë¶€ë™ ì†Œìˆ˜ì  ë‚˜ë¨¸ì§€ ì—°ì‚°(a/b)
     float lRet = fmodf(_rad, RADIAN_360);
-    
+
     if (lRet < 0.0f)
         lRet += RADIAN_360;
 
@@ -43,7 +43,7 @@ inline float DegreeNormalize(const float& _deg)
     if (false == IsValidValue(_deg))
         return 0.0f;
 
-    //ºÎµ¿ ¼Ò¼öÁ¡ ³ª¸ÓÁö ¿¬»ê(a/b)
+    //ë¶€ë™ ì†Œìˆ˜ì  ë‚˜ë¨¸ì§€ ì—°ì‚°(a/b)
     float lRet = fmodf(_deg, DEGREE_360);
 
     if (lRet < 0.0f)

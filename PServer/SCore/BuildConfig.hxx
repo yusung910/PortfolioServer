@@ -1,10 +1,10 @@
 #pragma once
 
-// Kingdom ¿¡¼­ NetworkContextÀÇ Send ÀÛ¾÷ ¼ö·®À» Ã¼Å©ÇÏ´Â ¿ªÇÒ
+// Kingdom ì—ì„œ NetworkContextì˜ Send ì‘ì—… ìˆ˜ëŸ‰ì„ ì²´í¬í•˜ëŠ” ì—­í• 
 #define CHECK_NETWORK_HOST_SEND_QUEUE_COUNT		
 
-// ÀÏÁ¤ ÀÌ»ó SendQueue ½×ÀÎ Å¬¶óÀÌ¾ğÆ® ¼öµ¿Å±
+// ì¼ì • ì´ìƒ SendQueue ìŒ“ì¸ í´ë¼ì´ì–¸íŠ¸ ìˆ˜ë™í‚¥
 #define MANUAL_KICK_BY_SEND_QUEUE_COUNT
 #ifdef MANUAL_KICK_BY_SEND_QUEUE_COUNT
-constexpr int ManualKickSendQueueCount = 1000;	// ÀÌ ÀÌ»ó ½×ÀÌ¸é Å± ´ë»ó
+constexpr int ManualKickSendQueueCount = 1000;	// ì´ ì´ìƒ ìŒ“ì´ë©´ í‚¥ ëŒ€ìƒ
 #endif

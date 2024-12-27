@@ -122,9 +122,9 @@ std::u8string StringUtil::ToUTF8(const std::wstring& _str)
 
 std::string StringUtil::UTF8_JsonSTR(const std::u8string& _str)
 {
-    //u8stringÀ» json¿¡ ³ÖÀ» ¶§ 
-    //DB°¡ nvarchar·Î jsonÀÇ u8stringÀ» ÀĞ¾î ±úÁö´Â Çö»óÀÌ ¹ß»ı
-    //wstringÀ¸·Î º¯È¯ ÈÄ ´Ù½Ã u8stringÀ¸·Î º¸³»¸é ÇØ°á 
+    //u8stringì„ jsonì— ë„£ì„ ë•Œ 
+    //DBê°€ nvarcharë¡œ jsonì˜ u8stringì„ ì½ì–´ ê¹¨ì§€ëŠ” í˜„ìƒì´ ë°œìƒ
+    //wstringìœ¼ë¡œ ë³€í™˜ í›„ ë‹¤ì‹œ u8stringìœ¼ë¡œ ë³´ë‚´ë©´ í•´ê²° 
     return WSTR_UTF8(ToWideChar(_str));
 }
 
@@ -132,8 +132,8 @@ std::string StringUtil::UTF8_JsonSTR(const std::u8string& _str)
 std::string StringUtil::WSTR_UTF8(const std::wstring& _src)
 {
     std::string ret;
-    // NOTE : Src°ªÀÌ null ¶Ç´Â size°ªÀÌ 0 ÀÎ °æ¿ì º¯È¯ °úÁ¤¾øÀÌ ¸®ÅÏ Ã³¸®
-    // ·ÎÁ÷Ã³¸®¿¡ µû¶ó¼­ »çÀÌÁî °Ë»ç¸¦ ÇØ¾ßÇÒ °æ¿ì¿¡´Â È£Ãâ´Ü¿¡¼­ Ã³¸®ÇØ¾ßÇÑ´Ù.
+    // NOTE : Srcê°’ì´ null ë˜ëŠ” sizeê°’ì´ 0 ì¸ ê²½ìš° ë³€í™˜ ê³¼ì •ì—†ì´ ë¦¬í„´ ì²˜ë¦¬
+    // ë¡œì§ì²˜ë¦¬ì— ë”°ë¼ì„œ ì‚¬ì´ì¦ˆ ê²€ì‚¬ë¥¼ í•´ì•¼í•  ê²½ìš°ì—ëŠ” í˜¸ì¶œë‹¨ì—ì„œ ì²˜ë¦¬í•´ì•¼í•œë‹¤.
     if (_src.empty() == true)
         return ret;
 
@@ -155,8 +155,8 @@ std::wstring StringUtil::UTF8_WSTR(const std::string& _src)
 {
     std::wstring ret;
 
-    // NOTE : Src°ªÀÌ null ¶Ç´Â size°ªÀÌ 0 ÀÎ °æ¿ì º¯È¯ °úÁ¤¾øÀÌ ¸®ÅÏ Ã³¸®
-    // ·ÎÁ÷Ã³¸®¿¡ µû¶ó¼­ »çÀÌÁî °Ë»ç¸¦ ÇØ¾ßÇÒ °æ¿ì¿¡´Â È£Ãâ´Ü¿¡¼­ Ã³¸®ÇØ¾ßÇÑ´Ù.
+    // NOTE : Srcê°’ì´ null ë˜ëŠ” sizeê°’ì´ 0 ì¸ ê²½ìš° ë³€í™˜ ê³¼ì •ì—†ì´ ë¦¬í„´ ì²˜ë¦¬
+    // ë¡œì§ì²˜ë¦¬ì— ë”°ë¼ì„œ ì‚¬ì´ì¦ˆ ê²€ì‚¬ë¥¼ í•´ì•¼í•  ê²½ìš°ì—ëŠ” í˜¸ì¶œë‹¨ì—ì„œ ì²˜ë¦¬í•´ì•¼í•œë‹¤.
     if (_src.empty() == true)
         return ret;
 

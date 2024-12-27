@@ -4,7 +4,7 @@ enum class EResult : int
 {
     Success = 0,
 
-    InvalidFunctionParameter,       // ÇÔ¼ö ÆÄ¶ó¹ÌÅÍ °ª ¿¡·¯
+    InvalidFunctionParameter,       // í•¨ìˆ˜ íŒŒë¼ë¯¸í„° ê°’ ì—ëŸ¬
 
     Max,
 };

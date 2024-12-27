@@ -5,20 +5,20 @@
  *  @project SCore
  *
  *  Declares the network common.
- *  ³×Æ®¿öÅ© Åë½Å °ü·Ã Å¬·¡½º¿¡ ÇÊ¿äÇÑ °øÅë enum, constµîÀÌ ¼±¾ğµÈ Å¬·¡½º
+ *  ë„¤íŠ¸ì›Œí¬ í†µì‹  ê´€ë ¨ í´ë˜ìŠ¤ì— í•„ìš”í•œ ê³µí†µ enum, constë“±ì´ ì„ ì–¸ëœ í´ë˜ìŠ¤
  */
 #pragma once
 #include <cstdint>
 
-constexpr size_t NETWORK_BUFFER_SIZE_SERVER = 8192 * 2;	// ÆĞÅ¶ ÃÖ´ë Å©±â
-constexpr int64_t DEFAULT_NETWORK_ALIVE_MS = 15000;     // ±âº» ³×Æ®¿öÅ© ¿¬°á ½Ã°£(ms)
-constexpr int DEFAULT_HOST_TIMEOUT_MS = 60000;          // ±âº» È£½ºÆ® Å¸ÀÓ¾Æ¿ô ½Ã°£(ms)
-constexpr int MIN_HOST_TIMEOUT_MS = 10000;              // ÃÖ¼Ò È£½ºÆ® Å¸ÀÓ¾Æ¿ô ½Ã°£(ms)
+constexpr size_t NETWORK_BUFFER_SIZE_SERVER = 8192 * 2;	// íŒ¨í‚· ìµœëŒ€ í¬ê¸°
+constexpr int64_t DEFAULT_NETWORK_ALIVE_MS = 15000;     // ê¸°ë³¸ ë„¤íŠ¸ì›Œí¬ ì—°ê²° ì‹œê°„(ms)
+constexpr int DEFAULT_HOST_TIMEOUT_MS = 60000;          // ê¸°ë³¸ í˜¸ìŠ¤íŠ¸ íƒ€ì„ì•„ì›ƒ ì‹œê°„(ms)
+constexpr int MIN_HOST_TIMEOUT_MS = 10000;              // ìµœì†Œ í˜¸ìŠ¤íŠ¸ íƒ€ì„ì•„ì›ƒ ì‹œê°„(ms)
 
 enum class EContextType : int
 {
     None = 0,
-    Listen, //Listen : ¼­¹ö°¡ µ¥ÀÌÅÍ¸¦ ¹ŞÀ» ¼ö ÀÖ´Â »óÅÂ
+    Listen, //Listen : ì„œë²„ê°€ ë°ì´í„°ë¥¼ ë°›ì„ ìˆ˜ ìˆëŠ” ìƒíƒœ
     Join,   //
     Accept,
     Connect,
@@ -41,8 +41,8 @@ enum class ESocketCloseType : int
 {
     Reset = 0,
     SocketTimeout,
-    ManyPacketInTime,	// ÂªÀº½Ã°£¿¡ ¸¹ÀÌº¸³¿
-    FailedToBaseTask,	// ´ëºÎºĞ À¯Àú Á¢¼Ó ²÷À½
+    ManyPacketInTime,	// ì§§ì€ì‹œê°„ì— ë§ì´ë³´ëƒ„
+    FailedToBaseTask,	// ëŒ€ë¶€ë¶„ ìœ ì € ì ‘ì† ëŠìŒ
     FailedToSendTask,
 
     AddFailHostMap,
@@ -50,11 +50,11 @@ enum class ESocketCloseType : int
     RegisterWorkerFail,
     ListenFail,
     ProcessClose,
-    SendContextLimited,	// Context Limit¿¡ °É¸²
+    SendContextLimited,	// Context Limitì— ê±¸ë¦¼
 
-    ConnectFailed,	// Å¬¶óÀÌ¾ğÆ®¸ğµå·Î ¼­¹ö ¿¬°á ½ÇÆĞ
+    ConnectFailed,	// í´ë¼ì´ì–¸íŠ¸ëª¨ë“œë¡œ ì„œë²„ ì—°ê²° ì‹¤íŒ¨
 #ifdef MANUAL_KICK_BY_SEND_QUEUE_COUNT
-    SendQueueExceed,	// ÆĞÅ¶À» º¸³»Áö ¸øÇÏ°í ½×¿©ÀÖÀ½. (Acceptor Host Àü¿ë)
+    SendQueueExceed,	// íŒ¨í‚·ì„ ë³´ë‚´ì§€ ëª»í•˜ê³  ìŒ“ì—¬ìˆìŒ. (Acceptor Host ì „ìš©)
 
 #endif
 };

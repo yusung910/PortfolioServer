@@ -13,24 +13,24 @@ constexpr int DEFAULT_SEND_CONTEXT_LIMIT_COUNT = 500;
 
 
 /*!
- *  ¼­¹ö ½ÇÇà½Ã Listener Á¤º¸¸¦ °ü¸®ÇÏ´Â Å¬·¡½º
+ *  ì„œë²„ ì‹¤í–‰ì‹œ Listener ì •ë³´ë¥¼ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
  */
 class ServerListenerInfo : public ListenerInfo
 {
 public:
-    //¼­¹ö ±×·ì ¾ÆÀÌµğ
+    //ì„œë²„ ê·¸ë£¹ ì•„ì´ë””
     int m_nServerGroupID = 0;
-    //¼­¹ö ½Äº° ¾ÆÀÌµğ
+    //ì„œë²„ ì‹ë³„ ì•„ì´ë””
     int m_nServerID = 0;
-    //Á¢¼Ó ÅëÁ¦°¡ ÇÊ¿äÇÑ ½ÃÁ¡ÀÇ ±âÁØ ÀÎ¿ø(Á¢¼Ó ¼Óµµ¸¦ ÀúÇÏ½ÃÅ°´Â ½ÃÁ¡)
+    //ì ‘ì† í†µì œê°€ í•„ìš”í•œ ì‹œì ì˜ ê¸°ì¤€ ì¸ì›(ì ‘ì† ì†ë„ë¥¼ ì €í•˜ì‹œí‚¤ëŠ” ì‹œì )
     int m_nControlConnection = DEFAULT_CONNECTION_CONTROL_COUNT;
-    //¼­¹ö Á¢¼ÓÇÑ Å¬¶óÀÌ¾ğÆ®¿¡°Ô º¸³»´Â Context¼ö°¡ ÀÌ
+    //ì„œë²„ ì ‘ì†í•œ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë³´ë‚´ëŠ” Contextìˆ˜ê°€ ì´
     int m_nSendContextLimitCount = DEFAULT_SEND_CONTEXT_LIMIT_COUNT;
 
 
     std::string m_sServiceType = "";
 
-    //Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¾Ë¸± Á¢¼Ó Á¤º¸
+    //í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì•Œë¦´ ì ‘ì† ì •ë³´
     std::string m_sPublicHost = "";
     int m_nPublicPort = 0;
     int m_nClientVer = 0;
@@ -39,7 +39,7 @@ public:
 
     EServer::Type m_eServerType = EServer::None;
 
-    bool m_bIsMaintenanceMode = false; //Á¡°Ë Áß ¶óÀÌºê ºôµå Á¢¼Ó °¡´É ¿©ºÎ¸¦ È®ÀÎ
+    bool m_bIsMaintenanceMode = false; //ì ê²€ ì¤‘ ë¼ì´ë¸Œ ë¹Œë“œ ì ‘ì† ê°€ëŠ¥ ì—¬ë¶€ë¥¼ í™•ì¸
 
 };
 
@@ -56,7 +56,7 @@ private:
 
     //Connector
     std::unordered_map<std::string, ConnectorInfo> m_umConnectorInfo;
-    
+
     //-------------------------------------------------------------------
     //DB
     //-------------------------------------------------------------------
@@ -172,23 +172,23 @@ public:
 private:
 
     /*!
-     *  jsonÆÄÀÏ¿¡ ÀúÀåµÈ serverconfig ³»¿ëÀ» LoadÇÏ°í
-     *  »ç¿ë ÇÒ ¼ö ÀÖµµ·Ï º¯¼ö¿¡ ÆÄ½ÌÇÏ´Â ÇÔ¼ö
+     *  jsoníŒŒì¼ì— ì €ì¥ëœ serverconfig ë‚´ìš©ì„ Loadí•˜ê³ 
+     *  ì‚¬ìš© í•  ìˆ˜ ìˆë„ë¡ ë³€ìˆ˜ì— íŒŒì‹±í•˜ëŠ” í•¨ìˆ˜
      *
-     *      @param [in] _confFile 
-     *      @param [in] _fileSize 
+     *      @param [in] _confFile
+     *      @param [in] _fileSize
      *
-     *      @return 
+     *      @return
      */
     bool _LoadConfig(const std::wstring& _confFile, size_t _fileSize);
 
     /*!
-     *  Connection °ü·Ã unordered_map º¯¼ö ÃÊ±âÈ­
+     *  Connection ê´€ë ¨ unordered_map ë³€ìˆ˜ ì´ˆê¸°í™”
      */
     void _Clear();
 
     /*!
-     *  ¼­¹ö ÄÄÇ»ÅÍÀÇ CPU ÄÚ¾î °¹¼ö¸¦ È£Ãâ GetSystemInfo()
+     *  ì„œë²„ ì»´í“¨í„°ì˜ CPU ì½”ì–´ ê°¯ìˆ˜ë¥¼ í˜¸ì¶œ GetSystemInfo()
      */
     void _LoadCPUCount();
 };

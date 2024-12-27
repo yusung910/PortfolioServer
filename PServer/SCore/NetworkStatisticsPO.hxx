@@ -4,7 +4,7 @@
  *  @date 2024-10-21
  *  @project SCore
  *
- *  ³×Æ®¿öÅ© Åë½Å Åë°è¸¦ °ü¸®ÇÏ±â À§ÇÑ Å¬·¡½º
+ *  ë„¤íŠ¸ì›Œí¬ í†µì‹  í†µê³„ë¥¼ ê´€ë¦¬í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤
  */
 #pragma once
 #include "Singleton.h"
@@ -15,21 +15,21 @@
 class NetworkStatisticsPO
 {
 private:
-    // Send & Receive Æ®·¡ÇÈ
+    // Send & Receive íŠ¸ë˜í”½
     std::atomic_int64_t m_nLastCheckRecvBytes = 0;
     std::atomic_int64_t m_nLastCheckSendBytes = 0;
 
     std::atomic_int64_t m_nTotalRecvBytes = 0;
     std::atomic_int64_t m_nTotalSendBytes = 0;
 
-    // Send & Recevie ÆĞÅ¶ ¼ö
+    // Send & Recevie íŒ¨í‚· ìˆ˜
     std::atomic_int64_t m_nLastCheckRecvCount = 0;
     std::atomic_int64_t m_nLastCheckSendCount = 0;
 
     std::atomic_int64_t m_nTotalRecvCount = 0;
     std::atomic_int64_t m_nTotalSendCount = 0;
 
-    // Connection ¼ö
+    // Connection ìˆ˜
     std::atomic_int m_nCurrentConnectionCount = 0;
     std::atomic_int m_nTotalConnectionCount = 0;
 

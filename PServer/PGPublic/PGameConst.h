@@ -4,8 +4,8 @@
  *  @date 2024-11-25
  *  @project PGPublic
  *
- *  Å¬¶óÀÌ¾ðÆ®¿Í Á÷Á¢ °øÀ¯ÇÏ´Â°Ô ¾Æ´Ï¸é¼­ Á÷Á¢ Á¢±ÙÀ¸·Î °ªÀ» »ç¿ëÇÏ´Â °æ¿ì
- *  ¼±¾ðµÉ »ó¼ö Å¬·¡½º
+ *  í´ë¼ì´ì–¸íŠ¸ì™€ ì§ì ‘ ê³µìœ í•˜ëŠ”ê²Œ ì•„ë‹ˆë©´ì„œ ì§ì ‘ ì ‘ê·¼ìœ¼ë¡œ ê°’ì„ ì‚¬ìš©í•˜ëŠ” ê²½ìš°
+ *  ì„ ì–¸ë  ìƒìˆ˜ í´ëž˜ìŠ¤
  */
 #pragma once
 #include <RefSingleton.h>

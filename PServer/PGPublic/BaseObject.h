@@ -2,7 +2,7 @@
 class BaseObject
 {
 protected:
-    int                 m_nSequenceID = 0;       //¸Ş¸ğ¸® ÀûÀçµÈ ¿ÀºêÁ§Æ® ¹øÈ£
+    int                 m_nSequenceID = 0;       //ë©”ëª¨ë¦¬ ì ì¬ëœ ì˜¤ë¸Œì íŠ¸ ë²ˆí˜¸
     int                 m_nTemplateID = 0;       //
 };
 

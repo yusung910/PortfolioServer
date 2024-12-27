@@ -9,20 +9,20 @@ struct ConnectorTargetInfo
     int m_nPort = 0;
 
     /*!
-     *  ¹®ÀÚ¿­·Î Çü½ÄÀ¸·Î Àü´Þ¹ÞÀº IP ÁÖ¼Ò¸¦ 2Áø¼ö·Î º¯°æÇÏ¿©
-     *  ¸â¹ö º¯¼ö m_nHostIP¿¡ ÀúÀå
+     *  ë¬¸ìžì—´ë¡œ í˜•ì‹ìœ¼ë¡œ ì „ë‹¬ë°›ì€ IP ì£¼ì†Œë¥¼ 2ì§„ìˆ˜ë¡œ ë³€ê²½í•˜ì—¬
+     *  ë©¤ë²„ ë³€ìˆ˜ m_nHostIPì— ì €ìž¥
      *
      *      @param [in] _ip
      */
     void SetIP(const std::string& _ip)
     {
-        //IPv4 ¶Ç´Â IPv6 ÁÖ¼Ò¸¦ ¼ýÀÚ 2Áø Çü½ÄÀ¸·Î º¯°æÇÏ´Â ÇÔ¼ö
+        //IPv4 ë˜ëŠ” IPv6 ì£¼ì†Œë¥¼ ìˆ«ìž 2ì§„ í˜•ì‹ìœ¼ë¡œ ë³€ê²½í•˜ëŠ” í•¨ìˆ˜
         InetPtonA(AF_INET, _ip.c_str(), &m_nHostIP);
     }
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Þ ¹ÞÀº ip, port¿Í
-     *  ¸â¹ö º¯¼ö¿¡ ÀúÀåµÈ ip, port°¡ µ¿ÀÏÇÑÁö ¿©ºÎ¸¦ °Ë»çÇÏ´Â ÇÔ¼ö
+     *  ì¸ìžê°’ìœ¼ë¡œ ì „ë‹¬ ë°›ì€ ip, portì™€
+     *  ë©¤ë²„ ë³€ìˆ˜ì— ì €ìž¥ëœ ip, portê°€ ë™ì¼í•œì§€ ì—¬ë¶€ë¥¼ ê²€ì‚¬í•˜ëŠ” í•¨ìˆ˜
      *
      *      @param [in] _ip
      *      @param [in] _port

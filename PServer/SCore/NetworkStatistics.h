@@ -4,7 +4,7 @@
  *  @date 2024-10-24
  *  @project SCore
  *
- *  ³×Æ®¿öÅ© Àü¼Û, ¿¬°á »óÅÂ µîÀ» °ü¸®ÇÏ±â À§ÇÑ Å¬·¡½º
+ *  ë„¤íŠ¸ì›Œí¬ ì „ì†¡, ì—°ê²° ìƒíƒœ ë“±ì„ ê´€ë¦¬í•˜ê¸° ìœ„í•œ í´ëž˜ìŠ¤
  */
 #pragma once
 #include "SCoreAPI.h"

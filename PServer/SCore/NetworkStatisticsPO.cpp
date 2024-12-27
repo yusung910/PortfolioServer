@@ -26,21 +26,21 @@ void NetworkStatisticsPO::Disconnect()
 
 void NetworkStatisticsPO::Reset()
 {
-    // Send & Receive Æ®·¡ÇÈ
+    // Send & Receive íŠ¸ëž˜í”½
     m_nLastCheckRecvBytes = 0;
     m_nLastCheckSendBytes = 0;
 
     m_nTotalRecvBytes = 0;
     m_nTotalSendBytes = 0;
 
-    // Send & Recevie ÆÐÅ¶ ¼ö
+    // Send & Recevie íŒ¨í‚· ìˆ˜
     m_nLastCheckRecvCount = 0;
     m_nLastCheckSendCount = 0;
 
     m_nTotalRecvCount = 0;
     m_nTotalSendCount = 0;
 
-    // Connection ¼ö
+    // Connection ìˆ˜
     m_nCurrentConnectionCount = 0;
     m_nTotalConnectionCount = 0;
 }
@@ -102,6 +102,3 @@ int NetworkStatisticsPO::GetTotalConnection() const
 {
     return m_nTotalConnectionCount;
 }
-
-
-

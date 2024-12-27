@@ -97,7 +97,7 @@ void NetworkManagerPO::DestroyNetwork()
 
 bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, int _port, int* _pHostID)
 {
-    //NetworkHost »ý¼º
+    //NetworkHost ìƒì„±
     auto lHost = AllocateHost();
     if (lHost == nullptr)
     {
@@ -109,24 +109,24 @@ bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, in
     lHost->SetIP(_ip);
     lHost->SetPeerPort(_port);
 
-    //¹«½¼ ¿ëµµÀÏ±î? "´Ù¸¥ ¼­¹ö·ÎÀÇ Á¢¼ÓÀº ÇØ´ç Host°¡ Å¬¶óÀÌ¾ðÆ®·Î½á ÀÛµ¿ÇØ¾ßÇÑ´Ù"
+    //ë¬´ìŠ¨ ìš©ë„ì¼ê¹Œ? "ë‹¤ë¥¸ ì„œë²„ë¡œì˜ ì ‘ì†ì€ í•´ë‹¹ Hostê°€ í´ë¼ì´ì–¸íŠ¸ë¡œì¨ ìž‘ë™í•´ì•¼í•œë‹¤"
     lHost->SetClientHostMode(true);
 
     if (nullptr != _pHostID)
         *_pHostID = lHost->GetHostID();
 
-    //NetworkContextPO¸¦ ÇÒ´çÇÑ´Ù
+    //NetworkContextPOë¥¼ í• ë‹¹í•œë‹¤
     auto lCtxt = AllocateContext();
 
     if (lCtxt == nullptr)
     {
         VIEW_WRITE_ERROR("NetworkManagerPO::Connect() Failed - Allocate Context Error");
-        //NetworkContextPO°¡ »ý¼ºµÇÁö ¾Ê¾ÒÀ» °æ¿ì NetworkHost¸¦ FreeQueue·Î ÀÌµ¿ÇÑ´Ù.
+        //NetworkContextPOê°€ ìƒì„±ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° NetworkHostë¥¼ FreeQueueë¡œ ì´ë™í•œë‹¤.
         ReleaseHost(lHost);
         return false;
     }
 
-    //Context¿¡ µ¥ÀÌÅÍ ±â·Ï
+    //Contextì— ë°ì´í„° ê¸°ë¡
     lCtxt->Ready(EContextType::Connect);
     lCtxt->Write(&lHost, sizeof(lHost));
 
@@ -135,7 +135,7 @@ bool NetworkManagerPO::Connect(NetworkEventSync* _eventSync, std::string _ip, in
 
 bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int _port)
 {
-    //NetworkHost »ý¼º
+    //NetworkHost ìƒì„±
     auto lHost = AllocateHost();
     if (lHost == nullptr)
     {
@@ -155,9 +155,9 @@ bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int
         return false;
     }
 
-    //NetworkContextPOÀÇ ContextTypeÀ» ListenÀ¸·Î º¯°æ
+    //NetworkContextPOì˜ ContextTypeì„ Listenìœ¼ë¡œ ë³€ê²½
     lCtxt->Ready(EContextType::Listen);
-    //NetworkContextPO¿¡ NetworkHostPO µ¥ÀÌÅÍ¸¦ ±â·ÏÇÑ´Ù 
+    //NetworkContextPOì— NetworkHostPO ë°ì´í„°ë¥¼ ê¸°ë¡í•œë‹¤ 
     lCtxt->Write(&lHost, sizeof(lHost));
 
     return _DispatchController(lCtxt, lHost);
@@ -166,7 +166,7 @@ bool NetworkManagerPO::Listen(NetworkEventSync* _eventSync, std::string _ip, int
 
 bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::string _ip, int _port, SOCKET _sock)
 {
-    //NetworkHost »ý¼º
+    //NetworkHost ìƒì„±
     auto lHost = AllocateHost();
     if (lHost == nullptr)
     {
@@ -188,9 +188,9 @@ bool NetworkManagerPO::Join(NetworkEventSync* _eventSync, int _ipaddr, std::stri
         return false;
     }
 
-    //NetworkContextPOÀÇ ContextTypeÀ» ListenÀ¸·Î º¯°æ
+    //NetworkContextPOì˜ ContextTypeì„ Listenìœ¼ë¡œ ë³€ê²½
     lCtxt->Ready(EContextType::Join);
-    //NetworkContextPO¿¡ NetworkHostPO µ¥ÀÌÅÍ¸¦ ±â·ÏÇÑ´Ù 
+    //NetworkContextPOì— NetworkHostPO ë°ì´í„°ë¥¼ ê¸°ë¡í•œë‹¤ 
     lCtxt->Write(&lHost, sizeof(lHost));
 
     return _DispatchController(lCtxt, lHost);
@@ -249,7 +249,7 @@ bool NetworkManagerPO::Close(const int& _hostID)
 
 bool NetworkManagerPO::CloseHost(int _hostID, const std::string& _strReason)
 {
-    //m_oUsingHostIDList¿¡ HostID°¡ ÀÖÀ» °æ¿ì ¿¬°áµÇ¾î ÀÖÀ½
+    //m_oUsingHostIDListì— HostIDê°€ ìžˆì„ ê²½ìš° ì—°ê²°ë˜ì–´ ìžˆìŒ
     if (true == IsConnected(_hostID))
     {
         if (false == _strReason.empty())
@@ -398,7 +398,7 @@ int NetworkManagerPO::GetContextAllocateCount()
         VIEW_WRITE_ERROR("NetworkManagerPO::GetContextAllocateCount() Failed - NetworkContext Pool is null!");
         return 0;
     }
-    return (int) m_pContextPool->GetAllocatedCount();
+    return (int)m_pContextPool->GetAllocatedCount();
 }
 
 int NetworkManagerPO::GetContextUseCount()
@@ -583,7 +583,7 @@ void NetworkManagerPO::SetClientHostMode(const int& _hostID, const bool& _onoff)
     auto lHost = m_pHostPool->GetHost(_hostID);
     if (nullptr == lHost)
         return;
-    
+
     lHost->SetClientHostMode(_onoff);
 }
 

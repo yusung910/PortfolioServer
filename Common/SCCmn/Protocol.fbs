@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //z
-// IDL ÀÛ¼º ½Ã
+// IDL ì‘ì„± ì‹œ
 //
 // 1. Prefix					Example
 // C 	- Client
@@ -14,31 +14,31 @@
 // UDB 	- UserDB				SUDB
 // GDB 	- GameDB
 // LDB 	- LogDB
-// WDB 	- WorldDB (±¸ UnityDB )
-// (*ÇÃ·§¹öÆÛ IDLÀ» ÀÌ¿ëÇÏÁö ¾Ê´õ¶óµµ °°Àº ±ÔÄ¢ÀÓ)
+// WDB 	- WorldDB (êµ¬ UnityDB )
+// (*í”Œë«ë²„í¼ IDLì„ ì´ìš©í•˜ì§€ ì•Šë”ë¼ë„ ê°™ì€ ê·œì¹™ì„)
 // 
 // 2. Suffix
-// Req				- ¿äÃ»
-// Res				- ¿äÃ»¿¡ ÀÇÇÑ ÀÀ´ä (Request ÆĞÅ¶Àº ¹İµå½Ã Response°¡ ÀÖ´Ù)
-// Noti				- ¾Ë¸²
-// Broadcast		- ÀüÃ¼ ¾Ë¸² ·ù
+// Req				- ìš”ì²­
+// Res				- ìš”ì²­ì— ì˜í•œ ì‘ë‹µ (Request íŒ¨í‚·ì€ ë°˜ë“œì‹œ Responseê°€ ìˆë‹¤)
+// Noti				- ì•Œë¦¼
+// Broadcast		- ì „ì²´ ì•Œë¦¼ ë¥˜
 //
-// 3. Member Structure´Â Á¢µÎ»ç M À» ºÙÀÎ´Ù.
+// 3. Member StructureëŠ” ì ‘ë‘ì‚¬ M ì„ ë¶™ì¸ë‹¤.
 //
 // *Example
-// table SCAuthResponse		<-- Á¢µÎ»ç Client -> Server, Á¢¹Ì»ç Response·Î ¿äÃ»¿¡ ÀÇÇÑ ÀÀ´äÀÓ
+// table SCAuthResponse		<-- ì ‘ë‘ì‚¬ Client -> Server, ì ‘ë¯¸ì‚¬ Responseë¡œ ìš”ì²­ì— ì˜í•œ ì‘ë‹µì„
 // {
 //   HeroInfoList:[MHeroInfo];
 //   HeroSlotCount:int;
 //
-//   messageid:EPacketProtocol = SC_AuthResponse;		<-- Àü¼Û ÆĞÅ¶Àº ¸¶Áö¸·¿¡ messageid ÇÁ·ÎÅäÄİÀ» ³Ö´Â´Ù.
-// }														¸¶Áö¸·¿¡ ³Ö´Â ÀÌÀ¯´Â ¿À¹ö·ÎµùÀ¸·Î ¾È½áµµ µÇ±â ¶§¹®..
+//   messageid:EPacketProtocol = SC_AuthResponse;		<-- ì „ì†¡ íŒ¨í‚·ì€ ë§ˆì§€ë§‰ì— messageid í”„ë¡œí† ì½œì„ ë„£ëŠ”ë‹¤.
+// }														ë§ˆì§€ë§‰ì— ë„£ëŠ” ì´ìœ ëŠ” ì˜¤ë²„ë¡œë”©ìœ¼ë¡œ ì•ˆì¨ë„ ë˜ê¸° ë•Œë¬¸..
 //
-// table MHeroInfo			- Member Structure ´Â Á¢µÎ»ç M À» ºÙÀÎ´Ù.
+// table MHeroInfo			- Member Structure ëŠ” ì ‘ë‘ì‚¬ M ì„ ë¶™ì¸ë‹¤.
 //
-// ¡Ø ½½·¡½Ã 3°³ÀÌ»ó ¾´µÚ µÚ¿¡ ÇÑ±ÛÀÌ ÀÖÀ¸¸é ¾ÈµÊ (ºôµå¿À·ù³ª¿È)
+// â€» ìŠ¬ë˜ì‹œ 3ê°œì´ìƒ ì“´ë’¤ ë’¤ì— í•œê¸€ì´ ìˆìœ¼ë©´ ì•ˆë¨ (ë¹Œë“œì˜¤ë¥˜ë‚˜ì˜´)
 //
-// * ÀÛ¼º ½Ã FieldNameÀº ¼Ò¹®ÀÚ·Î ÀÛ¼º. ±× ¿Ü¿¡ warning ¹ß»ı
+// * ì‘ì„± ì‹œ FieldNameì€ ì†Œë¬¸ìë¡œ ì‘ì„±. ê·¸ ì™¸ì— warning ë°œìƒ
 ///////////////////////////////////////////////////////////////////////////////
 //  Start Protocols
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,7 +49,7 @@ enum EPacketProtocol:int
 	Host_Close,
 	Host_ConnectFailed,
 
-	// ±âÁ¸ ´ë¿ª 10 ~
+	// ê¸°ì¡´ ëŒ€ì—­ 10 ~
 	Host_Hello = 12,
 
 
@@ -78,12 +78,12 @@ enum EErrorMsg:int
 {
 	EF_NONE														= 0,
 
-	//°øÅë »ç¿ë ¿µ¿ª
+	//ê³µí†µ ì‚¬ìš© ì˜ì—­
 	EF_HOST_IP_IS_NOT_ALLOWED									= 11,
 	EF_DUPLICATE_CONNECTION_NET_ALLOWED							= 12,
 
 	// Login Server
-	//ÀÎÁõ¿À·ù
+	//ì¸ì¦ì˜¤ë¥˜
 	EF_LOGIN_PF_ERROR											= 101,
 }
 

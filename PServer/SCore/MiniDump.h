@@ -8,7 +8,7 @@ public:
     ~MiniDump() = delete;
 
     /*!
-     *  ´ıÇÁÆÄÀÏ »ı¼º Handler
+     *  ë¤í”„íŒŒì¼ ìƒì„± Handler
      *      @param [in] _autoRestart If true, auto restart. Otherwise not auto restart.
      */
     static void SetupExceptionHandler(bool _autoRestart = false);

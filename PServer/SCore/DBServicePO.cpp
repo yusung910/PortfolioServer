@@ -70,7 +70,7 @@ unsigned int DBServicePO::Run()
 {
     while (false == m_ShouldExit)
     {
-        //timer ½ÇÇà
+        //timer ì‹¤í–‰
         UpdateTimer();
 
         m_oPacketQueue.Swap(m_oWorkList);
@@ -83,7 +83,7 @@ unsigned int DBServicePO::Run()
 
         for (auto& data : m_oWorkList)
         {
-            if(auto it = m_umHandlers.find(data->m_nProtocol); it != m_umHandlers.end())
+            if (auto it = m_umHandlers.find(data->m_nProtocol); it != m_umHandlers.end())
             {
                 if (nullptr != it->second)
                     it->second(data);

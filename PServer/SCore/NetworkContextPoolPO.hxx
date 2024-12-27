@@ -4,8 +4,8 @@
  *  @date 2024-11-06
  *  @project SCore
  *
- *      ¼­¹ö¿¡ »ı¼ºµÇ´Â NetworkContextµéÀ» °ü¸®ÇÏ±â À§ÇÑ Pool Å¬·¡½º
- *  
+ *      ì„œë²„ì— ìƒì„±ë˜ëŠ” NetworkContextë“¤ì„ ê´€ë¦¬í•˜ê¸° ìœ„í•œ Pool í´ë˜ìŠ¤
+ *
  */
 #pragma once
 #include <mutex>
@@ -25,38 +25,38 @@ private:
 public:
     /*!
      *  Constructor.
-     *  Reserve()ÇÔ¼ö·Î ÀÎÀÚ°ª Å©±â¸¸Å­ poolÀ» ÇÒ´çÇÑ´Ù
-     *      @param [in] _reserveSize 
+     *  Reserve()í•¨ìˆ˜ë¡œ ì¸ìê°’ í¬ê¸°ë§Œí¼ poolì„ í• ë‹¹í•œë‹¤
+     *      @param [in] _reserveSize
      */
     NetworkContextPoolPO(size_t _reserveSize = 100);
 
     /*!
-     *  m_oAllocatedList, m_oFreeList¸¦ ÃÊ±âÈ­ ½ÃÅ²´Ù
+     *  m_oAllocatedList, m_oFreeListë¥¼ ì´ˆê¸°í™” ì‹œí‚¨ë‹¤
      *  Destructor.
      */
     virtual ~NetworkContextPoolPO();
 
 public:
     /*!
-     *  NetworkContextPO¸¦ ÇÒ´çÇÏ°í ¹İÈ¯ÇÑ´Ù
+     *  NetworkContextPOë¥¼ í• ë‹¹í•˜ê³  ë°˜í™˜í•œë‹¤
      *
-     *      @return 
+     *      @return
      */
     NetworkContextPO* Allocate();
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº NetworkContextPO¸¦
-     *  m_oFreeList¿¡ ³Ö´Â´Ù
-     *  »ç¿ë ´ë±â »óÅÂ·Î ÁöÁ¤
-     *      @param [in,out] _ctxt 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPOë¥¼
+     *  m_oFreeListì— ë„£ëŠ”ë‹¤
+     *  ì‚¬ìš© ëŒ€ê¸° ìƒíƒœë¡œ ì§€ì •
+     *      @param [in,out] _ctxt
      */
     void Release(NetworkContextPO* _ctxt);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº _size ¼ö ¸¸Å­
-     *  NetworkContextPO¸¦ ÀúÀåÇÒ m_oAllocatedList, m_oFreeList¿¡ »ı¼ºÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ _size ìˆ˜ ë§Œí¼
+     *  NetworkContextPOë¥¼ ì €ì¥í•  m_oAllocatedList, m_oFreeListì— ìƒì„±í•œë‹¤
      *
-     *      @param [in] _size 
+     *      @param [in] _size
      */
     void Reserve(size_t _size = 100);
 
@@ -70,8 +70,8 @@ public:
     /*!
      *  Returns the network context pool's usage.
      *
-     *      @param [in,out] _free      
-     *      @param [in,out] _allocated 
+     *      @param [in,out] _free
+     *      @param [in,out] _allocated
      */
     void GetUsage(size_t& _free, size_t& _allocated);
 };

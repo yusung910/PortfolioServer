@@ -31,7 +31,7 @@ void NetworkContextPO::ResetBuffer()
 
 long NetworkContextPO::IncreaseReferenceCount()
 {
-    //Interlocked~ ÇÔ¼ö : ½º·¹µå °£ÀÇ °øÀ¯ÇÏ°í ÀÖ´Â ÀÚ¿øÀ» ¹èÅ¸ÀûÀ¸·Î »ç¿ëÇÒ ¼ö ÀÖµµ·Ï Áö¿ø
+    //Interlocked~ í•¨ìˆ˜ : ìŠ¤ë ˆë“œ ê°„ì˜ ê³µìœ í•˜ê³  ìˆëŠ” ìì›ì„ ë°°íƒ€ì ìœ¼ë¡œ ì‚¬ìš©í•  ìˆ˜ ìˆë„ë¡ ì§€ì›
     return InterlockedIncrement(&m_nReferenceCount);
 }
 
@@ -42,7 +42,7 @@ long NetworkContextPO::DecreaseReferenceCount()
 
 char* NetworkContextPO::GetData()
 {
-    //Context¿¡ ±â·ÏµÈ »çÀÌÁî°¡ 0º¸´Ù ÀÛ°Å³ª ÀĞÀº »çÀÌÁîº¸´Ù ÀÛ°Å³ª °°À»°æ¿ì nullptr
+    //Contextì— ê¸°ë¡ëœ ì‚¬ì´ì¦ˆê°€ 0ë³´ë‹¤ ì‘ê±°ë‚˜ ì½ì€ ì‚¬ì´ì¦ˆë³´ë‹¤ ì‘ê±°ë‚˜ ê°™ì„ê²½ìš° nullptr
     if (m_nWriteSize <= 0
         || m_nWriteSize <= m_nReadSize)
         return nullptr;
@@ -110,11 +110,11 @@ void NetworkContextPO::Align()
     if (m_nReadSize < m_nWriteSize)
     {
         //https://modoocode.com/78#google_vignette
-        //¸Ş¸ğ¸® ºí·ÏÀ» ¿Å±ä´Ù
+        //ë©”ëª¨ë¦¬ ë¸”ë¡ì„ ì˜®ê¸´ë‹¤
         //memmove(void* _Destination, void* _Source, size_t _Size) :
-        //_Destination : µ¥ÀÌÅÍ°¡ º¹»çµÉ °÷À» °¡¸®Å°´Â Æ÷ÀÎÅÍ·Î, ¾ğÁ¦³ª void* ÇüÀÌ´Ù.
-        //_Source : º¹»çÇÒ µ¥ÀÌÅÍ°¡ ÀÖ´Â À§Ä¡¸¦ °¡¸®Å°´Â Æ÷ÀÎÅÍ·Î ¾ğÁ¦³ª void* ÇüÀÌ´Ù.
-        //_Size : º¹»çÇÒ ¹ÙÀÌÆ® ¼ö.
+        //_Destination : ë°ì´í„°ê°€ ë³µì‚¬ë  ê³³ì„ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ë¡œ, ì–¸ì œë‚˜ void* í˜•ì´ë‹¤.
+        //_Source : ë³µì‚¬í•  ë°ì´í„°ê°€ ìˆëŠ” ìœ„ì¹˜ë¥¼ ê°€ë¦¬í‚¤ëŠ” í¬ì¸í„°ë¡œ ì–¸ì œë‚˜ void* í˜•ì´ë‹¤.
+        //_Size : ë³µì‚¬í•  ë°”ì´íŠ¸ ìˆ˜.
         memmove(m_pBuffer, m_pBuffer + m_nReadSize, m_nWriteSize - m_nReadSize);
         m_nWriteSize -= m_nReadSize;
     }
@@ -137,10 +137,10 @@ void NetworkContextPO::Resize(const size_t& _size)
     if (nullptr != lpOldBuffer)
     {
         //memcpy_s(void *dest, size_t destSize, const void* src, size_t count)
-        //void* dest : destination ÁÙÀÓ¸», º¹»ç ´ë»ó ¹öÆÛ
-        //size_t destSize : º¹»ç ´ë»óÀÇ ¹öÆÛ Å©±â
-        //const void* src : source ÁÙÀÓ¸», º¹»çÇÒ °ªÀ» °¡Áö°í ÀÖ´Â ¹öÆÛ
-        //size_t count : º¹»çÇÒ ¹ÙÀÌÆ® ¼ö
+        //void* dest : destination ì¤„ì„ë§, ë³µì‚¬ ëŒ€ìƒ ë²„í¼
+        //size_t destSize : ë³µì‚¬ ëŒ€ìƒì˜ ë²„í¼ í¬ê¸°
+        //const void* src : source ì¤„ì„ë§, ë³µì‚¬í•  ê°’ì„ ê°€ì§€ê³  ìˆëŠ” ë²„í¼
+        //size_t count : ë³µì‚¬í•  ë°”ì´íŠ¸ ìˆ˜
         memcpy_s(m_pBuffer, _size, lpOldBuffer, m_nBufferSize);
         SafeDelete(lpOldBuffer);
     }

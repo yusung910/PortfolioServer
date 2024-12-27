@@ -1,13 +1,13 @@
 #pragma once
 
-constexpr const char* DEFAULT_LOG_PATH = "./Log/";			// ·Î±× ·çÆ® Æú´õ
-constexpr const char* DEFAULT_LOG_INIT_PATH = "./";			// ½ÃÀÛ½Ã ÁöÁ¤µÉ ·Î±× Æú´õ. YYMMDD format
-constexpr const char* DEFAULT_SERVER_NAME = "Server";		// ¼­¹ö¸í (Login, Game µî)
-constexpr int DEFAULT_SERVER_NUMBER = 10000;				// ¼­¹ö¹øÈ£
+constexpr const char* DEFAULT_LOG_PATH = "./Log/";			// ë¡œê·¸ ë£¨íŠ¸ í´ë”
+constexpr const char* DEFAULT_LOG_INIT_PATH = "./";			// ì‹œì‘ì‹œ ì§€ì •ë  ë¡œê·¸ í´ë”. YYMMDD format
+constexpr const char* DEFAULT_SERVER_NAME = "Server";		// ì„œë²„ëª… (Login, Game ë“±)
+constexpr int DEFAULT_SERVER_NUMBER = 10000;				// ì„œë²„ë²ˆí˜¸
 
-constexpr size_t MAX_LOG_FILE_SIZE = 1024 * 1024 * 10;	// ´ÜÀÏ ÆÄÀÏ ÃÖ´ë 10M
-constexpr size_t MAX_LOG_STRING_SIZE = 8192;				// ·Î±× ¸Ş½ÃÁö ÇÏ³ª´ç ÃÖ´ë ±ÛÀÚ¼ö
-constexpr size_t VARIABLE_FORMAT_BUFFER_SIZE = MAX_LOG_STRING_SIZE * 2;	// °¡º¯ÀÎÀÚ ¹öÆÛ Å©±â
+constexpr size_t MAX_LOG_FILE_SIZE = 1024 * 1024 * 10;	// ë‹¨ì¼ íŒŒì¼ ìµœëŒ€ 10M
+constexpr size_t MAX_LOG_STRING_SIZE = 8192;				// ë¡œê·¸ ë©”ì‹œì§€ í•˜ë‚˜ë‹¹ ìµœëŒ€ ê¸€ììˆ˜
+constexpr size_t VARIABLE_FORMAT_BUFFER_SIZE = MAX_LOG_STRING_SIZE * 2;	// ê°€ë³€ì¸ì ë²„í¼ í¬ê¸°
 
 // Format : [YYYY-MM-DD HH:mm:ss.xxx] LogMessage...
 constexpr const wchar_t* LOG_MESSAGE_FORMAT = L"[%04d-%02d-%02d %02d:%02d:%02d.%03d] %s";
@@ -22,7 +22,7 @@ enum class ELogLevel : int
     Warning,
     Error,
 
-    System,			// ¼­¹ö °¡µ¿ µî ½Ã½ºÅÛÀûÀÎ ¿ä¼Ò, View Only
+    System,			// ì„œë²„ ê°€ë™ ë“± ì‹œìŠ¤í…œì ì¸ ìš”ì†Œ, View Only
     Debug,			// Debug, View Only
 
     Max,

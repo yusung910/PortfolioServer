@@ -29,8 +29,8 @@ private:
     std::string m_sServerName = DEFAULT_SERVER_NAME;
     int m_nServerNum = DEFAULT_SERVER_NUMBER;
 
-    std::string m_sLogDirConfig = DEFAULT_LOG_PATH; //·Î±× root dir
-    std::string m_sLogDateFolder = "";  //·Î±× ÀúÀå Æú´õ
+    std::string m_sLogDirConfig = DEFAULT_LOG_PATH; //ë¡œê·¸ root dir
+    std::string m_sLogDateFolder = "";  //ë¡œê·¸ ì €ì¥ í´ë”
 
 public:
     LoggingManagerPO(); //Constructor
@@ -63,7 +63,7 @@ private:
     bool _ChangeInfoFile();
     bool _ChangeErrorFile();
 
-    //ÄÜ¼Ö ÄÃ·¯ ÁöÁ¤
+    //ì½˜ì†” ì»¬ëŸ¬ ì§€ì •
     void _ChangeConsoleColor(const ELogLevel& _lvl);
 
 };

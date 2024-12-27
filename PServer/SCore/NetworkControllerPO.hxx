@@ -3,11 +3,11 @@
  *  @author YS
  *  @date 2024-10-29
  *  @project SCore
- *  
- *  NetworkWorker¿Í NetworkHost¸¦ ÅëÇØ µ¥ÀÌÅÍ¸¦ ¼¼ÆÃÇÏ¸ç
- *  IOCP Åë½ÅÀ» ÇÏ±â À§ÇÑ Å¬·¡½º.
- *  EContextType¿¡ µû¶ó IOCP Åë½ÅÀ» ÇÑ´Ù
- *  
+ *
+ *  NetworkWorkerì™€ NetworkHostë¥¼ í†µí•´ ë°ì´í„°ë¥¼ ì„¸íŒ…í•˜ë©°
+ *  IOCP í†µì‹ ì„ í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤.
+ *  EContextTypeì— ë”°ë¼ IOCP í†µì‹ ì„ í•œë‹¤
+ *
  */
 #pragma once
 
@@ -38,72 +38,72 @@ public:
 
 public:
     /*!
-     *  NetworkController ¾²·¹µå ÇÚµé »ı¼º
+     *  NetworkController ì“°ë ˆë“œ í•¸ë“¤ ìƒì„±
      *
-     *      @return 
+     *      @return
      */
     bool CreateThread();
 
     /*!
-     *  NetworkController ¾²·¹µå Áß´Ü
+     *  NetworkController ì“°ë ˆë“œ ì¤‘ë‹¨
      */
     void TerminateThread();
 
     /*!
-     *  CreateThread()¿¡ »ı¼ºµÈ ¾²·¹µå ÇÚµé¿¡¼­ ½ÇÇàÇÒ ÇÔ¼ö
+     *  CreateThread()ì— ìƒì„±ëœ ì“°ë ˆë“œ í•¸ë“¤ì—ì„œ ì‹¤í–‰í•  í•¨ìˆ˜
      *
-     *      @param [in,out] _arg 
+     *      @param [in,out] _arg
      *
-     *      @return 
+     *      @return
      */
     static unsigned int WINAPI ExcuteThread(void* _arg);
 
     /*!
-     *  NetworkController¿¡¼­ Ã³¸®ÇÒ NetworkContextPO¸¦ ³Ö´Â ÇÔ¼ö
+     *  NetworkControllerì—ì„œ ì²˜ë¦¬í•  NetworkContextPOë¥¼ ë„£ëŠ” í•¨ìˆ˜
      *
-     *      @param [in,out] _ctxt 
+     *      @param [in,out] _ctxt
      *
-     *      @return 
+     *      @return
      */
     bool PushThread(NetworkContextPO* _ctxt);
 
     /*!
-     *  m_ConnectorHostList¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ Áß
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº ip¿Í port °ª°ú ÀÏÄ¡ÇÏ´Â HostID°ªÀ» ¹İÃT³ª´Ù
+     *  m_ConnectorHostListì— ì €ì¥ëœ ë°ì´í„° ì¤‘
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ ipì™€ port ê°’ê³¼ ì¼ì¹˜í•˜ëŠ” HostIDê°’ì„ ë°˜í™šë‚˜ë‹¤
      *
-     *      @param [in] _ip   
-     *      @param [in] _port 
+     *      @param [in] _ip
+     *      @param [in] _port
      *
      *      @return HostID
      */
     int GetConnectorHostID(const std::string& _ip, int _port);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº HostID¿¡ PacketÀ» Àü¼Û
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ HostIDì— Packetì„ ì „ì†¡
      *
-     *      @param [in] _hostID 
-     *      @param [in] _packet 
+     *      @param [in] _hostID
+     *      @param [in] _packet
      *
-     *      @return 
+     *      @return
      */
     bool SendPacketToHost(const int& _hostID, Packet::SharedPtr _packet);
 
 
 private:
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº NetworkHostPO¿¡ SocketÀ» »ı¼ºÇÏ°í
-     *  ¸â¹ö º¯¼ö m_oHostList ¸Ê¿¡ NetworkHostPO¸¦ µî·ÏÇÏ¸ç
-     *  ±× ÈÄ Socket Åë½ÅÀ» À§ÇØ NetworkWorker¿¡ µî·ÏÇÏ´Â ÇÔ¼ö
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkHostPOì— Socketì„ ìƒì„±í•˜ê³ 
+     *  ë©¤ë²„ ë³€ìˆ˜ m_oHostList ë§µì— NetworkHostPOë¥¼ ë“±ë¡í•˜ë©°
+     *  ê·¸ í›„ Socket í†µì‹ ì„ ìœ„í•´ NetworkWorkerì— ë“±ë¡í•˜ëŠ” í•¨ìˆ˜
      *
-     *      @param [in,out] _host 
+     *      @param [in,out] _host
      *
-     *      @return 
+     *      @return
      */
     bool _AddHost(NetworkHostPO* _host);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº hostID·Î
-     *  Å¬·¡½º ¸â¹öº¯¼ö m_oHostList¿¡ ÀúÀåµÇ¾î ÀÖ´Â NetworkHostPO¸¦ Ã£¾Æ ¹İÈ¯ÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ hostIDë¡œ
+     *  í´ë˜ìŠ¤ ë©¤ë²„ë³€ìˆ˜ m_oHostListì— ì €ì¥ë˜ì–´ ìˆëŠ” NetworkHostPOë¥¼ ì°¾ì•„ ë°˜í™˜í•œë‹¤
      *
      *      @param [in] _hostID
      *
@@ -112,66 +112,66 @@ private:
     NetworkHostPO* _FindHost(int _hostID);
 
     /*!
-     *  m_oHostList¿¡ µî·ÏµÇ¾î ÀÖ´Â NetworkHostPOÀÇ IsAlive() °ªÀÌ trueÀÏ °æ¿ì
-     *  UpdateÇÔ¼ö¸¦ Áö¼ÓÀûÀ¸·Î ½ÇÇàÇÏ°í
-     *  falseÀÏ °æ¿ì ÇØ´ç NetworkHostPO¸¦ Áö¿î´Ù
+     *  m_oHostListì— ë“±ë¡ë˜ì–´ ìˆëŠ” NetworkHostPOì˜ IsAlive() ê°’ì´ trueì¼ ê²½ìš°
+     *  Updateí•¨ìˆ˜ë¥¼ ì§€ì†ì ìœ¼ë¡œ ì‹¤í–‰í•˜ê³ 
+     *  falseì¼ ê²½ìš° í•´ë‹¹ NetworkHostPOë¥¼ ì§€ìš´ë‹¤
      */
     void _UpdateHost();
 
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº NetworkHostPO¿¡ ÀúÀåµÇ¾î ÀÖ´Â µ¥ÀÌÅÍµéÀ»
-     *  ConnectorTargetInfo ±¸Á¶Ã¼¸¦ »ı¼ºÇÏ°í ÀúÀåÇØ¼­
-     *  m_ConnectorHostList¿¡ push_backÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkHostPOì— ì €ì¥ë˜ì–´ ìˆëŠ” ë°ì´í„°ë“¤ì„
+     *  ConnectorTargetInfo êµ¬ì¡°ì²´ë¥¼ ìƒì„±í•˜ê³  ì €ì¥í•´ì„œ
+     *  m_ConnectorHostListì— push_backí•œë‹¤
      *
-     *      @param [in,out] _host 
+     *      @param [in,out] _host
      */
     void _AddConnectorHost(NetworkHostPO* _host);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº hostID °ªÀ¸·Î m_ConnectorHostList¿¡ ÀúÀåµÇ¾î ÀÖ´Â ConnectorTargetInfoÀ» Ã£¾Æ¼­ Áö¿î´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ hostID ê°’ìœ¼ë¡œ m_ConnectorHostListì— ì €ì¥ë˜ì–´ ìˆëŠ” ConnectorTargetInfoì„ ì°¾ì•„ì„œ ì§€ìš´ë‹¤
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      */
     void _RemoveConnectorHost(int _hostID);
 
 private:
     /*!
-     *  m_oMsgQueue¿¡ ÀúÀåµÈ NetworkContextPO µ¥ÀÌÅÍ¸¦ ContextType¿¡ ¸Â°Ô Ã³¸®ÇÏ´Â ÇÔ¼ö
-     *  ExcuteThread() ÇÔ¼ö ³»ºÎ¿¡¼­ ½ÇÇà µÇ¸ç
-     *  EContextType(Connect, Listen, Join, Close) °ª¿¡ ÇØ´çÇÏ´Â ÇÔ¼ö°¡ ½ÇÇàµÈ´Ù
-     *  °¢°¢ ÇÔ¼ö¿¡ m_oMsgQueue¿¡ ÀúÀåµÈ NetworkContextPO Pointer¸¦ ÀÎÀÚ °ªÀ¸·Î Àü´ŞÇÏ¿© ½ÇÇàÇÑ´Ù
+     *  m_oMsgQueueì— ì €ì¥ëœ NetworkContextPO ë°ì´í„°ë¥¼ ContextTypeì— ë§ê²Œ ì²˜ë¦¬í•˜ëŠ” í•¨ìˆ˜
+     *  ExcuteThread() í•¨ìˆ˜ ë‚´ë¶€ì—ì„œ ì‹¤í–‰ ë˜ë©°
+     *  EContextType(Connect, Listen, Join, Close) ê°’ì— í•´ë‹¹í•˜ëŠ” í•¨ìˆ˜ê°€ ì‹¤í–‰ëœë‹¤
+     *  ê°ê° í•¨ìˆ˜ì— m_oMsgQueueì— ì €ì¥ëœ NetworkContextPO Pointerë¥¼ ì¸ì ê°’ìœ¼ë¡œ ì „ë‹¬í•˜ì—¬ ì‹¤í–‰í•œë‹¤
      */
     void ProcessThread();
 
     /*!
-     *  ÀÎÀÚ °ªÀ¸·Î Àü´Ş¹ŞÀº NetworkContextPO¸¦ ¼ÒÄÏ Åë½ÅÇÏ±â À§ÇØ ConnectExÇÔ¼ö·Î
-     *  ¼ÒÄÏÀ» ¿¬°áÇÏ´Â ÇÔ¼ö
-     *  
-     *      @param [in,out] _ctxt 
+     *  ì¸ì ê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPOë¥¼ ì†Œì¼“ í†µì‹ í•˜ê¸° ìœ„í•´ ConnectExí•¨ìˆ˜ë¡œ
+     *  ì†Œì¼“ì„ ì—°ê²°í•˜ëŠ” í•¨ìˆ˜
+     *
+     *      @param [in,out] _ctxt
      */
     void ProcessConnect(NetworkContextPO& _ctxt);
 
     /*!
-     *  ÀÎÀÚ °ªÀ¸·Î Àü´Ş¹ŞÀº NetworkContextPOÀÇ
-     *  NetworkHostPO¸¦ Listen »óÅÂ·Î º¯°æÇÏ´Â ÇÔ¼ö
+     *  ì¸ì ê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPOì˜
+     *  NetworkHostPOë¥¼ Listen ìƒíƒœë¡œ ë³€ê²½í•˜ëŠ” í•¨ìˆ˜
      *
-     *      @param [in,out] _ctxt 
+     *      @param [in,out] _ctxt
      */
     void ProcessListen(NetworkContextPO& _ctxt);
 
     /*!
-     *  ÀÎÀÚ °ªÀ¸·Î Àü´Ş¹ŞÀº NetworkContextPOÀÇ NetworkHostPO¿¡¼­ WSARecv() ÇÔ¼ö¸¦ ÅëÇØ
-     *  Socket µ¥ÀÌÅÍ¸¦ ¼ö½Å Ã³¸®ÇÑ´Ù
-     *  
-     *      @param [in,out] _ctxt 
+     *  ì¸ì ê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPOì˜ NetworkHostPOì—ì„œ WSARecv() í•¨ìˆ˜ë¥¼ í†µí•´
+     *  Socket ë°ì´í„°ë¥¼ ìˆ˜ì‹  ì²˜ë¦¬í•œë‹¤
+     *
+     *      @param [in,out] _ctxt
      */
     void ProcessJoin(NetworkContextPO& _ctxt);
 
     /*!
-     *  ÀÎÀÚ °ªÀ¸·Î Àü´Ş¹ŞÀº NetworkContextPOÀÇ NetworkHostPO¸¦ Socket Close Ã³¸®ÇÑ´Ù
+     *  ì¸ì ê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkContextPOì˜ NetworkHostPOë¥¼ Socket Close ì²˜ë¦¬í•œë‹¤
      *
-     *      @param [in,out] _ctxt 
+     *      @param [in,out] _ctxt
      */
     void ProcessClose(NetworkContextPO& _ctxt);
 };

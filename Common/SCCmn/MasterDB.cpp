@@ -2,9 +2,9 @@
 #include "MasterDB.h"
 
 #	define CHECK_MACRO_FUNCTIONS
-#	define IsPositive(x) (x > 0)						// ¾ç¼öÀÎÁö?
-#	define IsPositiveIncludeZero(x) (x >= 0)			// 0À» Æ÷ÇÔÇÏ´Â ¾ç¼öÀÎÁö?
-#	define IsNotZero(x) (x != 0)						// 0ÀÌ ¾Æ´ÑÁö?
+#	define IsPositive(x) (x > 0)						// ì–‘ìˆ˜ì¸ì§€?
+#	define IsPositiveIncludeZero(x) (x >= 0)			// 0ì„ í¬í•¨í•˜ëŠ” ì–‘ìˆ˜ì¸ì§€?
+#	define IsNotZero(x) (x != 0)						// 0ì´ ì•„ë‹Œì§€?
 
 bool MDBHeroStat::IsValid() const
 {

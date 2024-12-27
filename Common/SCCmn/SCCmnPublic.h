@@ -2,12 +2,12 @@
 
 #ifdef SERVER_BUILD
 
-//¼­¹ö Àü¿ë
+//ì„œë²„ ì „ìš©
 #include <string>
 #include <vector>
 #else
 
-//Å¬¶ó Àü¿ë
+//í´ë¼ ì „ìš©
 
 #endif // SERVER_BUILD
 
@@ -19,7 +19,7 @@
 
 #include "MasterDB.h"
 
-//object stats, object stats manager Ãß°¡ÇÊ¿ä
+//object stats, object stats manager ì¶”ê°€í•„ìš”
 //#include "ObjectStats.h"
 //#include "ObjectStatsManager.h"
 

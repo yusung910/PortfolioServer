@@ -12,7 +12,7 @@ public:
     Position(const float& _x = 0.0f, const float& _y = 0.0f, const float& _z = 0.0f);
     ~Position() = default;
 
-    //¿¬»êÀÚ ¿À¹ö¶óÀÌµù ÇÔ¼ö
+    //ì—°ì‚°ì ì˜¤ë²„ë¼ì´ë”© í•¨ìˆ˜
     Position operator+(const Position& _val) const;
     Position operator-(const Position& _val) const;
     Position operator*(const Position& _val) const;
@@ -32,8 +32,8 @@ public:
     void Set(const float& _x = 0.0f, const float& _y = 0.0f, const float& _z = 0.0f);
     void Set(Position& _pos);
 
-    //Á¤±ÔÈ­:
-    //VectorÀÇ Å©±â°¡ 1ÀÌ°í ¹æÇâ °ª¸¸ ÀÖ´Â vector·Î ¸¸µç´Ù
+    //ì •ê·œí™”:
+    //Vectorì˜ í¬ê¸°ê°€ 1ì´ê³  ë°©í–¥ ê°’ë§Œ ìˆëŠ” vectorë¡œ ë§Œë“ ë‹¤
     bool Normalize();
 
     // Get

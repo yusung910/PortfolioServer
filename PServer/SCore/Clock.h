@@ -6,8 +6,8 @@
 class SCoreAPI Clock
 {
 public:
-    static int64_t GetTick64();     // 1ms ´ÜÀ§
-    static int64_t GetFileTime();   // 100ns ´ÜÀ§
+    static int64_t GetTick64();     // 1ms ë‹¨ìœ„
+    static int64_t GetFileTime();   // 100ns ë‹¨ìœ„
 
 private:
     Clock() = delete;

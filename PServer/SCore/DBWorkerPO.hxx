@@ -4,22 +4,22 @@
  *  @date 2024-11-30
  *  @project SCore
  *
- *  DB ÀÛ¾÷À» À§ÇÑ Å¬·¡½º
+ *  DB ì‘ì—…ì„ ìœ„í•œ í´ë˜ìŠ¤
  */
 #pragma once
 #include <string>
 #include <atomic>
 
- // Poco Include °ü·Ã
+ // Poco Include ê´€ë ¨
 #ifndef POCO_STATIC
 #	define POCO_STATIC 1
 #endif
 
 #pragma warning (push)
 #pragma warning (disable: 4244 4245 4100 4127)
-#pragma warning (disable: 4634 4635)	// XML ÁÖ¼® °ü·Ã
-#pragma warning (disable: 4389)			// Visual Studio 2022 (vc 143) , signed, unsigned ºÒÀÏÄ¡
-#pragma warning (disable: 26439 26498 26451 26444 26451 26812)	// VC++ Code Guidelines warning. POCO ¶óÀÌºê·¯¸®°¡ ¹®Á¦...
+#pragma warning (disable: 4634 4635)	// XML ì£¼ì„ ê´€ë ¨
+#pragma warning (disable: 4389)			// Visual Studio 2022 (vc 143) , signed, unsigned ë¶ˆì¼ì¹˜
+#pragma warning (disable: 26439 26498 26451 26444 26451 26812)	// VC++ Code Guidelines warning. POCO ë¼ì´ë¸ŒëŸ¬ë¦¬ê°€ ë¬¸ì œ...
 
 #include <Poco/DateTime.h>
 #include <Poco/Data/RecordSet.h>
@@ -39,8 +39,8 @@ using namespace Poco::Data::Keywords;		// in() out()
 
 
 constexpr size_t PROPERTY_MAX_FIELD_SIZE = 8192;
-constexpr size_t DEFAULT_DATABASE_TIMEOUT = 5;		// ´ÜÀ§´Â È®ÀÎ ÇÊ¿ä
-constexpr int MAX_CONNECT_TRY_COUNT = 20;			// ÃÖ´ë ÀçÁ¢¼Ó ½Ãµµ È½¼ö
+constexpr size_t DEFAULT_DATABASE_TIMEOUT = 5;		// ë‹¨ìœ„ëŠ” í™•ì¸ í•„ìš”
+constexpr int MAX_CONNECT_TRY_COUNT = 20;			// ìµœëŒ€ ì¬ì ‘ì† ì‹œë„ íšŸìˆ˜
 
 class DBWorkerPO
 {
@@ -67,7 +67,7 @@ public:
 
 	bool Init();
 
-    Poco::Data::Session* GetSession();
+	Poco::Data::Session* GetSession();
 
 	bool IsConnected() const;
 

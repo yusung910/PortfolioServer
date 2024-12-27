@@ -5,7 +5,7 @@
 #include "DBWorker.h"
 #include "StringUtil.h"
 
-//ÆíÀÇ¿ë ¸ÅÅ©·Î ÇÔ¼ö
+//í¸ì˜ìš© ë§¤í¬ë¡œ í•¨ìˆ˜
 
 #define CheckSession()  auto lTmpSess = GetSession();                       \
                         if(nullptr == lTmpSess)                             \
@@ -22,15 +22,15 @@
                         {                                                   \
                             VIEW_WRITE_ERROR("\nDB Error : %s", e.what());  \
                         }
-                        
 
-//Statement¸¦ ÀÌ¿ëÇÑ Select °á°ú µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ È®ÀÎ
+
+//Statementë¥¼ ì´ìš©í•œ Select ê²°ê³¼ ë°ì´í„° ì¡´ì¬ ì—¬ë¶€ í™•ì¸
 #define HasResult(x) (false == x.toString().empty())
 
-//Statement¸¦ ÀÌ¿ëÇØ Select ÇÒ ¶§ °á°ú µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ Ã¼Å© ÈÄ ¾øÀ» °æ¿ì Break;
+//Statementë¥¼ ì´ìš©í•´ Select í•  ë•Œ ê²°ê³¼ ë°ì´í„° ì¡´ì¬ ì—¬ë¶€ ì²´í¬ í›„ ì—†ì„ ê²½ìš° Break;
 #define CheckResult(x) if(true == x.toString().empty()) break;
 
-// ÆíÀÇ¿ë ¸ÅÅ©·Î ÇÔ¼ö end
+// í¸ì˜ìš© ë§¤í¬ë¡œ í•¨ìˆ˜ end
 
 class DBWorker;
 class DBServicePO;
@@ -66,7 +66,7 @@ private:
     void _RegisterHandler(const int& _protocolID, const std::function<bool(InnerPacket::SharedPtr)>& _pFunc);
 
 protected:
-    template<typename DispatcherType, typename EnumType, 
+    template<typename DispatcherType, typename EnumType,
         typename = typename std::enable_if<std::is_base_of<DBService, DispatcherType>::value>::type>
     void RegisterHandler(const EnumType& _msgID, bool (DispatcherType::* _handler)(InnerPacket::SharedPtr))
     {

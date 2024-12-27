@@ -4,12 +4,12 @@
 
 const long long WINDOWS_XNIX_TIME_GAP = 11644473600000ll;
 /// <summary>
-/// Unix(timestamp), Windows(Tick), ¹®ÀÚ¿­ ½Ã°£(yyyyMMdd µî) °£ÀÇ µ¥ÀÌÅÍ º¯È¯À» À§ÇÑ Å¬·¡½º
+/// Unix(timestamp), Windows(Tick), ë¬¸ìì—´ ì‹œê°„(yyyyMMdd ë“±) ê°„ì˜ ë°ì´í„° ë³€í™˜ì„ ìœ„í•œ í´ë˜ìŠ¤
 /// </summary>
 class TimeUtil
 {
 	/// <summary>
-	/// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº tick(64bit)À» timestamp(time_t)·Î º¯È¯
+	/// ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ tick(64bit)ì„ timestamp(time_t)ë¡œ ë³€í™˜
 	/// </summary>
 	/// <param name="val">tick</param>
 	/// <returns>Timestamp</returns>
@@ -18,18 +18,18 @@ class TimeUtil
 		if (_tick == 0ll)
 			return 0;
 
-		// '11644473600000' °ªÀ» »ç¿ëÇÏ´Â ÀÌÀ¯
-		// timestamp´Â 1970-01-01À» ±âÁØÀ¸·Î ½ÃÀÛÇÏ´Â µ¥ÀÌÅÍ
-		// tick´Â 1601-01-01À» ±âÁØÀ¸·Î ½ÃÀÛÇÏ´Â µ¥ÀÌÅÍ
-		// 1601-01-01 ºÎÅÍ 1970-01-01±îÁöÀÇ ³¯Â¥¸¦ ÃÊ(second)·Î °è»êÇÏ¸é 11644473600000
-		// tickÀº millisecÀÌ±â ¶§¹®¿¡ °è»êÇÑ °ª¿¡¼­ 1000À» ³ª´«´Ù
-		//ÃâÃ³ : https://sunshine2k.blogspot.com/2014/08/where-does-116444736000000000-come-from.html
+		// '11644473600000' ê°’ì„ ì‚¬ìš©í•˜ëŠ” ì´ìœ 
+		// timestampëŠ” 1970-01-01ì„ ê¸°ì¤€ìœ¼ë¡œ ì‹œì‘í•˜ëŠ” ë°ì´í„°
+		// tickëŠ” 1601-01-01ì„ ê¸°ì¤€ìœ¼ë¡œ ì‹œì‘í•˜ëŠ” ë°ì´í„°
+		// 1601-01-01 ë¶€í„° 1970-01-01ê¹Œì§€ì˜ ë‚ ì§œë¥¼ ì´ˆ(second)ë¡œ ê³„ì‚°í•˜ë©´ 11644473600000
+		// tickì€ millisecì´ê¸° ë•Œë¬¸ì— ê³„ì‚°í•œ ê°’ì—ì„œ 1000ì„ ë‚˜ëˆˆë‹¤
+		//ì¶œì²˜ : https://sunshine2k.blogspot.com/2014/08/where-does-116444736000000000-come-from.html
 		time_t lRet = (_tick - WINDOWS_XNIX_TIME_GAP) / 1000ll;
 		return lRet;
 	}
-		
+
 	/// <summary>
-	/// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº Timestamp(time_t)¸¦ tick(int64_t)·Î º¯È¯
+	/// ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ Timestamp(time_t)ë¥¼ tick(int64_t)ë¡œ ë³€í™˜
 	/// </summary>
 	/// <param name="_timestamp">The timestamp.</param>
 	/// <returns>tick</returns>
@@ -42,14 +42,14 @@ class TimeUtil
 		return lRet;
 	}
 
-	
+
 	/// <summary>
-	/// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº date(yyyyMMddHHmmss)¸¦ Timestamp·Î º¯È¯
-	/// GMT+0 ±×¸®´ÏÄ¡ Ãµ¹®´ë ±âÁØÀ¸·Î default°ª ÁöÁ¤
-	/// ½ÃÂ÷°¡ ±×¸®´ÏÄ¡ Ãµ¹®´ëº¸´Ù 9½Ã°£ÀÌ ºü¸¦ °æ¿ì (GMT+9) _inputTimeZone = 9
+	/// ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ date(yyyyMMddHHmmss)ë¥¼ Timestampë¡œ ë³€í™˜
+	/// GMT+0 ê·¸ë¦¬ë‹ˆì¹˜ ì²œë¬¸ëŒ€ ê¸°ì¤€ìœ¼ë¡œ defaultê°’ ì§€ì •
+	/// ì‹œì°¨ê°€ ê·¸ë¦¬ë‹ˆì¹˜ ì²œë¬¸ëŒ€ë³´ë‹¤ 9ì‹œê°„ì´ ë¹ ë¥¼ ê²½ìš° (GMT+9) _inputTimeZone = 9
 	/// </summary>
 	/// <param name="val">Timestamp</param>
-	/// <param name="inputTimeZone">½ÃÂ÷°è»êÀ» À§ÇÑ timezone</param>
+	/// <param name="inputTimeZone">ì‹œì°¨ê³„ì‚°ì„ ìœ„í•œ timezone</param>
 	/// <returns></returns>
 	static time_t ConvertyyyyMMddHHmmssToTimestamp(const int64_t& _date, const int& _inputTimeZone = 0)
 	{
@@ -84,11 +84,11 @@ class TimeUtil
 		time_t tRet = _mkgmtime(&tmTemp);
 		return tRet - (time_t)(_inputTimeZone * 3600ll);
 	}
-	
+
 	/// <summary>
-	/// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº ³¯Â¥(date)¸¦ tickÀ¸·Î º¯È¯
+	/// ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ ë‚ ì§œ(date)ë¥¼ tickìœ¼ë¡œ ë³€í™˜
 	/// </summary>
-	/// <param name="_date">³¯Â¥</param>
+	/// <param name="_date">ë‚ ì§œ</param>
 	/// <param name="inputTimeZone">timezone</param>
 	/// <returns></returns>
 	static int64_t ConvertyyyyMMddHHmmssToTick64(const int64_t& _date, const int& _inputTimeZone = 0)
@@ -96,9 +96,9 @@ class TimeUtil
 		return ConvertTimestampToTick64(ConvertyyyyMMddHHmmssToTimestamp(_date, _inputTimeZone));
 	}
 
-		
+
 	/// <summary>
-	/// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº Timestamp¸¦ yyyyMMddHHmmssÇü½ÄÀÇ date·Î º¯È¯ÇÑ´Ù
+	/// ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ Timestampë¥¼ yyyyMMddHHmmssí˜•ì‹ì˜ dateë¡œ ë³€í™˜í•œë‹¤
 	/// </summary>
 	/// <param name="_timestamp">timestamp</param>
 	/// <param name="_outputTimeZone">The output time zone.</param>
@@ -127,9 +127,9 @@ class TimeUtil
 
 		return nRet;
 	}
-	
+
 	/// <summary>
-	/// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº tick°ªÀ» yyyyMMddHHmmss Çü½ÄÀÎ date·Î º¯È¯ÇÑ´Ù
+	/// ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ tickê°’ì„ yyyyMMddHHmmss í˜•ì‹ì¸ dateë¡œ ë³€í™˜í•œë‹¤
 	/// </summary>
 	/// <param name="_tick">The tick.</param>
 	/// <param name="_outputTimeZone">The output time zone.</param>

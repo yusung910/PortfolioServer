@@ -20,102 +20,102 @@ public:
 
 public:
     /*!
-     *  IOCP Åë½ÅÀ» À§ÇÑ Thread¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö
-     *  CreateIoCompletionPort()·Î HandleÀ» »ı¼ºÇÏ°í m_hIOCP¿¡ ÇÒ´çÇÑ´Ù.
-     *  ¼­¹öÀÇ CPU ÇÁ·Î¼¼¼­ ¼ö ¸¸Å­ ¾²·¹µå¸¦ »ı¼ºÇÏ°í m_oHandleList¿¡ push_backÇÑ´Ù
-     *  
-     *      @return ¼º°ø ¿©ºÎ(¼º°ø : true, ½ÇÆĞ :false)
+     *  IOCP í†µì‹ ì„ ìœ„í•œ Threadë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜
+     *  CreateIoCompletionPort()ë¡œ Handleì„ ìƒì„±í•˜ê³  m_hIOCPì— í• ë‹¹í•œë‹¤.
+     *  ì„œë²„ì˜ CPU í”„ë¡œì„¸ì„œ ìˆ˜ ë§Œí¼ ì“°ë ˆë“œë¥¼ ìƒì„±í•˜ê³  m_oHandleListì— push_backí•œë‹¤
+     *
+     *      @return ì„±ê³µ ì—¬ë¶€(ì„±ê³µ : true, ì‹¤íŒ¨ :false)
      */
     bool CreateThread();
 
     /*!
-     *  ÇöÀç ÁøÇàÁßÀÎ Thread¸¦ Á¾·áÇÏ±â À§ÇÑ ÇÔ¼ö
-     *  PostQueuedCompletionStatus()¸¦ È£ÃâÇØ¼­ m_hIOCP ÇÚµé¿¡ ¿Ï·á ÆĞÅ¶À» °Ô½Ã
-     *  m_bIsTerminated, m_bIsStarted¿¡ false °ªÀ» ÇÒ´ç
+     *  í˜„ì¬ ì§„í–‰ì¤‘ì¸ Threadë¥¼ ì¢…ë£Œí•˜ê¸° ìœ„í•œ í•¨ìˆ˜
+     *  PostQueuedCompletionStatus()ë¥¼ í˜¸ì¶œí•´ì„œ m_hIOCP í•¸ë“¤ì— ì™„ë£Œ íŒ¨í‚·ì„ ê²Œì‹œ
+     *  m_bIsTerminated, m_bIsStartedì— false ê°’ì„ í• ë‹¹
      */
     void TerminateThread();
 
     /*!
-     *  CreateThread() ³»ºÎ¿¡¼­ _beginthreadex()¸¦ ÅëÇØ Handle¿¡ µî·ÏµÉ ÇÔ¼ö
-     *  ProcessThread()¿Í TerminateThread()°¡ ½ÇÇà µÈ´Ù
-     *      @param [in,out] _arg 
+     *  CreateThread() ë‚´ë¶€ì—ì„œ _beginthreadex()ë¥¼ í†µí•´ Handleì— ë“±ë¡ë  í•¨ìˆ˜
+     *  ProcessThread()ì™€ TerminateThread()ê°€ ì‹¤í–‰ ëœë‹¤
+     *      @param [in,out] _arg
      *
-     *      @return 
+     *      @return
      */
     static unsigned int WINAPI ExecuteThread(void* _arg);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº NetworkHostPO, NetworkContextPO¸¦ IOCP
-     *  PostQueuedCompletionStatus() ÇÔ¼ö·Î ÆĞÅ¶À» Àü¼ÛÇÑ´Ù
-     *      @param [in,out] _host 
-     *      @param [in,out] _ctxt 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkHostPO, NetworkContextPOë¥¼ IOCP
+     *  PostQueuedCompletionStatus() í•¨ìˆ˜ë¡œ íŒ¨í‚·ì„ ì „ì†¡í•œë‹¤
+     *      @param [in,out] _host
+     *      @param [in,out] _ctxt
      *
-     *      @return 
+     *      @return
      */
     bool PushThread(NetworkHostPO* _host, NetworkContextPO* _ctxt);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº NetworkHost¸¦ CreateIoCompletionPort()ÇÔ¼ö¸¦ ÀÌ¿ëÇØ¼­
-     *  ½º·¹µå¿¡ µî·ÏÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ NetworkHostë¥¼ CreateIoCompletionPort()í•¨ìˆ˜ë¥¼ ì´ìš©í•´ì„œ
+     *  ìŠ¤ë ˆë“œì— ë“±ë¡í•œë‹¤
      *
-     *      @param [in,out] _host 
+     *      @param [in,out] _host
      *
-     *      @return 
+     *      @return
      */
     bool RegisterThread(NetworkHostPO* _host);
 
 private:
     /*!
-     *  IOCP Åë½ÅÀ» ÅëÇØ µ¥ÀÌÅÍ¸¦ ¹Ş±â À§ÇÑ ½º·¹µå¸¦ ÁøÇàÇÑ´Ù
-     *  GetQueuedCompletionStatus() ÇÔ¼ö·Î ÆĞÅ¶ µ¥ÀÌÅÍ°¡ ¹Ş¾Æ ¿Ã ¶§±îÁö ´ë±âÇÑ´Ù.
-     *  ¹Ş¾Æ¿Â ÆĞÅ¶ µ¥ÀÌÅÍÀÇ Å¬·¡½º NetworkHostPO, NetworkContextPOÀÇ
-     *  EContextType¿¡ ÇØ´çÇÏ´Â ÇÔ¼ö¸¦ ½ÇÇàÇÑ´Ù.
-     *  
+     *  IOCP í†µì‹ ì„ í†µí•´ ë°ì´í„°ë¥¼ ë°›ê¸° ìœ„í•œ ìŠ¤ë ˆë“œë¥¼ ì§„í–‰í•œë‹¤
+     *  GetQueuedCompletionStatus() í•¨ìˆ˜ë¡œ íŒ¨í‚· ë°ì´í„°ê°€ ë°›ì•„ ì˜¬ ë•Œê¹Œì§€ ëŒ€ê¸°í•œë‹¤.
+     *  ë°›ì•„ì˜¨ íŒ¨í‚· ë°ì´í„°ì˜ í´ë˜ìŠ¤ NetworkHostPO, NetworkContextPOì˜
+     *  EContextTypeì— í•´ë‹¹í•˜ëŠ” í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•œë‹¤.
+     *
      */
     void ProcessThread();
 
     /*!
-     *  NetworkContextPOÀÇ EContextTypeÀÌ AcceptÀÏ ¶§ ½ÇÇàÇÏ´Â ÇÔ¼ö.
-     *  ProcessThread()¿¡¼­ GetQueuedCompletionStatus() ÇÔ¼ö ½ÇÇà ¼º°ø ÇßÀ» ¶§
-     *  NetworkHostPO, NetworkContextPO °´Ã¼¿Í
-     *  ¼ö½Å ¼º°ø ¿©ºÎ °ª (bool)ÀÌ _rslt ÀÎÀÚ°ªÀ¸·Î Àü´Ş µÈ´Ù.
-     *  NetworkHostPO °´Ã¼¿¡ ÀúÀåµÈ Socket ¿É¼ÇÀ» setsockopt() ÇÔ¼ö·Î
-     *  SO_UPDATE_ACCEPT_CONTEXT·Î º¯°æµÈ ÈÄ
-     *  NetworkContextPO¿¡ ÀÖ´Â ip, port µî ÁÖ¼Ò °ªÀ»À» ÀÎÀÚ °ªÀ¸·Î
-     *  NetworkManagerÀÇ JoinÇÔ¼ö°¡ ½ÇÇàµÈ´Ù.
+     *  NetworkContextPOì˜ EContextTypeì´ Acceptì¼ ë•Œ ì‹¤í–‰í•˜ëŠ” í•¨ìˆ˜.
+     *  ProcessThread()ì—ì„œ GetQueuedCompletionStatus() í•¨ìˆ˜ ì‹¤í–‰ ì„±ê³µ í–ˆì„ ë•Œ
+     *  NetworkHostPO, NetworkContextPO ê°ì²´ì™€
+     *  ìˆ˜ì‹  ì„±ê³µ ì—¬ë¶€ ê°’ (bool)ì´ _rslt ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ ëœë‹¤.
+     *  NetworkHostPO ê°ì²´ì— ì €ì¥ëœ Socket ì˜µì…˜ì„ setsockopt() í•¨ìˆ˜ë¡œ
+     *  SO_UPDATE_ACCEPT_CONTEXTë¡œ ë³€ê²½ëœ í›„
+     *  NetworkContextPOì— ìˆëŠ” ip, port ë“± ì£¼ì†Œ ê°’ì„ì„ ì¸ì ê°’ìœ¼ë¡œ
+     *  NetworkManagerì˜ Joiní•¨ìˆ˜ê°€ ì‹¤í–‰ëœë‹¤.
      *
-     *  ³¡À¸·Î NetworkContextPOÀÇ Accept()¸¦ ½ÇÇàÇÑ´Ù
-     *  
-     *      @param [in,out] _host 
-     *      @param [in,out] _ctxt 
-     *      @param [in]     _rslt 
+     *  ëìœ¼ë¡œ NetworkContextPOì˜ Accept()ë¥¼ ì‹¤í–‰í•œë‹¤
+     *
+     *      @param [in,out] _host
+     *      @param [in,out] _ctxt
+     *      @param [in]     _rslt
      */
     void ProcessAccept(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt);
 
     /*!
-     *  NetworkContextPOÀÇ EContextTypeÀÌ ConnectÀÏ ¶§ ½ÇÇàÇÏ´Â ÇÔ¼ö.
-     *  ProcessThread()¿¡¼­ GetQueuedCompletionStatus() ÇÔ¼ö ½ÇÇà ¼º°ø ÇßÀ» ¶§
-     *  NetworkHostPO, NetworkContextPO °´Ã¼¿Í
-     *  ¼ö½Å ¼º°ø ¿©ºÎ °ª (bool)ÀÌ _rslt ÀÎÀÚ°ªÀ¸·Î Àü´Ş µÈ´Ù.
-     *  
-     *  NetworkHostPO °´Ã¤ÀÇ EventConnect() ÇÔ¼ö°¡ ½ÇÇà µÈ ÈÄ Receive() ÇÔ¼ö°¡ ½ÇÇàµÈ´Ù
-     *  
-     *      @param [in,out] _host 
-     *      @param [in,out] _ctxt 
-     *      @param [in]     _rslt 
+     *  NetworkContextPOì˜ EContextTypeì´ Connectì¼ ë•Œ ì‹¤í–‰í•˜ëŠ” í•¨ìˆ˜.
+     *  ProcessThread()ì—ì„œ GetQueuedCompletionStatus() í•¨ìˆ˜ ì‹¤í–‰ ì„±ê³µ í–ˆì„ ë•Œ
+     *  NetworkHostPO, NetworkContextPO ê°ì²´ì™€
+     *  ìˆ˜ì‹  ì„±ê³µ ì—¬ë¶€ ê°’ (bool)ì´ _rslt ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ ëœë‹¤.
+     *
+     *  NetworkHostPO ê°ì±„ì˜ EventConnect() í•¨ìˆ˜ê°€ ì‹¤í–‰ ëœ í›„ Receive() í•¨ìˆ˜ê°€ ì‹¤í–‰ëœë‹¤
+     *
+     *      @param [in,out] _host
+     *      @param [in,out] _ctxt
+     *      @param [in]     _rslt
      */
     void ProcessConnect(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt);
 
 
     /*!
-     *  NetworkContextPOÀÇ EContextTypeÀÌ ReceiveÀÏ ¶§ ½ÇÇàÇÏ´Â ÇÔ¼ö.
-     *  ProcessThread()¿¡¼­ GetQueuedCompletionStatus() ÇÔ¼ö ½ÇÇà ¼º°ø ÇßÀ» ¶§
-     *  NetworkHostPO, NetworkContextPO °´Ã¼¿Í
-     *  ¼ö½Å ¼º°ø ¿©ºÎ °ª (bool)ÀÌ _rslt ÀÎÀÚ°ª ±×¸®°í
-     *  IOCP Åë½ÅÀ¸·Î Àü¼ÛµÈ µ¥ÀÌÅÍÀÇ Å©±â°¡ ÀÎÀÚ°ªÀ¸·Î Àü´ŞµÈ´Ù
-     *  NetworkContextPO¿¡ Àü¼ÛµÈ µ¥ÀÌÅÍÀÇ Å©±â¸¦ Ãß°¡·Î ±â·ÏÇÏ°í
-     *  NetworkHost¿¡¼­ DecryptÇÔ¼ö·Î º¹È£È­ Ã³¸®ÇÑ´Ù
-     *  
+     *  NetworkContextPOì˜ EContextTypeì´ Receiveì¼ ë•Œ ì‹¤í–‰í•˜ëŠ” í•¨ìˆ˜.
+     *  ProcessThread()ì—ì„œ GetQueuedCompletionStatus() í•¨ìˆ˜ ì‹¤í–‰ ì„±ê³µ í–ˆì„ ë•Œ
+     *  NetworkHostPO, NetworkContextPO ê°ì²´ì™€
+     *  ìˆ˜ì‹  ì„±ê³µ ì—¬ë¶€ ê°’ (bool)ì´ _rslt ì¸ìê°’ ê·¸ë¦¬ê³ 
+     *  IOCP í†µì‹ ìœ¼ë¡œ ì „ì†¡ëœ ë°ì´í„°ì˜ í¬ê¸°ê°€ ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ëœë‹¤
+     *  NetworkContextPOì— ì „ì†¡ëœ ë°ì´í„°ì˜ í¬ê¸°ë¥¼ ì¶”ê°€ë¡œ ê¸°ë¡í•˜ê³ 
+     *  NetworkHostì—ì„œ Decryptí•¨ìˆ˜ë¡œ ë³µí˜¸í™” ì²˜ë¦¬í•œë‹¤
+     *
      *      @param [in,out] _host
      *      @param [in,out] _ctxt
      *      @param [in]     _rslt
@@ -124,25 +124,25 @@ private:
     void ProcessReceive(NetworkHostPO& _host, NetworkContextPO& _ctxt, bool _rslt, int _transferred);
 
     /*!
-     *  NetworkContextPOÀÇ EContextTypeÀÌ EncryptÀÏ ¶§ ½ÇÇàÇÏ´Â ÇÔ¼ö.
-     *  ProcessThread()¿¡¼­ GetQueuedCompletionStatus() ÇÔ¼ö ½ÇÇà ¼º°ø ÇßÀ» ¶§
-     *  NetworkHostPO, NetworkContextPO °´Ã¼¸¦ ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹Ş´Â´Ù
-     *  NetworkContextPO ³»ºÎÀÇ µ¥ÀÌÅÍ¸¦ NetworkHostPO¿¡ ÇØ´çÇÏ´Â ¸ñÀûÁö·Î
-     *  µ¥ÀÌÅÍ¸¦ º¸³»¸ç µ¥ÀÌÅÍ¸¦ ¼Û½ÅÇÏ±â À§ÇØ NetworkHostÀÇ EncryptÇÔ¼ö·Î ¾ÏÈ£È­ ÇÏ¸ç
-     *  ¾ÏÈ£È­ ÈÄ º¸³¾ ¶§ NetworkHostPOÀÇ Send()ÇÔ¼ö¸¦ ½ÇÇàÇÑ´Ù.
-     *  
-     *      @param [in,out] _host 
-     *      @param [in,out] _ctxt 
+     *  NetworkContextPOì˜ EContextTypeì´ Encryptì¼ ë•Œ ì‹¤í–‰í•˜ëŠ” í•¨ìˆ˜.
+     *  ProcessThread()ì—ì„œ GetQueuedCompletionStatus() í•¨ìˆ˜ ì‹¤í–‰ ì„±ê³µ í–ˆì„ ë•Œ
+     *  NetworkHostPO, NetworkContextPO ê°ì²´ë¥¼ ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤
+     *  NetworkContextPO ë‚´ë¶€ì˜ ë°ì´í„°ë¥¼ NetworkHostPOì— í•´ë‹¹í•˜ëŠ” ëª©ì ì§€ë¡œ
+     *  ë°ì´í„°ë¥¼ ë³´ë‚´ë©° ë°ì´í„°ë¥¼ ì†¡ì‹ í•˜ê¸° ìœ„í•´ NetworkHostì˜ Encryptí•¨ìˆ˜ë¡œ ì•”í˜¸í™” í•˜ë©°
+     *  ì•”í˜¸í™” í›„ ë³´ë‚¼ ë•Œ NetworkHostPOì˜ Send()í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•œë‹¤.
+     *
+     *      @param [in,out] _host
+     *      @param [in,out] _ctxt
      */
     void ProcessEncrypt(NetworkHostPO& _host, NetworkContextPO& _ctxt);
 
     /*!
-     *  NetworkContextPOÀÇ EContextTypeÀÌ SendÀÏ ¶§ ½ÇÇàÇÏ´Â ÇÔ¼ö.
-     *  ProcessThread()¿¡¼­ GetQueuedCompletionStatus() ÇÔ¼ö ½ÇÇà ¼º°ø ÇßÀ» ¶§
-     *  NetworkHostPO, NetworkContextPO °´Ã¼¸¦ ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹Ş´Â´Ù
+     *  NetworkContextPOì˜ EContextTypeì´ Sendì¼ ë•Œ ì‹¤í–‰í•˜ëŠ” í•¨ìˆ˜.
+     *  ProcessThread()ì—ì„œ GetQueuedCompletionStatus() í•¨ìˆ˜ ì‹¤í–‰ ì„±ê³µ í–ˆì„ ë•Œ
+     *  NetworkHostPO, NetworkContextPO ê°ì²´ë¥¼ ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ëŠ”ë‹¤
      *
-     *  NetworkHost °´Ã¼ÀÇ EndSendTask¸¦ ½ÇÇàÇÑ´Ù.
-     *  
+     *  NetworkHost ê°ì²´ì˜ EndSendTaskë¥¼ ì‹¤í–‰í•œë‹¤.
+     *
      *      @param [in,out] _host
      *      @param [in,out] _ctxt
      *      @param [in]     _rslt

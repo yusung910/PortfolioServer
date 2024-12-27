@@ -1,5 +1,5 @@
 #pragma once
-class Position2D
+class SCoreAPI Position2D
 {
 public:
     float x = 0.0f;
@@ -9,7 +9,7 @@ public:
     Position2D(const float& _x = 0.0f, const float& _y = 0.0f);
     ~Position2D() = default;
 
-    //¿¬»êÀÚ ¿À¹ö¶óÀÌµù ÇÔ¼ö
+    //ì—°ì‚°ì ì˜¤ë²„ë¼ì´ë”© í•¨ìˆ˜
     Position2D operator+(const Position2D& _val) const;
     Position2D operator-(const Position2D& _val) const;
     Position2D operator*(const float& _val) const;
@@ -29,8 +29,8 @@ public:
     void Set(const float& _x = 0.0f, const float& _y = 0.0f);
     void Set(Position2D& _pos);
 
-    //Á¤±ÔÈ­:
-    //VectorÀÇ Å©±â°¡ 1ÀÌ°í ¹æÇâ °ª¸¸ ÀÖ´Â vector·Î ¸¸µç´Ù
+    //ì •ê·œí™”:
+    //Vectorì˜ í¬ê¸°ê°€ 1ì´ê³  ë°©í–¥ ê°’ë§Œ ìˆëŠ” vectorë¡œ ë§Œë“ ë‹¤
     bool Normalize();
 
     // Get

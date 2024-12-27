@@ -95,7 +95,7 @@ void NetworkHostPO::BeginSendTask()
     if (InterlockedCompareExchange(&m_lSendTaskCount, 1, 0) != 0)
         return;
 
-    //Context ÇÒ´ç
+    //Context í• ë‹¹
     auto lCtxt = NetworkManager::GetInst().AllocateContext();
     if (nullptr == lCtxt)
     {
@@ -144,23 +144,23 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
     //    [out]          LPDWORD lpdwBytesSent,
     //    [in]           LPOVERLAPPED lpOverlapped
     //)
-    //ConnectEx ÇÔ¼ö´Â ÁöÁ¤µÈ ¼ÒÄÏ¿¡ ´ëÇÑ ¿¬°áÀ» ¼³Á¤ÇÏ°í ¿¬°áÀÌ ¼³Á¤µÇ¸é ÇÊ¿ä¿¡ µû¶ó µ¥ÀÌÅÍ¸¦ º¸³À´Ï´Ù. ConnectEx ÇÔ¼ö´Â ¿¬°á ÁöÇâ ¼ÒÄÏ¿¡¼­¸¸ Áö¿øµË´Ï´Ù.
-    //¼¼ºÎ ¼³¸í: https://learn.microsoft.com/ko-kr/windows/win32/api/mswsock/nc-mswsock-lpfn_connectex
+    //ConnectEx í•¨ìˆ˜ëŠ” ì§€ì •ëœ ì†Œì¼“ì— ëŒ€í•œ ì—°ê²°ì„ ì„¤ì •í•˜ê³  ì—°ê²°ì´ ì„¤ì •ë˜ë©´ í•„ìš”ì— ë”°ë¼ ë°ì´í„°ë¥¼ ë³´ëƒ…ë‹ˆë‹¤. ConnectEx í•¨ìˆ˜ëŠ” ì—°ê²° ì§€í–¥ ì†Œì¼“ì—ì„œë§Œ ì§€ì›ë©ë‹ˆë‹¤.
+    //ì„¸ë¶€ ì„¤ëª…: https://learn.microsoft.com/ko-kr/windows/win32/api/mswsock/nc-mswsock-lpfn_connectex
     static LPFN_CONNECTEX lConnectEx = nullptr;
 
-    //ConnectExÇÔ¼ö ¾ò¾î¿Â´Ù
+    //ConnectExí•¨ìˆ˜ ì–»ì–´ì˜¨ë‹¤
     if (nullptr == lConnectEx)
     {
-        //WSAIoctl ÇÔ¼ö¿¡ Àü´ŞµÈ ÀÔ·Â ¹öÆÛ¿¡´Â °ªÀÌ 
-        //ConnectEx È®Àå ÇÔ¼ö¸¦ ½Äº°ÇÏ´Â GUID(Globally Unique Identifier)ÀÎ WSAID_CONNECTEX Æ÷ÇÔµÇ¾î¾ß ÇÕ´Ï´Ù.
-        //¼º°øÇÏ¸é WSAIoctl ÇÔ¼ö¿¡¼­ ¹İÈ¯µÈ Ãâ·Â¿¡ ConnectEx ÇÔ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍ°¡ Æ÷ÇÔµÊ.
-        // WSAID_CONNECTEX GUID´Â Mswsock.h Çì´õ ÆÄÀÏ¿¡ Á¤ÀÇµÇ¾î ÀÖ½À´Ï´Ù.
+        //WSAIoctl í•¨ìˆ˜ì— ì „ë‹¬ëœ ì…ë ¥ ë²„í¼ì—ëŠ” ê°’ì´ 
+        //ConnectEx í™•ì¥ í•¨ìˆ˜ë¥¼ ì‹ë³„í•˜ëŠ” GUID(Globally Unique Identifier)ì¸ WSAID_CONNECTEX í¬í•¨ë˜ì–´ì•¼ í•©ë‹ˆë‹¤.
+        //ì„±ê³µí•˜ë©´ WSAIoctl í•¨ìˆ˜ì—ì„œ ë°˜í™˜ëœ ì¶œë ¥ì— ConnectEx í•¨ìˆ˜ì— ëŒ€í•œ í¬ì¸í„°ê°€ í¬í•¨ë¨.
+        // WSAID_CONNECTEX GUIDëŠ” Mswsock.h í—¤ë” íŒŒì¼ì— ì •ì˜ë˜ì–´ ìˆìŠµë‹ˆë‹¤.
         GUID lGUID = WSAID_CONNECTEX;
 
         DWORD lBytes = 0;
 
-        // WSAIoctl() : ¼ÒÄÏ, Àü¼Û ÇÁ·ÎÅäÄİ ¶Ç´Â Åë½Å ÇÏÀ§ ½Ã½ºÅÛ¿¡ ¿¬°áµÈ ¿î¿µ ¸Å°³ º¯¼ö¸¦ ¼³Á¤ ¶Ç´Â °Ë»ö.
-        // ¼ÒÄÏ Åë½ÅÀ» ÅëÇØ Àü¼ÛµÈ µ¥ÀÌÅÍ(LPWSAOVERLAPPED)¸¦ ÁÖ°í ¹ŞÀ» ¼ö ÀÖ´Ù
+        // WSAIoctl() : ì†Œì¼“, ì „ì†¡ í”„ë¡œí† ì½œ ë˜ëŠ” í†µì‹  í•˜ìœ„ ì‹œìŠ¤í…œì— ì—°ê²°ëœ ìš´ì˜ ë§¤ê°œ ë³€ìˆ˜ë¥¼ ì„¤ì • ë˜ëŠ” ê²€ìƒ‰.
+        // ì†Œì¼“ í†µì‹ ì„ í†µí•´ ì „ì†¡ëœ ë°ì´í„°(LPWSAOVERLAPPED)ë¥¼ ì£¼ê³  ë°›ì„ ìˆ˜ ìˆë‹¤
         //int WSAAPI WSAIoctl(
         //    [in]  SOCKET                             s,
         //    [in]  DWORD                              dwIoControlCode,
@@ -172,17 +172,17 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
         //    [in]  LPWSAOVERLAPPED                    lpOverlapped,
         //    [in]  LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
         //);
-        // [in]  s                  : ¼ÒÄÏÀ» ½Äº°ÇÏ´Â ¼³¸íÀÚ.
-        // [in]  dwIoControlCode    : ¼öÇàÇÒ ÀÛ¾÷ÀÇ Á¦¾î ÄÚµå.
-        // [in]  lpvInBuffer        : ÀÔ·Â ¹öÆÛ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ.
-        // [in]  cbInBuffer         : ÀÔ·Â ¹öÆÛÀÇ Å©±â(¹ÙÀÌÆ®).
-        // [out] lpvOutBuffer       : Ãâ·Â ¹öÆÛ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ.
-        // [in]  cbOutBuffer        : Ãâ·Â ¹öÆÛÀÇ Å©±â(¹ÙÀÌÆ®).
-        // [out] lpcbBytesReturned  : ½ÇÁ¦ Ãâ·Â ¹ÙÀÌÆ® ¼ö¿¡ ´ëÇÑ Æ÷ÀÎÅÍ.
-        // [in]  lpOverlapped       : WSAOVERLAPPED ±¸Á¶Ã¼¿¡ ´ëÇÑ Æ÷ÀÎÅÍ(°ãÄ¡Áö ¾Ê´Â ¼ÒÄÏÀÇ °æ¿ì ¹«½Ã).
+        // [in]  s                  : ì†Œì¼“ì„ ì‹ë³„í•˜ëŠ” ì„¤ëª…ì.
+        // [in]  dwIoControlCode    : ìˆ˜í–‰í•  ì‘ì—…ì˜ ì œì–´ ì½”ë“œ.
+        // [in]  lpvInBuffer        : ì…ë ¥ ë²„í¼ì— ëŒ€í•œ í¬ì¸í„°.
+        // [in]  cbInBuffer         : ì…ë ¥ ë²„í¼ì˜ í¬ê¸°(ë°”ì´íŠ¸).
+        // [out] lpvOutBuffer       : ì¶œë ¥ ë²„í¼ì— ëŒ€í•œ í¬ì¸í„°.
+        // [in]  cbOutBuffer        : ì¶œë ¥ ë²„í¼ì˜ í¬ê¸°(ë°”ì´íŠ¸).
+        // [out] lpcbBytesReturned  : ì‹¤ì œ ì¶œë ¥ ë°”ì´íŠ¸ ìˆ˜ì— ëŒ€í•œ í¬ì¸í„°.
+        // [in]  lpOverlapped       : WSAOVERLAPPED êµ¬ì¡°ì²´ì— ëŒ€í•œ í¬ì¸í„°(ê²¹ì¹˜ì§€ ì•ŠëŠ” ì†Œì¼“ì˜ ê²½ìš° ë¬´ì‹œ).
         // [in] lpCompletionRoutine : _In_opt_ LPWSAOVERLAPPED_COMPLETION_ROUTINE
-        // ¼¼ºÎ ¼³¸í :https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsaioctl
-        // µÎ¹øÂ° ÀÎÀÚ°ª dwIoControlCode¿¡ ´ëÇÑ ¼³¸í
+        // ì„¸ë¶€ ì„¤ëª… :https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsaioctl
+        // ë‘ë²ˆì§¸ ì¸ìê°’ dwIoControlCodeì— ëŒ€í•œ ì„¤ëª…
         // https://learn.microsoft.com/ko-kr/windows/win32/winsock/winsock-ioctls
         if (WSAIoctl(m_oSocket, SIO_GET_EXTENSION_FUNCTION_POINTER, &lGUID, sizeof(lGUID), &lConnectEx, sizeof(lConnectEx), &lBytes, nullptr, nullptr) != 0)
         {
@@ -194,12 +194,12 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
     if (nullptr == lConnectEx)
         return false;
 
-    //·ÎÄÃ Æ÷Æ® ÇÒ´ç
+    //ë¡œì»¬ í¬íŠ¸ í• ë‹¹
     SOCKADDR_IN l = {};
     l.sin_family = AF_INET;
     l.sin_addr.s_addr = INADDR_ANY;
 
-    //::bind() : ·ÎÄÃÁÖ¼Ò¸¦ ¼ÒÄÏ°ú ¿¬°á.
+    //::bind() : ë¡œì»¬ì£¼ì†Œë¥¼ ì†Œì¼“ê³¼ ì—°ê²°.
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-bind
     if (::bind(m_oSocket, (SOCKADDR*)&l, sizeof(SOCKADDR_IN)) == SOCKET_ERROR)
     {
@@ -207,21 +207,21 @@ bool NetworkHostPO::Connect(NetworkContextPO& _ctxt)
         return false;
     }
 
-    //ÁÖ¼Ò Á¤º¸¸¦ °¡Á®¿Â´Ù
+    //ì£¼ì†Œ ì •ë³´ë¥¼ ê°€ì ¸ì˜¨ë‹¤
     SOCKADDR_IN lRemote = NetworkSupporterPO::GetAddressInfo(m_sIP, m_nPort);
 
-    //Connect ¿äÃ»
+    //Connect ìš”ì²­
     _ctxt.Ready(EContextType::Connect);
     _ctxt.IncreaseReferenceCount();
-    
-    DWORD lDwBytesSent = 0; 
+
+    DWORD lDwBytesSent = 0;
 
     if (lConnectEx(m_oSocket, (sockaddr*)&lRemote, sizeof(lRemote), nullptr, 0, &lDwBytesSent, &_ctxt) == FALSE)
     {
         int lConnectError = WSAGetLastError();
 
-        // ¼ÒÄÏ ¿À·ù ÄÚµå : WSA_IO_PENDING
-        // Àü¼ÛÇÒ µ¥ÀÌÅÍ°¡ ³²¾Æ ÀÖÀ» °æ¿ì¿¡´Â ReferenceCount¸¦ °¨¼ÒÇÏÁö ¾Ê´Â´Ù
+        // ì†Œì¼“ ì˜¤ë¥˜ ì½”ë“œ : WSA_IO_PENDING
+        // ì „ì†¡í•  ë°ì´í„°ê°€ ë‚¨ì•„ ìˆì„ ê²½ìš°ì—ëŠ” ReferenceCountë¥¼ ê°ì†Œí•˜ì§€ ì•ŠëŠ”ë‹¤
         // https://learn.microsoft.com/ko-kr/windows/win32/winsock/windows-sockets-error-codes-2
         if (lConnectError != WSA_IO_PENDING)
         {
@@ -237,10 +237,10 @@ bool NetworkHostPO::Listen()
     if (nullptr == m_pEventSync)
         return false;
 
-    //Host Å¸ÀÔ ¼¼ÆÃ
+    //Host íƒ€ì… ì„¸íŒ…
     m_eHostType = EHostType::Listener;
 
-    //Port ÇÒ´ç
+    //Port í• ë‹¹
     SOCKADDR_IN lAddr = NetworkSupporterPO::GetAddressInfo(m_sIP, m_nPort);
     if (::bind(m_oSocket, (SOCKADDR*)&lAddr, sizeof(lAddr)) == SOCKET_ERROR)
     {
@@ -250,8 +250,8 @@ bool NetworkHostPO::Listen()
         return false;
     }
 
-    //Waiting ´ë±â
-    //listen() : ¼ÒÄÏÀ» ¼ö½Å ´ë±â »óÅÂ·Î ÁöÁ¤.
+    //Waiting ëŒ€ê¸°
+    //listen() : ì†Œì¼“ì„ ìˆ˜ì‹  ëŒ€ê¸° ìƒíƒœë¡œ ì§€ì •.
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-listen
     if (listen(m_oSocket, SOMAXCONN) == SOCKET_ERROR)
     {
@@ -274,9 +274,9 @@ bool NetworkHostPO::Accept(NetworkContextPO& _ctxt)
         return false;
     }
 
-    //¼ÒÄÏ »ı¼º
-    //WSASocket ÇÔ¼ö´Â Æ¯Á¤ Àü¼Û ¼­ºñ½º °ø±ŞÀÚ¿¡ ¹ÙÀÎµùµÈ ¼ÒÄÏÀ» ¸¸µì´Ï´Ù.
-    //Æ¯Á¤ protocol¿¡ ¼­ºñ½º ÇÒ ¼ÒÄÏÀ» »ı¼ºÇÏ´Â ÇÔ¼ö·Î º¸ÀÎ´Ù
+    //ì†Œì¼“ ìƒì„±
+    //WSASocket í•¨ìˆ˜ëŠ” íŠ¹ì • ì „ì†¡ ì„œë¹„ìŠ¤ ê³µê¸‰ìì— ë°”ì¸ë”©ëœ ì†Œì¼“ì„ ë§Œë“­ë‹ˆë‹¤.
+    //íŠ¹ì • protocolì— ì„œë¹„ìŠ¤ í•  ì†Œì¼“ì„ ìƒì„±í•˜ëŠ” í•¨ìˆ˜ë¡œ ë³´ì¸ë‹¤
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasocketw
     SOCKET lSock = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED);
     if (lSock == INVALID_SOCKET)
@@ -292,13 +292,13 @@ bool NetworkHostPO::Accept(NetworkContextPO& _ctxt)
 
     //Accept
     DWORD lBytes;
-    //AcceptEx() : AcceptEx ÇÔ¼ö´Â »õ ¿¬°áÀ» ¼ö¶ôÇÏ°í ·ÎÄÃ ¹× ¿ø°İ ÁÖ¼Ò¸¦ ¹İÈ¯ÇÏ¸ç Å¬¶óÀÌ¾ğÆ® ¾ÖÇÃ¸®ÄÉÀÌ¼Ç¿¡¼­ º¸³½ Ã¹ ¹øÂ° µ¥ÀÌÅÍ ºí·ÏÀ» ¼ö½Å.
+    //AcceptEx() : AcceptEx í•¨ìˆ˜ëŠ” ìƒˆ ì—°ê²°ì„ ìˆ˜ë½í•˜ê³  ë¡œì»¬ ë° ì›ê²© ì£¼ì†Œë¥¼ ë°˜í™˜í•˜ë©° í´ë¼ì´ì–¸íŠ¸ ì• í”Œë¦¬ì¼€ì´ì…˜ì—ì„œ ë³´ë‚¸ ì²« ë²ˆì§¸ ë°ì´í„° ë¸”ë¡ì„ ìˆ˜ì‹ .
     // BOOL AcceptEx(
     //    [in]  SOCKET       sListenSocket,
     //    [in]  SOCKET       sAcceptSocket,
     //    [in]  PVOID        lpOutputBuffer,
     //    [in]  DWORD        dwReceiveDataLength,
-    //    [in]  DWORD        dwLAddressLength -> ·ÎÄÃ ÁÖ¼Ò Á¤º¸¸¦ À§ÇØ ¿¹¾àµÈ ¹ÙÀÌÆ® ¼ö. ÀÌ °ªÀº »ç¿ë ÁßÀÎ Àü¼Û ÇÁ·ÎÅäÄİÀÇ ÃÖ´ë ÁÖ¼Ò ±æÀÌº¸´Ù 16¹ÙÀÌÆ® ÀÌ»óÀÌ¾î¾ß ÇÏ±â ¶§¹®¿¡ +16À» ÇØÁÜ,
+    //    [in]  DWORD        dwLAddressLength -> ë¡œì»¬ ì£¼ì†Œ ì •ë³´ë¥¼ ìœ„í•´ ì˜ˆì•½ëœ ë°”ì´íŠ¸ ìˆ˜. ì´ ê°’ì€ ì‚¬ìš© ì¤‘ì¸ ì „ì†¡ í”„ë¡œí† ì½œì˜ ìµœëŒ€ ì£¼ì†Œ ê¸¸ì´ë³´ë‹¤ 16ë°”ì´íŠ¸ ì´ìƒì´ì–´ì•¼ í•˜ê¸° ë•Œë¬¸ì— +16ì„ í•´ì¤Œ,
     //    [in]  DWORD        dwRemoteAddressLength,
     //    [out] LPDWORD      lpdwBytesReceived,
     //    [in]  LPOVERLAPPED lpOverlapped
@@ -318,8 +318,8 @@ bool NetworkHostPO::Accept(NetworkContextPO& _ctxt)
 
         int lSockAddrLen = 0;
         int lSockRemoteAddrLen = 0;
-        //GetAcceptExSockaddrs() : AcceptEx ÇÔ¼ö È£Ãâ¿¡¼­ °¡Á®¿Â µ¥ÀÌÅÍ¸¦ ±¸¹® ºĞ¼®ÇÏ°í ·ÎÄÃ ¹× ¿ø°İ ÁÖ¼Ò¸¦ sockaddr ±¸Á¶Ã¼¿¡ Àü´Ş.
-        GetAcceptExSockaddrs(_ctxt.GetEmpty(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, (sockaddr**)&_ctxt.m_pLocalAddr, &lSockAddrLen, (sockaddr**)&_ctxt.m_pRemoteAddr, & lSockRemoteAddrLen);
+        //GetAcceptExSockaddrs() : AcceptEx í•¨ìˆ˜ í˜¸ì¶œì—ì„œ ê°€ì ¸ì˜¨ ë°ì´í„°ë¥¼ êµ¬ë¬¸ ë¶„ì„í•˜ê³  ë¡œì»¬ ë° ì›ê²© ì£¼ì†Œë¥¼ sockaddr êµ¬ì¡°ì²´ì— ì „ë‹¬.
+        GetAcceptExSockaddrs(_ctxt.GetEmpty(), 0, sizeof(SOCKADDR_IN) + 16, sizeof(SOCKADDR_IN) + 16, (sockaddr**)&_ctxt.m_pLocalAddr, &lSockAddrLen, (sockaddr**)&_ctxt.m_pRemoteAddr, &lSockRemoteAddrLen);
     }
 
     return true;
@@ -333,15 +333,15 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
     _ctxt.Ready(EContextType::Receive);
     _ctxt.IncreaseReferenceCount();
 
-    //Receive ¿äÃ»
-    //WSABUF ±¸Á¶Ã¼ Winsock ÇÔ¼ö¿¡¼­ »ç¿ëÇÏ´Â µ¥ÀÌÅÍ ¹öÆÛ¸¦ ¸¸µé°Å³ª ÄÁÆ®·Ñ ÇÏ±â À§ÇÑ ±¸Á¶Ã¼.
+    //Receive ìš”ì²­
+    //WSABUF êµ¬ì¡°ì²´ Winsock í•¨ìˆ˜ì—ì„œ ì‚¬ìš©í•˜ëŠ” ë°ì´í„° ë²„í¼ë¥¼ ë§Œë“¤ê±°ë‚˜ ì»¨íŠ¸ë¡¤ í•˜ê¸° ìœ„í•œ êµ¬ì¡°ì²´.
     WSABUF lWSABUF = {};
     DWORD lBytes = 0;
     DWORD lFlagBytes = 0;
 
-    //¼Û½ÅÇÏ±â À§ÇØ NetworkContext¿¡ ºñ¾îÀÖ´Â Æ÷ÀÎÅÍ ÁÖ¼Ò À§Ä¡¸¦ °¡Á®¿Â´Ù
+    //ì†¡ì‹ í•˜ê¸° ìœ„í•´ NetworkContextì— ë¹„ì–´ìˆëŠ” í¬ì¸í„° ì£¼ì†Œ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤
     lWSABUF.buf = _ctxt.GetEmpty();
-    //¼Û½ÅÇÏ±â À§ÇØ NetworkContext¿¡ ºñ¾îÀÖ´Â ¸Ş¸ğ¸®ÀÇ Å©±â¸¦ °¡Á®¿Â´Ù
+    //ì†¡ì‹ í•˜ê¸° ìœ„í•´ NetworkContextì— ë¹„ì–´ìˆëŠ” ë©”ëª¨ë¦¬ì˜ í¬ê¸°ë¥¼ ê°€ì ¸ì˜¨ë‹¤
     lWSABUF.len = static_cast<ULONG>(_ctxt.GetEmptySize());
 
     if (lWSABUF.len <= 0)
@@ -356,7 +356,7 @@ bool NetworkHostPO::Receive(NetworkContextPO& _ctxt)
         return false;
     }
 
-    //WSARecv() : ¿¬°áµÈ ¼ÒÄÏ ¶Ç´Â ¹ÙÀÎµùµÈ ¿¬°á ¾ø´Â ¼ÒÄÏ¿¡¼­ µ¥ÀÌÅÍ¸¦ ¼ö½Å.
+    //WSARecv() : ì—°ê²°ëœ ì†Œì¼“ ë˜ëŠ” ë°”ì¸ë”©ëœ ì—°ê²° ì—†ëŠ” ì†Œì¼“ì—ì„œ ë°ì´í„°ë¥¼ ìˆ˜ì‹ .
     //https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsarecv
     if (WSARecv(m_oSocket, &lWSABUF, 1, &lBytes, &lFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
     {
@@ -397,30 +397,30 @@ bool NetworkHostPO::Decrypt(NetworkContextPO& _ctxt)
         {
             VIEW_WRITE_ERROR(
                 L"NetworkHostPO::Decrypt() Failed - MessageID:%d, MessageSize:%d, HostID:%d, IPAddress:%s"
-                ,lMsgID
-                ,lMsgSize
-                ,GetHostID()
-                ,StringUtil::ToWideChar(GetIP()).c_str()
+                , lMsgID
+                , lMsgSize
+                , GetHostID()
+                , StringUtil::ToWideChar(GetIP()).c_str()
             );
 
             return false;
         }
 
-        // ÀÜ¿© ÆĞÅ¶ ¿©ºÎ È®ÀÎ
+        // ì”ì—¬ íŒ¨í‚· ì—¬ë¶€ í™•ì¸
         if (lMsgSize > lPacketSize - (int)PACKET_HEADER_SIZE)
             break;
 
         EventReceive(lMsgID, lPacket + PACKET_HEADER_SIZE, lMsgSize);
 
-        //ÆĞÅ¶ µ¥ÀÌÅÍ ReadÃ³¸®
+        //íŒ¨í‚· ë°ì´í„° Readì²˜ë¦¬
         _ctxt.Read(static_cast<size_t>(lMsgSize) + PACKET_HEADER_SIZE);
 
-        //´ÙÀ½ÆĞÅ¶ À§Ä¡
+        //ë‹¤ìŒíŒ¨í‚· ìœ„ì¹˜
         lPacket = _ctxt.GetData();
         lPacketSize = static_cast<int>(_ctxt.GetDataSize());
     }
 
-    //Recevie Ã³¸®
+    //Recevie ì²˜ë¦¬
     return Receive(_ctxt);
 }
 
@@ -478,7 +478,7 @@ bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
     {
         AutoLock(m_xSendLock);
 
-        //ÆĞÅ¶ Àü¼Û ´ë±â ¸ñ·Ï(m_oSendWaitingList)¿¡¼­ Àü¼Û ¸ñ·Ï(m_oSendWorkQueue)À¸·Î µ¥ÀÌÅÍ¸¦ ÀÌµ¿ÇÑ´Ù
+        //íŒ¨í‚· ì „ì†¡ ëŒ€ê¸° ëª©ë¡(m_oSendWaitingList)ì—ì„œ ì „ì†¡ ëª©ë¡(m_oSendWorkQueue)ìœ¼ë¡œ ë°ì´í„°ë¥¼ ì´ë™í•œë‹¤
         m_oSendWaitingList.swap(m_oSendWorkQueue);
     }
 
@@ -489,18 +489,18 @@ bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
             if (lTotal + it->get()->GetPacketSize() > NETWORK_BUFFER_SIZE_SERVER)
             {
                 AutoLock(m_xSendLock);
-                //m_oSendWaitingListÀÇ ¾Õ(m_oSendWaitingList.begin() À§Ä¡)¿¡ 
-                //m_oSendWorkQueueÀÇ ½ÃÀÛ(begin())ºÎÅÍ ³¡(end())À» ³Ö´Â´Ù
+                //m_oSendWaitingListì˜ ì•(m_oSendWaitingList.begin() ìœ„ì¹˜)ì— 
+                //m_oSendWorkQueueì˜ ì‹œì‘(begin())ë¶€í„° ë(end())ì„ ë„£ëŠ”ë‹¤
                 m_oSendWaitingList.insert(m_oSendWaitingList.begin(), m_oSendWorkQueue.begin(), m_oSendWorkQueue.end());
-                
+
                 break;
             }
 
-            //NetworkContext¿¡ ±â·ÏÇÑ´Ù
+            //NetworkContextì— ê¸°ë¡í•œë‹¤
             _ctxt.Write(it->get()->BinaryData, it->get()->GetPacketSize());
             lTotal += it->get()->GetPacketSize();
         }
-        //Àü¼ÛµÇ°Å³ª nullptrÀÎ queue´Â Á¦°Å ÈÄ iterator ÀÌµ¿
+        //ì „ì†¡ë˜ê±°ë‚˜ nullptrì¸ queueëŠ” ì œê±° í›„ iterator ì´ë™
         it = m_oSendWorkQueue.erase(it);
 
     }
@@ -517,13 +517,13 @@ bool NetworkHostPO::Send(NetworkContextPO& _ctxt)
     _ctxt.Ready(EContextType::Send);
     _ctxt.IncreaseReferenceCount();
 
-    //Send ¿äÃ»
-    //WSABUF ±¸Á¶Ã¼ Winsock ÇÔ¼ö¿¡¼­ »ç¿ëÇÏ´Â µ¥ÀÌÅÍ ¹öÆÛ¸¦ ¸¸µé°Å³ª ÄÁÆ®·Ñ ÇÏ±â À§ÇÑ ±¸Á¶Ã¼.
+    //Send ìš”ì²­
+    //WSABUF êµ¬ì¡°ì²´ Winsock í•¨ìˆ˜ì—ì„œ ì‚¬ìš©í•˜ëŠ” ë°ì´í„° ë²„í¼ë¥¼ ë§Œë“¤ê±°ë‚˜ ì»¨íŠ¸ë¡¤ í•˜ê¸° ìœ„í•œ êµ¬ì¡°ì²´.
     WSABUF lWSABUF = {};
     DWORD lBytes = 0;
     DWORD lFlagBytes = 0;
 
-    //NetworkContext¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ ÆĞÅ¶À» Àü¼ÛÇÏ±âÀ§ÇØ ÀĞ¾î¿Â´Ù
+    //NetworkContextì— ì €ì¥ëœ ë°ì´í„° íŒ¨í‚·ì„ ì „ì†¡í•˜ê¸°ìœ„í•´ ì½ì–´ì˜¨ë‹¤
     lWSABUF.buf = _ctxt.GetData();
     lWSABUF.len = static_cast<ULONG>(_ctxt.GetDataSize());
 
@@ -540,8 +540,8 @@ bool NetworkHostPO::Send(NetworkContextPO& _ctxt)
     }
 
 
-    //WSASend() : ¿¬°áµÈ ¼ÒÄÏ¿¡ µ¥ÀÌÅÍ¸¦ º¸³À´Ï´Ù.
-    // NetworkContext¿¡ ÀúÀåµÈ bufferµéÀ» ¿¬°áµÈ socket¿¡ sendÇÑ´Ù
+    //WSASend() : ì—°ê²°ëœ ì†Œì¼“ì— ë°ì´í„°ë¥¼ ë³´ëƒ…ë‹ˆë‹¤.
+    // NetworkContextì— ì €ì¥ëœ bufferë“¤ì„ ì—°ê²°ëœ socketì— sendí•œë‹¤
     // int WSASend (IN SOCKET s,
     //    __in_ecount(dwBufferCount) LPWSABUF lpBuffers,
     //    IN DWORD dwBufferCount,
@@ -549,13 +549,13 @@ bool NetworkHostPO::Send(NetworkContextPO& _ctxt)
     //    IN DWORD dwFlags,
     //    __in_opt LPWSAOVERLAPPED lpOverlapped,
     //    __in_opt LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine));
-    //s: ¼ÒÄÏÀÇ ÇÚµé Àü´Ş, Overlapped IO ¼Ó¼ºÀÌ ºÎ¿©µÈ ¼ÒÄÏÀÇ ÇÚµé Àü´Ş½Ã Overlapped IO ¸ğµ¨·Î Ãâ·Â ÁøÇà.
-    //lpBuffers : Àü¼ÛÇÒ µ¥ÀÌÅÍ Á¤º¸¸¦ Áö´Ï´Â WSABUF ±¸Á¶Ã¼ º¯¼öµé·Î ÀÌ·ïÁø ¹è¿­ÀÇ ÁÖ¼Ò°ª Àü´Ş
-    //dwBufferCount : µÎ¹øÂ° ÀÎÀÚ·Î Àü´ŞµÈ ¹è¿­ÀÇ ±æÀÌÁ¤º¸ Àü´Ş.
-    //lpNumberOfBytesSent : Àü¼ÛµÈ ¹ÙÀÌÆ®¼ö°¡ ÀúÀåµÉ º¯¼öÀÇ ÁÖ¼Ò °ª Àü´Ş
-    //dwFlags : ÇÔ¼öÀÇ µ¥ÀÌÅÍ Àü¼ÛÆ¯¼ºÀ» º¯°æÇÏ´Â °æ¿ì¿¡ »ç¿ë, ¿¹·Î MSG_OOB¸¦ Àü´ŞÇÏ¸é OOB ¸ğµå µ¥ÀÌÅÍ Àü¼Û
-    //lpOverlapped : WSAOVERLAPPED ±¸Á¶Ã¼ º¯¼öÀÇ ÁÖ¼Ò °ª Àü´Ş, Event ¿ÀºêÁ§Æ®¸¦ »ç¿ëÇØ¼­ µ¥ÀÌÅÍ Àü¼ÛÀÇ ¿Ï·á¸¦ È®ÀÎÇÏ´Â °æ¿ì¿¡ »ç¿ëµÇ´Â ¸Å°³º¯¼ö
-    //lpCompletionRoutine : Completion Routine ÀÌ¶ó´Â ÇÔ¼öÀÇ ÁÖ¼Ò °ª Àü´Ş, ÀÌ¸¦ ÅëÇØ¼­µµ µ¥ÀÌÅÍ Àü¼ÛÀÇ ¿Ï·á¸¦ È®ÀÎÇÒ ¼ö ÀÖ´Ù.
+    //s: ì†Œì¼“ì˜ í•¸ë“¤ ì „ë‹¬, Overlapped IO ì†ì„±ì´ ë¶€ì—¬ëœ ì†Œì¼“ì˜ í•¸ë“¤ ì „ë‹¬ì‹œ Overlapped IO ëª¨ë¸ë¡œ ì¶œë ¥ ì§„í–‰.
+    //lpBuffers : ì „ì†¡í•  ë°ì´í„° ì •ë³´ë¥¼ ì§€ë‹ˆëŠ” WSABUF êµ¬ì¡°ì²´ ë³€ìˆ˜ë“¤ë¡œ ì´ë¤„ì§„ ë°°ì—´ì˜ ì£¼ì†Œê°’ ì „ë‹¬
+    //dwBufferCount : ë‘ë²ˆì§¸ ì¸ìë¡œ ì „ë‹¬ëœ ë°°ì—´ì˜ ê¸¸ì´ì •ë³´ ì „ë‹¬.
+    //lpNumberOfBytesSent : ì „ì†¡ëœ ë°”ì´íŠ¸ìˆ˜ê°€ ì €ì¥ë  ë³€ìˆ˜ì˜ ì£¼ì†Œ ê°’ ì „ë‹¬
+    //dwFlags : í•¨ìˆ˜ì˜ ë°ì´í„° ì „ì†¡íŠ¹ì„±ì„ ë³€ê²½í•˜ëŠ” ê²½ìš°ì— ì‚¬ìš©, ì˜ˆë¡œ MSG_OOBë¥¼ ì „ë‹¬í•˜ë©´ OOB ëª¨ë“œ ë°ì´í„° ì „ì†¡
+    //lpOverlapped : WSAOVERLAPPED êµ¬ì¡°ì²´ ë³€ìˆ˜ì˜ ì£¼ì†Œ ê°’ ì „ë‹¬, Event ì˜¤ë¸Œì íŠ¸ë¥¼ ì‚¬ìš©í•´ì„œ ë°ì´í„° ì „ì†¡ì˜ ì™„ë£Œë¥¼ í™•ì¸í•˜ëŠ” ê²½ìš°ì— ì‚¬ìš©ë˜ëŠ” ë§¤ê°œë³€ìˆ˜
+    //lpCompletionRoutine : Completion Routine ì´ë¼ëŠ” í•¨ìˆ˜ì˜ ì£¼ì†Œ ê°’ ì „ë‹¬, ì´ë¥¼ í†µí•´ì„œë„ ë°ì´í„° ì „ì†¡ì˜ ì™„ë£Œë¥¼ í™•ì¸í•  ìˆ˜ ìˆë‹¤.
     // https://learn.microsoft.com/ko-kr/windows/win32/api/winsock2/nf-winsock2-wsasend
     if (WSASend(m_oSocket, &lWSABUF, 1, &lBytes, lFlagBytes, &_ctxt, nullptr) == SOCKET_ERROR)
     {
@@ -601,10 +601,10 @@ bool NetworkHostPO::Close(ESocketCloseType _e)
     default:
 #ifdef DEV_TEST
         VIEW_WRITE_WARNING(L"HostID: %d, HostType: %s, Socket Close Reason : %s, [%s:%d]", m_nHostID
-             , _GetHostType(m_eHostType)
-             , _GetSocketCloseTypeString(_e).c_str()
-             , StringUtil::ToWideChar(m_sIP).c_str()
-             , m_nPort);
+            , _GetHostType(m_eHostType)
+            , _GetSocketCloseTypeString(_e).c_str()
+            , StringUtil::ToWideChar(m_sIP).c_str()
+            , m_nPort);
 #else
         VIEW_WRITE_WARNING(L"HostID: %d, Socket Close Reason : %s, [%s:%d]", m_nHostID
             , _GetSocketCloseTypeString(_e).c_str()
@@ -691,7 +691,7 @@ void NetworkHostPO::UpdateAccepter(int64_t _appTimeMS)
         }
     }
 
-    //¾ÏÈ£È­ Ã³¸®
+    //ì•”í˜¸í™” ì²˜ë¦¬
     BeginSendTask();
 }
 
@@ -703,7 +703,7 @@ void NetworkHostPO::UpdateConnector(int64_t _appTimeMS)
         NOTICE("Need to  Core Packet");
     }
 
-    //¾ÏÈ£È­ Ã³¸®
+    //ì•”í˜¸í™” ì²˜ë¦¬
     BeginSendTask();
 }
 
@@ -714,7 +714,7 @@ void NetworkHostPO::EventConnect(const EHostType& _type)
 
     if (nullptr != m_pEventSync)
     {
-        //½Ã°£ ¼³Á¤
+        //ì‹œê°„ ì„¤ì •
         int64_t lAppTimeMS = Clock::GetTick64();
         m_nCheckTimeoutMS = lAppTimeMS + m_pEventSync->GetTimeoutMS();
         m_nCheckAliveMS = lAppTimeMS + DEFAULT_NETWORK_ALIVE_MS;
@@ -816,7 +816,7 @@ void NetworkHostPO::SetEventSync(NetworkEventSync* _eventSync)
 
 std::string& NetworkHostPO::GetIP()
 {
-    // TODO: ¿©±â¿¡ return ¹®À» »ğÀÔÇÕ´Ï´Ù.
+    // TODO: ì—¬ê¸°ì— return ë¬¸ì„ ì‚½ì…í•©ë‹ˆë‹¤.
     return m_sIP;
 }
 
@@ -909,7 +909,7 @@ const wchar_t* NetworkHostPO::_GetHostType(const EHostType& _type)
 
 void NetworkHostPO::_GetRecvHistoryStackString()
 {
-    //Array, VectorÀÇ Â÷ÀÌ https://dev-record.tistory.com/26
+    //Array, Vectorì˜ ì°¨ì´ https://dev-record.tistory.com/26
     std::vector<std::tuple<int, int64_t>> lVecList;
 
     _GetRecvHistory(lVecList);

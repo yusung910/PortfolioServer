@@ -27,17 +27,17 @@ NetworkContextPO* NetworkContextPoolPO::Allocate()
         AutoLock(m_xLock);
         if (m_oFreeList.empty() == true)
         {
-            //¸Ş¸ğ¸® ÇÒ´ç
+            //ë©”ëª¨ë¦¬ í• ë‹¹
             lContext = new NetworkContextPO;
             m_oAllocatedList.push_back(lContext);
             m_nAllocatedSize++;
         }
         else
         {
-            //m_oFreeListÀÇ ¸Ç Ã¹ µ¥ÀÌÅÍ¸¦ ¹İÈ¯
+            //m_oFreeListì˜ ë§¨ ì²« ë°ì´í„°ë¥¼ ë°˜í™˜
             lContext = m_oFreeList.front();
 
-            //m_oFreeListÀÇ ¸Ç Ã¹ µ¥ÀÌÅÍ¸¦ »èÁ¦
+            //m_oFreeListì˜ ë§¨ ì²« ë°ì´í„°ë¥¼ ì‚­ì œ
             m_oFreeList.pop_front();
         }
     }

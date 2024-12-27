@@ -5,13 +5,13 @@
 
 class DataProcessManager : public SingletonClient<DataProcessManager>
 {
-    
-private: //º¯¼ö ¼±¾ðºÎ
+
+private: //ë³€ìˆ˜ ì„ ì–¸ë¶€
 
     //HeroStat
     std::unordered_map<int, MDBHeroStat*>* m_umTotalHeroStatTemplateMap;
 
-public: //ÇÔ¼ö ¼±¾ðºÎ
+public: //í•¨ìˆ˜ ì„ ì–¸ë¶€
     DataProcessManager();
     ~DataProcessManager();
 

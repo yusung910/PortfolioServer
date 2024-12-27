@@ -21,7 +21,7 @@ public:
 
     void SetAllowConnect(bool _onoff);
 
-    //ÆĞÅ¶ º´·ÄÈ­ ½ÇÆĞ Ã³¸®
+    //íŒ¨í‚· ë³‘ë ¬í™” ì‹¤íŒ¨ ì²˜ë¦¬
     virtual void OnDeserializeFail(const int& _hostID, const std::string& _hostIP, const int& _failProtocol) override;
 
 protected:
@@ -41,8 +41,8 @@ protected:
     //Packet Process Area end
     //======================================================================
 private:
-    void _RegisterPacketHandlers();	// ÆĞÅ¶ ÇÚµé·¯ µî·Ï ¸ğÀ½
-    void _RegisterTimers();			// RegisterTimer (ÆĞÅ¶ µ¿±â) Ã³¸® µî·Ï ¸ğÀ½
-    void _RegisterSchedules();		// Schedule (ÆĞÅ¶ ºñµ¿±â) Ã³¸® µî·Ï ¸ğÀ½
+    void _RegisterPacketHandlers();	// íŒ¨í‚· í•¸ë“¤ëŸ¬ ë“±ë¡ ëª¨ìŒ
+    void _RegisterTimers();			// RegisterTimer (íŒ¨í‚· ë™ê¸°) ì²˜ë¦¬ ë“±ë¡ ëª¨ìŒ
+    void _RegisterSchedules();		// Schedule (íŒ¨í‚· ë¹„ë™ê¸°) ì²˜ë¦¬ ë“±ë¡ ëª¨ìŒ
 };
 

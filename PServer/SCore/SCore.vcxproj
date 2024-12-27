@@ -104,7 +104,11 @@
     <ClCompile Include="LoggingManagerPO.cpp" />
     <ClCompile Include="LZ4Compressor.cpp" />
     <ClCompile Include="MiniDump.cpp" />
-    <ClCompile Include="mt19937.c" />
+    <ClCompile Include="mt19937.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="NetworkContextPO.cpp" />
     <ClCompile Include="NetworkContextPoolPO.cpp" />
     <ClCompile Include="NetworkControllerPO.cpp" />
@@ -400,12 +404,13 @@ echo Release File Copy done!
 
 CD $(SolutionDir)
 
-SET revision=git rev-list --count HEAD
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
 
 CD $(ProjectDir)
 
 ECHO #pragma once &gt; BuildVersion.hxx
-ECHO #define __LIBRARY_GIT_BRANCH_REV__ %revision% &gt;&gt; BuildVersion.hxx</Command>
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>@ECHO OFF
@@ -470,8 +475,17 @@ echo Release File Copy done!</Command>
       <AdditionalDependencies>ws2_32.lib;Mswsock.lib;jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
     </PreBuildEvent>
     <PreLinkEvent>
       <Command>@ECHO OFF

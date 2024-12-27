@@ -95,7 +95,7 @@ bool Fan::MakeData()
 
     int lDivideCount = static_cast<int>(m_fAngleDegree / ARC_ROUGH_DIVIDE_DEGREE) + 1;
 
-    m_nVertexCount = lDivideCount + 2;  //¿øÁ¡ + ½ÃÀÛ ¼± ³¡ Á¡ + ³ª´©´Â ¼ö·®
+    m_nVertexCount = lDivideCount + 2;  //ì›ì  + ì‹œì‘ ì„  ë ì  + ë‚˜ëˆ„ëŠ” ìˆ˜ëŸ‰
     m_pVertexList = new Vec2[m_nVertexCount];
 
     m_pVertexList[0].Set(m_vCenter.x, m_vCenter.y);

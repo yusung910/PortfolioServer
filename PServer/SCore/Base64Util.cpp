@@ -74,7 +74,7 @@ size_t Base64Util::Decode(const char* _srcBuffer, const size_t& _srcSize, char* 
 
     std::string lWorkBuffer(_srcBuffer);
 
-    //_srcBuffer∞° 4(BASE64_DECODE_PAIR_SIZE)¿« πËºˆ∞° æ∆¥“∞ÊøÏ
+    //_srcBufferÍ∞Ä 4(BASE64_DECODE_PAIR_SIZE)Ïùò Î∞∞ÏàòÍ∞Ä ÏïÑÎãêÍ≤ΩÏö∞
     if (lWorkBuffer.size() % BASE64_DECODE_PAIR_SIZE != 0)
     {
         int lRemain = BASE64_DECODE_PAIR_SIZE - (int)(lWorkBuffer.size() % BASE64_DECODE_PAIR_SIZE);
@@ -89,7 +89,7 @@ size_t Base64Util::Decode(const char* _srcBuffer, const size_t& _srcSize, char* 
     char lTmp[BASE64_DECODE_PAIR_SIZE] = { 0, };
     size_t lWorkCnt = 0;
 
-    for (size_t i = 0; i < lSrcSize; i+= BASE64_DECODE_PAIR_SIZE)
+    for (size_t i = 0; i < lSrcSize; i += BASE64_DECODE_PAIR_SIZE)
     {
         memcpy_s(lTmp, BASE64_DECODE_PAIR_SIZE, lWorkBuffer.c_str() + i, BASE64_DECODE_PAIR_SIZE);
 
@@ -98,7 +98,7 @@ size_t Base64Util::Decode(const char* _srcBuffer, const size_t& _srcSize, char* 
         {
             _destBuffer[lWorkCnt++] = (char)((_GetBinaryValue(lTmp[0]) << 2) + (_GetBinaryValue(lTmp[1]) >> 4));
 
-            if(lTmp[2] != '=')
+            if (lTmp[2] != '=')
                 _destBuffer[lWorkCnt++] = (char)((_GetBinaryValue(lTmp[1]) << 4) + (_GetBinaryValue(lTmp[2]) >> 2));
 
             if (lTmp[3] != '=')

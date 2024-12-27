@@ -4,7 +4,7 @@
  *  @date 2024-10-29
  *  @project SCore
  *
- *  NetworkHost¸¦ pool·Î °ü¸®ÇÏ±â À§ÇÑ Å¬·¡½º
+ *  NetworkHostë¥¼ poolë¡œ ê´€ë¦¬í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤
  */
 #pragma once
 #include <unordered_map>
@@ -27,39 +27,35 @@ public:
     virtual ~NetworkHostPoolPO();
 
     /*!
-     *  HostID¸¦ »ı¼ºÇØ¼­ m_oActiveMap¿¡ HostID°ª°ú NetworkHostPO¸¦ ÇÒ´ç
+     *  HostIDë¥¼ ìƒì„±í•´ì„œ m_oActiveMapì— HostIDê°’ê³¼ NetworkHostPOë¥¼ í• ë‹¹
      *
-     *      @return 
+     *      @return
      */
     NetworkHostPO* Allocate();
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş ¹ŞÀº NetworkHostPO¸¦ m_oActiveMap¿¡¼­ Áö¿ì°í ¸®¼ÂÇÑ µÚ
-     *  m_oFreeQueue¿¡ Ãß°¡ÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ ë°›ì€ NetworkHostPOë¥¼ m_oActiveMapì—ì„œ ì§€ìš°ê³  ë¦¬ì…‹í•œ ë’¤
+     *  m_oFreeQueueì— ì¶”ê°€í•œë‹¤
      *
-     *      @param [in,out] _host 
+     *      @param [in,out] _host
      */
     void Release(NetworkHostPO* _host);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº HostID°¡ È°¼ºÈ­ µÈ ¸Ê(m_oActiveMap)¿¡ Á¸Àç ¿©ºÎ¸¦ ¹İÈ¯ÇÑ´Ù
-     *  true : Á¸Àç, false : ºÎÀç
-     *      @param [in] _hostID 
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ HostIDê°€ í™œì„±í™” ëœ ë§µ(m_oActiveMap)ì— ì¡´ì¬ ì—¬ë¶€ë¥¼ ë°˜í™˜í•œë‹¤
+     *  true : ì¡´ì¬, false : ë¶€ì¬
+     *      @param [in] _hostID
      *
-     *      @return 
+     *      @return
      */
     bool Check(const int& _hostID);
 
     /*!
-     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº HostIDÀ¸·Î m_oActiveMap¿¡ ÀúÀåµÈ NetworkHostPO¸¦ ¹İÈ¯ÇÑ´Ù
+     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ HostIDìœ¼ë¡œ m_oActiveMapì— ì €ì¥ëœ NetworkHostPOë¥¼ ë°˜í™˜í•œë‹¤
      *
-     *      @param [in] _hostID 
+     *      @param [in] _hostID
      *
      *      @return The host.
      */
     NetworkHostPO* GetHost(const int& _hostID);
-
-
-
 };
-

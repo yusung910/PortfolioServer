@@ -9,7 +9,7 @@ public:
     /*!
      *  Initializes the game server app.
      *
-     *      @return 
+     *      @return
      */
     bool Initialize();
 
@@ -19,7 +19,7 @@ public:
 
 private:
     /*!
-     *  ¼­¹ö¿¡¼­ ¹ß»ıÇÏ´Â ·Î±× µ¥ÀÌÅÍ¸¦ ±â·ÏÇÏ±â À§ÇÑ ¼¼ÆÃ ÇÔ¼ö.
+     *  ì„œë²„ì—ì„œ ë°œìƒí•˜ëŠ” ë¡œê·¸ ë°ì´í„°ë¥¼ ê¸°ë¡í•˜ê¸° ìœ„í•œ ì„¸íŒ… í•¨ìˆ˜.
      */
     void _InitLog();
 

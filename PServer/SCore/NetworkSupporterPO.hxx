@@ -4,7 +4,7 @@
  *  @date 2024-10-16
  *  @project SCore
  *
- *  Winsock(¼ÒÄÏ) Åë½Å¿¡ ÇÊ¿äÇÑ ¼­Æı ¿ªÇÒ ÇÔ¼ö¸¦ Á¦°øÇÏ´Â Å¬·¡½º
+ *  Winsock(ì†Œì¼“) í†µì‹ ì— í•„ìš”í•œ ì„œí¿ ì—­í•  í•¨ìˆ˜ë¥¼ ì œê³µí•˜ëŠ” í´ë˜ìŠ¤
  */
 #pragma once
 #include <string>
@@ -19,19 +19,18 @@ public:
 
 public:
     /*!
-     *  ¼­¹öÀÇ ·ÎÄÃ ¾ÆÀÌÇÇ¸¦ ¹İÈ¯ ÇÏ´Â ÇÔ¼ö
-     *  
-     *      @param [in,out] _addr 
+     *  ì„œë²„ì˜ ë¡œì»¬ ì•„ì´í”¼ë¥¼ ë°˜í™˜ í•˜ëŠ” í•¨ìˆ˜
+     *
+     *      @param [in,out] _addr
      */
     static void GetLocalIPAddress(std::vector<std::string>& _addr);
     /*!
-     *  ip¿Í port¸¦ ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹Ş¾Æ¼­ 
+     *  ipì™€ portë¥¼ ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì•„ì„œ
      *
-     *      @param [in] _ip   
-     *      @param [in] _port 
+     *      @param [in] _ip
+     *      @param [in] _port
      *
      *      @return The address info.
      */
     static SOCKADDR_IN GetAddressInfo(std::string _ip, int _port);
 };
-

@@ -1,6 +1,6 @@
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN             // °ÅÀÇ »ç¿ëµÇÁö ¾Ê´Â ³»¿ëÀ» Windows Çì´õ¿¡¼­ Á¦¿ÜÇÕ´Ï´Ù.
+#define WIN32_LEAN_AND_MEAN             // ê±°ì˜ ì‚¬ìš©ë˜ì§€ ì•ŠëŠ” ë‚´ìš©ì„ Windows í—¤ë”ì—ì„œ ì œì™¸í•©ë‹ˆë‹¤.
 
 #ifndef NOMINMAX
 #	define NOMINMAX
@@ -8,8 +8,8 @@
 
 // Windows
 
-#include <Windows.h>	// include WinSock2.h. ³×Æ®¿öÅ© ºÎºĞÀº ¶óÀÌºê·¯¸®¿¡¼­ »ç¿ëÇØ¼­ ¸ÕÀú Winsock2.h ¸¦ include ÇÏÁö ¾ÊÀ½.
-#pragma comment(lib, "ws2_32.lib")	// error LNK2001: È®ÀÎÇÒ ¼ö ¾ø´Â ¿ÜºÎ ±âÈ£ __imp_htonl. // Packet.h ¿¡¼­ »ç¿ë.
+#include <Windows.h>	// include WinSock2.h. ë„¤íŠ¸ì›Œí¬ ë¶€ë¶„ì€ ë¼ì´ë¸ŒëŸ¬ë¦¬ì—ì„œ ì‚¬ìš©í•´ì„œ ë¨¼ì € Winsock2.h ë¥¼ include í•˜ì§€ ì•ŠìŒ.
+#pragma comment(lib, "ws2_32.lib")	// error LNK2001: í™•ì¸í•  ìˆ˜ ì—†ëŠ” ì™¸ë¶€ ê¸°í˜¸ __imp_htonl. // Packet.h ì—ì„œ ì‚¬ìš©.
 
 // end, Windows
 
@@ -55,8 +55,8 @@
 #include <DefineMacro.h>
 #include <Clock.h>
 
-// ÀÚÁÖ ¹Ù²î´Â ºÎºĞÀÌÁö¸¸, 
-// ¹Ì¸® ÄÄÆÄÀÏµÈ Çì´õ¿¡ ³Ö´Â°Ô ºôµå°¡ ÈÎ¾À ºü¸£´õÀÌ´Ù...
+// ìì£¼ ë°”ë€ŒëŠ” ë¶€ë¶„ì´ì§€ë§Œ, 
+// ë¯¸ë¦¬ ì»´íŒŒì¼ëœ í—¤ë”ì— ë„£ëŠ”ê²Œ ë¹Œë“œê°€ í›¨ì”¬ ë¹ ë¦„
 #pragma warning(push)
 #pragma warning(disable : 26812 26439)
 

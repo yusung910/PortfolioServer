@@ -4,6 +4,7 @@
 #include "Clock.h"
 #include "ServerConfig.h"
 #include <NetworkManager.h>
+#include "RevUtil.h"
 
 LoginService::LoginService()
 {
@@ -87,5 +88,5 @@ void LoginService::_UpdateTitle()
     char lTmp[MAX_PATH] = { 0, };
     int lServerID = ServerConfig::GetInst().GetConfig().GetServerID();
 
-    int lVer = GetServerVersion();
+    int lVer = GetServerVer();
 }

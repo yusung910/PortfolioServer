@@ -11,7 +11,7 @@ enum class EShape
 
 	Box,
 	Circle,
-	Fan,	//ºÎÃ¤²Ã
+	Fan,	// ë¶€ì±„ê¼´
 
 	Max,
 
@@ -20,10 +20,10 @@ enum class EShape
 };
 
 /*!
- *  °ÔÀÓ¿¡¼­ »ç¿ëÇÏ°Ô µÉ µµÇüÀÇ parent Å¬·¡½º
- *  °¢°¢ÀÇ µµÇüÀ» È¸Àü½ÃÅ°°Å³ª ÀÌµ¿½ÃÅ³ ¶§´Â DirectX ÇÔ¼ö¸¦ ÀÌ¿ëÇÑ´Ù
+ *  ê²Œì„ì—ì„œ ì‚¬ìš©í•˜ê²Œ ë  ë„í˜•ì˜ parent í´ë˜ìŠ¤
+ *  ê°ê°ì˜ ë„í˜•ì„ íšŒì „ì‹œí‚¤ê±°ë‚˜ ì´ë™ì‹œí‚¬ ë•ŒëŠ” DirectX í•¨ìˆ˜ë¥¼ ì´ìš©í•œë‹¤
  */
-class IShape
+class SCoreAPI IShape
 {
 protected:
 	EShape m_eShapeType = EShape::None;
@@ -69,8 +69,8 @@ public:
 	}
 
 protected:
-	// ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº µÎ ¼±ºĞ(vector A, vector B)°¡ °ãÄ¡´ÂÁö °Ë»çÇÑ´Ù
-	// º¤ÅÍ ÁÂÇ¥°£ÀÇ ¿ÜÀû °ªÀ» ÀÌ¿ëÇØ¼­ ±¸ÇÏ´Â ¹æ¹ı°ú Á¶±İ ´Ù¸§.
+	// ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ş¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(vector A, vector B)ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½.
 	bool IsCrossOver(const Vec2& _beginPt1
 				   , const Vec2& _endPt1
 				   , const Vec2& _beginPt2
@@ -81,7 +81,7 @@ protected:
 		//https://bowbowbow.tistory.com/14
 		float lUnder = (_endPt2.y - _beginPt2.y) * (_endPt1.x - _beginPt1.x) - (_endPt2.x - _beginPt2.x) * (_endPt1.y - _beginPt1.y);
 
-		//°°Àº ¼±»ó¿¡ ÀÖÀ½
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (lUnder == 0.0f)
 			return false;
 		

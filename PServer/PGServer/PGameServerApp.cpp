@@ -24,13 +24,13 @@ PGameServerApp::~PGameServerApp()
 
 bool PGameServerApp::Initialize()
 {
-    //¼­¹ö ¼³Á¤(ServerConfig.json)À» ºÒ·¯¿Â´Ù
+    //ì„œë²„ ì„¤ì •(ServerConfig.json)ì„ ë¶ˆëŸ¬ì˜¨ë‹¤
     ServerConfig::GetInst().LoadConfig();
 
-    //·Î±× ±â·Ï ½ÃÀÛ
+    //ë¡œê·¸ ê¸°ë¡ ì‹œì‘
     _InitLog();
 
-    //GameDB ¼¼ÆÃ
+    //GameDB ì„¸íŒ…
     //_InitGameDB();
     //SendServerLog(L"SendServerLog Initialize...");
 
@@ -43,7 +43,7 @@ bool PGameServerApp::RunLoop()
     //Packet Pool
     Packet::ReservePool(ServerConfig::GetInst().GetConfig().GetObjectPoolSize("Packet"));
 
-    //Service ½ÃÀÛ!
+    //Service ì‹œì‘!
     if (false == GameService::GetInst().Start())
     {
         return false;
@@ -56,7 +56,7 @@ bool PGameServerApp::RunLoop()
     auto lApp = std::make_shared<ServerApp>();
     auto lEventSync = std::make_shared<GSNetworkEventSync>();
 
-    //¾×¼Ç ¾øÀ» ¶§ ÀÚµ¿À¸·Î ¿¬°á ²÷´Â ½Ã°£ ¼³Á¤ »èÁ¦
+    //ì•¡ì…˜ ì—†ì„ ë•Œ ìë™ìœ¼ë¡œ ì—°ê²° ëŠëŠ” ì‹œê°„ ì„¤ì • ì‚­ì œ
     //lEventSync->SetTimeoutMS(INT_MAX);
 
     lApp->SetListenerInfo(lMainInfo);
@@ -100,8 +100,8 @@ bool PGameServerApp::_InitGameDB()
     auto lService = GameDBLoadBalancer::GetInst().GetDirectService<GameDBService>();
     if (lService != nullptr)
     {
-        // ¼­¹ö°¡ ½ÇÇà µÈ ½Ã°£À» DB¿¡ ÀúÀåÇÑ´Ù.
-        // ÇÁÅ× ¼­¹ö¿¡ ÀÖ´Â ³»¿ëÀÎµ¥ ±»ÀÌ ÇÊ¿äÇÑÁö´Â ÃßÈÄ¿¡ È®ÀÎÇÏ¿© ÀÛ¾÷.
+        // ì„œë²„ê°€ ì‹¤í–‰ ëœ ì‹œê°„ì„ DBì— ì €ì¥í•œë‹¤.
+        // í”„í…Œ ì„œë²„ì— ìˆëŠ” ë‚´ìš©ì¸ë° êµ³ì´ í•„ìš”í•œì§€ëŠ” ì¶”í›„ì— í™•ì¸í•˜ì—¬ ì‘ì—….
         //auto lpSession = lService->GetSession();
         {
             //Poco::Data::Session& lSess = *lpSession;

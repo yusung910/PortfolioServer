@@ -12,7 +12,7 @@
 
 #endif // SERVER_BUILD
 
-//±âº»ÀûÀÎ°Í¸¸ ¼¼ÆÃ, ÃßÈÄ Ãß°¡µÇ´Â ÄÁÅÙÃ÷¿¡ µû¸¥ ÀÛ¾÷ ÇÊ¿ä
+//ê¸°ë³¸ì ì¸ê²ƒë§Œ ì„¸íŒ…, ì¶”í›„ ì¶”ê°€ë˜ëŠ” ì»¨í…ì¸ ì— ë”°ë¥¸ ìž‘ì—… í•„ìš”
 struct MDBHeroStat;
 
 struct MDBHeroStat

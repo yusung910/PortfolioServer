@@ -31,8 +31,8 @@ bool Circle::GetRandomPosition(float& o_x, float& o_y) const
     float lRad = Random::GetInst()->GetRandomRange(0.0f, RADIAN_360);
     float lDist = Random::GetInst()->GetRandomRange(0.0f, m_fRadius);
 
-    o_x = m_vCenter.x + (cosf(m_fRadius) * lDist);
-    o_y = m_vCenter.y + (sinf(m_fRadius) * lDist);
+    o_x = m_vCenter.x + (cosf(lRad) * lDist);
+    o_y = m_vCenter.y + (sinf(lRad) * lDist);
 
     return true;
 }

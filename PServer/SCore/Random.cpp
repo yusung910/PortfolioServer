@@ -18,8 +18,8 @@ Random* Random::GetInst()
 void Random::Init64(const uint64_t& _seed)
 {
     //https://karupro.tistory.com/67#google_vignette
-    //[[likely]] : Á¶°Ç¹®À» ÃÖÀûÈ­ ÇÏ´Â µ¥ »ç¿ëµÇ´Â ±¸¹®
-    //ÄÄÆÄÀÏ·¯¿¡°Ô Á¶°Ç¹®ÀÌ °¡Àå ¸¹ÀÌ »ç¿ëµÇ´Â ºÎºÐÀ» ¾Ë·ÁÁØ´Ù
+    //[[likely]] : ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½
     if (nullptr != m_pRandom) [[likely]]
         m_pRandom->Init64(_seed);
 }
@@ -71,7 +71,7 @@ float Random::GetRandomRange(const float& _min, const float& _max)
     return m_pRandom->GetRandomRangef(_min, _max);
 }
 
-float Random::GetRandomRange(const float& _range)
+float Random::GetRandomRange(const int& _range)
 {
     if (nullptr == m_pRandom) [[unlikely]]
         return 0.f;
@@ -94,12 +94,12 @@ bool Random::GetProbability1M(const int& _prob)
 
 float Random::RandomDegree() noexcept
 {
-    return m_pRandom->GetRandomRangef(DEGREE_360);
+    return m_pRandom->GetRandomRangef(0.0f, DEGREE_360);
 }
 
 float Random::RandomRadian() noexcept
 {
-    return m_pRandom->GetRandomRangef(RADIAN_360);
+    return m_pRandom->GetRandomRangef(0.0f, RADIAN_360);
 }
 
 Random::Random()

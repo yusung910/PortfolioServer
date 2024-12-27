@@ -8,5 +8,5 @@
 #define SCoreAPITemplateAPI extern
 #endif // CORE_EXPORT
 
-// ºôµå µÇ¾úÀ» ¶§ Git rev ¹øÈ£¸¦ °¡Á®¿Â´Ù
+// ë¹Œë“œ ë˜ì—ˆì„ ë•Œ Git rev ë²ˆí˜¸ë¥¼ ê°€ì ¸ì˜¨ë‹¤
 SCoreAPI int GetLibraryRev() noexcept;

@@ -4,8 +4,8 @@
  *  @date 2024-12-03
  *  @project SCore
  *
- *  Timer Å¬·¡½º¸¦ »ó¼Ó¹ŞÀº Å¬·¡½ºÀÌ±â ‹š¹®¿¡
- *  ÁÖ±âÀûÀ¸·Î ½ÇÇàÇÒ ÇÔ¼ö µî·Ï °¡´É
+ *  Timer í´ë˜ìŠ¤ë¥¼ ìƒì†ë°›ì€ í´ë˜ìŠ¤ì´ê¸° ë–„ë¬¸ì—
+ *  ì£¼ê¸°ì ìœ¼ë¡œ ì‹¤í–‰í•  í•¨ìˆ˜ ë“±ë¡ ê°€ëŠ¥
  */
 #pragma once
 #include <Windows.h>
@@ -19,7 +19,7 @@
 #include "InnerPacket.h"
 #include "DBWorker.h"
 
- //OLEDB¸¦ ÀÌ¿ëÇÑ´Ù!
+ //OLEDBë¥¼ ì´ìš©í•œë‹¤!
 
 
 class DBServicePO : public Timer
@@ -28,11 +28,11 @@ private:
     HANDLE m_hThread = INVALID_HANDLE_VALUE;
     bool m_ShouldExit = false;
 
-    //³»ºÎÆĞÅ¶ Ã³¸®
+    //ë‚´ë¶€íŒ¨í‚· ì²˜ë¦¬
     ObjectQueue<InnerPacket::SharedPtr> m_oPacketQueue;
     std::unordered_map<int, std::function<bool(InnerPacket::SharedPtr)>> m_umHandlers;
 
-    //½ºÀ§Äª º¯¼ö
+    //ìŠ¤ìœ„ì¹­ ë³€ìˆ˜
     std::deque<std::shared_ptr<InnerPacket>> m_oWorkList;
 
     DBWorker m_oWorker;

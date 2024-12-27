@@ -8,22 +8,22 @@ class DBServiceLoadBalancerMap;
 class SCoreAPI DBServiceLoadBalancer
 {
 private:
-    size_t m_nServiceCount = 0;     //ÃÑ DB µ¿½Ã ½ÇÇà °¹¼ö(·Îµå ¹ë·±½Å Àü¿ë)
+    size_t m_nServiceCount = 0;     //ì´ DB ë™ì‹œ ì‹¤í–‰ ê°¯ìˆ˜(ë¡œë“œ ë°¸ëŸ°ì‹  ì „ìš©)
 
     /*!
-     *  ¸ŞÀÎ DB¸¦ »ç¿ëÇÏ´Â ¾²·¹µå¸¦ n°³ »ı¼ºÇÏ°í
-     *  ÀÛ¾÷À» ºĞ¹èÇÏ¿© µ¿½Ã¿¡ DB¸¦ Ã³¸®ÇÏ´Â ¹æ½Ä.
-     *  SetDBConfig()·Î µî·Ï, Push()·Î ÆĞÅ¶ »ı¼ºÇÏ¿© ºĞ¹è
+     *  ë©”ì¸ DBë¥¼ ì‚¬ìš©í•˜ëŠ” ì“°ë ˆë“œë¥¼ nê°œ ìƒì„±í•˜ê³ 
+     *  ì‘ì—…ì„ ë¶„ë°°í•˜ì—¬ ë™ì‹œì— DBë¥¼ ì²˜ë¦¬í•˜ëŠ” ë°©ì‹.
+     *  SetDBConfig()ë¡œ ë“±ë¡, Push()ë¡œ íŒ¨í‚· ìƒì„±í•˜ì—¬ ë¶„ë°°
      */
-    DBService** m_pServiceList = nullptr;   //·Îµå ¹ë·±½Ì ÇÒ ¼­ºñ½º ¸ñ·Ï
+    DBService** m_pServiceList = nullptr;   //ë¡œë“œ ë°¸ëŸ°ì‹± í•  ì„œë¹„ìŠ¤ ëª©ë¡
 
     /*!
-     *  ¸ŞÀÎ DB¸¦ ·Îµå¹ë·±½Ì ÇÏÁö ¾Ê°í ³»ºÎ ·ÎÁ÷ Àü¿ëÀ¸·Î »ç¿ëÇÏ°Ô µÉ º¯¼ö
+     *  ë©”ì¸ DBë¥¼ ë¡œë“œë°¸ëŸ°ì‹± í•˜ì§€ ì•Šê³  ë‚´ë¶€ ë¡œì§ ì „ìš©ìœ¼ë¡œ ì‚¬ìš©í•˜ê²Œ ë  ë³€ìˆ˜
      */
-    DBService* m_pDirectService = nullptr; //¼­¹ö ´ÜÀÏ ¼­ºñ½º
+    DBService* m_pDirectService = nullptr; //ì„œë²„ ë‹¨ì¼ ì„œë¹„ìŠ¤
 
     /*!
-     *  ¿©·¯ DB¿¡ 1 ¾²·¹µå¾¿ ¹°·Á¼­ »ç¿ëÇÏ´Â °æ¿ì »ç¿ëµÊ.
+     *  ì—¬ëŸ¬ DBì— 1 ì“°ë ˆë“œì”© ë¬¼ë ¤ì„œ ì‚¬ìš©í•˜ëŠ” ê²½ìš° ì‚¬ìš©ë¨.
      */
     DBServiceLoadBalancerMap* m_pServerIDServerList = nullptr;
 
@@ -36,9 +36,9 @@ public:
     /*!
      *  Pushes the service load balancer.
      *
-     *      @param [in] _data 
+     *      @param [in] _data
      *
-     *      @return 
+     *      @return
      */
     bool Push(InnerPacket::SharedPtr _data);
 
@@ -49,17 +49,17 @@ public:
     void Exit();
 
     /*!
-     *  DB ¿¬°áÀ» ¼³Á¤ÇÏ°í DBService ¾²·¹µå¸¦ »ı¼º ÇÒ´çÇÑ´Ù.
+     *  DB ì—°ê²°ì„ ì„¤ì •í•˜ê³  DBService ì“°ë ˆë“œë¥¼ ìƒì„± í• ë‹¹í•œë‹¤.
      *
-     *      @tparam T 
-     *      @tparam   
+     *      @tparam T
+     *      @tparam
      *
-     *      @param [in] _id          
-     *      @param [in] _password    
-     *      @param [in] _database    
-     *      @param [in] _host        
-     *      @param [in] _port        
-     *      @param [in] _workerCount 
+     *      @param [in] _id
+     *      @param [in] _password
+     *      @param [in] _database
+     *      @param [in] _host
+     *      @param [in] _port
+     *      @param [in] _workerCount
      */
     template <typename T, typename = typename std::enable_if<std::is_base_of<DBService, T>::value>::type>
     void SetDBConfig(const std::string& _id, const std::string& _password, const std::string& _database, const std::string& _host, const std::string& _port, const size_t& _workerCount)
@@ -84,16 +84,16 @@ public:
             SafeDelete(m_pDirectService);
             return;
         }
-        
+
         m_pServiceList = new DBService * [m_nServiceCount];
 
         //-----------------------------------------
-        //ÇØ´ç ¶óÀÎ ±âÁØÀ¸·Î for¹İº¹¹®ÀÌ ³ª´µ¾î ÀÖÀ½
-        //µ¿ÀÏÇÑ ¹İº¹¹®ÀÎµ¥ ¿Ö ³ª´µ¾î ÀÖ´ÂÁö Å×½ºÆ® ÇÊ¿ä
+        //í•´ë‹¹ ë¼ì¸ ê¸°ì¤€ìœ¼ë¡œ forë°˜ë³µë¬¸ì´ ë‚˜ë‰˜ì–´ ìˆìŒ
+        //ë™ì¼í•œ ë°˜ë³µë¬¸ì¸ë° ì™œ ë‚˜ë‰˜ì–´ ìˆëŠ”ì§€ í…ŒìŠ¤íŠ¸ í•„ìš”
         for (size_t i = 0; i < m_nServiceCount; ++i)
         {
             m_pServiceList[i] = new T();
-        //-----------------------------------------
+            //-----------------------------------------
             m_pServiceList[i]->SetDBConfig(_id, _password, _database, _host, _port);
             if (false == m_pServiceList[i]->CreateThread())
             {
@@ -117,25 +117,25 @@ public:
     }
 
     /*!
-     *  DBConfig¿¡ ÇØ´çÇÏ´Â Service¸¦ Ãß°¡ÇÏ°í
-     *  DBServiceÀÇ ¾²·¹µå¸¦ ½ÇÇàÇÑ´Ù
+     *  DBConfigì— í•´ë‹¹í•˜ëŠ” Serviceë¥¼ ì¶”ê°€í•˜ê³ 
+     *  DBServiceì˜ ì“°ë ˆë“œë¥¼ ì‹¤í–‰í•œë‹¤
      *
-     *      @tparam T 
-     *      @tparam   
+     *      @tparam T
+     *      @tparam
      *
-     *      @param [in] _id       
-     *      @param [in] _password 
-     *      @param [in] _database 
-     *      @param [in] _host     
-     *      @param [in] _port     
-     *      @param [in] _serverID 
+     *      @param [in] _id
+     *      @param [in] _password
+     *      @param [in] _database
+     *      @param [in] _host
+     *      @param [in] _port
+     *      @param [in] _serverID
      *
-     *      @return 
+     *      @return
      */
     template <typename T, typename = typename std::enable_if<std::is_base_of<DBService, T>::value>::type>
     bool AddDBConfig(const std::string& _id, const std::string& _password, const std::string& _database, const std::string& _host, const std::string& _port, const int& _serverID)
     {
-        if(true == _IsExistsServerID(_serverID))
+        if (true == _IsExistsServerID(_serverID))
         {
             VIEW_INFO("DB Service By ServerID(%d) is Exists. (%s:%s)", _serverID, _host.c_str(), _port.c_str());
             return false;
@@ -176,8 +176,8 @@ public:
         return dynamic_cast<T*>(m_pServerIDServerList);
     }
 
-    private:
-        bool _AddDBService(const int& _serverID, DBService* _service);
-        bool _IsExistsServerID(const int& _serverID);
+private:
+    bool _AddDBService(const int& _serverID, DBService* _service);
+    bool _IsExistsServerID(const int& _serverID);
 };
 

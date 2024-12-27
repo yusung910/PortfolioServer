@@ -2,8 +2,8 @@
 #include "SCoreAPI.h"
 #include <string>
 
-// ±¸Çö Âü°í : https://tools.ietf.org/html/rfc1421
-// ÃÖÀûÈ­ ÇÊ¿ä
+// êµ¬í˜„ ì°¸ê³  : https://tools.ietf.org/html/rfc1421
+// ìµœì í™” í•„ìš”
 
 constexpr size_t BASE64_DECODE_PAIR_SIZE = 4;
 constexpr size_t BASE64_INDEX_SIZE = 64;

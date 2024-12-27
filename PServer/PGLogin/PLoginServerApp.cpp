@@ -20,7 +20,7 @@ PLoginServerApp::~PLoginServerApp()
 
 bool PLoginServerApp::Initialize()
 {
-    //¼­¹ö ¼³Á¤(ServerConfig.json)À» ºÒ·¯¿Â´Ù
+    //ì„œë²„ ì„¤ì •(ServerConfig.json)ì„ ë¶ˆëŸ¬ì˜¨ë‹¤
     ServerConfig::GetInst().LoadConfig();
 
     return true;
