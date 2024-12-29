@@ -273,6 +273,9 @@
     <ClInclude Include="Fan.h">
       <Filter>Math\Geometry</Filter>
     </ClInclude>
+    <ClInclude Include="ServerMonitor.h">
+      <Filter>Util\System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -409,6 +412,9 @@
     </ClCompile>
     <ClCompile Include="Fan.cpp">
       <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerMonitor.cpp">
+      <Filter>Util\System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

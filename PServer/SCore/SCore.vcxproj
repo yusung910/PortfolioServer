@@ -78,6 +78,7 @@
     <ClInclude Include="ServerApp.h" />
     <ClInclude Include="ServerAppPO.hxx" />
     <ClInclude Include="ServerConfigInfo.h" />
+    <ClInclude Include="ServerMonitor.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServicePO.hxx" />
     <ClInclude Include="stdafx.hxx" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Fan.cpp" />
     <ClCompile Include="ServerApp.cpp" />
     <ClCompile Include="ServerAppPO.cpp" />
+    <ClCompile Include="ServerMonitor.cpp" />
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="ServicePO.cpp" />
     <ClCompile Include="stdafx.cpp">

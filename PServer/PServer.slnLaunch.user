@@ -7,7 +7,7 @@
         "Action": "Start"
       },
       {
-        "Path": "PGServer\\PGServer.vcxproj",
+        "Path": "PGLogin\\PGLogin.vcxproj",
         "Action": "Start"
       }
     ]
