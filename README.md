@@ -130,6 +130,16 @@ int Test(int _t)
     int lNumber = 0;
 }
 ```
++ 함수 내부에 존재하는 람다 함수의 경우 _(underscore)로 시작
+ ```c
+int Test(int _t)
+{
+    auto _GetBPStr = [](int64_t _bytes) -> std::string
+        {
+            ...
+        };
+}
+```
 
 ### 1.5 const, define은 대문자로 작성
 ```c

@@ -148,12 +148,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="GServerCheckNES.h" />
+    <ClInclude Include="GameServerInfo.h" />
+    <ClInclude Include="GServerCheckService.h" />
     <ClInclude Include="LoginServerNES.h" />
     <ClInclude Include="LoginService.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PLoginServerApp.h" />
+    <ClInclude Include="WaitingList.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GServerCheckNES.cpp" />
+    <ClCompile Include="GServerCheckService.cpp" />
     <ClCompile Include="LoginServerNES.cpp" />
     <ClCompile Include="LoginService.cpp" />
     <ClCompile Include="Main.cpp" />

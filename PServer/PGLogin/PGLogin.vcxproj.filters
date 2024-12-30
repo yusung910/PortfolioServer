@@ -27,6 +27,18 @@
     <ClInclude Include="LoginService.h">
       <Filter>1_Main</Filter>
     </ClInclude>
+    <ClInclude Include="GServerCheckService.h">
+      <Filter>3_GameServerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingList.h">
+      <Filter>3_GameServerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerInfo.h">
+      <Filter>3_GameServerManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GServerCheckNES.h">
+      <Filter>3_GameServerManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -43,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="LoginService.cpp">
       <Filter>1_Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GServerCheckService.cpp">
+      <Filter>3_GameServerManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GServerCheckNES.cpp">
+      <Filter>3_GameServerManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

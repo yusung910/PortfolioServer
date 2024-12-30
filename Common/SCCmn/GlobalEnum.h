@@ -64,4 +64,18 @@ namespace EServerStatus
 
         return false;
     }
+};
+
+//서버 밀도 -> 낮을 경우(Low) 추천
+// 높을 경우 비추천
+// 심하게 높을 경우 제한
+namespace EServerDensity
+{
+    enum Type :int
+    {
+        None = 0,
+        Low = 1,
+        High = 2,
+        Max,
+    };
 }
