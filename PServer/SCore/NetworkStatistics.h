@@ -11,7 +11,7 @@
 
 class NetworkStatisticsPO;
 
-class NetworkStatistics
+class SCoreAPI NetworkStatistics
 {
 private:
     NetworkStatisticsPO* m_pPO = nullptr;
