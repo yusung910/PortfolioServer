@@ -19,10 +19,11 @@ public:
     std::string m_sOutboundHost = "127.0.0.1";
     int m_nOutboundPort = 35201;
 
+    EServer::Type m_eServerType = EServer::Type::Game;
 
     //Variable
     EServerStatus::Type m_eServerStatus = EServerStatus::Type::None;
-    EServerDensity::Type m_nServerDensity = EServerDensity::Type::None;
+    EServerState::Type m_nServerState = EServerState::Type::None;
 
     int m_nHostID = 0;
 

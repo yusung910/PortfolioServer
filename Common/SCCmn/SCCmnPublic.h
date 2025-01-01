@@ -1,5 +1,5 @@
 #pragma once
-
+#pragma warning(disable : 4819)
 #ifdef SERVER_BUILD
 
 //서버 전용

@@ -37,6 +37,7 @@ namespace EServer
     }
 }
 
+//서버 내부 유저 수에 따른 상황
 namespace EServerStatus
 {
     enum Type :int
@@ -66,16 +67,14 @@ namespace EServerStatus
     }
 };
 
-//서버 밀도 -> 낮을 경우(Low) 추천
-// 높을 경우 비추천
-// 심하게 높을 경우 제한
-namespace EServerDensity
+// 서버 상태
+namespace EServerState
 {
     enum Type :int
     {
         None = 0,
-        Low = 1,
-        High = 2,
-        Max,
+        Recommend = 1,
+        CreateLimit = 2,
+        Max
     };
 }

@@ -89,8 +89,8 @@ void LoginService::_Statistics()
     if (nullptr == lStat)
         return;
 
-    int lSecn = TRAFFIC_CHECK_TIME_MS / 1000;
-    float lSecf = 1000.0f / TRAFFIC_CHECK_TIME_MS;
+    int lSecn = PG_TRAFFIC_CHECK_TIME_MS / 1000;
+    float lSecf = 1000.0f / PG_TRAFFIC_CHECK_TIME_MS;
 
     auto lRecvBPS = lStat->RecvBytes() / lSecn;
     float lRecvCPSf = (float)(lStat->RecvCount() * lSecf);

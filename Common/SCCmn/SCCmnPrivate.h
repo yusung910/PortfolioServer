@@ -21,3 +21,4 @@
 #define DBG_UNREFERENCED_LOCAL_VARIABLE(V) (V)
 #endif // _WIN32
 
+#pragma warning(disable : 4819)
