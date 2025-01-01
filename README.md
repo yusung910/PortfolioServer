@@ -189,3 +189,4 @@ private:
     7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
        -> 제거되지 않을 경우 패킷 데이터 배열에 영향을 끼치게 되어 통신 데이터 상에 문제가 발생
 	8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
+	9. 정적 라이브러리(lib) 프로젝트의 클래스를 다른 프로젝트(exe)에서 참조하여 사용 할 때 링크 에러(lnk2019)가 발생 할 경우 참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.
