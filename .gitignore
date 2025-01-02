@@ -153,21 +153,22 @@ Plugins/**/Intermediate/*
 
 
 # User added
-#ºôµåÇÒ ¶§ ÀÚµ¿ »ı¼º µğ·ºÅÍ¸®
+#ë¹Œë“œí•  ë•Œ ìë™ ìƒì„± ë””ë ‰í„°ë¦¬
 Output/
 Release/
 Release_Dev/
 **/**/[bB]uild/
 obj/
+x64/Debug
 
-#¿ÜºÎ¿¡¼­ ¹Ş¾Æ¿Â lib ¸ñ·Ï
+#ì™¸ë¶€ì—ì„œ ë°›ì•„ì˜¨ lib ëª©ë¡
 !lib/**/*.exe
 !lib/**/*.lib
 !lib/**/*.dll
 !PServer/packages/**
-#k4os lib °æ·Î
+#k4os lib ê²½ë¡œ
 !lib/**/**/**/**/*
 
-#·Î±× ÆÄÀÏµé
+#ë¡œê·¸ íŒŒì¼ë“¤
 *.log
 *.err
