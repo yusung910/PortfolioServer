@@ -159,7 +159,7 @@ Release/
 Release_Dev/
 **/**/[bB]uild/
 obj/
-x64/Debug/
+/PServer/PGLogin/x64/Debug/
 
 BuildVersion.hxx
 
