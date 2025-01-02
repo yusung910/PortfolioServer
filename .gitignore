@@ -159,7 +159,9 @@ Release/
 Release_Dev/
 **/**/[bB]uild/
 obj/
-/**/x64/Debug/**
+/**/**/x64/Debug/
+
+BuildVersion.hxx
 
 #외부에서 받아온 lib 목록
 !lib/**/*.exe
