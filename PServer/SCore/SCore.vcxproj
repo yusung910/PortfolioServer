@@ -42,6 +42,8 @@
     <ClInclude Include="DBWorker.h" />
     <ClInclude Include="DBWorkerPO.hxx" />
     <ClInclude Include="DefineMacro.h" />
+    <ClInclude Include="Http.h" />
+    <ClInclude Include="HttpPO.hxx" />
     <ClInclude Include="InnerPacket.h" />
     <ClInclude Include="IShape.h" />
     <ClInclude Include="LogData.hxx" />
@@ -100,6 +102,8 @@
     <ClCompile Include="DBServicePO.cpp" />
     <ClCompile Include="DBWorker.cpp" />
     <ClCompile Include="DBWorkerPO.cpp" />
+    <ClCompile Include="Http.cpp" />
+    <ClCompile Include="HttpPO.cpp" />
     <ClCompile Include="LogData.cpp" />
     <ClCompile Include="LoggingManager.cpp" />
     <ClCompile Include="LoggingManagerPO.cpp" />

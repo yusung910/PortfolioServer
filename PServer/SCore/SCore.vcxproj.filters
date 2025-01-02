@@ -276,6 +276,12 @@
     <ClInclude Include="ServerMonitor.h">
       <Filter>Util\System</Filter>
     </ClInclude>
+    <ClInclude Include="HttpPO.hxx">
+      <Filter>Network\Web\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="Http.h">
+      <Filter>Network\Web</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -415,6 +421,12 @@
     </ClCompile>
     <ClCompile Include="ServerMonitor.cpp">
       <Filter>Util\System</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpPO.cpp">
+      <Filter>Network\Web\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="Http.cpp">
+      <Filter>Network\Web</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

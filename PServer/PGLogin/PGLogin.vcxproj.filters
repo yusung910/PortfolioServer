@@ -4,14 +4,29 @@
     <Filter Include="0_Private">
       <UniqueIdentifier>{f4425605-cd92-4fb2-ab01-2ea6af2843d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Main">
+    <Filter Include="1_Services">
+      <UniqueIdentifier>{8c745084-af4e-4363-9d5a-0a71b02b9cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\1_Main">
       <UniqueIdentifier>{22a08611-2022-4d72-ad07-cd53aada91f6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_DB">
+    <Filter Include="1_Services\2_DB">
       <UniqueIdentifier>{909181ab-f2b0-49bb-a168-22bab8fe5592}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_GameServerManager">
+    <Filter Include="1_Services\3_GameServerManage">
       <UniqueIdentifier>{92899996-5567-4da3-9c38-395143449f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\4_OuterPlatform">
+      <UniqueIdentifier>{15d18d64-4f27-41d1-9c56-68e064ac9f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\5_InnerPlatform">
+      <UniqueIdentifier>{e457845c-ffd6-44ff-b486-cd7ac006090f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Structure">
+      <UniqueIdentifier>{430e1665-f892-45ca-9204-b15520b97a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Functions">
+      <UniqueIdentifier>{f5133109-307e-4e85-8944-6fec00ac978f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -22,22 +37,22 @@
       <Filter>0_Private</Filter>
     </ClInclude>
     <ClInclude Include="LoginServerNES.h">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClInclude>
     <ClInclude Include="LoginService.h">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClInclude>
     <ClInclude Include="GServerCheckService.h">
-      <Filter>3_GameServerManager</Filter>
+      <Filter>1_Services\3_GameServerManage</Filter>
     </ClInclude>
     <ClInclude Include="WaitingList.h">
-      <Filter>3_GameServerManager</Filter>
+      <Filter>1_Services\3_GameServerManage</Filter>
     </ClInclude>
     <ClInclude Include="GameServerInfo.h">
-      <Filter>3_GameServerManager</Filter>
+      <Filter>1_Services\3_GameServerManage</Filter>
     </ClInclude>
     <ClInclude Include="GServerCheckNES.h">
-      <Filter>3_GameServerManager</Filter>
+      <Filter>1_Services\3_GameServerManage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -51,16 +66,16 @@
       <Filter>0_Private</Filter>
     </ClCompile>
     <ClCompile Include="LoginServerNES.cpp">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClCompile>
     <ClCompile Include="LoginService.cpp">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClCompile>
     <ClCompile Include="GServerCheckService.cpp">
-      <Filter>3_GameServerManager</Filter>
+      <Filter>1_Services\3_GameServerManage</Filter>
     </ClCompile>
     <ClCompile Include="GServerCheckNES.cpp">
-      <Filter>3_GameServerManager</Filter>
+      <Filter>1_Services\3_GameServerManage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
