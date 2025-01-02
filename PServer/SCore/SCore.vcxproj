@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Dev|Win32">
+      <Configuration>Release_Dev</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Dev|x64">
+      <Configuration>Release_Dev</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base64Util.h" />
+    <ClInclude Include="BlockingQueue.h" />
+    <ClInclude Include="Box.h" />
+    <ClInclude Include="BuildConfig.hxx" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="Clock.h" />
+    <ClInclude Include="CmnMath.h" />
+    <ClInclude Include="ConvertUTF.hxx" />
+    <ClInclude Include="DBService.h" />
+    <ClInclude Include="DBServiceLoadBalancer.h" />
+    <ClInclude Include="DBServiceLoadBalancerMap.hxx" />
+    <ClInclude Include="DBServicePO.hxx" />
+    <ClInclude Include="DBWorker.h" />
+    <ClInclude Include="DBWorkerPO.hxx" />
+    <ClInclude Include="DefineMacro.h" />
+    <ClInclude Include="InnerPacket.h" />
+    <ClInclude Include="IShape.h" />
+    <ClInclude Include="LogData.hxx" />
+    <ClInclude Include="LoggingCommon.h" />
+    <ClInclude Include="LoggingMacro.h" />
+    <ClInclude Include="LoggingManager.h" />
+    <ClInclude Include="LoggingManagerPO.hxx" />
+    <ClInclude Include="LZ4Compressor.h" />
+    <ClInclude Include="MiniDump.h" />
+    <ClInclude Include="mt19937.hxx" />
+    <ClInclude Include="NetworkCommon.h" />
+    <ClInclude Include="NetworkContextPO.hxx" />
+    <ClInclude Include="NetworkContextPoolPO.hxx" />
+    <ClInclude Include="NetworkControllerPO.hxx" />
+    <ClInclude Include="NetworkEventSync.h" />
+    <ClInclude Include="NetworkHostPO.hxx" />
+    <ClInclude Include="NetworkHostPoolPO.hxx" />
+    <ClInclude Include="NetworkManager.h" />
+    <ClInclude Include="NetworkManagerPO.hxx" />
+    <ClInclude Include="NetworkStatistics.h" />
+    <ClInclude Include="NetworkStatisticsPO.hxx" />
+    <ClInclude Include="NetworkSupporterPO.hxx" />
+    <ClInclude Include="NetworkWorkerPO.hxx" />
+    <ClInclude Include="ObjectQueue.h" />
+    <ClInclude Include="PacketCompressor.hxx" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="Position2D.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="RandomPO.hxx" />
+    <ClInclude Include="SConnectorTargetInfo.h" />
+    <ClInclude Include="SCoreAPI.h" />
+    <ClInclude Include="Fan.h" />
+    <ClInclude Include="ServerApp.h" />
+    <ClInclude Include="ServerAppPO.hxx" />
+    <ClInclude Include="ServerConfigInfo.h" />
+    <ClInclude Include="ServerMonitor.h" />
+    <ClInclude Include="Service.h" />
+    <ClInclude Include="ServicePO.hxx" />
+    <ClInclude Include="stdafx.hxx" />
+    <ClInclude Include="StringUtil.h" />
+    <ClInclude Include="TimerData.hxx" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="TimerPO.hxx" />
+    <ClInclude Include="XORUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Base64Util.cpp" />
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="ConvertUTF.cpp" />
+    <ClCompile Include="DBService.cpp" />
+    <ClCompile Include="DBServiceLoadBalancer.cpp" />
+    <ClCompile Include="DBServiceLoadBalancerMap.cpp" />
+    <ClCompile Include="DBServicePO.cpp" />
+    <ClCompile Include="DBWorker.cpp" />
+    <ClCompile Include="DBWorkerPO.cpp" />
+    <ClCompile Include="LogData.cpp" />
+    <ClCompile Include="LoggingManager.cpp" />
+    <ClCompile Include="LoggingManagerPO.cpp" />
+    <ClCompile Include="LZ4Compressor.cpp" />
+    <ClCompile Include="MiniDump.cpp" />
+    <ClCompile Include="mt19937.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="NetworkContextPO.cpp" />
+    <ClCompile Include="NetworkContextPoolPO.cpp" />
+    <ClCompile Include="NetworkControllerPO.cpp" />
+    <ClCompile Include="NetworkHostPO.cpp" />
+    <ClCompile Include="NetworkHostPoolPO.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
+    <ClCompile Include="NetworkManagerPO.cpp" />
+    <ClCompile Include="NetworkStatistics.cpp" />
+    <ClCompile Include="NetworkStatisticsPO.cpp" />
+    <ClCompile Include="NetworkSupporterPO.cpp" />
+    <ClCompile Include="NetworkWorkerPO.cpp" />
+    <ClCompile Include="PacketCompressor.cpp" />
+    <ClCompile Include="Point.cpp" />
+    <ClCompile Include="Position.cpp" />
+    <ClCompile Include="Position2D.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="RandomPO.cpp" />
+    <ClCompile Include="SCoreAPI.cpp" />
+    <ClCompile Include="Fan.cpp" />
+    <ClCompile Include="ServerApp.cpp" />
+    <ClCompile Include="ServerAppPO.cpp" />
+    <ClCompile Include="ServerMonitor.cpp" />
+    <ClCompile Include="Service.cpp" />
+    <ClCompile Include="ServicePO.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StringUtil.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TimerPO.cpp" />
+    <ClCompile Include="XORUtil.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{d69567c3-8ae4-4154-af8d-d17d8d3d4700}</ProjectGuid>
+    <RootNamespace>SCore</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>SCore</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
+    <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
+    <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
+    <VcpkgManifestInstall>false</VcpkgManifestInstall>
+    <VcpkgAutoLink>false</VcpkgAutoLink>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>OBJECT_POOL_ENABLE;CORE_EXPORT;_WINDLL;DEV_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.hxx</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;Mswsock.lib;jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>@ECHO OFF
+DEL $(ProjectDir)BuildVersion.hxx</Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>@echo off
+echo Refresh SCore Release Files...
+echo.
+echo Check And Create RElease Folder...
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\include\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\include"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\Release\$(ProjectName)\Include\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\Lib\$(PlatformTarget)\$(Configuration)\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\Bin\$(PlatformTarget)\$(Configuration)\*.*" /Q
+
+echo.
+echo Copy New Release Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\$(ProjectName)\include\"
+COPY "$(TargetPath)" "$(SolutionDir)..\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)..\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)..\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+
+
+echo.
+echo.
+echo Release File Copy done!
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>OBJECT_POOL_ENABLE;CORE_EXPORT;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.hxx</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;Mswsock.lib;jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>@ECHO OFF
+DEL $(ProjectDir)BuildVersion.hxx</Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>@echo off
+echo Refresh SCore Release Files...
+echo.
+echo Check And Create Release Folder...
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\include\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\include"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\Release\$(ProjectName)\include\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\*.*" /Q
+
+echo.
+echo Copy New Release Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release\$(ProjectName)\Include\"
+COPY "$(TargetPath)" "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+COPY "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\$(Configuration)\"
+
+
+echo.
+echo.
+echo Release File Copy done!</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>OBJECT_POOL_ENABLE;CORE_EXPORT;_WINDLL;DEV_TEST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.hxx</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <DisableSpecificWarnings>4099</DisableSpecificWarnings>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <Optimization>Disabled</Optimization>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;Mswsock.lib;jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>@ECHO OFF
+
+CD $(SolutionDir)
+
+FOR /F "tokens=*" %%F IN ('git rev-list --count HEAD') DO (SET var=%%F)
+SET revision=%var%
+
+CD $(ProjectDir)
+
+ECHO #pragma once &gt; BuildVersion.hxx
+ECHO #define __LIBRARY_GIT_BRANCH_REV__  %revision% &gt;&gt; BuildVersion.hxx</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>@ECHO OFF
+DEL $(ProjectDir)BuildVersion.hxx</Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>@echo off
+echo Refresh SCore Release Files...
+echo.
+echo Check And Create Release Folder...
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\include\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\include"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)"
+IF NOT EXIST "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug\" MKDIR "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug"
+
+echo.
+echo Clear Old Release Files...
+DEL "$(SolutionDir)..\Release\$(ProjectName)\include\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\*.*" /Q
+DEL "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug\*.*" /Q
+
+echo.
+echo Copy New Release Files...
+COPY "$(ProjectDir)*.h" "$(SolutionDir)..\Release\$(ProjectName)\include\"
+COPY "$(TargetPath)" "$(SolutionDir)..\Release\$(ProjectName)\bin\$(PlatformTarget)\Debug\"
+COPY "$(TargetDir)$(ProjectName).lib" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\"
+COPY "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)..\Release\$(ProjectName)\lib\$(PlatformTarget)\Debug\"
+
+
+echo.
+echo.
+echo Release File Copy done!
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

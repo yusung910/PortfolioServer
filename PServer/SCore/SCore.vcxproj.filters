@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="0_Private">
+      <UniqueIdentifier>{57701c45-637f-4710-a1d0-4cabba0d8fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{e87a7557-b289-43f2-88f8-e8c9f8c4fbcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Pacade">
+      <UniqueIdentifier>{2dc7e423-c2a2-4c06-9227-51d458ae0184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Web">
+      <UniqueIdentifier>{a37e4e79-8c9a-4658-951c-20fe445e4af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Web\Pacade">
+      <UniqueIdentifier>{26048fc3-a51c-44a3-a73c-cdbbf33aca99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{18acb098-8555-4904-962e-f9dbb79da075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{2b0d3e13-d917-455c-a1e3-1c514b724f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\String">
+      <UniqueIdentifier>{326e2a18-d267-4b09-88ff-668c34233096}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\String\Pacade">
+      <UniqueIdentifier>{d796a5a5-6f55-4c56-a01c-532bd94b82f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Define">
+      <UniqueIdentifier>{2b85fcad-e12a-426f-987a-ca9e2f9d9237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{70607c89-9866-4cfd-a0dd-e68b4f7801d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\Pacade">
+      <UniqueIdentifier>{3c2ec344-56e8-4a64-bf5e-a4d86203be0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log\Define">
+      <UniqueIdentifier>{9a532eba-08b8-4ddf-a4b4-aef7e33209b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Memory">
+      <UniqueIdentifier>{89c166ad-93b6-4ac4-99c0-54f488587cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Define">
+      <UniqueIdentifier>{c3882348-46ce-4867-b87f-0f53f2ab6cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Time">
+      <UniqueIdentifier>{df1aff2c-866d-46a7-b388-12aa85f9be30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Time\_Pacade">
+      <UniqueIdentifier>{aeb7ce9c-0c7a-40b7-9f5d-7a1a53e47982}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Compress">
+      <UniqueIdentifier>{4caa9332-f8b1-415a-a9e7-6234fa67d1df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\System">
+      <UniqueIdentifier>{8e754750-dbb0-4f6a-a2d7-0d49d227c953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher">
+      <UniqueIdentifier>{81031174-1c57-42db-972b-43774550ec2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher\Database">
+      <UniqueIdentifier>{77286059-b225-4303-b1a1-cd024218c92b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher\Pacade">
+      <UniqueIdentifier>{d6e4be24-c657-42c7-ac32-b34dd8729cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\Crypto">
+      <UniqueIdentifier>{6d69b057-fcb4-4e8f-aefd-5fa610088dfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatcher\Database\Pacade">
+      <UniqueIdentifier>{4e02e7d3-204c-494a-b0d0-bc99dae94371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{ac06732f-e917-4b09-bbb3-eb0093484b5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\Pacade">
+      <UniqueIdentifier>{4473cb19-cd7c-44a8-bc5f-6d3006edc9e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{ce7eeace-1a74-4096-a349-933c5a5fd63a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Geometry">
+      <UniqueIdentifier>{242f0b2e-c85f-4280-96c1-3aef7e92d009}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Random">
+      <UniqueIdentifier>{35bfc5e7-a6fd-4422-812f-8ae25cc76f7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Random\Pacade">
+      <UniqueIdentifier>{1b7359f8-8dc6-469a-a7d5-4da3c4cb8eae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Random\Pacade\MersenneTwister">
+      <UniqueIdentifier>{25c4405b-409c-4ef0-9746-db9e9305a841}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.hxx">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="SCoreAPI.h">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildConfig.hxx">
+      <Filter>0_Private</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerConfigInfo.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvertUTF.hxx">
+      <Filter>Util\String\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="StringUtil.h">
+      <Filter>Util\String</Filter>
+    </ClInclude>
+    <ClInclude Include="DefineMacro.h">
+      <Filter>Define</Filter>
+    </ClInclude>
+    <ClInclude Include="LogData.hxx">
+      <Filter>Log\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockingQueue.h">
+      <Filter>Util\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingManagerPO.hxx">
+      <Filter>Log\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingManager.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingMacro.h">
+      <Filter>Log\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCommon.h">
+      <Filter>Network\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkContextPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkContextPoolPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkEventSync.h">
+      <Filter>Network\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketCompressor.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSupporterPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHostPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="Clock.h">
+      <Filter>Util\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManagerPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkStatisticsPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkStatistics.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkWorkerPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkControllerPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Util\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerPO.hxx">
+      <Filter>Util\Time\_Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerData.hxx">
+      <Filter>Util\Time\_Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkHostPoolPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="SConnectorTargetInfo.h">
+      <Filter>Network\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="LoggingCommon.h">
+      <Filter>Log\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="LZ4Compressor.h">
+      <Filter>Util\Compress</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerAppPO.hxx">
+      <Filter>Network\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerApp.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MiniDump.h">
+      <Filter>Util\System</Filter>
+    </ClInclude>
+    <ClInclude Include="InnerPacket.h">
+      <Filter>Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="XORUtil.h">
+      <Filter>Util\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Base64Util.h">
+      <Filter>Util\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Dispatcher</Filter>
+    </ClInclude>
+    <ClInclude Include="ServicePO.hxx">
+      <Filter>Dispatcher\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectQueue.h">
+      <Filter>Util\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="DBServicePO.hxx">
+      <Filter>Dispatcher\Database\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="DBWorkerPO.hxx">
+      <Filter>Database\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="DBWorker.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="DBServiceLoadBalancerMap.hxx">
+      <Filter>Dispatcher\Database\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="DBService.h">
+      <Filter>Dispatcher\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="DBServiceLoadBalancer.h">
+      <Filter>Dispatcher\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="CmnMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Position2D.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="IShape.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Box.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomPO.hxx">
+      <Filter>Math\Random\Pacade</Filter>
+    </ClInclude>
+    <ClInclude Include="mt19937.hxx">
+      <Filter>Math\Random\Pacade\MersenneTwister</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Math\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Fan.h">
+      <Filter>Math\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerMonitor.h">
+      <Filter>Util\System</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>0_Private</Filter>
+    </ClCompile>
+    <ClCompile Include="SCoreAPI.cpp">
+      <Filter>0_Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ConvertUTF.cpp">
+      <Filter>Util\String\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="StringUtil.cpp">
+      <Filter>Util\String</Filter>
+    </ClCompile>
+    <ClCompile Include="LogData.cpp">
+      <Filter>Log\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingManagerPO.cpp">
+      <Filter>Log\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LoggingManager.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkContextPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkContextPoolPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketCompressor.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSupporterPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHostPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="Clock.cpp">
+      <Filter>Util\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManagerPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkStatisticsPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkStatistics.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkWorkerPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkControllerPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Util\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="TimerPO.cpp">
+      <Filter>Util\Time\_Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkHostPoolPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="LZ4Compressor.cpp">
+      <Filter>Util\Compress</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerAppPO.cpp">
+      <Filter>Network\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerApp.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="MiniDump.cpp">
+      <Filter>Util\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Base64Util.cpp">
+      <Filter>Util\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="XORUtil.cpp">
+      <Filter>Util\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="Service.cpp">
+      <Filter>Dispatcher</Filter>
+    </ClCompile>
+    <ClCompile Include="ServicePO.cpp">
+      <Filter>Dispatcher\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="DBServicePO.cpp">
+      <Filter>Dispatcher\Database\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="DBWorkerPO.cpp">
+      <Filter>Database\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="DBWorker.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="DBServiceLoadBalancerMap.cpp">
+      <Filter>Dispatcher\Database\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="DBService.cpp">
+      <Filter>Dispatcher\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="DBServiceLoadBalancer.cpp">
+      <Filter>Dispatcher\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Position2D.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Box.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomPO.cpp">
+      <Filter>Math\Random\Pacade</Filter>
+    </ClCompile>
+    <ClCompile Include="mt19937.c">
+      <Filter>Math\Random\Pacade\MersenneTwister</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Math\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="Fan.cpp">
+      <Filter>Math\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerMonitor.cpp">
+      <Filter>Util\System</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

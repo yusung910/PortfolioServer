@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>E:\Workspace\PortfolioServer\Binaries\x64\Release_Dev\SCore.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>E:\Workspace\PortfolioServer\PServer\x64\Debug\PGLogin.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
