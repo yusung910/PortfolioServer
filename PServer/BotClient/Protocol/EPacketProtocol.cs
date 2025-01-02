@@ -13,8 +13,10 @@ public enum EPacketProtocol : int
   Host_ConnectFailed = 3,
   Host_Hello = 12,
   SC_IntegrationErrorNotification = 10000,
-  CS_AuthReq = 10001,
-  SC_AuthRes = 10002,
-  PacketMax = 10003,
+  CL_AuthReq = 10001,
+  LC_AuthRes = 10002,
+  CS_EnterGameReq = 10003,
+  SC_EnterGameAck = 10004,
+  PacketMax = 10005,
 };
 

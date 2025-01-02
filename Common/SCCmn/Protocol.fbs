@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-//z
+//
 // IDL 작성 시
 //
 // 1. Prefix					Example
@@ -23,7 +23,7 @@
 // Noti				- 알림
 // Broadcast		- 전체 알림 류
 //
-// 3. Member Structure는 접두사 M 을 붙인다.
+// 3. Structure는 접두사 O(Object)를 붙인다.
 //
 // *Example
 // table SCAuthResponse		<-- 접두사 Client -> Server, 접미사 Response로 요청에 의한 응답임
@@ -55,11 +55,18 @@ enum EPacketProtocol:int
 
 	// ~999
 	SC_IntegrationErrorNotification = 10000,
+
+	//---------------------------------------------------------------------------
+	//LoginServer
+	//---------------------------------------------------------------------------
+    CL_AuthReq,
+    LC_AuthRes,
+
 	//---------------------------------------------------------------------------
 	//GameServer
 	//---------------------------------------------------------------------------
-	CS_AuthReq,
-	SC_AuthRes,
+	CS_EnterGameReq,
+	SC_EnterGameAck,
 
 	PacketMax
 }
@@ -72,7 +79,7 @@ enum EPacketProtocol:int
 
 
 ///////////////////////////////////////////////////////////////////////////////
-//  Begin Error
+//  Begin Error Enum
 ///////////////////////////////////////////////////////////////////////////////
 enum EErrorMsg:int
 {
@@ -88,9 +95,30 @@ enum EErrorMsg:int
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//  End Errors
+//  End Errors Enum
 ///////////////////////////////////////////////////////////////////////////////
 
+//-----------------------------------------------------------------------------
+// Message Structure Start
+//-----------------------------------------------------------------------------
+table OServerInfo
+{
+    ServerID:int;               //서버 고유 ID
+    ServerStatus:int;           //점검 등에 따른 서버 상태(닫힘, 원활, 포화)
+
+    Address:string;             //IP
+    Port:int;                   //Port
+
+    HasCharacter:bool;          //서버에 캐릭터 존재하고 있는지
+    State:int;                  //EServerState 서버 추천 여부
+}
+//-----------------------------------------------------------------------------
+// Message Structure End
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Server Reserved Packet Start
+//-----------------------------------------------------------------------------
 table HostConnect
 {
     peerip:string;
@@ -121,6 +149,60 @@ table HostHello
 	messageid:EPacketProtocol = Host_Hello;
 }
 
+//-----------------------------------------------------------------------------
+// Server Reserved Packet End
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// LoginServer Table Start
+//-----------------------------------------------------------------------------
+
+table CLAuthReq
+{
+    OSType:int;                 // EOS::Type
+    AppVer:int;                 // 어플 버전
+    UniqueKey:string;           // 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용
+
+    //추후 Google, App에 따른 데이터 추가가 필요하다
+
+    messageid:EPacketProtocol = CL_AuthReq;
+}
+
+table LCAuthRes
+{
+    AccountSeq:int;
+    ServerList:[OServerInfo];
+    LastConnectServerID: int;
+    ServerTick:long;
+    TimeZone:int;
+
+    messageid:EPacketProtocol = LC_AuthRes;
+}
+
+
+
+//-----------------------------------------------------------------------------
+// LoginServer Table End
+//-----------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------
+// GameServer Table Start
+//-----------------------------------------------------------------------------
+table CSEnterGameReq
+{
+	accountid: string;
+	accountpw: string;
+    hostid: int;
+	messageid:EPacketProtocol = CS_EnterGameReq;
+}
+
+table SCEnterGameAck
+{
+	accountid: string;
+	accountpw: string;
+	messageid:EPacketProtocol = SC_EnterGameAck;
+}
 
 table SCIntegrationErrorNotification
 {
@@ -128,22 +210,6 @@ table SCIntegrationErrorNotification
 	Error:int;
 	messageid:EPacketProtocol = SC_IntegrationErrorNotification;
 }
-
-
-//------------------------------------------------------
-//GameServer Table
-//------------------------------------------------------
-table CSAuthReq
-{
-	accountid: string;
-	accountpw: string;
-    hostid: int;
-	messageid:EPacketProtocol = CS_AuthReq;
-}
-
-table SCAuthRes
-{
-	accountid: string;
-	accountpw: string;
-	messageid:EPacketProtocol = SC_AuthRes;
-}
+//-----------------------------------------------------------------------------
+// GameServer Table End
+//-----------------------------------------------------------------------------

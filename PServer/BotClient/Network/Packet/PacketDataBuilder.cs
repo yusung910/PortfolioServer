@@ -19,21 +19,21 @@ namespace BotClient.Network
 
             retBuilder.Clear();
 
-            switch (_msgID)
-            {
-                case EPacketProtocol.CS_AuthReq:
-                    var id = retBuilder.CreateString(_args[0]);
-                    var pw = retBuilder.CreateString(_args[1]);
+            //switch (_msgID)
+            //{
+            //    //case EPacketProtocol.CS_AuthReq:
+            //    //    var id = retBuilder.CreateString(_args[0]);
+            //    //    var pw = retBuilder.CreateString(_args[1]);
 
-                    CSAuthReq.StartCSAuthReq(retBuilder);
+            //    //    CSAuthReq.StartCSAuthReq(retBuilder);
 
-                    CSAuthReq.AddAccountid(retBuilder, id);
-                    CSAuthReq.AddAccountpw(retBuilder, pw);
+            //    //    CSAuthReq.AddAccountid(retBuilder, id);
+            //    //    CSAuthReq.AddAccountpw(retBuilder, pw);
 
-                    var endoffset = CSAuthReq.EndCSAuthReq(retBuilder);
-                    retBuilder.Finish(endoffset.Value);
-                    break;
-            }
+            //    //    var endoffset = CSAuthReq.EndCSAuthReq(retBuilder);
+            //    //    retBuilder.Finish(endoffset.Value);
+            //    //    break;
+            //}
 
             return retBuilder;
         }

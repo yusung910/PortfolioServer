@@ -12,7 +12,8 @@ GServerCheckService::GServerCheckService()
 bool GServerCheckService::Start()
 {
     RegisterTimer(PG_CHECK_RECONNECT_TIME_MS, std::bind(&GServerCheckService::_CheckConnect, this));
-    return false;
+
+    return CreateThread();
 }
 
 bool GServerCheckService::LoadGameServers()
@@ -109,7 +110,42 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
     if (lServerID != m_umGameServerIDList.end())
         m_umGameServerIDList.erase(lServerID);
 
+    for (auto  it = m_umGameServerList.begin(); it != m_umGameServerList.end(); ++it)
+    {
+        if (nullptr == it->second)
+            continue;
 
+        if (it->second->m_nHostID == _hostID)
+        {
+            if (true == it->second->m_bIsConnected)
+            {
+                VIEW_WRITE_INFO("%sServer(%d) Disconnected. [%s:%d, HostID: %d]"
+                    , (it->second->m_eServerType == EServer::Type::Game) ? "Game" : "Other"
+                    , it->second->m_nServerID
+                    , it->second->m_sOutboundHost.c_str()
+                    , it->second->m_nOutboundPort
+                    , _hostID
+                    );
+
+            }
+            else if (true == it->second->m_bIsConnecting)
+            {
+                VIEW_WRITE_INFO("%sServer(%d) Connecting Failed. [%s:%d, HostID: %d]"
+                    , (it->second->m_eServerType == EServer::Type::Game) ? "Game" : "Other"
+                    , it->second->m_nServerID
+                    , it->second->m_sOutboundHost.c_str()
+                    , it->second->m_nOutboundPort
+                    , _hostID
+                );
+            }
+
+            it->second->m_nHostID = 0;
+            it->second->m_bIsConnected = false;
+            it->second->m_bIsConnecting = false;
+
+            return true;
+        }
+    }
 
 
 
@@ -118,4 +154,39 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
 
 void GServerCheckService::_CheckConnect()
 {
+    AutoLock(m_xServerListLock);
+
+    int lTotalServerCount = static_cast<int>(m_umGameServerList.size());
+    int lConnectedServerCount = 0;
+
+    for (auto it = m_umGameServerList.begin(); it != m_umGameServerList.end(); ++it)
+    {
+        if (nullptr == it->second)
+            continue;
+
+        if (false == it->second->m_bIsConnected)
+        {
+            if (true == NetworkManager::GetInst().IsInitialized())
+            {
+                if (false == it->second->m_bIsConnecting)
+                {
+                    bool lConnecting = NetworkManager::GetInst().Connect(it->second->m_oHostEvent.get()
+                        , it->second->m_sOutboundHost
+                        , it->second->m_nOutboundPort
+                        , &it->second->m_nHostID);
+
+                    it->second->m_bIsConnecting = lConnecting;
+                }
+            }
+            else
+            {
+                ++lConnectedServerCount;
+            }
+        }
+
+    }
+
+    m_nTotalServerCount.exchange(lTotalServerCount);
+    m_nConnectedSererCount.exchange(lConnectedServerCount);
+
 }

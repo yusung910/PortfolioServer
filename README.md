@@ -6,8 +6,10 @@
  > 기본은 카멜 표기법을 따름
  
 ### 1.1 클래스 네이밍 룰
-    1.Pacade 클래스 이름은 접미어로 PO(Pacade Object)를 붙인다
-    2.해당 클래스의 header 파일 확장자는 .hxx, C++ 파일 확장자는 동일하게 .cpp
+    1. Pacade 클래스 이름은 접미어로 PO(Pacade Object)를 붙인다
+    2. 해당 클래스의 header 파일 확장자는 .hxx, C++ 파일 확장자는 동일하게 .cpp
+    3. NES = NetworkEventSync, 네트워크 이벤트에 사용되는 클래스
+       각각의 서버에서 상속받아 사용하는 부모 클래스
 ### 1.2 Parameter 타입의 변수는 '_'로 시작
 ```c
 function test(int _a)

@@ -49,36 +49,10 @@ bool GameService::OnHostClose(int _hostID, const HostClose& _msg)
     return false;
 }
 
-bool GameService::OnCSAuthReq(int _hostID, const CSAuthReq& _msg)
-{
-    VIEW_INFO("OnCSAuthReq _hostID: %d, accountid: %s", _hostID, _msg.accountid()->c_str());
-
-    flatbuffers::FlatBufferBuilder lFB;
-
-    auto lPacket = CreateSCAuthRes(lFB, lFB.CreateString(_msg.accountid()), lFB.CreateString(_msg.accountpw()));
-    lFB.Finish(lPacket);
-
-    Packet::SharedPtr lpPacket = Packet::New();
-    if (true == lpPacket->SetPacketData(SC_AuthRes, lFB.GetBufferPointer(), lFB.GetSize()))
-    {
-        NetworkManager::GetInst().Send(_hostID, lpPacket);
-        VIEW_INFO("Send Packet to User(hostID: %d) MessageID(%d, %s)", _hostID, SC_AuthRes, EnumNameEPacketProtocol(SC_AuthRes));
-    }
-    else
-    {
-        VIEW_WRITE_ERROR("PC(hostID: %d) Send Packet Fail!! MessageID(%d, %s)", _hostID, SC_AuthRes, EnumNameEPacketProtocol(SC_AuthRes));
-    }
-
-
-    return true;
-}
-
-
 void GameService::_RegisterPacketHandlers()
 {
 	RegisterHandler(&GameService::OnHostConnect);
 	RegisterHandler(&GameService::OnHostClose);
-	RegisterHandler(&GameService::OnCSAuthReq);
 }
 
 void GameService::_RegisterTimers()

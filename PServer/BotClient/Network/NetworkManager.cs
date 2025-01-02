@@ -138,8 +138,8 @@ namespace BotClient.Network
                 return;
             }
 
-            string[] data = { "yusung910@nate.com", "ABCDEFGABC" };
-            mPacket.SetPacketData(EPacketProtocol.CS_AuthReq, data);
+            //string[] data = { "yusung910@nate.com", "ABCDEFGABC" };
+            //mPacket.SetPacketData(EPacketProtocol.CS_AuthReq, data);
 
             m_oSocket.SendAsync(mPacket);
         }

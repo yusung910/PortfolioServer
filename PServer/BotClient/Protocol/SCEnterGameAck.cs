@@ -6,15 +6,15 @@ using global::System;
 using global::System.Collections.Generic;
 using global::FlatBuffers;
 
-public struct CSAuthReq : IFlatbufferObject
+public struct SCEnterGameAck : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_1_12_0(); }
-  public static CSAuthReq GetRootAsCSAuthReq(ByteBuffer _bb) { return GetRootAsCSAuthReq(_bb, new CSAuthReq()); }
-  public static CSAuthReq GetRootAsCSAuthReq(ByteBuffer _bb, CSAuthReq obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static SCEnterGameAck GetRootAsSCEnterGameAck(ByteBuffer _bb) { return GetRootAsSCEnterGameAck(_bb, new SCEnterGameAck()); }
+  public static SCEnterGameAck GetRootAsSCEnterGameAck(ByteBuffer _bb, SCEnterGameAck obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public CSAuthReq __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public SCEnterGameAck __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public string Accountid { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
@@ -30,67 +30,59 @@ public struct CSAuthReq : IFlatbufferObject
   public ArraySegment<byte>? GetAccountpwBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
   public byte[] GetAccountpwArray() { return __p.__vector_as_array<byte>(6); }
-  public int Hostid { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public EPacketProtocol Messageid { get { int o = __p.__offset(10); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.CS_AuthReq; } }
+  public EPacketProtocol Messageid { get { int o = __p.__offset(8); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.SC_EnterGameAck; } }
 
-  public static Offset<CSAuthReq> CreateCSAuthReq(FlatBufferBuilder builder,
+  public static Offset<SCEnterGameAck> CreateSCEnterGameAck(FlatBufferBuilder builder,
       StringOffset accountidOffset = default(StringOffset),
       StringOffset accountpwOffset = default(StringOffset),
-      int hostid = 0,
-      EPacketProtocol messageid = EPacketProtocol.CS_AuthReq) {
-    builder.StartTable(4);
-    CSAuthReq.AddMessageid(builder, messageid);
-    CSAuthReq.AddHostid(builder, hostid);
-    CSAuthReq.AddAccountpw(builder, accountpwOffset);
-    CSAuthReq.AddAccountid(builder, accountidOffset);
-    return CSAuthReq.EndCSAuthReq(builder);
+      EPacketProtocol messageid = EPacketProtocol.SC_EnterGameAck) {
+    builder.StartTable(3);
+    SCEnterGameAck.AddMessageid(builder, messageid);
+    SCEnterGameAck.AddAccountpw(builder, accountpwOffset);
+    SCEnterGameAck.AddAccountid(builder, accountidOffset);
+    return SCEnterGameAck.EndSCEnterGameAck(builder);
   }
 
-  public static void StartCSAuthReq(FlatBufferBuilder builder) { builder.StartTable(4); }
+  public static void StartSCEnterGameAck(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddAccountid(FlatBufferBuilder builder, StringOffset accountidOffset) { builder.AddOffset(0, accountidOffset.Value, 0); }
   public static void AddAccountpw(FlatBufferBuilder builder, StringOffset accountpwOffset) { builder.AddOffset(1, accountpwOffset.Value, 0); }
-  public static void AddHostid(FlatBufferBuilder builder, int hostid) { builder.AddInt(2, hostid, 0); }
-  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(3, (int)messageid, 10001); }
-  public static Offset<CSAuthReq> EndCSAuthReq(FlatBufferBuilder builder) {
+  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(2, (int)messageid, 10004); }
+  public static Offset<SCEnterGameAck> EndSCEnterGameAck(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<CSAuthReq>(o);
+    return new Offset<SCEnterGameAck>(o);
   }
-  public CSAuthReqT UnPack() {
-    var _o = new CSAuthReqT();
+  public SCEnterGameAckT UnPack() {
+    var _o = new SCEnterGameAckT();
     this.UnPackTo(_o);
     return _o;
   }
-  public void UnPackTo(CSAuthReqT _o) {
+  public void UnPackTo(SCEnterGameAckT _o) {
     _o.Accountid = this.Accountid;
     _o.Accountpw = this.Accountpw;
-    _o.Hostid = this.Hostid;
     _o.Messageid = this.Messageid;
   }
-  public static Offset<CSAuthReq> Pack(FlatBufferBuilder builder, CSAuthReqT _o) {
-    if (_o == null) return default(Offset<CSAuthReq>);
+  public static Offset<SCEnterGameAck> Pack(FlatBufferBuilder builder, SCEnterGameAckT _o) {
+    if (_o == null) return default(Offset<SCEnterGameAck>);
     var _accountid = _o.Accountid == null ? default(StringOffset) : builder.CreateString(_o.Accountid);
     var _accountpw = _o.Accountpw == null ? default(StringOffset) : builder.CreateString(_o.Accountpw);
-    return CreateCSAuthReq(
+    return CreateSCEnterGameAck(
       builder,
       _accountid,
       _accountpw,
-      _o.Hostid,
       _o.Messageid);
   }
 };
 
-public class CSAuthReqT
+public class SCEnterGameAckT
 {
   public string Accountid { get; set; }
   public string Accountpw { get; set; }
-  public int Hostid { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
-  public CSAuthReqT() {
+  public SCEnterGameAckT() {
     this.Accountid = null;
     this.Accountpw = null;
-    this.Hostid = 0;
-    this.Messageid = EPacketProtocol.CS_AuthReq;
+    this.Messageid = EPacketProtocol.SC_EnterGameAck;
   }
 }
 

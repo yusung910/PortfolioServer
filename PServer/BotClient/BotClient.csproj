@@ -72,13 +72,16 @@
     <Compile Include="Network\Util\JsonParsing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Protocol\CSAuthReq.cs" />
+    <Compile Include="Protocol\CLAuthReq.cs" />
+    <Compile Include="Protocol\CSEnterGameReq.cs" />
+    <Compile Include="Protocol\EErrorMsg.cs" />
     <Compile Include="Protocol\EPacketProtocol.cs" />
     <Compile Include="Protocol\HostClose.cs" />
     <Compile Include="Protocol\HostConnect.cs" />
     <Compile Include="Protocol\HostConnectFailed.cs" />
     <Compile Include="Protocol\HostHello.cs" />
-    <Compile Include="Protocol\SCAuthRes.cs" />
+    <Compile Include="Protocol\SCEnterGameAck.cs" />
+    <Compile Include="Protocol\SCIntegrationErrorNotification.cs" />
     <Compile Include="Util\Singleton.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -111,6 +114,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>$(SolutionDir)..\lib\FlatBuffers\x64\flatc.exe --csharp -o $(ProjectDir)Protocol $(SolutionDir)..\Common\SCCmn\Protocol.fbs --no-prefix --gen-object-api</PreBuildEvent>
+    <PreBuildEvent>DEL "$(ProjectDir)Protocol\*.*" /Q
+$(SolutionDir)..\lib\FlatBuffers\x64\flatc.exe --csharp -o $(ProjectDir)Protocol $(SolutionDir)..\Common\SCCmn\Protocol.fbs --no-prefix --gen-object-api</PreBuildEvent>
   </PropertyGroup>
 </Project>

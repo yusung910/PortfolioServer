@@ -18,16 +18,16 @@ namespace BotClient.Network.Util
         {
             ByteBuffer bb = new ByteBuffer(data);
             string tmpStr = null;
-            switch (msgID)
-            {
-                case EPacketProtocol.SC_AuthRes:
-                    var tmp = CSAuthReq.GetRootAsCSAuthReq(bb);
-                    tmpStr = JsonConvert.SerializeObject(tmp);
-                    break;
-                default:
-                    Console.WriteLine("MsgID is not valid");
-                    return null;
-            }
+            //switch (msgID)
+            //{
+            //    //case EPacketProtocol.SC_AuthRes:
+            //    //    var tmp = CSAuthReq.GetRootAsCSAuthReq(bb);
+            //    //    tmpStr = JsonConvert.SerializeObject(tmp);
+            //    //    break;
+            //    default:
+            //        Console.WriteLine("MsgID is not valid");
+            //        return null;
+            //}
 
             return JObject.Parse(tmpStr);
         }
