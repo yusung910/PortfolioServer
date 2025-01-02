@@ -167,15 +167,15 @@ private:
 	   a. DBWorker 작업중
 
 ## 2.1 작업중 이슈 내용
-    1. 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.
-    2. gtest를 이용한 단위 테스트 프로젝트 생성(99_UnitTest\)
-    3. 실제 실행하게 될 게임서버 생성(PGServer)
-    4. 컴파일 중 C2855 관련 이슈 발생 시 해당 프로젝트에 cpp 파일 생성 후
+    2.1.1 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.
+    2.1.2. gtest를 이용한 단위 테스트 프로젝트 생성(99_UnitTest\)
+    2.1.3. 실제 실행하게 될 게임서버 생성(PGServer)
+    2.1.4. 컴파일 중 C2855 관련 이슈 발생 시 해당 프로젝트에 cpp 파일 생성 후
        .h 파일로 명칭을 변경했을 경우 해당 이슈가 발생, 삭제 후 재생성하는 것으로 해결
-    5. !! 작성한 dll(SCore), lib(SPublic) 프로젝트를 참조하는 PGameServer 프로젝트에서 dll, lib에 선언 되어 있는 함수를 실행 할 때
+    2.1.5. !! 작성한 dll(SCore), lib(SPublic) 프로젝트를 참조하는 PGameServer 프로젝트에서 dll, lib에 선언 되어 있는 함수를 실행 할 때
        함수 외부에서 전달하는 매개변수의 값이 함수 내부에서 NULL로 초기화 되는 현상 발생.
        -> 해결!! SCore 프로젝트의 빌드 결과(.dll, .lib) 파일들에 대한 경로가 맞지 않은 이유로 발생한것으로 추측.
-    6. LZ4 for C#에서 작업하기 위한 내용
+    2.1.6. LZ4 for C#에서 작업하기 위한 내용
 	   -> https://github.com/IonKiwi/lz4.net 라이브러리를 이용
 	   -> SCCommon 폴더 내에 lz4, lz4.AnyCPU.loader 프로젝트 추가(https://github.com/IonKiwi/lz4.net 프로젝트)
 	      ㅇ LZ4Loader.cs (Line: 385) 에러 발생 시 해결 방법
@@ -186,11 +186,11 @@ private:
 	      ㅇ C++에서 사용하는 Lz4 무손실 압축 라이브러리를 개발한 곳에서 C#에서 사용할 수 있게끔 별도로 작업된 라이브러리로 파악됨
 		  ㅇ 최상위 경로 /lib에 저장하고 클라, 서버에서 공용으로 사용할 수 있게 작업
 	   -> 해결! K4os.Compression.LZ4의 net462 버전의 dll 파일을 참조 추가로 사용할 수 있게 됨, BotClient에 작업 완료!
-    7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
+    2.1.7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
        -> 제거되지 않을 경우 패킷 데이터 배열에 영향을 끼치게 되어 통신 데이터 상에 문제가 발생
-	8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
-	9. 정적 라이브러리(lib) 프로젝트의 클래스를 다른 프로젝트(exe)에서 참조하여 사용 할 때 링크 에러(lnk2019)가 발생 할 경우 참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.
-   10. 각각 소스의 Charset ANSI(EUC-KR) - UTF8 간에 발생한 C4819 에러 처리
-       -> 윈도우 11의 '시스템 로캘 변경'에서 'Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용'을 활성화 했을 때 윈도우 내부 파일들의 문자열 셋(캐릭터 셋)이 강제로 변경되는 이슈에 따른 처리 방법
+	2.1.8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
+	2.1.9. 정적 라이브러리(lib) 프로젝트의 클래스를 다른 프로젝트(exe)에서 참조하여 사용 할 때       링크 에러(lnk2019)가 발생 할 경우 참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.    2.1.10. 각각 소스의 Charset ANSI(EUC-KR) - UTF8 간에 발생한 C4819 에러 처리
+       -> 윈도우 11의 '시스템 로캘 변경'에서 'Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용'을 활성화 했을 때
+          윈도우 내부 파일들의 문자열 셋(캐릭터 셋)이 강제로 변경되는 이슈에 따른 처리 방법
        -> https://eteo.tistory.com/730
        -> '프로젝트 > 속성 > 구성 속성 > C/C++ > 명령줄 > 추가 옵션' 영역에 /utf-8로 설정
