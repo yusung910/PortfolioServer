@@ -180,13 +180,15 @@ private:
 	   -> https://github.com/IonKiwi/lz4.net 라이브러리를 이용
 	   -> SCCommon 폴더 내에 lz4, lz4.AnyCPU.loader 프로젝트 추가(https://github.com/IonKiwi/lz4.net 프로젝트)
 	      ㅇ LZ4Loader.cs (Line: 385) 에러 발생 시 해결 방법
-	          > lz4.AnyCPU.loader 프로젝트에 있는 x64/lz4.dll 파일의 속성에서 '빌드 작업' 옵션을 '포함 리소스'로 변경해야함
+	          - lz4.AnyCPU.loader 프로젝트에 있는 x64/lz4.dll 파일의 속성에서
+              '빌드 작업' 옵션을 '포함 리소스'로 변경해야함
 	   -> 원인을 알 수 없는 에러 발생
 	      ㅇ LZ4Loader.cs (Line: 388) 어셈블리 파일을 찾았으나 로드(load)가 안되는 이슈 발생
 	   -> Library를 변경 (IonKiwi -> K4os.Compression.LZ4_1.3.8: https://github.com/MiloszKrajewski/K4os.Compression.LZ4)
-	      ㅇ C++에서 사용하는 Lz4 무손실 압축 라이브러리를 개발한 곳에서 C#에서 사용할 수 있게끔 별도로 작업된 라이브러리로 파악됨
+	      ㅇ C++에서 사용하는 Lz4 무손실 압축 라이브러리를 개발한 곳에서
+             C#으로 사용할 수 있도록 별도로 작업된 라이브러리로 파악
 		  ㅇ 최상위 경로 /lib에 저장하고 클라, 서버에서 공용으로 사용할 수 있게 작업
-	   -> 해결! K4os.Compression.LZ4의 net462 버전의 dll 파일을 참조 추가로 사용할 수 있게 됨, BotClient에 작업 완료!
+	   -> 해결! K4os.Compression.LZ4의 net462 버전의 dll 파일을 참조 추가로 사용할 수 있음, BotClient에 작업 완료!
     2.1.7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
        -> 제거되지 않을 경우 패킷 데이터 배열에 영향을 끼치게 되어 통신 데이터 상에 문제가 발생
 	2.1.8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
