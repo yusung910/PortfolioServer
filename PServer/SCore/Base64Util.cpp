@@ -5,7 +5,6 @@
 
 const char* Base64Util::BASE64_VALUES = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-
 std::string Base64Util::Encode(const char* _srcBuffer, size_t _bufferSize)
 {
     if (nullptr == _srcBuffer || _bufferSize == 0)
@@ -55,7 +54,6 @@ std::string Base64Util::Encode(const char* _srcBuffer, size_t _bufferSize)
             lStrRet += '=';
         }
     }
-
     return lStrRet;
 }
 

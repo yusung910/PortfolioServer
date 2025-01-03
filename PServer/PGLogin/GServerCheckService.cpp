@@ -76,11 +76,11 @@ bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
         if (nullptr == it->second)
             continue;
 
-        //ÆÐÅ¶À¸·Î Àü´Þ ¹ÞÀº Port¿Í Á¢¼Ó È®ÀÎÇÒ Port ºñ±³
+        //íŒ¨í‚·ìœ¼ë¡œ ì „ë‹¬ ë°›ì€ Portì™€ ì ‘ì† í™•ì¸í•  Port ë¹„êµ
         if (it->second->m_nOutboundPort != _msg.peerport())
             continue;
 
-        //IP ºñ±³
+        //IP ë¹„êµ
         if (it->second->m_sOutboundHost.compare(_msg.peerip()->c_str()) != 0)
             continue;
 
@@ -92,10 +92,10 @@ bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
         it->second->m_bIsConnecting = false;
 
         VIEW_WRITE_INFO("Connected To Game(%d) Server [%s:%d, HostID:%d] Success!"
-            ,it->second->m_nServerID
-            ,it->second->m_sOutboundHost.c_str()
-            ,it->second->m_nOutboundPort
-            ,_hostID);
+            , it->second->m_nServerID
+            , it->second->m_sOutboundHost.c_str()
+            , it->second->m_nOutboundPort
+            , _hostID);
 
         return true;
     }
@@ -110,7 +110,7 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
     if (lServerID != m_umGameServerIDList.end())
         m_umGameServerIDList.erase(lServerID);
 
-    for (auto  it = m_umGameServerList.begin(); it != m_umGameServerList.end(); ++it)
+    for (auto it = m_umGameServerList.begin(); it != m_umGameServerList.end(); ++it)
     {
         if (nullptr == it->second)
             continue;
@@ -125,7 +125,7 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
                     , it->second->m_sOutboundHost.c_str()
                     , it->second->m_nOutboundPort
                     , _hostID
-                    );
+                );
 
             }
             else if (true == it->second->m_bIsConnecting)

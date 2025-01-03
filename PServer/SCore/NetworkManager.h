@@ -6,6 +6,7 @@
  *
  *  서버에서 네트워크 통신을 하기 위한 클래스
  */
+
 #pragma once
 #include "SCoreAPI.h"
 #include "RefSingleton.h"

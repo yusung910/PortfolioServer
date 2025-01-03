@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #pragma warning(disable : 4819)
 #ifdef SERVER_BUILD
 
@@ -8,7 +8,6 @@
 #else
 
 //클라 전용
-
 #endif // SERVER_BUILD
 
 
@@ -24,5 +23,4 @@
 //#include "ObjectStatsManager.h"
 
 #include "DataProcessManager.h"
-
 #include <Packet.h>

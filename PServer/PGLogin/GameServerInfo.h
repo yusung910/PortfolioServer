@@ -11,11 +11,11 @@ public:
     int m_nServerGroup = 0;
     int m_nServerID = 0;
 
-    //³»ºÎ IP, Host (bind)
+    //ë‚´ë¶€ IP, Host (bind)
     std::string m_sInboundHost = "127.0.0.1";
     int m_nInboundPort = 0;
 
-    //¿ÜºÎ IP, Host (public)
+    //ì™¸ë¶€ IP, Host (public)
     std::string m_sOutboundHost = "127.0.0.1";
     int m_nOutboundPort = 35201;
 

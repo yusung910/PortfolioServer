@@ -1,4 +1,4 @@
-#include "SCCmnPrivate.h"
+﻿#include "SCCmnPrivate.h"
 #include "MasterDB.h"
 
 #	define CHECK_MACRO_FUNCTIONS

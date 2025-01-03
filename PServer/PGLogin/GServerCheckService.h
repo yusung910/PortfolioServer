@@ -39,8 +39,7 @@ protected:
 
 
 private:
-    //Login -> Game ¼­¹ö ¿¬°á Ã¼Å©
+    //Login -> Game ì„œë²„ ì—°ê²° ì²´í¬
     void _CheckConnect();
 
 };
-

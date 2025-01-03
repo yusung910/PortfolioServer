@@ -30,7 +30,6 @@ void LogData::SetData(const ELogLevel& _lvl, const std::wstring& _msg, const boo
     m_oLogTime = std::chrono::system_clock::now();
     m_bShowConsole = _showConsole;
     m_bWriteFile = _writeFile;
-
 }
 
 std::wstring LogData::ToString()

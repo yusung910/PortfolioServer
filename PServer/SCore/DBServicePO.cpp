@@ -21,7 +21,6 @@ void DBServicePO::SetDBConfig(const std::string& _userID, const std::string& _pa
     }
 }
 
-
 Poco::Data::Session* DBServicePO::GetSession()
 {
     return m_oWorker.GetSession();

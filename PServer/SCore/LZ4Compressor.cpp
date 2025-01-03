@@ -9,12 +9,10 @@ int LZ4Compressor::Compress(char* pSrcDstData_io, const int& nSrcSize, const int
     return Compress(pSrcDstData_io, nSrcSize, pSrcDstData_io, nSrcBufferMaxSize, pTempBuffer, nTempBufferSize);
 }
 
-
 int LZ4Compressor::Decompress(char* pSrcDstData_io, const int& nSrcSize, const int& nSrcBufferMaxSize, char* pTempBuffer, const int& nTempBufferSize)
 {
     return Decompress(pSrcDstData_io, nSrcSize, pSrcDstData_io, nSrcBufferMaxSize, pTempBuffer, nTempBufferSize);
 }
-
 
 int LZ4Compressor::Compress(const char* pSrcData, const int& nSrcSize, char* pDstBuffer, const int& nDstBufferSize, char* pTempBuffer, const int& nTempBufferSize)
 {
@@ -42,7 +40,6 @@ int LZ4Compressor::Compress(const char* pSrcData, const int& nSrcSize, char* pDs
 
     return nRet;    // 압축된 크기
 }
-
 
 int LZ4Compressor::Decompress(const char* pSrcData, const int& nSrcSize, char* pDstBuffer, const int& nDstBufferSize, char* pTempBuffer, const int& nTempBufferSize)
 {

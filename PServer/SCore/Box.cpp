@@ -12,8 +12,8 @@ Box::Box()
 
 bool Box::IsValid() const
 {
-    //isnan() : float �� 0���� ���� ������ Ȯ��
-    //isinf() : float ���� infinity���� Ȯ��
+    //isnan() : float 값이 nan(n/0)인지 검사
+    //isinf() : float 값이 무한 대역인지 확인
     if (true == isnan(m_fWidth)
         || true == isinf(m_fWidth)
         || true == isnan(m_fHeight)
@@ -25,6 +25,7 @@ bool Box::IsValid() const
         || m_fRotationDegree < 0.0f
         || m_fRotationDegree >= DEGREE_360)
         return false;
+
 
     return true;
 }
@@ -42,7 +43,6 @@ bool Box::IsInArea(const float& _x, const float& _y) const
             , m_oRectPos[i % 4], m_oRectPos[(i + 1) % 4]))
             lCrossCount++;
     }
-
     return (lCrossCount % 2) == 1;
 }
 
