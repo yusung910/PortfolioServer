@@ -163,6 +163,7 @@
     <ClInclude Include="GServerCheckNES.h" />
     <ClInclude Include="GameServerInfo.h" />
     <ClInclude Include="GServerCheckService.h" />
+    <ClInclude Include="LoginPlayer.h" />
     <ClInclude Include="LoginServerNES.h" />
     <ClInclude Include="LoginService.h" />
     <ClInclude Include="pch.h" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="GServerCheckNES.cpp" />
     <ClCompile Include="GServerCheckService.cpp" />
+    <ClCompile Include="LoginPlayer.cpp" />
     <ClCompile Include="LoginServerNES.cpp" />
     <ClCompile Include="LoginService.cpp" />
     <ClCompile Include="Main.cpp" />

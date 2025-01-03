@@ -77,7 +77,7 @@ void LoginService::_KickProcess()
             it = m_umKickList.erase(it);
             continue;
         }
-
+        ++it;
     }
 
 }

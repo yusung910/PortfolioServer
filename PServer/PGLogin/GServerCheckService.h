@@ -37,6 +37,9 @@ protected:
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
     bool OnHostClose(int _hostID, const HostClose& _msg);
 
+    //Client -> LoginServer
+    bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
+
 
 private:
     //Login -> Game 서버 연결 체크

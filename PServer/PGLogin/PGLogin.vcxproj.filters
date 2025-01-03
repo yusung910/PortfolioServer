@@ -54,6 +54,9 @@
     <ClInclude Include="GServerCheckNES.h">
       <Filter>1_Services\3_GameServerManage</Filter>
     </ClInclude>
+    <ClInclude Include="LoginPlayer.h">
+      <Filter>2_Structure</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -76,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="GServerCheckNES.cpp">
       <Filter>1_Services\3_GameServerManage</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginPlayer.cpp">
+      <Filter>2_Structure</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
