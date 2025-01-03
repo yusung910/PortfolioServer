@@ -165,7 +165,7 @@ private:
 ### 1.7 to do 리스트
     1. BotClient 작업
 	   a. 서버 패킷 별 통신 작업
-	 <del>2. DB는 OLE DB를 사용.</del>
+	2. DB는 OLE DB를 사용. --> 취소
 	   a. DBWorker 작업중
        b. POCO 라이브러리의 Session 사용하는것으로 변경
         -> POCO 라이브러리에 있는 내용을 그대로 다시 코딩하는 내용이므로 불필요한 작업으로 확인
