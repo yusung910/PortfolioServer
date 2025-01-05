@@ -78,3 +78,45 @@ namespace EServerState
         Max
     };
 }
+
+//접속 클라 유형
+namespace EClient
+{
+    enum Type :int
+    {
+        None = 0,
+        Windows = None,
+
+        Android = 1,
+        iOS = 11,
+        WindowsUniversal = 21,
+
+        Max
+    };
+}
+
+//Store 결제
+namespace EStore
+{
+    enum Type
+    {
+        None = 0,
+        GooglePlay = 1,
+        OneStore = 2,
+        AppStore = 11,
+        WindowsUniversal = 21,
+
+        Max
+    };
+}
+
+//빌드 유형
+namespace EBuild
+{
+    enum Type
+    {
+        None = 0,
+        Dev = None,     //개발
+        Live = 1,       //배포
+    };
+}

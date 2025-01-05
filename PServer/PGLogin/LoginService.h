@@ -26,13 +26,16 @@ protected:
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
     bool OnHostClose(int _hostID, const HostConnect& _msg);
 
+    //Client -> LoginServer
+    bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
 
 private:
-    void _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick);
     void _KickProcess();
 
     void _Statistics();
     void _UpdateTitle();
 
+    //에러 메세지 전송
+    void _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick);
 };
 

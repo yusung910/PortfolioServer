@@ -4,9 +4,11 @@
 #include "Clock.h"
 #include "ServerConfig.h"
 #include "RevUtil.h"
+#include "LoginPlayerManager.h"
 
 #include <NetworkManager.h>
 #include <NetworkStatistics.h>
+#include <PublicFunc.h>
 #include <PGConstVars.h>
 #include <ServerMonitor.h>
 #include <Timer.h>
@@ -33,6 +35,8 @@ bool LoginService::Start()
 void LoginService::AddKickReserve(const int& _hostID)
 {
     AutoLock(m_xKickLock);
+    auto lTick = Clock::GetTick64() + KICK_RESERVE_DELAY_MS;
+    m_umKickList.emplace(_hostID, lTick);
 }
 
 bool LoginService::OnHostConnect(int _hostID, const HostConnect& _msg)
@@ -51,10 +55,54 @@ bool LoginService::OnHostClose(int _hostID, const HostConnect& _msg)
     return true;
 }
 
+bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
+{
+    auto lPlayer = LoginPlayerManager::GetInst().Add(_hostID, _msg);
+    if (nullptr == lPlayer)
+    {
+        VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d Duplicate Auth Request!!", _hostID);
+        _SendErrorMessage(_hostID, EErrorMsg::EF_KICK_DUPLICATE_LOGIN, _msg.messageid(), true);
+        AddKickReserve(_hostID);
+
+        return false;
+    }
+
+    // Client 타입 확인
+    int lClientVer = 0;
+
+    const auto lClientType = _msg.ClientType();
+    switch (static_cast<EClient::Type>(lClientType))
+    {
+    case EClient::Windows:
+        break;
+    case EClient::Android:
+        break;
+    case EClient::iOS:
+        break;
+    case EClient::WindowsUniversal:
+        break;
+    default:
+        VIEW_WRITE_ERROR(L"OnCLAuthReq :: Invalid ClientType:%d", lClientType);
+        return false;
+    }
+    
+    // 플랫폼 확인
+    if (PublicFunc::GetInst().CheckHasStr(_msg.UniqueKey()) == false)
+    {
+        VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d UniqueKey is Missing", _hostID);
+        //에러메세지 전송
+        return false;
+    }
+
+    return true;
+}
+
 void LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick)
 {
     flatbuffers::FlatBufferBuilder lFbb;
     auto lPacket = CreateSCIntegrationErrorNotification(lFbb, _msgID, (int)_errorMsg);
+
+    LoginPlayerManager::GetInst().SendPacket(_hostID, EPacketProtocol::SC_IntegrationErrorNotification, lFbb);
 
     if (true == _kick)
     {

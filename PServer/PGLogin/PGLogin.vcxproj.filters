@@ -28,6 +28,9 @@
     <Filter Include="3_Functions">
       <UniqueIdentifier>{f5133109-307e-4e85-8944-6fec00ac978f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2_Structure\LoginPlayer">
+      <UniqueIdentifier>{c10cb5f3-4a11-412b-8f1c-69c5d919afc3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -55,8 +58,15 @@
       <Filter>1_Services\3_GameServerManage</Filter>
     </ClInclude>
     <ClInclude Include="LoginPlayer.h">
-      <Filter>2_Structure</Filter>
+      <Filter>2_Structure\LoginPlayer</Filter>
     </ClInclude>
+    <ClInclude Include="LoginPlayerManager.h">
+      <Filter>2_Structure\LoginPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkCenter.h">
+      <Filter>3_Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginDBLoadBalancer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -81,7 +91,19 @@
       <Filter>1_Services\3_GameServerManage</Filter>
     </ClCompile>
     <ClCompile Include="LoginPlayer.cpp">
-      <Filter>2_Structure</Filter>
+      <Filter>2_Structure\LoginPlayer</Filter>
     </ClCompile>
+    <ClCompile Include="LoginPlayerManager.cpp">
+      <Filter>2_Structure\LoginPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkCenter.cpp">
+      <Filter>3_Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginDBLoadBalancer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ELoginState.h">
+      <Filter>2_Structure</Filter>
+    </None>
   </ItemGroup>
 </Project>

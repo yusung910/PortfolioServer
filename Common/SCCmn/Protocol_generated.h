@@ -46,9 +46,6 @@ struct SCIntegrationErrorNotification;
 struct SCIntegrationErrorNotificationBuilder;
 struct SCIntegrationErrorNotificationT;
 
-////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 enum EPacketProtocol {
   None = 0,
   Host_Connect = 1,
@@ -97,23 +94,25 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 enum EErrorMsg {
   EF_NONE = 0,
   EF_HOST_IP_IS_NOT_ALLOWED = 11,
   EF_DUPLICATE_CONNECTION_NET_ALLOWED = 12,
-  EF_LOGIN_PF_ERROR = 101
+  EF_LOGIN_PF_ERROR = 101,
+  EF_KICK = 10201,
+  EF_KICK_MAINTENANCE = 10202,
+  EF_KICK_DUPLICATE_LOGIN = 10211
 };
 
-inline const EErrorMsg (&EnumValuesEErrorMsg())[4] {
+inline const EErrorMsg (&EnumValuesEErrorMsg())[7] {
   static const EErrorMsg values[] = {
     EF_NONE,
     EF_HOST_IP_IS_NOT_ALLOWED,
     EF_DUPLICATE_CONNECTION_NET_ALLOWED,
-    EF_LOGIN_PF_ERROR
+    EF_LOGIN_PF_ERROR,
+    EF_KICK,
+    EF_KICK_MAINTENANCE,
+    EF_KICK_DUPLICATE_LOGIN
   };
   return values;
 }
@@ -124,6 +123,9 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
     case EF_HOST_IP_IS_NOT_ALLOWED: return "EF_HOST_IP_IS_NOT_ALLOWED";
     case EF_DUPLICATE_CONNECTION_NET_ALLOWED: return "EF_DUPLICATE_CONNECTION_NET_ALLOWED";
     case EF_LOGIN_PF_ERROR: return "EF_LOGIN_PF_ERROR";
+    case EF_KICK: return "EF_KICK";
+    case EF_KICK_MAINTENANCE: return "EF_KICK_MAINTENANCE";
+    case EF_KICK_DUPLICATE_LOGIN: return "EF_KICK_DUPLICATE_LOGIN";
     default: return "";
   }
 }
@@ -145,8 +147,6 @@ struct OServerInfoT : public flatbuffers::NativeTable {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////
 struct OServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef OServerInfoT NativeTableType;
   typedef OServerInfoBuilder Builder;
@@ -621,13 +621,15 @@ flatbuffers::Offset<HostHello> CreateHostHello(flatbuffers::FlatBufferBuilder &_
 
 struct CLAuthReqT : public flatbuffers::NativeTable {
   typedef CLAuthReq TableType;
-  int32_t OSType;
+  int32_t ClientType;
   int32_t AppVer;
   std::string UniqueKey;
+  int32_t StoreType;
   EPacketProtocol messageid;
   CLAuthReqT()
-      : OSType(0),
+      : ClientType(0),
         AppVer(0),
+        StoreType(0),
         messageid(CL_AuthReq) {
   }
 };
@@ -636,13 +638,14 @@ struct CLAuthReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef CLAuthReqT NativeTableType;
   typedef CLAuthReqBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_OSTYPE = 4,
+    VT_CLIENTTYPE = 4,
     VT_APPVER = 6,
     VT_UNIQUEKEY = 8,
-    VT_MESSAGEID = 10
+    VT_STORETYPE = 10,
+    VT_MESSAGEID = 12
   };
-  int32_t OSType() const {
-    return GetField<int32_t>(VT_OSTYPE, 0);
+  int32_t ClientType() const {
+    return GetField<int32_t>(VT_CLIENTTYPE, 0);
   }
   int32_t AppVer() const {
     return GetField<int32_t>(VT_APPVER, 0);
@@ -650,15 +653,19 @@ struct CLAuthReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::String *UniqueKey() const {
     return GetPointer<const flatbuffers::String *>(VT_UNIQUEKEY);
   }
+  int32_t StoreType() const {
+    return GetField<int32_t>(VT_STORETYPE, 0);
+  }
   EPacketProtocol messageid() const {
     return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10001));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_OSTYPE) &&
+           VerifyField<int32_t>(verifier, VT_CLIENTTYPE) &&
            VerifyField<int32_t>(verifier, VT_APPVER) &&
            VerifyOffset(verifier, VT_UNIQUEKEY) &&
            verifier.VerifyString(UniqueKey()) &&
+           VerifyField<int32_t>(verifier, VT_STORETYPE) &&
            VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
   }
@@ -671,14 +678,17 @@ struct CLAuthReqBuilder {
   typedef CLAuthReq Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_OSType(int32_t OSType) {
-    fbb_.AddElement<int32_t>(CLAuthReq::VT_OSTYPE, OSType, 0);
+  void add_ClientType(int32_t ClientType) {
+    fbb_.AddElement<int32_t>(CLAuthReq::VT_CLIENTTYPE, ClientType, 0);
   }
   void add_AppVer(int32_t AppVer) {
     fbb_.AddElement<int32_t>(CLAuthReq::VT_APPVER, AppVer, 0);
   }
   void add_UniqueKey(flatbuffers::Offset<flatbuffers::String> UniqueKey) {
     fbb_.AddOffset(CLAuthReq::VT_UNIQUEKEY, UniqueKey);
+  }
+  void add_StoreType(int32_t StoreType) {
+    fbb_.AddElement<int32_t>(CLAuthReq::VT_STORETYPE, StoreType, 0);
   }
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(CLAuthReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10001);
@@ -697,30 +707,34 @@ struct CLAuthReqBuilder {
 
 inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(
     flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t OSType = 0,
+    int32_t ClientType = 0,
     int32_t AppVer = 0,
     flatbuffers::Offset<flatbuffers::String> UniqueKey = 0,
+    int32_t StoreType = 0,
     EPacketProtocol messageid = CL_AuthReq) {
   CLAuthReqBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
+  builder_.add_StoreType(StoreType);
   builder_.add_UniqueKey(UniqueKey);
   builder_.add_AppVer(AppVer);
-  builder_.add_OSType(OSType);
+  builder_.add_ClientType(ClientType);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReqDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t OSType = 0,
+    int32_t ClientType = 0,
     int32_t AppVer = 0,
     const char *UniqueKey = nullptr,
+    int32_t StoreType = 0,
     EPacketProtocol messageid = CL_AuthReq) {
   auto UniqueKey__ = UniqueKey ? _fbb.CreateString(UniqueKey) : 0;
   return CreateCLAuthReq(
       _fbb,
-      OSType,
+      ClientType,
       AppVer,
       UniqueKey__,
+      StoreType,
       messageid);
 }
 
@@ -1322,9 +1336,10 @@ inline CLAuthReqT *CLAuthReq::UnPack(const flatbuffers::resolver_function_t *_re
 inline void CLAuthReq::UnPackTo(CLAuthReqT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = OSType(); _o->OSType = _e; }
+  { auto _e = ClientType(); _o->ClientType = _e; }
   { auto _e = AppVer(); _o->AppVer = _e; }
   { auto _e = UniqueKey(); if (_e) _o->UniqueKey = _e->str(); }
+  { auto _e = StoreType(); _o->StoreType = _e; }
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
@@ -1336,15 +1351,17 @@ inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(flatbuffers::FlatBufferBui
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CLAuthReqT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _OSType = _o->OSType;
+  auto _ClientType = _o->ClientType;
   auto _AppVer = _o->AppVer;
   auto _UniqueKey = _o->UniqueKey.empty() ? 0 : _fbb.CreateString(_o->UniqueKey);
+  auto _StoreType = _o->StoreType;
   auto _messageid = _o->messageid;
   return CreateCLAuthReq(
       _fbb,
-      _OSType,
+      _ClientType,
       _AppVer,
       _UniqueKey,
+      _StoreType,
       _messageid);
 }
 

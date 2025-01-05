@@ -6,7 +6,8 @@
 
 GServerCheckService::GServerCheckService()
 {
-
+    RegisterHandler(&GServerCheckService::OnHostConnect);
+    RegisterHandler(&GServerCheckService::OnHostClose);
 }
 
 bool GServerCheckService::Start()
@@ -148,12 +149,6 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
     }
 
     return false;
-}
-
-bool GServerCheckService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
-{
-
-    return true;
 }
 
 void GServerCheckService::_CheckConnect()

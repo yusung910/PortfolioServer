@@ -60,6 +60,9 @@
     <ClInclude Include="RevUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="PublicFunc.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -76,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="RevUtil.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="PublicFunc.cpp">
+      <Filter>Struct</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

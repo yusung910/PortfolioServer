@@ -16,7 +16,7 @@ public struct CLAuthReq : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public CLAuthReq __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public int OSType { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int ClientType { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int AppVer { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public string UniqueKey { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
@@ -25,26 +25,30 @@ public struct CLAuthReq : IFlatbufferObject
   public ArraySegment<byte>? GetUniqueKeyBytes() { return __p.__vector_as_arraysegment(8); }
 #endif
   public byte[] GetUniqueKeyArray() { return __p.__vector_as_array<byte>(8); }
-  public EPacketProtocol Messageid { get { int o = __p.__offset(10); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.CL_AuthReq; } }
+  public int StoreType { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public EPacketProtocol Messageid { get { int o = __p.__offset(12); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.CL_AuthReq; } }
 
   public static Offset<CLAuthReq> CreateCLAuthReq(FlatBufferBuilder builder,
-      int OSType = 0,
+      int ClientType = 0,
       int AppVer = 0,
       StringOffset UniqueKeyOffset = default(StringOffset),
+      int StoreType = 0,
       EPacketProtocol messageid = EPacketProtocol.CL_AuthReq) {
-    builder.StartTable(4);
+    builder.StartTable(5);
     CLAuthReq.AddMessageid(builder, messageid);
+    CLAuthReq.AddStoreType(builder, StoreType);
     CLAuthReq.AddUniqueKey(builder, UniqueKeyOffset);
     CLAuthReq.AddAppVer(builder, AppVer);
-    CLAuthReq.AddOSType(builder, OSType);
+    CLAuthReq.AddClientType(builder, ClientType);
     return CLAuthReq.EndCLAuthReq(builder);
   }
 
-  public static void StartCLAuthReq(FlatBufferBuilder builder) { builder.StartTable(4); }
-  public static void AddOSType(FlatBufferBuilder builder, int OSType) { builder.AddInt(0, OSType, 0); }
+  public static void StartCLAuthReq(FlatBufferBuilder builder) { builder.StartTable(5); }
+  public static void AddClientType(FlatBufferBuilder builder, int ClientType) { builder.AddInt(0, ClientType, 0); }
   public static void AddAppVer(FlatBufferBuilder builder, int AppVer) { builder.AddInt(1, AppVer, 0); }
   public static void AddUniqueKey(FlatBufferBuilder builder, StringOffset UniqueKeyOffset) { builder.AddOffset(2, UniqueKeyOffset.Value, 0); }
-  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(3, (int)messageid, 10001); }
+  public static void AddStoreType(FlatBufferBuilder builder, int StoreType) { builder.AddInt(3, StoreType, 0); }
+  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(4, (int)messageid, 10001); }
   public static Offset<CLAuthReq> EndCLAuthReq(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<CLAuthReq>(o);
@@ -55,9 +59,10 @@ public struct CLAuthReq : IFlatbufferObject
     return _o;
   }
   public void UnPackTo(CLAuthReqT _o) {
-    _o.OSType = this.OSType;
+    _o.ClientType = this.ClientType;
     _o.AppVer = this.AppVer;
     _o.UniqueKey = this.UniqueKey;
+    _o.StoreType = this.StoreType;
     _o.Messageid = this.Messageid;
   }
   public static Offset<CLAuthReq> Pack(FlatBufferBuilder builder, CLAuthReqT _o) {
@@ -65,24 +70,27 @@ public struct CLAuthReq : IFlatbufferObject
     var _UniqueKey = _o.UniqueKey == null ? default(StringOffset) : builder.CreateString(_o.UniqueKey);
     return CreateCLAuthReq(
       builder,
-      _o.OSType,
+      _o.ClientType,
       _o.AppVer,
       _UniqueKey,
+      _o.StoreType,
       _o.Messageid);
   }
 };
 
 public class CLAuthReqT
 {
-  public int OSType { get; set; }
+  public int ClientType { get; set; }
   public int AppVer { get; set; }
   public string UniqueKey { get; set; }
+  public int StoreType { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
   public CLAuthReqT() {
-    this.OSType = 0;
+    this.ClientType = 0;
     this.AppVer = 0;
     this.UniqueKey = null;
+    this.StoreType = 0;
     this.Messageid = EPacketProtocol.CL_AuthReq;
   }
 }
