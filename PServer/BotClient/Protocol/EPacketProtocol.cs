@@ -11,9 +11,10 @@ public enum EPacketProtocol : int
   Host_Hello = 12,
   SC_IntegrationErrorNotification = 10000,
   CL_AuthReq = 10001,
-  LC_AuthRes = 10002,
-  CS_EnterGameReq = 10003,
-  SC_EnterGameAck = 10004,
-  PacketMax = 10005,
+  LUDB_AuthReq = 10002,
+  LC_AuthRes = 10003,
+  CS_EnterGameReq = 10004,
+  SC_EnterGameAck = 10005,
+  PacketMax = 10006,
 };
 

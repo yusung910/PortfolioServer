@@ -2,7 +2,10 @@
 #include <DBServiceLoadBalancer.h>
 #include <RefSingleton.h>
 
-class LoginDBLoadBalancer
+class LoginDBLoadBalancer : public DBServiceLoadBalancer, public RefSingleton<LoginDBLoadBalancer>
 {
+public:
+    LoginDBLoadBalancer() = default;
+    virtual ~LoginDBLoadBalancer() = default;
 };
 

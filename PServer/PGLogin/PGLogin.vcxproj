@@ -164,6 +164,7 @@
     <ClInclude Include="GameServerInfo.h" />
     <ClInclude Include="GServerCheckService.h" />
     <ClInclude Include="LoginDBLoadBalancer.h" />
+    <ClInclude Include="LoginDBService.h" />
     <ClInclude Include="LoginPlayer.h" />
     <ClInclude Include="LoginPlayerManager.h" />
     <ClInclude Include="LoginServerNES.h" />
@@ -176,7 +177,7 @@
   <ItemGroup>
     <ClCompile Include="GServerCheckNES.cpp" />
     <ClCompile Include="GServerCheckService.cpp" />
-    <ClCompile Include="LoginDBLoadBalancer.cpp" />
+    <ClCompile Include="LoginDBService.cpp" />
     <ClCompile Include="LoginPlayer.cpp" />
     <ClCompile Include="LoginPlayerManager.cpp" />
     <ClCompile Include="LoginServerNES.cpp" />
