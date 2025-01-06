@@ -9,11 +9,11 @@
  */
 #pragma once
 #include <RefSingleton.h>
-class PGameConst : public RefSingleton<PGameConst>
+class PConst : public RefSingleton<PConst>
 {
 
 public:
-    PGameConst();
-    virtual ~PGameConst();
+    PConst();
+    virtual ~PConst();
 };
 

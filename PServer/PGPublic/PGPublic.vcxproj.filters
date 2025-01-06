@@ -30,7 +30,7 @@
     <ClInclude Include="EResult.h">
       <Filter>0_Private</Filter>
     </ClInclude>
-    <ClInclude Include="PGConstVars.h">
+    <ClInclude Include="PConstVars.h">
       <Filter>Struct</Filter>
     </ClInclude>
     <ClInclude Include="ELang.h">
@@ -51,7 +51,7 @@
     <ClInclude Include="SimpleHeroInfo.h">
       <Filter>Object\PC</Filter>
     </ClInclude>
-    <ClInclude Include="PGameConst.h">
+    <ClInclude Include="PConst.h">
       <Filter>Struct</Filter>
     </ClInclude>
     <ClInclude Include="BaseObject.h">
@@ -60,7 +60,13 @@
     <ClInclude Include="RevUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="PublicFunc.h">
+    <ClInclude Include="PFunc.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="InnerPacketStructures.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="PEnum.h">
       <Filter>Struct</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,7 +77,7 @@
     <ClCompile Include="ServerConfig.cpp">
       <Filter>Config</Filter>
     </ClCompile>
-    <ClCompile Include="PGameConst.cpp">
+    <ClCompile Include="PConst.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
     <ClCompile Include="BaseObject.cpp">
@@ -80,7 +86,10 @@
     <ClCompile Include="RevUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="PublicFunc.cpp">
+    <ClCompile Include="PFunc.cpp">
+      <Filter>Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="InnerPacketStructures.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
   </ItemGroup>

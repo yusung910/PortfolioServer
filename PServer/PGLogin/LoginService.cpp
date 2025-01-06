@@ -8,8 +8,8 @@
 
 #include <NetworkManager.h>
 #include <NetworkStatistics.h>
-#include <PublicFunc.h>
-#include <PGConstVars.h>
+#include <PFunc.h>
+#include <PConstVars.h>
 #include <ServerMonitor.h>
 #include <Timer.h>
 
@@ -87,7 +87,7 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
     }
     
     // 플랫폼 확인
-    if (PublicFunc::GetInst().CheckHasStr(_msg.UniqueKey()) == false)
+    if (PFunc::GetInst().CheckHasStr(_msg.UniqueKey()) == false)
     {
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d UniqueKey is Missing", _hostID);
         //에러메세지 전송

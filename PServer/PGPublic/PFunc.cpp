@@ -1,16 +1,16 @@
 #include "PGPPrivate.h"
-#include "PublicFunc.h"
+#include "PFunc.h"
 #include <NetworkManager.h>
 
-PublicFunc::PublicFunc()
+PFunc::PFunc()
 {
 }
 
-PublicFunc::~PublicFunc()
+PFunc::~PFunc()
 {
 }
 
-bool PublicFunc::CheckHasStr(const flatbuffers::String* _src)
+bool PFunc::CheckHasStr(const flatbuffers::String* _src)
 {
     if (_src == nullptr || _src->size() == 0)
         return false;
@@ -18,7 +18,7 @@ bool PublicFunc::CheckHasStr(const flatbuffers::String* _src)
     return true;
 }
 
-bool PublicFunc::CheckAndSetStr(const flatbuffers::String* _src, std::string& _dest, const bool& _isAllowEmpty)
+bool PFunc::CheckAndSetStr(const flatbuffers::String* _src, std::string& _dest, const bool& _isAllowEmpty)
 {
     if (_isAllowEmpty)
     {
@@ -38,7 +38,7 @@ bool PublicFunc::CheckAndSetStr(const flatbuffers::String* _src, std::string& _d
     return false;
 }
 
-void PublicFunc::SendError(int _hostID, EPacketProtocol _srcProtocol, EErrorMsg _msg)
+void PFunc::SendError(int _hostID, EPacketProtocol _srcProtocol, EErrorMsg _msg)
 {
     flatbuffers::FlatBufferBuilder lFbb;
     lFbb.Finish(CreateSCIntegrationErrorNotification(lFbb, (int)_srcProtocol, (int)_msg));
@@ -50,7 +50,7 @@ void PublicFunc::SendError(int _hostID, EPacketProtocol _srcProtocol, EErrorMsg 
 
 }
 
-int64_t PublicFunc::GetGroupSeq()
+int64_t PFunc::GetGroupSeq()
 {
     static int64_t lGrpSeq = Clock::GetFileTime();
     return lGrpSeq;

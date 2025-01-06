@@ -2,11 +2,11 @@
 #include <Object.h>
 
 // InnerPacket을 사용하기 위한 부모 클래스, 상속하여 사용한다
-class InnerData
+class InnerDataInterface
 {
 public:
-    InnerData() = default;
-    virtual ~InnerData()
+    InnerDataInterface() = default;
+    virtual ~InnerDataInterface()
     {
         Release();
     }
@@ -21,7 +21,7 @@ public:
     int m_nHostID = 0;
     int m_nProtocol = 0;    //어떤 DB 작업인지 MessageID 
 
-    InnerData* m_pData = nullptr;
+    InnerDataInterface* m_pData = nullptr;
 
     int m_nWorkerID = 0;    // 로드밸런스에 사용되는 키값, 대상 서버ID, AccountUniqueID 등 분기에 사용되는 구분 값
 

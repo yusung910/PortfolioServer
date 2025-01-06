@@ -67,6 +67,6 @@
 #include "EResult.h"
 
 #include "PGPDefine.h"
-#include "PGConstVars.h"
+#include "PConstVars.h"
 
 #include <InnerPacket.h>

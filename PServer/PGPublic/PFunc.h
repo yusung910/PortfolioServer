@@ -25,13 +25,13 @@
 //Poco::Data::Session& lSess = *lDBSess;                          \
 
 
-class PublicFunc : public RefSingleton<PublicFunc>
+class PFunc : public RefSingleton<PFunc>
 {
 private:
 
 public:
-    PublicFunc();
-    virtual ~PublicFunc();
+    PFunc();
+    virtual ~PFunc();
 
     bool CheckHasStr(const flatbuffers::String* _src);
 
