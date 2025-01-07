@@ -95,6 +95,19 @@ namespace EClient
     };
 }
 
+//Login 유형
+namespace ELogin
+{
+    enum Type
+    {
+        None = 0,
+        Google = 1,
+        Naver,
+        GuestLogin = 99,
+        Max
+    };
+}
+
 //Store 결제
 namespace EStore
 {

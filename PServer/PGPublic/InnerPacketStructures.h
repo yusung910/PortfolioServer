@@ -36,7 +36,7 @@ public:
     int ClientType = 0;
     int AppVersion = 0;
 
-    std::string UniqueKey;
+    std::string AccountUIDkey;
 
     int IPAddress = 0;
 
