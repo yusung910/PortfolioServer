@@ -96,7 +96,7 @@ namespace EClient
 }
 
 //Login 유형
-namespace ELogin
+namespace ELoginPlatform
 {
     enum Type
     {
@@ -131,5 +131,20 @@ namespace EBuild
         None = 0,
         Dev = None,     //개발
         Live = 1,       //배포
+    };
+}
+
+
+//계정 유형
+namespace EAccountStatus
+{
+    enum Type
+    {
+        None = 0,
+        Active = 1,
+        EternalBan = 4,
+        PeriodBan = 5,
+        DeleteWaiting = 8,
+        Max
     };
 }
