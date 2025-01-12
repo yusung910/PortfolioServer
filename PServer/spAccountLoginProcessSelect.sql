@@ -46,8 +46,8 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
   @ConnectingLoginServerID      INT,                    
 
   @ClientType                   INT,
-  @AppVersion                   INT
-
+  @AppVersion                   INT,
+  @BuildType                    INT
 
 AS
 
@@ -95,8 +95,8 @@ BEGIN
                 SET @AccountType = @Account_Type
 
                 -- 1. Account Table
-                INSERT INTO Account(AccountUKey, LoginPlatformType, ClientType, ConnectLoginServerID, OTP)
-                VALUES (@AccountUKey, @LoginPlatformType, @ClientType, @ConnectingLoginServerID, @OTP)
+                INSERT INTO Account(AccountUKey, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectLoginServerID, OTP)
+                VALUES (@AccountUKey, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingLoginServerID, @OTP)
 
                 -- Check
                 IF(1 <> @@ROWCOUNT)
@@ -142,12 +142,44 @@ BEGIN
                 ELSE IF(@AccountStatus = 5)
                     SET @Result = 5     --계정 기간 정지
 
-
-                
-
-
+                --특정 상태가 더 있을 경우 추가
                 RETURN
             END
+
+            BEGIN
+                DECLARE @Table TABLE
+                (
+                    AccountSeq                  INT,
+                    AccountType                 INT,
+                    LastConnectedLoginServer    INT
+                )
+
+                UPDATE 
+                    Account
+                SET
+                    ConnectLoginServerID = @ConnectingLoginServerID,
+                    OTP = @OTP,
+                    ClientType = @ClientType
+                OUTPUT
+                    inserted.AccountSeq,
+                    inserted.AccountType,
+                    inserted.ConnectLoginServerID
+                INTO @Table
+
+                WHERE
+                    AccountSeq = @AccountSeq
+                    AND LoginPlatformType = @LoginPlatformType
+
+                IF(1 <> @@ROWCOUNT)
+                BEGIN
+                    SET @Result = -2
+                    SET @AccountType =  -1
+                END
+
+
+
+            END
+
         END
 END
  

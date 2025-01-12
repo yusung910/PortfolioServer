@@ -22,6 +22,10 @@ CREATE TABLE [dbo].[Account]
     [LoginPlatformType]             [int]                   NOT NULL,
     --클라 타입(EClinet -> 0: window, 1: Android 등등)
     [ClientType]                    [int]                   NOT NULL,
+    --클라 AppVersion
+    [AppVersion]                    [int]                   NULL,
+    --클라 빌드 유형
+    [BuildType]                     [int]                   NULL,
     -- 접속한 로그인서버 ID
     [ConnectLoginServerID]          [int]                   NULL,
     --otp
