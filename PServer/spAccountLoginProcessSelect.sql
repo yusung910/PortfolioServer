@@ -135,6 +135,7 @@ BEGIN
                         OTP = NULL
                   WHERE
                         AccountSeq = @AccountSeq
+
                 IF(@AccountStatus = 4)
                     SET @Result = 4     --계정 영구 정지
                 
