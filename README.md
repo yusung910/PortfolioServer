@@ -11,7 +11,7 @@
     3. NES = NetworkEventSync, 네트워크 이벤트에 사용되는 클래스
        각각의 서버에서 상속받아 사용하는 부모 클래스
     4. DB 프로시저를 호출하고 결과값을 전달받기 위한 클래스의 접미사를 DTO로 한다.
-        -> <u>LoginAccountProcessSelectDTO</u>
+        -> LoginAccountProcessSelectDTO
     5. DB 프로시저는 접두어에 sp를 붙인다.
         -> spAccountLoginProcessSelect
 ### 1.2 Parameter 타입의 변수는 '_'로 시작
