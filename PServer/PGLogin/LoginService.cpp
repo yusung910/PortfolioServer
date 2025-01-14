@@ -13,6 +13,7 @@
 #include <ServerMonitor.h>
 #include <Timer.h>
 #include <GlobalConst.h>
+#include <InnerPacketStructures.h>
 
 LoginService::LoginService()
 {
@@ -149,7 +150,7 @@ bool LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _error
     return false;
 }
 
-bool LoginService::_AuthLoginProcess(int _hostID, const int& clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey)
+bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey)
 {
     auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
 
@@ -168,6 +169,14 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& clientType, const i
         return _SendErrorMessage(_hostID, EErrorMsg::EF_FAIL_MISSING_REQUIRED_FIELD, EPacketProtocol::CL_AuthReq, true);
     }
 
+    lPc->m_eState = ELoginState::DBProcess;
+
+    LoginAccountProcessSelectDTO* ldto = new LoginAccountProcessSelectDTO();
+    ldto->ClientType = _clientType;
+    ldto->AppVersion = _appVer;
+    ldto->AccountUIDkey = _accountUKey;
+    ldto->LoginPlatformType = _pfType;
+    //ldto->IPAddress = Netw
     return true;
 }
 

@@ -40,6 +40,6 @@ private:
     //에러 메세지 전송
     bool _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick);
 
-    bool _AuthLoginProcess(int _hostID, const int& clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey);
+    bool _AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey);
 };
 

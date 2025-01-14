@@ -35,6 +35,7 @@ public:
 
     int ClientType = 0;
     int AppVersion = 0;
+    int LoginPlatformType = 0;
 
     std::string AccountUIDkey;
 
@@ -53,7 +54,7 @@ public:
 
 };
 
-class pLoginAccountCharacterSelect : public InnerDataInterface
+class LoginAccountCharacterSelectDTO : public InnerDataInterface
 {
 public:
     typedef Poco::Tuple
