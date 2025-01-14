@@ -12,9 +12,10 @@ public enum EPacketProtocol : int
   SC_IntegrationErrorNotification = 10000,
   CL_AuthReq = 10001,
   LUDB_AuthReq = 10002,
-  LC_AuthRes = 10003,
-  CS_EnterGameReq = 10004,
-  SC_EnterGameAck = 10005,
-  PacketMax = 10006,
+  UDBL_AuthRes = 10003,
+  LC_AuthRes = 10004,
+  CS_EnterGameReq = 10005,
+  SC_EnterGameAck = 10006,
+  PacketMax = 10007,
 };
 

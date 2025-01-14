@@ -103,6 +103,7 @@ namespace ELoginPlatform
         None = 0,
         Google = 1,
         Naver,
+        AppStore,
         GuestLogin = 99,
         Max
     };

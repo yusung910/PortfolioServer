@@ -5,13 +5,14 @@
 #include "ServerConfig.h"
 #include "RevUtil.h"
 #include "LoginPlayerManager.h"
-
+#include "StrChecker.h"
 #include <NetworkManager.h>
 #include <NetworkStatistics.h>
 #include <PFunc.h>
 #include <PConstVars.h>
 #include <ServerMonitor.h>
 #include <Timer.h>
+#include <GlobalConst.h>
 
 LoginService::LoginService()
 {
@@ -58,6 +59,7 @@ bool LoginService::OnHostClose(int _hostID, const HostConnect& _msg)
 bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
 {
     auto lPlayer = LoginPlayerManager::GetInst().Add(_hostID, _msg);
+
     if (nullptr == lPlayer)
     {
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d Duplicate Auth Request!!", _hostID);
@@ -67,7 +69,7 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         return false;
     }
 
-    // Client 타입 확인
+    // Client 버전
     int lClientVer = 0;
 
     const auto lClientType = _msg.ClientType();
@@ -85,19 +87,54 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: Invalid ClientType:%d", lClientType);
         return false;
     }
-    
+
+    //패킷의 AppVersion과 클라이언트 타입을 비교한다
+    //클라이언트의 invalid를 검증하기 위한것으로 보인다.
+    if (lClientVer != 0
+        && lClientVer > _msg.AppVersion())
+    {
+        VIEW_WRITE_ERROR(L"OnCLAuthReq - Version is Not Machted ClientType: %d", lClientType);
+        return _SendErrorMessage(_hostID, EErrorMsg::EF_KICK_INVALID_APP_VERSION, _msg.messageid(), true);
+    }
+
     // 플랫폼 확인
-    if (PFunc::GetInst().CheckHasStr(_msg.UniqueKey()) == false)
+    if (PFunc::GetInst().CheckHasStr(_msg.AccountUKey()) == false)
     {
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d UniqueKey is Missing", _hostID);
         //에러메세지 전송
-        return false;
+        return _SendErrorMessage(_hostID, EErrorMsg::EF_NONE, _msg.messageid(), true);
     }
+
+
+    std::string lAccountUKey = (nullptr == _msg.AccountUKey()) ? "" : _msg.AccountUKey()->c_str();
+
+    
+    //로그인 플랫폼 타입(Google, AppStore 등등)에 따른 처리
+    switch ((ELoginPlatform::Type)_msg.LoginPlatformType())
+    {
+        case ELoginPlatform::GuestLogin:
+        {
+            bool lIsValidKey = StrChecker::GetInst().IsValidStr(lAccountUKey, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
+
+            if (false == lIsValidKey)
+            {
+                VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountUKey is Invalid");
+                _SendErrorMessage(_hostID, EErrorMsg::EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID, _msg.messageid(), true);
+                AddKickReserve(_hostID);
+                return false;
+            }
+
+        }
+        break;
+
+    }
+
+
 
     return true;
 }
 
-void LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick)
+bool LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick)
 {
     flatbuffers::FlatBufferBuilder lFbb;
     auto lPacket = CreateSCIntegrationErrorNotification(lFbb, _msgID, (int)_errorMsg);
@@ -108,6 +145,30 @@ void LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _error
     {
         AddKickReserve(_hostID);
     }
+
+    return false;
+}
+
+bool LoginService::_AuthLoginProcess(int _hostID, const int& clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey)
+{
+    auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
+
+    if (nullptr == lPc)
+    {
+        VIEW_WRITE_ERROR(L"_AuthLoginProcess :: pc is Missing");
+        _SendErrorMessage(_hostID, EErrorMsg::EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID, EPacketProtocol::CL_AuthReq, true);
+        AddKickReserve(_hostID);
+        return false;
+    }
+
+    if (true == _accountUKey.empty())
+    {
+        VIEW_WRITE_ERROR(L"_AuthLoginProcess :: _accountUKey is Missing");
+
+        return _SendErrorMessage(_hostID, EErrorMsg::EF_FAIL_MISSING_REQUIRED_FIELD, EPacketProtocol::CL_AuthReq, true);
+    }
+
+    return true;
 }
 
 void LoginService::_KickProcess()
@@ -187,4 +248,25 @@ void LoginService::_UpdateTitle()
 
 
     system(lTmp);
+}
+
+bool LoginService::_AuthGuestLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type& _type, const std::string& _accountUKey)
+{
+    VIEW_INFO("OnCLAuthReq:: _AuthGuestLoginProcess HostID: %d", _hostID);
+
+    auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
+
+    if (nullptr == lPc)
+    {
+
+        return false;
+    }
+
+    if (true == _accountUKey.empty())
+    {
+        //클라에서 AccountUkey가 없을 경우
+        return false;
+    }
+
+    return true;
 }

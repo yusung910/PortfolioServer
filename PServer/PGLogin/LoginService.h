@@ -35,7 +35,11 @@ private:
     void _Statistics();
     void _UpdateTitle();
 
+    bool _AuthGuestLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type& _type, const std::string& _accountUKey);
+
     //에러 메세지 전송
-    void _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick);
+    bool _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick);
+
+    bool _AuthLoginProcess(int _hostID, const int& clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey);
 };
 

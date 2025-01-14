@@ -37,7 +37,9 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
 
   -- 접속된 로그인서버 ID
   @ConnectedLoginServerID       INT         OUTPUT,     
-  @SessionDate                  DATETIME    OUTPUT,
+
+  -- 삭제 대기기간
+  @DeleteRemainingPeriod        DATETIME    OUTPUT,
 
   @LoginPlatformType            INT,
   @AccountUKey                  VARCHAR(256),
@@ -59,13 +61,13 @@ BEGIN
     SET @AccountSeq = 0
     SET @AccountType = 0
     SET @LatestConnectGameServerID = 0
-    SET @SessionDate = '1900-01-01'
+    SET @ConnectedLoginServerID = '1900-01-01'
 
     --계정 유형
     DECLARE @Account_Type               INT = 99
 
     --캐릭터가 있는 서버 목록
-    DECLARE @ExsistCharacterServerIDs   TABLE
+    DECLARE @ExsistCharacterServerID    TABLE
     (
         ServerID        INT,
         CharacterLevel  INT,
@@ -176,10 +178,40 @@ BEGIN
                     SET @AccountType =  -1
                 END
 
-
-
+                SELECT 
+                    @AccountSeq = AccountSeq
+                    ,@AccountType = AccountType
+                    ,@LatestConnectGameServerID = ConnectLoginServerID
+                FROM
+                    @Table
             END
 
+            --이미 접속 되어 있는지 여부 확인
+            IF(0 <> @ConnectedLoginServerID)
+                SET @Result = 2
+            ELSE
+                SET @Result = 0
+
+            INSERT INTO
+                @ExsistCharacterServerID ( ServerID, CharacterLevel, LastTime)
+            SELECT
+                ServerID, CharacterLevel, LastTime
+            FROM
+            (
+                SELECT
+                    ServerID, CharacterLvl, LastTime,
+                    ROW_NUMBER() OVER(PARTITION BY ServerID ORDER BY CharacterLevel DESC, LastTime DESC) AS LevelRank
+                FROM
+                    AccountCharacter
+                WHERE
+                    AccountSeq = @AccountSeq
+                    AND [State] IN ( 1, 2, 12)
+            ) AS A
+            WHERE
+                LevelRank = 1
         END
+
+        SELECT ServerID
+        FROM @ExsistCharacterServerID
 END
  

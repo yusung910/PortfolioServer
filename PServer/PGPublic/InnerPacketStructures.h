@@ -20,7 +20,7 @@
 #include <Poco/DateTime.h>
 
 //
-class pLoginAccountResult : public InnerDataInterface
+class LoginAccountProcessSelectDTO : public InnerDataInterface
 {
 public:
 

@@ -54,19 +54,22 @@ enum EPacketProtocol:int
 
 
 	// ~999
-	SC_IntegrationErrorNotification = 10000,
+	SC_IntegrationErrorNotification         = 10000,
 
 	//-------------------------------------------------------------------------
 	// LoginServer
 	//-------------------------------------------------------------------------
-    CL_AuthReq,
+    CL_AuthReq                              = 10001,
     LUDB_AuthReq,
     UDBL_AuthRes,
     LC_AuthRes,
 
+
+
 	//-------------------------------------------------------------------------
 	// GameServer
 	//-------------------------------------------------------------------------
+    CS_AuthReq                              = 10101,
 	CS_EnterGameReq,
 	SC_EnterGameAck,
 
@@ -91,24 +94,30 @@ enum EErrorMsg:int
 	EF_HOST_IP_IS_NOT_ALLOWED									= 11,
 	EF_DUPLICATE_CONNECTION_NET_ALLOWED							= 12,
 
+    
+
     //-------------------------------------------------------------------------
 	// Login Server
     //-------------------------------------------------------------------------
 	// 인증오류
-	EF_LOGIN_PF_ERROR											= 101,
+	EF_LOGIN_ERROR  											= 101,
+    EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID                         = 102,
 
 
     //-------------------------------------------------------------------------
 	// Error 10000단위
     //-------------------------------------------------------------------------
     // Common
+    EF_FAIL_MISSING_REQUIRED_FIELD                              = 10101,
 
     // KICK
-    EF_KICK                                         = 10201,
-    EF_KICK_MAINTENANCE                             = 10202,
+    EF_KICK                                                     = 10201,
+    EF_KICK_MAINTENANCE                                         = 10202,
 
     //
-    EF_KICK_DUPLICATE_LOGIN                         = 10211,
+    EF_KICK_DUPLICATE_LOGIN                                     = 10211,
+    EF_KICK_INVALID_PLATFORM                                    = 10212,
+    EF_KICK_INVALID_APP_VERSION                                 = 10213
 
 }
 
@@ -177,12 +186,14 @@ table HostHello
 
 table CLAuthReq
 {
-    ClientType:int;             // Client::Type
-    AppVer:int;                 // 어플 버전
-    UniqueKey:string;           // 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용
+    AccountUKey:string;           // 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용
+    ClientType:int;               // Client::Type
+    AppVersion:int;               // 어플 버전
 
     //추후 Google, App에 따른 데이터 추가가 필요하다
-    StoreType:int;              //스토어 타입
+    StoreType:int;                //스토어 타입
+
+    LoginPlatformType:int;        //로그인 플랫폼(google, naver, facebook 등등)
 
     messageid:EPacketProtocol = CL_AuthReq;
 }

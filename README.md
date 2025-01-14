@@ -5,11 +5,15 @@
 ## 1. 코딩 규칙
  > 기본은 카멜 표기법을 따름
  
-### 1.1 클래스 네이밍 룰
+### 1.1 클래스, DB 프로시저 네이밍 룰
     1. Pacade 클래스 이름은 접미어로 PO(Pacade Object)를 붙인다
     2. 해당 클래스의 header 파일 확장자는 .hxx, C++ 파일 확장자는 동일하게 .cpp
     3. NES = NetworkEventSync, 네트워크 이벤트에 사용되는 클래스
        각각의 서버에서 상속받아 사용하는 부모 클래스
+    4. DB 프로시저를 호출하고 결과값을 전달받기 위한 클래스의 접미사를 DTO로 한다.
+        -> <u>LoginAccountProcessSelectDTO</u>
+    5. DB 프로시저는 접두어에 sp를 붙인다.
+        -> spAccountLoginProcessSelect
 ### 1.2 Parameter 타입의 변수는 '_'로 시작
 ```c
 function test(int _a)
@@ -172,6 +176,8 @@ private:
         -> POCO 라이브러리에 있는 내용을 그대로 다시 코딩하는 내용이므로 불필요한 작업으로 확인
     3. LoginServer 작업 및 DB 통신 확인
     4. 소스 파일들의 문자열(Charset)이 EUC-KR 또는 UTF-8로 세팅할 것인지 결정 후 적용
+    5. 생성된 sql 스크립트를 일괄 실행하는 배치 파일을 만들자
+        -> 참조 사이트 : https://www.sqlservercentral.com/forums/topic/batch-file-to-run-sql-scripts
 
 ## 2.1 작업중 이슈 내용
     2.1.1 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.

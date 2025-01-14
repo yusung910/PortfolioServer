@@ -104,21 +104,27 @@ enum EErrorMsg {
   EF_NONE = 0,
   EF_HOST_IP_IS_NOT_ALLOWED = 11,
   EF_DUPLICATE_CONNECTION_NET_ALLOWED = 12,
-  EF_LOGIN_PF_ERROR = 101,
+  EF_LOGIN_ERROR = 101,
+  EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID = 102,
   EF_KICK = 10201,
   EF_KICK_MAINTENANCE = 10202,
-  EF_KICK_DUPLICATE_LOGIN = 10211
+  EF_KICK_DUPLICATE_LOGIN = 10211,
+  EF_KICK_INVALID_PLATFORM = 10212,
+  EF_KICK_INVALID_APP_VERSION = 10213
 };
 
-inline const EErrorMsg (&EnumValuesEErrorMsg())[7] {
+inline const EErrorMsg (&EnumValuesEErrorMsg())[10] {
   static const EErrorMsg values[] = {
     EF_NONE,
     EF_HOST_IP_IS_NOT_ALLOWED,
     EF_DUPLICATE_CONNECTION_NET_ALLOWED,
-    EF_LOGIN_PF_ERROR,
+    EF_LOGIN_ERROR,
+    EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID,
     EF_KICK,
     EF_KICK_MAINTENANCE,
-    EF_KICK_DUPLICATE_LOGIN
+    EF_KICK_DUPLICATE_LOGIN,
+    EF_KICK_INVALID_PLATFORM,
+    EF_KICK_INVALID_APP_VERSION
   };
   return values;
 }
@@ -128,10 +134,13 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
     case EF_NONE: return "EF_NONE";
     case EF_HOST_IP_IS_NOT_ALLOWED: return "EF_HOST_IP_IS_NOT_ALLOWED";
     case EF_DUPLICATE_CONNECTION_NET_ALLOWED: return "EF_DUPLICATE_CONNECTION_NET_ALLOWED";
-    case EF_LOGIN_PF_ERROR: return "EF_LOGIN_PF_ERROR";
+    case EF_LOGIN_ERROR: return "EF_LOGIN_ERROR";
+    case EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID: return "EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID";
     case EF_KICK: return "EF_KICK";
     case EF_KICK_MAINTENANCE: return "EF_KICK_MAINTENANCE";
     case EF_KICK_DUPLICATE_LOGIN: return "EF_KICK_DUPLICATE_LOGIN";
+    case EF_KICK_INVALID_PLATFORM: return "EF_KICK_INVALID_PLATFORM";
+    case EF_KICK_INVALID_APP_VERSION: return "EF_KICK_INVALID_APP_VERSION";
     default: return "";
   }
 }
@@ -627,15 +636,17 @@ flatbuffers::Offset<HostHello> CreateHostHello(flatbuffers::FlatBufferBuilder &_
 
 struct CLAuthReqT : public flatbuffers::NativeTable {
   typedef CLAuthReq TableType;
+  std::string AccountUKey;
   int32_t ClientType;
-  int32_t AppVer;
-  std::string UniqueKey;
+  int32_t AppVersion;
   int32_t StoreType;
+  int32_t LoginPlatformType;
   EPacketProtocol messageid;
   CLAuthReqT()
       : ClientType(0),
-        AppVer(0),
+        AppVersion(0),
         StoreType(0),
+        LoginPlatformType(0),
         messageid(CL_AuthReq) {
   }
 };
@@ -644,34 +655,39 @@ struct CLAuthReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef CLAuthReqT NativeTableType;
   typedef CLAuthReqBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_CLIENTTYPE = 4,
-    VT_APPVER = 6,
-    VT_UNIQUEKEY = 8,
+    VT_ACCOUNTUKEY = 4,
+    VT_CLIENTTYPE = 6,
+    VT_APPVERSION = 8,
     VT_STORETYPE = 10,
-    VT_MESSAGEID = 12
+    VT_LOGINPLATFORMTYPE = 12,
+    VT_MESSAGEID = 14
   };
+  const flatbuffers::String *AccountUKey() const {
+    return GetPointer<const flatbuffers::String *>(VT_ACCOUNTUKEY);
+  }
   int32_t ClientType() const {
     return GetField<int32_t>(VT_CLIENTTYPE, 0);
   }
-  int32_t AppVer() const {
-    return GetField<int32_t>(VT_APPVER, 0);
-  }
-  const flatbuffers::String *UniqueKey() const {
-    return GetPointer<const flatbuffers::String *>(VT_UNIQUEKEY);
+  int32_t AppVersion() const {
+    return GetField<int32_t>(VT_APPVERSION, 0);
   }
   int32_t StoreType() const {
     return GetField<int32_t>(VT_STORETYPE, 0);
+  }
+  int32_t LoginPlatformType() const {
+    return GetField<int32_t>(VT_LOGINPLATFORMTYPE, 0);
   }
   EPacketProtocol messageid() const {
     return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10001));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_ACCOUNTUKEY) &&
+           verifier.VerifyString(AccountUKey()) &&
            VerifyField<int32_t>(verifier, VT_CLIENTTYPE) &&
-           VerifyField<int32_t>(verifier, VT_APPVER) &&
-           VerifyOffset(verifier, VT_UNIQUEKEY) &&
-           verifier.VerifyString(UniqueKey()) &&
+           VerifyField<int32_t>(verifier, VT_APPVERSION) &&
            VerifyField<int32_t>(verifier, VT_STORETYPE) &&
+           VerifyField<int32_t>(verifier, VT_LOGINPLATFORMTYPE) &&
            VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
   }
@@ -684,17 +700,20 @@ struct CLAuthReqBuilder {
   typedef CLAuthReq Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
+  void add_AccountUKey(flatbuffers::Offset<flatbuffers::String> AccountUKey) {
+    fbb_.AddOffset(CLAuthReq::VT_ACCOUNTUKEY, AccountUKey);
+  }
   void add_ClientType(int32_t ClientType) {
     fbb_.AddElement<int32_t>(CLAuthReq::VT_CLIENTTYPE, ClientType, 0);
   }
-  void add_AppVer(int32_t AppVer) {
-    fbb_.AddElement<int32_t>(CLAuthReq::VT_APPVER, AppVer, 0);
-  }
-  void add_UniqueKey(flatbuffers::Offset<flatbuffers::String> UniqueKey) {
-    fbb_.AddOffset(CLAuthReq::VT_UNIQUEKEY, UniqueKey);
+  void add_AppVersion(int32_t AppVersion) {
+    fbb_.AddElement<int32_t>(CLAuthReq::VT_APPVERSION, AppVersion, 0);
   }
   void add_StoreType(int32_t StoreType) {
     fbb_.AddElement<int32_t>(CLAuthReq::VT_STORETYPE, StoreType, 0);
+  }
+  void add_LoginPlatformType(int32_t LoginPlatformType) {
+    fbb_.AddElement<int32_t>(CLAuthReq::VT_LOGINPLATFORMTYPE, LoginPlatformType, 0);
   }
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(CLAuthReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10001);
@@ -713,34 +732,38 @@ struct CLAuthReqBuilder {
 
 inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(
     flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::String> AccountUKey = 0,
     int32_t ClientType = 0,
-    int32_t AppVer = 0,
-    flatbuffers::Offset<flatbuffers::String> UniqueKey = 0,
+    int32_t AppVersion = 0,
     int32_t StoreType = 0,
+    int32_t LoginPlatformType = 0,
     EPacketProtocol messageid = CL_AuthReq) {
   CLAuthReqBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
+  builder_.add_LoginPlatformType(LoginPlatformType);
   builder_.add_StoreType(StoreType);
-  builder_.add_UniqueKey(UniqueKey);
-  builder_.add_AppVer(AppVer);
+  builder_.add_AppVersion(AppVersion);
   builder_.add_ClientType(ClientType);
+  builder_.add_AccountUKey(AccountUKey);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReqDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
+    const char *AccountUKey = nullptr,
     int32_t ClientType = 0,
-    int32_t AppVer = 0,
-    const char *UniqueKey = nullptr,
+    int32_t AppVersion = 0,
     int32_t StoreType = 0,
+    int32_t LoginPlatformType = 0,
     EPacketProtocol messageid = CL_AuthReq) {
-  auto UniqueKey__ = UniqueKey ? _fbb.CreateString(UniqueKey) : 0;
+  auto AccountUKey__ = AccountUKey ? _fbb.CreateString(AccountUKey) : 0;
   return CreateCLAuthReq(
       _fbb,
+      AccountUKey__,
       ClientType,
-      AppVer,
-      UniqueKey__,
+      AppVersion,
       StoreType,
+      LoginPlatformType,
       messageid);
 }
 
@@ -1342,10 +1365,11 @@ inline CLAuthReqT *CLAuthReq::UnPack(const flatbuffers::resolver_function_t *_re
 inline void CLAuthReq::UnPackTo(CLAuthReqT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
+  { auto _e = AccountUKey(); if (_e) _o->AccountUKey = _e->str(); }
   { auto _e = ClientType(); _o->ClientType = _e; }
-  { auto _e = AppVer(); _o->AppVer = _e; }
-  { auto _e = UniqueKey(); if (_e) _o->UniqueKey = _e->str(); }
+  { auto _e = AppVersion(); _o->AppVersion = _e; }
   { auto _e = StoreType(); _o->StoreType = _e; }
+  { auto _e = LoginPlatformType(); _o->LoginPlatformType = _e; }
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
@@ -1357,17 +1381,19 @@ inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(flatbuffers::FlatBufferBui
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CLAuthReqT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _AccountUKey = _o->AccountUKey.empty() ? 0 : _fbb.CreateString(_o->AccountUKey);
   auto _ClientType = _o->ClientType;
-  auto _AppVer = _o->AppVer;
-  auto _UniqueKey = _o->UniqueKey.empty() ? 0 : _fbb.CreateString(_o->UniqueKey);
+  auto _AppVersion = _o->AppVersion;
   auto _StoreType = _o->StoreType;
+  auto _LoginPlatformType = _o->LoginPlatformType;
   auto _messageid = _o->messageid;
   return CreateCLAuthReq(
       _fbb,
+      _AccountUKey,
       _ClientType,
-      _AppVer,
-      _UniqueKey,
+      _AppVersion,
       _StoreType,
+      _LoginPlatformType,
       _messageid);
 }
 

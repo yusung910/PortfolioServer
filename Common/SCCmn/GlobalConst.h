@@ -24,3 +24,7 @@ const int32_t   G_N_MAX_LEVEL = 100;
 
 //레벨업 시 증가할 포인트
 const int32_t   G_N_LEVEL_UP_STATUS_POINT = 5;
+
+
+//AccountUKey 최대 크기
+constexpr int	ACCOUNT_UNIQUE_KEY_MAXSIZE = 256;

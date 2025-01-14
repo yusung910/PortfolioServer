@@ -1,7 +1,12 @@
 #include "PGPPrivate.h"
 #include "InnerPacketStructures.h"
 
-void pLoginAuthResult::Release()
+void pLoginAccountResult::Release()
 {
     HeroExistServerList.clear();
+}
+
+void pLoginAccountCharacterSelect::Release()
+{
+    characterList.clear();
 }

@@ -28,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="CheckValueRange.h" />
     <ClInclude Include="ELang.h" />
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
@@ -42,6 +43,9 @@
     <ClInclude Include="RevUtil.h" />
     <ClInclude Include="ServerConfig.h" />
     <ClInclude Include="SimpleHeroInfo.h" />
+    <ClInclude Include="StrChecker.h" />
+    <ClInclude Include="StrFilterInterface.h" />
+    <ClInclude Include="StrFilterKR.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
@@ -55,6 +59,9 @@
     <ClCompile Include="PFunc.cpp" />
     <ClCompile Include="RevUtil.cpp" />
     <ClCompile Include="ServerConfig.cpp" />
+    <ClCompile Include="StrChecker.cpp" />
+    <ClCompile Include="StrFilterInterface.cpp" />
+    <ClCompile Include="StrFilterKR.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SCCmn\SCCmn.vcxproj">

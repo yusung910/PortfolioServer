@@ -26,10 +26,10 @@ LoginPlayer* LoginPlayerManager::Add(int& _hostID, const CLAuthReq& _msg)
     lAddPlayer->m_nHostID = _hostID;
     lAddPlayer->m_eClientType = (EClient::Type)_msg.ClientType();
 
-    lAddPlayer->m_nAppVersion = _msg.AppVer();
+    lAddPlayer->m_nAppVersion = _msg.AppVersion();
     lAddPlayer->m_eStoreType = (EStore::Type)_msg.StoreType();
 
-    lAddPlayer->m_sAuthKey = _msg.UniqueKey()->c_str();
+    lAddPlayer->m_sAuthKey = _msg.AccountUKey()->c_str();
 
     m_umPlayerList.insert_or_assign(_hostID, lAddPlayer);
 

@@ -22,6 +22,12 @@
     <Filter Include="Util">
       <UniqueIdentifier>{9a901c6e-1381-437b-b4ae-c7ea10f0babe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Util\StrChecker">
+      <UniqueIdentifier>{4e1282de-5a22-46fd-8a9d-a70acbad61dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util\StrChecker\StrFilter">
+      <UniqueIdentifier>{4bd58b65-1724-4674-931f-f1ae5517258d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -69,6 +75,18 @@
     <ClInclude Include="PEnum.h">
       <Filter>Struct</Filter>
     </ClInclude>
+    <ClInclude Include="StrChecker.h">
+      <Filter>Util\StrChecker</Filter>
+    </ClInclude>
+    <ClInclude Include="StrFilterInterface.h">
+      <Filter>Util\StrChecker\StrFilter</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckValueRange.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="StrFilterKR.h">
+      <Filter>Util\StrChecker\StrFilter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -91,6 +109,15 @@
     </ClCompile>
     <ClCompile Include="InnerPacketStructures.cpp">
       <Filter>Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="StrChecker.cpp">
+      <Filter>Util\StrChecker</Filter>
+    </ClCompile>
+    <ClCompile Include="StrFilterInterface.cpp">
+      <Filter>Util\StrChecker\StrFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="StrFilterKR.cpp">
+      <Filter>Util\StrChecker\StrFilter</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

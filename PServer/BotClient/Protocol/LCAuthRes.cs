@@ -50,7 +50,7 @@ public struct LCAuthRes : IFlatbufferObject
   public static void AddLastConnectServerID(FlatBufferBuilder builder, int LastConnectServerID) { builder.AddInt(2, LastConnectServerID, 0); }
   public static void AddServerTick(FlatBufferBuilder builder, long ServerTick) { builder.AddLong(3, ServerTick, 0); }
   public static void AddTimeZone(FlatBufferBuilder builder, int TimeZone) { builder.AddInt(4, TimeZone, 0); }
-  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(5, (int)messageid, 10003); }
+  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(5, (int)messageid, 10004); }
   public static Offset<LCAuthRes> EndLCAuthRes(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<LCAuthRes>(o);
