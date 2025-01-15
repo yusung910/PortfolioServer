@@ -17,7 +17,7 @@ public struct LCAuthRes : IFlatbufferObject
   public LCAuthRes __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public int AccountSeq { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public OServerInfo? ServerList(int j) { int o = __p.__offset(6); return o != 0 ? (OServerInfo?)(new OServerInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
+  public DServerInfo? ServerList(int j) { int o = __p.__offset(6); return o != 0 ? (DServerInfo?)(new DServerInfo()).__assign(__p.__indirect(__p.__vector(o) + j * 4), __p.bb) : null; }
   public int ServerListLength { get { int o = __p.__offset(6); return o != 0 ? __p.__vector_len(o) : 0; } }
   public int LastConnectServerID { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public long ServerTick { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetLong(o + __p.bb_pos) : (long)0; } }
@@ -44,8 +44,8 @@ public struct LCAuthRes : IFlatbufferObject
   public static void StartLCAuthRes(FlatBufferBuilder builder) { builder.StartTable(6); }
   public static void AddAccountSeq(FlatBufferBuilder builder, int AccountSeq) { builder.AddInt(0, AccountSeq, 0); }
   public static void AddServerList(FlatBufferBuilder builder, VectorOffset ServerListOffset) { builder.AddOffset(1, ServerListOffset.Value, 0); }
-  public static VectorOffset CreateServerListVector(FlatBufferBuilder builder, Offset<OServerInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
-  public static VectorOffset CreateServerListVectorBlock(FlatBufferBuilder builder, Offset<OServerInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
+  public static VectorOffset CreateServerListVector(FlatBufferBuilder builder, Offset<DServerInfo>[] data) { builder.StartVector(4, data.Length, 4); for (int i = data.Length - 1; i >= 0; i--) builder.AddOffset(data[i].Value); return builder.EndVector(); }
+  public static VectorOffset CreateServerListVectorBlock(FlatBufferBuilder builder, Offset<DServerInfo>[] data) { builder.StartVector(4, data.Length, 4); builder.Add(data); return builder.EndVector(); }
   public static void StartServerListVector(FlatBufferBuilder builder, int numElems) { builder.StartVector(4, numElems, 4); }
   public static void AddLastConnectServerID(FlatBufferBuilder builder, int LastConnectServerID) { builder.AddInt(2, LastConnectServerID, 0); }
   public static void AddServerTick(FlatBufferBuilder builder, long ServerTick) { builder.AddLong(3, ServerTick, 0); }
@@ -62,7 +62,7 @@ public struct LCAuthRes : IFlatbufferObject
   }
   public void UnPackTo(LCAuthResT _o) {
     _o.AccountSeq = this.AccountSeq;
-    _o.ServerList = new List<OServerInfoT>();
+    _o.ServerList = new List<DServerInfoT>();
     for (var _j = 0; _j < this.ServerListLength; ++_j) {_o.ServerList.Add(this.ServerList(_j).HasValue ? this.ServerList(_j).Value.UnPack() : null);}
     _o.LastConnectServerID = this.LastConnectServerID;
     _o.ServerTick = this.ServerTick;
@@ -73,8 +73,8 @@ public struct LCAuthRes : IFlatbufferObject
     if (_o == null) return default(Offset<LCAuthRes>);
     var _ServerList = default(VectorOffset);
     if (_o.ServerList != null) {
-      var __ServerList = new Offset<OServerInfo>[_o.ServerList.Count];
-      for (var _j = 0; _j < __ServerList.Length; ++_j) { __ServerList[_j] = OServerInfo.Pack(builder, _o.ServerList[_j]); }
+      var __ServerList = new Offset<DServerInfo>[_o.ServerList.Count];
+      for (var _j = 0; _j < __ServerList.Length; ++_j) { __ServerList[_j] = DServerInfo.Pack(builder, _o.ServerList[_j]); }
       _ServerList = CreateServerListVector(builder, __ServerList);
     }
     return CreateLCAuthRes(
@@ -91,7 +91,7 @@ public struct LCAuthRes : IFlatbufferObject
 public class LCAuthResT
 {
   public int AccountSeq { get; set; }
-  public List<OServerInfoT> ServerList { get; set; }
+  public List<DServerInfoT> ServerList { get; set; }
   public int LastConnectServerID { get; set; }
   public long ServerTick { get; set; }
   public int TimeZone { get; set; }

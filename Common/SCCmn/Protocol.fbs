@@ -128,7 +128,7 @@ enum EErrorMsg:int
 //-----------------------------------------------------------------------------
 // Message Structure Start
 //-----------------------------------------------------------------------------
-table OServerInfo
+table DServerInfo
 {
     ServerID:int;               //서버 고유 ID
     ServerStatus:int;           //점검 등에 따른 서버 상태(닫힘, 원활, 포화)
@@ -201,7 +201,7 @@ table CLAuthReq
 table LCAuthRes
 {
     AccountSeq:int;
-    ServerList:[OServerInfo];
+    ServerList:[DServerInfo];
     LastConnectServerID: int;
     ServerTick:long;
     TimeZone:int;

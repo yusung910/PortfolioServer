@@ -6,9 +6,9 @@
 
 #include "flatbuffers/flatbuffers.h"
 
-struct OServerInfo;
-struct OServerInfoBuilder;
-struct OServerInfoT;
+struct DServerInfo;
+struct DServerInfoBuilder;
+struct DServerInfoT;
 
 struct HostConnect;
 struct HostConnectBuilder;
@@ -57,12 +57,13 @@ enum EPacketProtocol {
   LUDB_AuthReq = 10002,
   UDBL_AuthRes = 10003,
   LC_AuthRes = 10004,
-  CS_EnterGameReq = 10005,
-  SC_EnterGameAck = 10006,
-  PacketMax = 10007
+  CS_AuthReq = 10101,
+  CS_EnterGameReq = 10102,
+  SC_EnterGameAck = 10103,
+  PacketMax = 10104
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[13] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[14] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -74,6 +75,7 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[13] {
     LUDB_AuthReq,
     UDBL_AuthRes,
     LC_AuthRes,
+    CS_AuthReq,
     CS_EnterGameReq,
     SC_EnterGameAck,
     PacketMax
@@ -93,6 +95,7 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case LUDB_AuthReq: return "LUDB_AuthReq";
     case UDBL_AuthRes: return "UDBL_AuthRes";
     case LC_AuthRes: return "LC_AuthRes";
+    case CS_AuthReq: return "CS_AuthReq";
     case CS_EnterGameReq: return "CS_EnterGameReq";
     case SC_EnterGameAck: return "SC_EnterGameAck";
     case PacketMax: return "PacketMax";
@@ -106,6 +109,7 @@ enum EErrorMsg {
   EF_DUPLICATE_CONNECTION_NET_ALLOWED = 12,
   EF_LOGIN_ERROR = 101,
   EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID = 102,
+  EF_FAIL_MISSING_REQUIRED_FIELD = 10101,
   EF_KICK = 10201,
   EF_KICK_MAINTENANCE = 10202,
   EF_KICK_DUPLICATE_LOGIN = 10211,
@@ -113,13 +117,14 @@ enum EErrorMsg {
   EF_KICK_INVALID_APP_VERSION = 10213
 };
 
-inline const EErrorMsg (&EnumValuesEErrorMsg())[10] {
+inline const EErrorMsg (&EnumValuesEErrorMsg())[11] {
   static const EErrorMsg values[] = {
     EF_NONE,
     EF_HOST_IP_IS_NOT_ALLOWED,
     EF_DUPLICATE_CONNECTION_NET_ALLOWED,
     EF_LOGIN_ERROR,
     EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID,
+    EF_FAIL_MISSING_REQUIRED_FIELD,
     EF_KICK,
     EF_KICK_MAINTENANCE,
     EF_KICK_DUPLICATE_LOGIN,
@@ -136,6 +141,7 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
     case EF_DUPLICATE_CONNECTION_NET_ALLOWED: return "EF_DUPLICATE_CONNECTION_NET_ALLOWED";
     case EF_LOGIN_ERROR: return "EF_LOGIN_ERROR";
     case EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID: return "EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID";
+    case EF_FAIL_MISSING_REQUIRED_FIELD: return "EF_FAIL_MISSING_REQUIRED_FIELD";
     case EF_KICK: return "EF_KICK";
     case EF_KICK_MAINTENANCE: return "EF_KICK_MAINTENANCE";
     case EF_KICK_DUPLICATE_LOGIN: return "EF_KICK_DUPLICATE_LOGIN";
@@ -145,15 +151,15 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
   }
 }
 
-struct OServerInfoT : public flatbuffers::NativeTable {
-  typedef OServerInfo TableType;
+struct DServerInfoT : public flatbuffers::NativeTable {
+  typedef DServerInfo TableType;
   int32_t ServerID;
   int32_t ServerStatus;
   std::string Address;
   int32_t Port;
   bool HasCharacter;
   int32_t State;
-  OServerInfoT()
+  DServerInfoT()
       : ServerID(0),
         ServerStatus(0),
         Port(0),
@@ -162,9 +168,9 @@ struct OServerInfoT : public flatbuffers::NativeTable {
   }
 };
 
-struct OServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef OServerInfoT NativeTableType;
-  typedef OServerInfoBuilder Builder;
+struct DServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef DServerInfoT NativeTableType;
+  typedef DServerInfoBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_SERVERID = 4,
     VT_SERVERSTATUS = 6,
@@ -202,46 +208,46 @@ struct OServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_STATE) &&
            verifier.EndTable();
   }
-  OServerInfoT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(OServerInfoT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<OServerInfo> Pack(flatbuffers::FlatBufferBuilder &_fbb, const OServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+  DServerInfoT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(DServerInfoT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<DServerInfo> Pack(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
-struct OServerInfoBuilder {
-  typedef OServerInfo Table;
+struct DServerInfoBuilder {
+  typedef DServerInfo Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
   void add_ServerID(int32_t ServerID) {
-    fbb_.AddElement<int32_t>(OServerInfo::VT_SERVERID, ServerID, 0);
+    fbb_.AddElement<int32_t>(DServerInfo::VT_SERVERID, ServerID, 0);
   }
   void add_ServerStatus(int32_t ServerStatus) {
-    fbb_.AddElement<int32_t>(OServerInfo::VT_SERVERSTATUS, ServerStatus, 0);
+    fbb_.AddElement<int32_t>(DServerInfo::VT_SERVERSTATUS, ServerStatus, 0);
   }
   void add_Address(flatbuffers::Offset<flatbuffers::String> Address) {
-    fbb_.AddOffset(OServerInfo::VT_ADDRESS, Address);
+    fbb_.AddOffset(DServerInfo::VT_ADDRESS, Address);
   }
   void add_Port(int32_t Port) {
-    fbb_.AddElement<int32_t>(OServerInfo::VT_PORT, Port, 0);
+    fbb_.AddElement<int32_t>(DServerInfo::VT_PORT, Port, 0);
   }
   void add_HasCharacter(bool HasCharacter) {
-    fbb_.AddElement<uint8_t>(OServerInfo::VT_HASCHARACTER, static_cast<uint8_t>(HasCharacter), 0);
+    fbb_.AddElement<uint8_t>(DServerInfo::VT_HASCHARACTER, static_cast<uint8_t>(HasCharacter), 0);
   }
   void add_State(int32_t State) {
-    fbb_.AddElement<int32_t>(OServerInfo::VT_STATE, State, 0);
+    fbb_.AddElement<int32_t>(DServerInfo::VT_STATE, State, 0);
   }
-  explicit OServerInfoBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+  explicit DServerInfoBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
     start_ = fbb_.StartTable();
   }
-  OServerInfoBuilder &operator=(const OServerInfoBuilder &);
-  flatbuffers::Offset<OServerInfo> Finish() {
+  DServerInfoBuilder &operator=(const DServerInfoBuilder &);
+  flatbuffers::Offset<DServerInfo> Finish() {
     const auto end = fbb_.EndTable(start_);
-    auto o = flatbuffers::Offset<OServerInfo>(end);
+    auto o = flatbuffers::Offset<DServerInfo>(end);
     return o;
   }
 };
 
-inline flatbuffers::Offset<OServerInfo> CreateOServerInfo(
+inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(
     flatbuffers::FlatBufferBuilder &_fbb,
     int32_t ServerID = 0,
     int32_t ServerStatus = 0,
@@ -249,7 +255,7 @@ inline flatbuffers::Offset<OServerInfo> CreateOServerInfo(
     int32_t Port = 0,
     bool HasCharacter = false,
     int32_t State = 0) {
-  OServerInfoBuilder builder_(_fbb);
+  DServerInfoBuilder builder_(_fbb);
   builder_.add_State(State);
   builder_.add_Port(Port);
   builder_.add_Address(Address);
@@ -259,7 +265,7 @@ inline flatbuffers::Offset<OServerInfo> CreateOServerInfo(
   return builder_.Finish();
 }
 
-inline flatbuffers::Offset<OServerInfo> CreateOServerInfoDirect(
+inline flatbuffers::Offset<DServerInfo> CreateDServerInfoDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
     int32_t ServerID = 0,
     int32_t ServerStatus = 0,
@@ -268,7 +274,7 @@ inline flatbuffers::Offset<OServerInfo> CreateOServerInfoDirect(
     bool HasCharacter = false,
     int32_t State = 0) {
   auto Address__ = Address ? _fbb.CreateString(Address) : 0;
-  return CreateOServerInfo(
+  return CreateDServerInfo(
       _fbb,
       ServerID,
       ServerStatus,
@@ -278,7 +284,7 @@ inline flatbuffers::Offset<OServerInfo> CreateOServerInfoDirect(
       State);
 }
 
-flatbuffers::Offset<OServerInfo> CreateOServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const OServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct HostConnectT : public flatbuffers::NativeTable {
   typedef HostConnect TableType;
@@ -772,7 +778,7 @@ flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(flatbuffers::FlatBufferBuilder &_
 struct LCAuthResT : public flatbuffers::NativeTable {
   typedef LCAuthRes TableType;
   int32_t AccountSeq;
-  std::vector<std::unique_ptr<OServerInfoT>> ServerList;
+  std::vector<std::unique_ptr<DServerInfoT>> ServerList;
   int32_t LastConnectServerID;
   int64_t ServerTick;
   int32_t TimeZone;
@@ -800,8 +806,8 @@ struct LCAuthRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t AccountSeq() const {
     return GetField<int32_t>(VT_ACCOUNTSEQ, 0);
   }
-  const flatbuffers::Vector<flatbuffers::Offset<OServerInfo>> *ServerList() const {
-    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<OServerInfo>> *>(VT_SERVERLIST);
+  const flatbuffers::Vector<flatbuffers::Offset<DServerInfo>> *ServerList() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DServerInfo>> *>(VT_SERVERLIST);
   }
   int32_t LastConnectServerID() const {
     return GetField<int32_t>(VT_LASTCONNECTSERVERID, 0);
@@ -839,7 +845,7 @@ struct LCAuthResBuilder {
   void add_AccountSeq(int32_t AccountSeq) {
     fbb_.AddElement<int32_t>(LCAuthRes::VT_ACCOUNTSEQ, AccountSeq, 0);
   }
-  void add_ServerList(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<OServerInfo>>> ServerList) {
+  void add_ServerList(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DServerInfo>>> ServerList) {
     fbb_.AddOffset(LCAuthRes::VT_SERVERLIST, ServerList);
   }
   void add_LastConnectServerID(int32_t LastConnectServerID) {
@@ -869,7 +875,7 @@ struct LCAuthResBuilder {
 inline flatbuffers::Offset<LCAuthRes> CreateLCAuthRes(
     flatbuffers::FlatBufferBuilder &_fbb,
     int32_t AccountSeq = 0,
-    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<OServerInfo>>> ServerList = 0,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DServerInfo>>> ServerList = 0,
     int32_t LastConnectServerID = 0,
     int64_t ServerTick = 0,
     int32_t TimeZone = 0,
@@ -887,12 +893,12 @@ inline flatbuffers::Offset<LCAuthRes> CreateLCAuthRes(
 inline flatbuffers::Offset<LCAuthRes> CreateLCAuthResDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
     int32_t AccountSeq = 0,
-    const std::vector<flatbuffers::Offset<OServerInfo>> *ServerList = nullptr,
+    const std::vector<flatbuffers::Offset<DServerInfo>> *ServerList = nullptr,
     int32_t LastConnectServerID = 0,
     int64_t ServerTick = 0,
     int32_t TimeZone = 0,
     EPacketProtocol messageid = LC_AuthRes) {
-  auto ServerList__ = ServerList ? _fbb.CreateVector<flatbuffers::Offset<OServerInfo>>(*ServerList) : 0;
+  auto ServerList__ = ServerList ? _fbb.CreateVector<flatbuffers::Offset<DServerInfo>>(*ServerList) : 0;
   return CreateLCAuthRes(
       _fbb,
       AccountSeq,
@@ -936,7 +942,7 @@ struct CSEnterGameReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     return GetField<int32_t>(VT_HOSTID, 0);
   }
   EPacketProtocol messageid() const {
-    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10005));
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10102));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -967,7 +973,7 @@ struct CSEnterGameReqBuilder {
     fbb_.AddElement<int32_t>(CSEnterGameReq::VT_HOSTID, hostid, 0);
   }
   void add_messageid(EPacketProtocol messageid) {
-    fbb_.AddElement<int32_t>(CSEnterGameReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10005);
+    fbb_.AddElement<int32_t>(CSEnterGameReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10102);
   }
   explicit CSEnterGameReqBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1038,7 +1044,7 @@ struct SCEnterGameAck FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     return GetPointer<const flatbuffers::String *>(VT_ACCOUNTPW);
   }
   EPacketProtocol messageid() const {
-    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10006));
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10103));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1065,7 +1071,7 @@ struct SCEnterGameAckBuilder {
     fbb_.AddOffset(SCEnterGameAck::VT_ACCOUNTPW, accountpw);
   }
   void add_messageid(EPacketProtocol messageid) {
-    fbb_.AddElement<int32_t>(SCEnterGameAck::VT_MESSAGEID, static_cast<int32_t>(messageid), 10006);
+    fbb_.AddElement<int32_t>(SCEnterGameAck::VT_MESSAGEID, static_cast<int32_t>(messageid), 10103);
   }
   explicit SCEnterGameAckBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1187,13 +1193,13 @@ inline flatbuffers::Offset<SCIntegrationErrorNotification> CreateSCIntegrationEr
 
 flatbuffers::Offset<SCIntegrationErrorNotification> CreateSCIntegrationErrorNotification(flatbuffers::FlatBufferBuilder &_fbb, const SCIntegrationErrorNotificationT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
-inline OServerInfoT *OServerInfo::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  std::unique_ptr<OServerInfoT> _o = std::unique_ptr<OServerInfoT>(new OServerInfoT());
+inline DServerInfoT *DServerInfo::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<DServerInfoT> _o = std::unique_ptr<DServerInfoT>(new DServerInfoT());
   UnPackTo(_o.get(), _resolver);
   return _o.release();
 }
 
-inline void OServerInfo::UnPackTo(OServerInfoT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+inline void DServerInfo::UnPackTo(DServerInfoT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
   { auto _e = ServerID(); _o->ServerID = _e; }
@@ -1204,21 +1210,21 @@ inline void OServerInfo::UnPackTo(OServerInfoT *_o, const flatbuffers::resolver_
   { auto _e = State(); _o->State = _e; }
 }
 
-inline flatbuffers::Offset<OServerInfo> OServerInfo::Pack(flatbuffers::FlatBufferBuilder &_fbb, const OServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateOServerInfo(_fbb, _o, _rehasher);
+inline flatbuffers::Offset<DServerInfo> DServerInfo::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateDServerInfo(_fbb, _o, _rehasher);
 }
 
-inline flatbuffers::Offset<OServerInfo> CreateOServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const OServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
   (void)_rehasher;
   (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const OServerInfoT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const DServerInfoT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _ServerID = _o->ServerID;
   auto _ServerStatus = _o->ServerStatus;
   auto _Address = _o->Address.empty() ? 0 : _fbb.CreateString(_o->Address);
   auto _Port = _o->Port;
   auto _HasCharacter = _o->HasCharacter;
   auto _State = _o->State;
-  return CreateOServerInfo(
+  return CreateDServerInfo(
       _fbb,
       _ServerID,
       _ServerStatus,
@@ -1407,7 +1413,7 @@ inline void LCAuthRes::UnPackTo(LCAuthResT *_o, const flatbuffers::resolver_func
   (void)_o;
   (void)_resolver;
   { auto _e = AccountSeq(); _o->AccountSeq = _e; }
-  { auto _e = ServerList(); if (_e) { _o->ServerList.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->ServerList[_i] = std::unique_ptr<OServerInfoT>(_e->Get(_i)->UnPack(_resolver)); } } }
+  { auto _e = ServerList(); if (_e) { _o->ServerList.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->ServerList[_i] = std::unique_ptr<DServerInfoT>(_e->Get(_i)->UnPack(_resolver)); } } }
   { auto _e = LastConnectServerID(); _o->LastConnectServerID = _e; }
   { auto _e = ServerTick(); _o->ServerTick = _e; }
   { auto _e = TimeZone(); _o->TimeZone = _e; }
@@ -1423,7 +1429,7 @@ inline flatbuffers::Offset<LCAuthRes> CreateLCAuthRes(flatbuffers::FlatBufferBui
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LCAuthResT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _AccountSeq = _o->AccountSeq;
-  auto _ServerList = _o->ServerList.size() ? _fbb.CreateVector<flatbuffers::Offset<OServerInfo>> (_o->ServerList.size(), [](size_t i, _VectorArgs *__va) { return CreateOServerInfo(*__va->__fbb, __va->__o->ServerList[i].get(), __va->__rehasher); }, &_va ) : 0;
+  auto _ServerList = _o->ServerList.size() ? _fbb.CreateVector<flatbuffers::Offset<DServerInfo>> (_o->ServerList.size(), [](size_t i, _VectorArgs *__va) { return CreateDServerInfo(*__va->__fbb, __va->__o->ServerList[i].get(), __va->__rehasher); }, &_va ) : 0;
   auto _LastConnectServerID = _o->LastConnectServerID;
   auto _ServerTick = _o->ServerTick;
   auto _TimeZone = _o->TimeZone;

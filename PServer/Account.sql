@@ -30,6 +30,8 @@ CREATE TABLE [dbo].[Account]
     [ConnectLoginServerID]          [int]                   NULL,
     --otp
     [OTP]                           [varchar](8)            NULL,
+    --IP 32bit
+    [IPAddress32]                   [int]                   NULL,
     -- 생성일
     [CreateDate]                    [datetime]              NULL,
     -- 수정일

@@ -7,8 +7,9 @@ enum class EDBResult : int
     Success = 0,        //프로시저 실행 성공
 
     //--
-    DuplicateLogin = 1,         //계정 이중 접속
-    AccountCreateFailed = 2,    //계정 생성 실패
-
+    AccountCreateFailed = 1,    //계정 생성 실패
+    DuplicateLogin = 2,         //계정 이중 접속
+    PermanentBlock = 3,         //계정 영구 정지 
+    DurationBlock = 4,          //계정 영구 정지 
 
 };

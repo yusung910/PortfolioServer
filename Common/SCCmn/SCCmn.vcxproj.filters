@@ -32,9 +32,6 @@
     <ClInclude Include="SCCmnPrivate.h">
       <Filter>0_Private</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol_generated.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
     <ClInclude Include="SCCmnPublic.h">
       <Filter>1_Public</Filter>
     </ClInclude>
@@ -61,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="DataProcessManager.h">
       <Filter>DataTemplate</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

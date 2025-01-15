@@ -10,9 +10,9 @@ SET QUOTED_IDENTIFIER ON
 GO
 /*************************************************************************************
     name        : (sp)[spAccountLoginProcessSelect]
-    description : 게임 게정 로그인 처리
-    result      : 프로시저 결과 값
-        0 -> Success
+    description : 게임 계정 생성 및 조회 처리
+    result      : 프로시저 결과 값(EDBResult)
+        0 -> Success 
         
     Date                Author          Description
     --------------      ---------       ---------------------------------------------
@@ -28,28 +28,28 @@ GO
 
 CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
 
-  @Result                       INT         OUTPUT,
-  @AccountSeq                   INT         OUTPUT,
-  @AccountType                  INT         OUTPUT,
-  @AccountStatus                INT         OUTPUT,
+    @Result                       INT         OUTPUT
+  , @AccountSeq                   INT         OUTPUT
+  , @AccountType                  INT         OUTPUT
   -- 마지막 접속 게임서버ID
-  @LatestConnectGameServerID    INT         OUTPUT,     
+  , @LatestConnectGameServerID    INT         OUTPUT     
 
   -- 접속된 로그인서버 ID
-  @ConnectedLoginServerID       INT         OUTPUT,     
+  , @ConnectedLoginServerID       INT         OUTPUT
 
   -- 삭제 대기기간
-  @DeleteRemainingPeriod        DATETIME    OUTPUT,
+  , @DeleteRemainingPeriod        DATETIME    OUTPUT
 
-  @LoginPlatformType            INT,
-  @AccountUKey                  VARCHAR(256),
+  , @LoginPlatformType            INT
+  , @AccountUKey                  VARCHAR(256)
 
   -- (from server)접속 시도하는 로그인 서버ID
-  @ConnectingLoginServerID      INT,                    
-
-  @ClientType                   INT,
-  @AppVersion                   INT,
-  @BuildType                    INT
+  , @ConnectingLoginServerID      INT
+  , @OTP                          INT
+  , @ClientType                   INT
+  , @AppVersion                   INT
+  , @BuildType                    INT
+  , @IPAddress32                  INT
 
 AS
 
@@ -69,9 +69,9 @@ BEGIN
     --캐릭터가 있는 서버 목록
     DECLARE @ExsistCharacterServerID    TABLE
     (
-        ServerID        INT,
-        CharacterLevel  INT,
-        LastTime        DATETIME
+          ServerID        INT
+        , CharacterLevel  INT
+        , LastTime        DATETIME
     )
 
     --계정 상태
@@ -79,7 +79,7 @@ BEGIN
 
     BEGIN
         SELECT
-            @AccountSeq = AccountSeq
+              @AccountSeq = AccountSeq
             , @AccountType = AccountType
         FROM
             Account
@@ -97,8 +97,8 @@ BEGIN
                 SET @AccountType = @Account_Type
 
                 -- 1. Account Table
-                INSERT INTO Account(AccountUKey, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectLoginServerID, OTP)
-                VALUES (@AccountUKey, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingLoginServerID, @OTP)
+                INSERT INTO Account(AccountUKey, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectLoginServerID, OTP, IPAddress32)
+                VALUES (@AccountUKey, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingLoginServerID, @OTP, @IPAddress32)
 
                 -- Check
                 IF(1 <> @@ROWCOUNT)
@@ -118,8 +118,8 @@ BEGIN
         BEGIN
             --기존 계정
             SELECT
-                @ConnectedLoginServerID = ConnectLoginServerID,
-                @AccountStatus = AccountStatus
+                  @ConnectedLoginServerID = ConnectLoginServerID
+                , @AccountStatus = AccountStatus
               FROM 
                 Account
              WHERE
@@ -138,11 +138,11 @@ BEGIN
                   WHERE
                         AccountSeq = @AccountSeq
 
-                IF(@AccountStatus = 4)
-                    SET @Result = 4     --계정 영구 정지
+                IF(@AccountStatus = 3)
+                    SET @Result = 3     --계정 영구 정지
                 
-                ELSE IF(@AccountStatus = 5)
-                    SET @Result = 5     --계정 기간 정지
+                ELSE IF(@AccountStatus = 4)
+                    SET @Result = 4     --계정 일시 정지
 
                 --특정 상태가 더 있을 경우 추가
                 RETURN
@@ -151,21 +151,22 @@ BEGIN
             BEGIN
                 DECLARE @Table TABLE
                 (
-                    AccountSeq                  INT,
-                    AccountType                 INT,
-                    LastConnectedLoginServer    INT
+                      AccountSeq                  INT
+                    , AccountType                 INT
+                    , LastConnectedLoginServer    INT
                 )
 
                 UPDATE 
                     Account
                 SET
-                    ConnectLoginServerID = @ConnectingLoginServerID,
-                    OTP = @OTP,
-                    ClientType = @ClientType
+                      ConnectLoginServerID = @ConnectingLoginServerID
+                    , OTP = @OTP
+                    , ClientType = @ClientType
+                    , IPAddress32 = @IPAddress32
                 OUTPUT
-                    inserted.AccountSeq,
-                    inserted.AccountType,
-                    inserted.ConnectLoginServerID
+                      inserted.AccountSeq
+                    , inserted.AccountType
+                    , inserted.ConnectLoginServerID
                 INTO @Table
 
                 WHERE
@@ -179,16 +180,16 @@ BEGIN
                 END
 
                 SELECT 
-                    @AccountSeq = AccountSeq
-                    ,@AccountType = AccountType
-                    ,@LatestConnectGameServerID = ConnectLoginServerID
+                      @AccountSeq = AccountSeq
+                    , @AccountType = AccountType
+                    , @LatestConnectGameServerID = ConnectLoginServerID
                 FROM
                     @Table
             END
 
             --이미 접속 되어 있는지 여부 확인
             IF(0 <> @ConnectedLoginServerID)
-                SET @Result = 2
+                SET @Result = 1
             ELSE
                 SET @Result = 0
 

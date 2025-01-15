@@ -6,6 +6,8 @@
 #include "RevUtil.h"
 #include "LoginPlayerManager.h"
 #include "StrChecker.h"
+#include "NetworkCenter.h"
+
 #include <NetworkManager.h>
 #include <NetworkStatistics.h>
 #include <PFunc.h>
@@ -176,7 +178,10 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
     ldto->AppVersion = _appVer;
     ldto->AccountUIDkey = _accountUKey;
     ldto->LoginPlatformType = _pfType;
-    //ldto->IPAddress = Netw
+    ldto->IPAddress32 = NetworkManager::GetInst().GetIPInt32(_hostID);
+
+    SendToUDB(_hostID, EPacketProtocol::LUDB_AuthReq, ldto);
+
     return true;
 }
 

@@ -14,8 +14,9 @@ public enum EPacketProtocol : int
   LUDB_AuthReq = 10002,
   UDBL_AuthRes = 10003,
   LC_AuthRes = 10004,
-  CS_EnterGameReq = 10005,
-  SC_EnterGameAck = 10006,
-  PacketMax = 10007,
+  CS_AuthReq = 10101,
+  CS_EnterGameReq = 10102,
+  SC_EnterGameAck = 10103,
+  PacketMax = 10104,
 };
 

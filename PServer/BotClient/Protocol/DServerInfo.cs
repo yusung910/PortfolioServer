@@ -6,15 +6,15 @@ using global::System;
 using global::System.Collections.Generic;
 using global::FlatBuffers;
 
-public struct OServerInfo : IFlatbufferObject
+public struct DServerInfo : IFlatbufferObject
 {
   private Table __p;
   public ByteBuffer ByteBuffer { get { return __p.bb; } }
   public static void ValidateVersion() { FlatBufferConstants.FLATBUFFERS_1_12_0(); }
-  public static OServerInfo GetRootAsOServerInfo(ByteBuffer _bb) { return GetRootAsOServerInfo(_bb, new OServerInfo()); }
-  public static OServerInfo GetRootAsOServerInfo(ByteBuffer _bb, OServerInfo obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
+  public static DServerInfo GetRootAsDServerInfo(ByteBuffer _bb) { return GetRootAsDServerInfo(_bb, new DServerInfo()); }
+  public static DServerInfo GetRootAsDServerInfo(ByteBuffer _bb, DServerInfo obj) { return (obj.__assign(_bb.GetInt(_bb.Position) + _bb.Position, _bb)); }
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
-  public OServerInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
+  public DServerInfo __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public int ServerID { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int ServerStatus { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
@@ -29,7 +29,7 @@ public struct OServerInfo : IFlatbufferObject
   public bool HasCharacter { get { int o = __p.__offset(12); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
   public int State { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
-  public static Offset<OServerInfo> CreateOServerInfo(FlatBufferBuilder builder,
+  public static Offset<DServerInfo> CreateDServerInfo(FlatBufferBuilder builder,
       int ServerID = 0,
       int ServerStatus = 0,
       StringOffset AddressOffset = default(StringOffset),
@@ -37,32 +37,32 @@ public struct OServerInfo : IFlatbufferObject
       bool HasCharacter = false,
       int State = 0) {
     builder.StartTable(6);
-    OServerInfo.AddState(builder, State);
-    OServerInfo.AddPort(builder, Port);
-    OServerInfo.AddAddress(builder, AddressOffset);
-    OServerInfo.AddServerStatus(builder, ServerStatus);
-    OServerInfo.AddServerID(builder, ServerID);
-    OServerInfo.AddHasCharacter(builder, HasCharacter);
-    return OServerInfo.EndOServerInfo(builder);
+    DServerInfo.AddState(builder, State);
+    DServerInfo.AddPort(builder, Port);
+    DServerInfo.AddAddress(builder, AddressOffset);
+    DServerInfo.AddServerStatus(builder, ServerStatus);
+    DServerInfo.AddServerID(builder, ServerID);
+    DServerInfo.AddHasCharacter(builder, HasCharacter);
+    return DServerInfo.EndDServerInfo(builder);
   }
 
-  public static void StartOServerInfo(FlatBufferBuilder builder) { builder.StartTable(6); }
+  public static void StartDServerInfo(FlatBufferBuilder builder) { builder.StartTable(6); }
   public static void AddServerID(FlatBufferBuilder builder, int ServerID) { builder.AddInt(0, ServerID, 0); }
   public static void AddServerStatus(FlatBufferBuilder builder, int ServerStatus) { builder.AddInt(1, ServerStatus, 0); }
   public static void AddAddress(FlatBufferBuilder builder, StringOffset AddressOffset) { builder.AddOffset(2, AddressOffset.Value, 0); }
   public static void AddPort(FlatBufferBuilder builder, int Port) { builder.AddInt(3, Port, 0); }
   public static void AddHasCharacter(FlatBufferBuilder builder, bool HasCharacter) { builder.AddBool(4, HasCharacter, false); }
   public static void AddState(FlatBufferBuilder builder, int State) { builder.AddInt(5, State, 0); }
-  public static Offset<OServerInfo> EndOServerInfo(FlatBufferBuilder builder) {
+  public static Offset<DServerInfo> EndDServerInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
-    return new Offset<OServerInfo>(o);
+    return new Offset<DServerInfo>(o);
   }
-  public OServerInfoT UnPack() {
-    var _o = new OServerInfoT();
+  public DServerInfoT UnPack() {
+    var _o = new DServerInfoT();
     this.UnPackTo(_o);
     return _o;
   }
-  public void UnPackTo(OServerInfoT _o) {
+  public void UnPackTo(DServerInfoT _o) {
     _o.ServerID = this.ServerID;
     _o.ServerStatus = this.ServerStatus;
     _o.Address = this.Address;
@@ -70,10 +70,10 @@ public struct OServerInfo : IFlatbufferObject
     _o.HasCharacter = this.HasCharacter;
     _o.State = this.State;
   }
-  public static Offset<OServerInfo> Pack(FlatBufferBuilder builder, OServerInfoT _o) {
-    if (_o == null) return default(Offset<OServerInfo>);
+  public static Offset<DServerInfo> Pack(FlatBufferBuilder builder, DServerInfoT _o) {
+    if (_o == null) return default(Offset<DServerInfo>);
     var _Address = _o.Address == null ? default(StringOffset) : builder.CreateString(_o.Address);
-    return CreateOServerInfo(
+    return CreateDServerInfo(
       builder,
       _o.ServerID,
       _o.ServerStatus,
@@ -84,7 +84,7 @@ public struct OServerInfo : IFlatbufferObject
   }
 };
 
-public class OServerInfoT
+public class DServerInfoT
 {
   public int ServerID { get; set; }
   public int ServerStatus { get; set; }
@@ -93,7 +93,7 @@ public class OServerInfoT
   public bool HasCharacter { get; set; }
   public int State { get; set; }
 
-  public OServerInfoT() {
+  public DServerInfoT() {
     this.ServerID = 0;
     this.ServerStatus = 0;
     this.Address = null;

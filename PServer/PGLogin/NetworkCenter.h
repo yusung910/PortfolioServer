@@ -8,7 +8,7 @@
 
 // to UDB
 template <typename T>
-inline void SendToUDB(const int& _hostID, const EPacketProtocol& _msgID, InnerPacket::SharedPtr _packet, T* _msg)
+inline void SendToUDB(const int& _hostID, const EPacketProtocol& _msgID, T* _msg)
 {
     if (nullptr == _msg)
         return;

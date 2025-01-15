@@ -77,6 +77,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_StoredProcedure", "2_StoredProcedure", "{B85E7388-7B1F-422E-BD96-EA69D675090F}"
 	ProjectSection(SolutionItems) = preProject
 		spAccountLoginProcessSelect.sql = spAccountLoginProcessSelect.sql
+		spAccountCharacterListSelect.sql = spAccountCharacterListSelect.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1_Tables", "1_Tables", "{1FC83C45-AFB6-4052-8CF8-1CCA977C39CD}"

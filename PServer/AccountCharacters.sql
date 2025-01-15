@@ -9,7 +9,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [dbo].[AccountCharacters]
+CREATE TABLE [dbo].[AccountCharacter]
 (
     -- 캐릭터 고유 번호
     [CharacterSeq]              [int] IDENTITY(1,1)     NOT NULL,
@@ -21,13 +21,13 @@ CREATE TABLE [dbo].[AccountCharacters]
     [ServerID]                  [int]                   NOT NULL,
 
     -- 캐릭터 명
-    [CharacterNm]               [nvarchar](100)         NOT NULL,
+    [CharacterName]             [nvarchar](100)         NOT NULL,
 
     -- 레벨
-    [CharacterLvl]              [int]                   NOT NULL,
+    [CharacterLevel]            [int]                   NOT NULL,
     
     -- 클래스
-    [CharacterCls]              [int]                   NOT NULL,
+    [CharacterClass]            [int]                   NOT NULL,
 
     -- 상태
     [State]                     [int]                   NOT NULL,
