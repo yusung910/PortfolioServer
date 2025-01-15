@@ -1,13 +1,3 @@
-USE [Account]
-GO
-
---ANSI_NULLS :: column_name = NULL을 사용하는 select 문은 column_name에 null 값이 있을 때도 0 행을 반환
-SET ANSI_NULLS ON 
-GO
-
--- 쌍 따옴표(")를 식별자로써 인식
-SET QUOTED_IDENTIFIER ON
-GO
 /*************************************************************************************
     name        : (sp)[spAccountLoginProcessSelect]
     description : 게임 계정 생성 및 조회 처리
@@ -23,9 +13,6 @@ GO
 
 
 *************************************************************************************/
-
-
-
 CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
 
     @Result                       INT         OUTPUT
@@ -119,7 +106,7 @@ BEGIN
             --기존 계정
             SELECT
                   @ConnectedLoginServerID = ConnectLoginServerID
-                , @AccountStatus = AccountStatus
+                , @Account_Status = AccountStatus
               FROM 
                 Account
              WHERE
@@ -128,7 +115,7 @@ BEGIN
             -- 기존 계정의 상태 여부에 따른 result값 출력
             -- EAccountStatus
             -- 계정의 상태가 정상이 아닐경우 
-            IF(@AccountStatus > 1)
+            IF(@Account_Status > 1)
             BEGIN
                 UPDATE
                         Account
@@ -138,10 +125,10 @@ BEGIN
                   WHERE
                         AccountSeq = @AccountSeq
 
-                IF(@AccountStatus = 3)
+                IF(@Account_Status = 3)
                     SET @Result = 3     --계정 영구 정지
                 
-                ELSE IF(@AccountStatus = 4)
+                ELSE IF(@Account_Status = 4)
                     SET @Result = 4     --계정 일시 정지
 
                 --특정 상태가 더 있을 경우 추가
@@ -200,7 +187,7 @@ BEGIN
             FROM
             (
                 SELECT
-                    ServerID, CharacterLvl, LastTime,
+                    ServerID, CharacterLevel, LastTime,
                     ROW_NUMBER() OVER(PARTITION BY ServerID ORDER BY CharacterLevel DESC, LastTime DESC) AS LevelRank
                 FROM
                     AccountCharacter

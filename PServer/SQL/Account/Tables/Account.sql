@@ -1,13 +1,3 @@
-USE [Account]
-GO
-
---ANSI_NULLS :: column_name = NULL을 사용하는 select 문은 column_name에 null 값이 있을 때도 0 행을 반환
-SET ANSI_NULLS ON 
-GO
-
--- 쌍 따옴표(")를 식별자로써 인식
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE TABLE [dbo].[Account]
 (
     --계정 고유 번호
@@ -42,14 +32,14 @@ CREATE TABLE [dbo].[Account]
         [AccountSeq] ASC
     ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 )
-
-
+GO
 --Default Constraint
 ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_OTP] DEFAULT ((0)) FOR [OTP]
+GO
 ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_AccountStatus] DEFAULT ((0)) FOR [AccountStatus]
-
-ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_LatestConnectServerID] DEFAULT ((0)) FOR [LatestConnectServerID]
-
+GO
+ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_ConnectLoginServerID] DEFAULT ((0)) FOR [ConnectLoginServerID]
+GO
 ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
-
+GO
 ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_UpdateDate] DEFAULT (getdate()) FOR [UpdateDate]

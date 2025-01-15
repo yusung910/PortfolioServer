@@ -1,14 +1,3 @@
-USE [Account]
-GO
-
---ANSI_NULLS :: column_name = NULL을 사용하는 select 문은 column_name에 null 값이 있을 때도 0 행을 반환
-SET ANSI_NULLS ON 
-GO
-
--- 쌍 따옴표(")를 식별자로써 인식
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE TABLE [dbo].[AccountCharacter]
 (
     -- 캐릭터 고유 번호
@@ -47,5 +36,4 @@ CREATE TABLE [dbo].[AccountCharacter]
 
 --DEFAULT CONSTRAINT  
 GO
-ALTER TABLE [dbo].[AccountCharacters] ADD CONSTRAINT [DF_Character_State] DEFAULT ((0)) FOR [State]
-
+ALTER TABLE [dbo].[AccountCharacter] ADD CONSTRAINT [DF_Character_State] DEFAULT ((0)) FOR [State]
