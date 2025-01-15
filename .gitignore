@@ -174,3 +174,7 @@ BuildVersion.hxx
 #로그 파일들
 *.log
 *.err
+
+#DB 관련파일들
+*.jfm
+*.dbmdl
