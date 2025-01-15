@@ -62,7 +62,7 @@ public:
 
 };
 
-class LoginAccountCharacterSelectDTO : public InnerDataInterface
+class LoginAccountPilgrimSelectDTO : public InnerDataInterface
 {
 public:
     typedef Poco::Tuple

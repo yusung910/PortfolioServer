@@ -14,6 +14,7 @@
         -> LoginAccountProcessSelectDTO
     5. DB 프로시저는 접두어에 sp를 붙인다.
         -> spAccountLoginProcessSelect
+    6. 게임 플레이어가 플레이 하는 캐릭터의 명칭은 Pilgrim으로 한다
 ### 1.2 Parameter 타입의 변수는 '_'로 시작
 ```c
 function test(int _a)
@@ -205,7 +206,9 @@ private:
     2.1.7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
        -> 제거되지 않을 경우 패킷 데이터 배열에 영향을 끼치게 되어 통신 데이터 상에 문제가 발생
 	2.1.8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
-	2.1.9. 정적 라이브러리(lib) 프로젝트의 클래스를 다른 프로젝트(exe)에서 참조하여 사용 할 때       링크 에러(lnk2019)가 발생 할 경우 참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.    2.1.10. 각각 소스의 Charset ANSI(EUC-KR) - UTF8 간에 발생한 C4819 에러 처리
+	2.1.9. 정적 라이브러리(lib) 프로젝트의 클래스를 다른 프로젝트(exe)에서 참조하여 사용 할 때
+       링크 에러(lnk2019)가 발생 할 경우 참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.
+    2.1.10. 각각 소스의 Charset ANSI(EUC-KR) - UTF8 간에 발생한 C4819 에러 처리
        -> 윈도우 11의 '시스템 로캘 변경'에서 'Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용'을 활성화 했을 때
           윈도우 내부 파일들의 문자열 셋(캐릭터 셋)이 강제로 변경되는 이슈에 따른 처리
        -> 해당 내용을 활성화 한 이유는 G-Hub에서 무한 로딩 이슈를 해결하기 위해 적용.

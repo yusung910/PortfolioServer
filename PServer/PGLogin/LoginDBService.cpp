@@ -76,6 +76,9 @@ bool LoginDBService::OnLULoginReq(std::shared_ptr<InnerPacket> _data)
     {
         //캐릭터 조회
 
+        std::vector<LoginAccountPilgrimSelectDTO::AccountCharacter> lCharacterList;
+
+
     }
 
     SendToLoginService(EPacketProtocol::UDBL_AuthRes, _data);
