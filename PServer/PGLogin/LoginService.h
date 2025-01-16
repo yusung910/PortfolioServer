@@ -29,6 +29,9 @@ protected:
     //Client -> LoginServer
     bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
 
+    //
+    bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
+
 private:
     void _KickProcess();
 

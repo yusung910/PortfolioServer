@@ -11,6 +11,6 @@ public:
     virtual ~LoginDBService();
 
 private:
-    bool OnLULoginReq(std::shared_ptr<InnerPacket> _data);
+    bool OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data);
 };
 

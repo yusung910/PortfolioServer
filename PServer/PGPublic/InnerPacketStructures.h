@@ -73,11 +73,11 @@ public:
         int,                    // [CharacterLevel]
         int,                    // [CharacterClass]
         Poco::DateTime          // [LastTime]
-        > AccountCharacter;
+        > AccountPilgrim;
 
     int AccountSeq = 0;
 
-    std::vector<AccountCharacter> characterList;
+    std::vector<AccountPilgrim> characterList;
 
 public:
     virtual void Release() override;

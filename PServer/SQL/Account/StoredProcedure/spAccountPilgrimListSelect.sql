@@ -1,5 +1,5 @@
 /*************************************************************************************
-    name        : (sp)[spAccountCharacterListSelect]
+    name        : (sp)[spAccountPilgrimListSelect]
     description : 계정 별 캐릭터 조회
     result      : 프로시저 결과 값(EDBResult)
         0 -> Success 
@@ -14,7 +14,7 @@
 
 *************************************************************************************/
 
-CREATE PROCEDURE [dbo].[spAccountCharacterListSelect]
+CREATE PROCEDURE [dbo].[spAccountPilgrimListSelect]
     @AccountSeq         INT
 
 AS
@@ -23,13 +23,13 @@ SET LOCK_TIMEOUT 3000
 SET XACT_ABORT ON
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 BEGIN
-    SELECT CharacterSeq
+    SELECT PilgrimSeq
          , ServerID
-         , CharacterName
-         , CharacterLevel
-         , CharacterClass
+         , PilgrimName
+         , PilgrimLevel
+         , PilgrimClass
          , LastTime
-     FROM AccountCharacter
+     FROM AccountPilgrim
     WHERE AccountSeq = @AccountSeq
       --캐릭터 상태 값 (Enum)에 따라 유효한 상태 값만 넣는다
       --default 값 : 0

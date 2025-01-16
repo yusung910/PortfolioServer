@@ -25,9 +25,10 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
   , @ConnectedLoginServerID       INT         OUTPUT
 
   -- 삭제 대기기간
-  , @DeleteRemainingPeriod        DATETIME    OUTPUT
+  , @RemainingPeriod              DATETIME    OUTPUT
 
-  , @LoginPlatformType            INT
+  --계정 로그인 플랫폼 유형
+  , @LoginPlatformType                 INT
   , @AccountUKey                  VARCHAR(256)
 
   -- (from server)접속 시도하는 로그인 서버ID
@@ -54,16 +55,16 @@ BEGIN
     DECLARE @Account_Type               INT = 99
 
     --캐릭터가 있는 서버 목록
-    DECLARE @ExsistCharacterServerID    TABLE
+    DECLARE @ExsistPilgrimServerID    TABLE
     (
           ServerID        INT
-        , CharacterLevel  INT
+        , PilgrimLevel  INT
         , LastTime        DATETIME
     )
 
     --계정 상태
     DECLARE @Account_Status             INT = 0
-
+    DECLARE @Platform_GuestLogin        INT = 99
     BEGIN
         SELECT
               @AccountSeq = AccountSeq
@@ -72,7 +73,6 @@ BEGIN
             Account
         WHERE
             AccountUKey = @AccountUKey
-            AND LoginPlatformType = @LoginPlatformType
     END
 
 
@@ -84,8 +84,8 @@ BEGIN
                 SET @AccountType = @Account_Type
 
                 -- 1. Account Table
-                INSERT INTO Account(AccountUKey, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectLoginServerID, OTP, IPAddress32)
-                VALUES (@AccountUKey, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingLoginServerID, @OTP, @IPAddress32)
+                INSERT INTO Account(AccountUKey, ConnectLoginServerID, OTP, IPAddress32)
+                VALUES (@AccountUKey, @ConnectingLoginServerID, @OTP, @IPAddress32)
 
                 -- Check
                 IF(1 <> @@ROWCOUNT)
@@ -148,7 +148,6 @@ BEGIN
                 SET
                       ConnectLoginServerID = @ConnectingLoginServerID
                     , OTP = @OTP
-                    , ClientType = @ClientType
                     , IPAddress32 = @IPAddress32
                 OUTPUT
                       inserted.AccountSeq
@@ -158,7 +157,6 @@ BEGIN
 
                 WHERE
                     AccountSeq = @AccountSeq
-                    AND LoginPlatformType = @LoginPlatformType
 
                 IF(1 <> @@ROWCOUNT)
                 BEGIN
@@ -181,16 +179,16 @@ BEGIN
                 SET @Result = 0
 
             INSERT INTO
-                @ExsistCharacterServerID ( ServerID, CharacterLevel, LastTime)
+                @ExsistPilgrimServerID ( ServerID, PilgrimLevel, LastTime)
             SELECT
-                ServerID, CharacterLevel, LastTime
+                ServerID, PilgrimLevel, LastTime
             FROM
             (
                 SELECT
-                    ServerID, CharacterLevel, LastTime,
-                    ROW_NUMBER() OVER(PARTITION BY ServerID ORDER BY CharacterLevel DESC, LastTime DESC) AS LevelRank
+                    ServerID, PilgrimLevel, LastTime,
+                    ROW_NUMBER() OVER(PARTITION BY ServerID ORDER BY PilgrimLevel DESC, LastTime DESC) AS LevelRank
                 FROM
-                    AccountCharacter
+                    AccountPilgrim
                 WHERE
                     AccountSeq = @AccountSeq
                     AND [State] IN ( 1, 2, 12)
@@ -200,6 +198,6 @@ BEGIN
         END
 
         SELECT ServerID
-        FROM @ExsistCharacterServerID
+        FROM @ExsistPilgrimServerID
 END
  

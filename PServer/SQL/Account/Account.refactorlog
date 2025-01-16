@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="3e6855ab-6968-4bab-9b74-47dedda44b85" ChangeDateTime="01/16/2025 09:54:40">
+    <Property Name="ElementName" Value="[dbo].[AccountPlatform].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AccountPlatform]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="PlatformID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3988843f-af71-4591-a860-123e5be27d0d" ChangeDateTime="01/16/2025 10:00:22">
+    <Property Name="ElementName" Value="[dbo].[Account].[ClientType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Account]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ClientTpe" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f4966173-0608-4573-bf72-04cf96ae265e" ChangeDateTime="01/16/2025 10:02:13">
+    <Property Name="ElementName" Value="[dbo].[Account].[ExpireDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Account]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="StopExpireDate" />
+  </Operation>
+</Operations>

@@ -8,22 +8,21 @@
 
 LoginDBService::LoginDBService()
 {
-    RegisterHandler(EPacketProtocol::LUDB_AuthReq, &LoginDBService::OnLULoginReq);
+    RegisterHandler(EPacketProtocol::LUDB_AuthReq, &LoginDBService::OnLUDBLoginReq);
 }
 
 LoginDBService::~LoginDBService()
 {
 }
 
-bool LoginDBService::OnLULoginReq(std::shared_ptr<InnerPacket> _data)
+bool LoginDBService::OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
 {
     CheckSession();
 
     LoginAccountProcessSelectDTO* lReq = static_cast<LoginAccountProcessSelectDTO*>(_data->m_pData);
     int lOTP = (int)Random::GetInst()->GetRandomRange(10000000, 9999999);
 
-    try
-    {
+    BEGIN_SESSION;
         lSess << "{ CALL spAccountLoginProcessSelect(?, ?,?,?,?,?, ?,?,?,?,?,?) }"
             , out(lReq->Result)
 
@@ -43,15 +42,7 @@ bool LoginDBService::OnLULoginReq(std::shared_ptr<InnerPacket> _data)
             , in(lReq->IPAddress32)
 
             ,now;
-    }
-    catch (Poco::Data::ODBC::StatementException& lEx)
-    {
-        VIEW_WRITE_ERROR(L"\n%s", StringUtil::UTF8_WSTR(lEx.message().c_str()).c_str());
-    }
-    catch (std::exception& lE)
-    {
-        VIEW_WRITE_ERROR(L"\nDB Error %s", lE.what());
-    }
+    END_SESSION
     
     //계정 조회 결과에 따른 처리
     switch ((EDBResult)lReq->Result)
@@ -75,9 +66,15 @@ bool LoginDBService::OnLULoginReq(std::shared_ptr<InnerPacket> _data)
     if ((EDBResult)lReq->Result == EDBResult::Success)
     {
         //캐릭터 조회
+        std::vector<LoginAccountPilgrimSelectDTO::AccountPilgrim> lPilgrimList;
+        BEGIN_SESSION;
 
-        std::vector<LoginAccountPilgrimSelectDTO::AccountCharacter> lCharacterList;
+        lSess << "{CALL spAccountPilgrimListSelect(?)}"
+            , in(lReq->AccountSeq)
+            , into(lPilgrimList)
+            , now;
 
+        END_SESSION;
 
     }
 

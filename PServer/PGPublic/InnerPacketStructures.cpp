@@ -6,7 +6,7 @@ void LoginAccountProcessSelectDTO::Release()
     HeroExistServerList.clear();
 }
 
-void LoginAccountCharacterSelectDTO::Release()
+void LoginAccountPilgrimSelectDTO::Release()
 {
     characterList.clear();
 }
