@@ -28,8 +28,9 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
   , @RemainingPeriod              DATETIME    OUTPUT
 
   --계정 로그인 플랫폼 유형
-  , @LoginPlatformType                 INT
-  , @AccountUKey                  VARCHAR(256)
+  , @LoginPlatformType            INT
+  , @AccountUKey                  VARCHAR(255)
+  , @PlatformID                   VARCHAR(255)
 
   -- (from server)접속 시도하는 로그인 서버ID
   , @ConnectingLoginServerID      INT
@@ -95,12 +96,28 @@ BEGIN
                     RETURN
                 END
 
+                -- @@IDENTITY : 현재 세션의 테이블에서 생성(insert)된 마지막 ID 값을 반환
                 SET @AccountSeq = @@IDENTITY
+
+                -- 다른 플랫폼(NAVER, GOOGLE, FACEBOOK 등 로그인 할 경우)
+                IF(@Platform_GuestLogin <> @LoginPlatformType)
+                    BEGIN
+                        --AccountPlatform 테이블
+                        INSERT INTO AccountPlatform(PlatformID, AccountSeq, LoginPlatformType, BuildType, AppVersion, ClientType)
+                        VALUES(@PlatformID, @AccountSeq, @LoginPlatformType, @BuildType, @AppVersion, @ClientType)
+
+                        IF(1 <> @@ROWCOUNT)
+                        BEGIN
+                            ROLLBACK TRAN
+                            SET @Result = 1
+                            RETURN
+                        END
+                    END
+
             COMMIT TRAN
 
             SET @Result = 0
         END
-
     ELSE
         BEGIN
             --기존 계정

@@ -61,9 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Account.sql" />
-    <Build Include="Tables\AccountCharacter.sql" />
     <Build Include="StoredProcedure\spAccountLoginProcessSelect.sql" />
-    <Build Include="StoredProcedure\spAccountCharacterListSelect.sql" />
+    <Build Include="StoredProcedure\spAccountPilgrimListSelect.sql" />
+    <Build Include="Tables\AccountPilgrim.sql" />
+    <Build Include="Tables\AccountPlatform.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Account.refactorlog" />

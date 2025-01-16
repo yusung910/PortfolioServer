@@ -7,4 +7,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="AccountUKey" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="8eb0c48e-425b-46bc-b525-89636f2ddee6" ChangeDateTime="01/16/2025 17:02:59">
+    <Property Name="ElementName" Value="[dbo].[AccountPlatform].[PlatformType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AccountPlatform]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LoginPlatformType" />
+  </Operation>
 </Operations>

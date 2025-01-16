@@ -2,7 +2,7 @@ CREATE TABLE [dbo].[AccountPlatform]
 (
     [PlatformID] INT NOT NULL PRIMARY KEY, 
     [AccountSeq] INT NOT NULL DEFAULT 0, 
-    [PlatformType] INT NULL, 
+    [LoginPlatformType] INT NULL, 
     [BuildType] INT NULL, 
     [AppVersion] INT NULL, 
     [ClientType] INT NULL, 
@@ -27,7 +27,7 @@ EXEC sp_addextendedproperty @name = N'MS_Description',
     @level1type = N'TABLE',
     @level1name = N'AccountPlatform',
     @level2type = N'COLUMN',
-    @level2name = N'PlatformType'
+    @level2name = 'LoginPlatformType'
 GO
 EXEC sp_addextendedproperty @name = N'MS_Description',
     @value = N'클라 타입(EClinet -> 0: window, 1: Android 등등)',

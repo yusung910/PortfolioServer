@@ -179,7 +179,8 @@ private:
     4. 소스 파일들의 문자열(Charset)이 EUC-KR 또는 UTF-8로 세팅할 것인지 결정 후 적용
     5. 생성된 sql 스크립트를 일괄 실행하는 배치 파일을 만들자
         -> 참조 사이트 : https://www.sqlservercentral.com/forums/topic/batch-file-to-run-sql-scripts
-
+    6. gtest 프로젝트 추가 완료, 추후 몬스터, 미니언 등등
+       클라이언트와 실시간 동기화 작업이 필요한 클래스를 테스트할 때 사용한다
 ## 2.1 작업중 이슈 내용
     2.1.1 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.
     2.1.2. gtest를 이용한 단위 테스트 프로젝트 생성(99_UnitTest\)
@@ -216,3 +217,4 @@ private:
        -> https://eteo.tistory.com/730
        -> '프로젝트 > 속성 > 구성 속성 > C/C++ > 명령줄 > 추가 옵션' 영역에 /utf-8로 설정
     2.1.11. 빌드 후 응용프로그램 실행 실패 에러 (0xc00007b)가 발생 할 경우 프로젝트의 빌드 경로 설정을 확인한다.
+    
