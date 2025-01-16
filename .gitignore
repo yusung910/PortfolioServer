@@ -171,6 +171,9 @@ BuildVersion.hxx
 #k4os lib 경로
 !lib/**/**/**/**/*
 
+#Gtest 생성 디렉터리
+/PServer/packages/
+
 #로그 파일들
 *.log
 *.err
