@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[Account]
     --계정 고유 번호
     [AccountSeq]                    [int] IDENTITY(1,1)     NOT NULL,
     --계정 고유 key(문자열)
-    [AccountUkey]                   [varchar](255)          NOT NULL,
+    [AccountUKey]                   [varchar](255)          NOT NULL,
     --계정 상태(0 : 정상, 9:삭제 대기, 91: 삭제 등등)
     [AccountStatus]                 [int]                   NOT NULL,
     --계정 유형(0 : 일반 유저, 1: GM, 2: QA 등등)

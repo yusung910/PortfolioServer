@@ -3,11 +3,7 @@
     "Name": "새 프로필",
     "Projects": [
       {
-        "Path": "BotClient\\BotClient.csproj",
-        "Action": "Start"
-      },
-      {
-        "Path": "PGLogin\\PGLogin.vcxproj",
+        "Path": "99_UnitTest\\PGPublic_Test\\PGPublic_Test.vcxproj",
         "Action": "Start"
       }
     ]
