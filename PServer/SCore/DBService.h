@@ -7,20 +7,20 @@
 
 //편의용 매크로 함수
 
-#define CheckSession()  auto lTmpSess = GetSession();                       \
-                        if(nullptr == lTmpSess)                             \
-                            return false;                                   \
-                        Poco::Data::Session& lSess = *lTmpSess;             \
+#define CheckSession()  auto lTmpSess = GetSession();                                                       \
+                        if(nullptr == lTmpSess)                                                             \
+                            return false;                                                                   \
+                        Poco::Data::Session& lSess = *lTmpSess;
 
 #define BEGIN_SESSION   try {
-#define END_SESSION     }                                                   \
-                        catch(Poco::Data::ODBC::StatementException& ex)     \
-                        {                                                   \
+#define END_SESSION     }                                                                                   \
+                        catch(Poco::Data::ODBC::StatementException& ex)                                     \
+                        {                                                                                   \
                             VIEW_WRITE_ERROR("\n%s", StringUtil::UTF8_WSTR(ex.message().c_str()).c_str());  \
-                        }                                                   \
-                        catch(std::exception& e)                            \
-                        {                                                   \
-                            VIEW_WRITE_ERROR("\nDB Error : %s", e.what());  \
+                        }                                                                                   \
+                        catch(std::exception& e)                                                            \
+                        {                                                                                   \
+                            VIEW_WRITE_ERROR("\nDB Error : %s", e.what());                                  \
                         }
 
 

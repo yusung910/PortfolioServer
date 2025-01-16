@@ -21,6 +21,9 @@ LoginService::LoginService()
 {
     RegisterHandler(&LoginService::OnHostConnect);
     RegisterHandler(&LoginService::OnHostClose);
+    RegisterHandler(&LoginService::OnCLAuthReq);
+    RegisterInnerHandler(EPacketProtocol::UDBL_AuthRes, &LoginService::OnUDBLAuthRes);
+
 }
 
 LoginService::~LoginService()
@@ -131,6 +134,52 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         break;
 
     }
+
+    return true;
+}
+
+bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
+{
+    if (nullptr == _data.get())
+        return false;
+    if (nullptr == _data->m_pData)
+        return false;
+
+    LoginAccountProcessSelectDTO* lRes = static_cast<LoginAccountProcessSelectDTO*>(_data->m_pData);
+
+    //
+    auto lPc = LoginPlayerManager::GetInst().Find(_data->m_nHostID);
+    if (nullptr == lPc)
+    {
+        VIEW_WRITE_ERROR(L"OnUDBLAuthRes :: HostID(%d) is Missing", _data->m_nHostID);
+        AddKickReserve(_data->m_nHostID);
+        return false;
+    }
+
+
+    //영구 제제되어 있는 계정
+    if (lRes->Result == (int)EDBResult::PermanentBlock)
+    {
+        //_SendErrorMessage(EF_)
+        AddKickReserve(_data->m_nHostID);
+        return false;
+    }
+
+    //기간 제제
+    if (lRes->Result == (int)EDBResult::DurationBlock)
+    {
+        //_SendErrorMessage(EF_)
+        AddKickReserve(_data->m_nHostID);
+        return false;
+    }
+
+    //AccountSeq 기록
+    lPc->m_nAccountSeq = lRes->AccountSeq;
+
+    
+
+
+
 
 
 
