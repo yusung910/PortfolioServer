@@ -139,6 +139,17 @@ table DServerInfo
     HasCharacter:bool;          //서버에 캐릭터 존재하고 있는지
     State:int;                  //EServerState 서버 추천 여부
 }
+
+table DDateTime
+{
+    Year:int;
+    Month:int;
+    Day:int;
+    Hour:int;
+    Minute:int;
+    Second:int;
+}
+
 //-----------------------------------------------------------------------------
 // Message Structure End
 //-----------------------------------------------------------------------------

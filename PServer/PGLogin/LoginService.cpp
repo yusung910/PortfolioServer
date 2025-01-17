@@ -8,14 +8,15 @@
 #include "StrChecker.h"
 #include "NetworkCenter.h"
 
+#include <GlobalConst.h>
+#include <InnerPacketStructures.h>
 #include <NetworkManager.h>
 #include <NetworkStatistics.h>
 #include <PFunc.h>
 #include <PConstVars.h>
+#include <PocoTimeUtil.h>
 #include <ServerMonitor.h>
 #include <Timer.h>
-#include <GlobalConst.h>
-#include <InnerPacketStructures.h>
 
 LoginService::LoginService()
 {
@@ -175,6 +176,14 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
 
     //AccountSeq 기록
     lPc->m_nAccountSeq = lRes->AccountSeq;
+
+    if (lRes->RemainingPeriod != Poco::DateTime(1900, 1, 1))
+    {
+        //영구 or 일시 정지 캐릭 - 계정 스테이터스 상태에 따라 영구 or 일시정지 기간을 보내준다
+        flatbuffers::FlatBufferBuilder lFbb;
+        const auto& diff = lRes->RemainingPeriod - PocoTimeUtil::GetLocalTime();
+    }
+
 
     
 

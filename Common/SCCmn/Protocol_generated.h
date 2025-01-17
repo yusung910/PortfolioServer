@@ -10,6 +10,10 @@ struct DServerInfo;
 struct DServerInfoBuilder;
 struct DServerInfoT;
 
+struct DDateTime;
+struct DDateTimeBuilder;
+struct DDateTimeT;
+
 struct HostConnect;
 struct HostConnectBuilder;
 struct HostConnectT;
@@ -285,6 +289,122 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfoDirect(
 }
 
 flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct DDateTimeT : public flatbuffers::NativeTable {
+  typedef DDateTime TableType;
+  int32_t Year;
+  int32_t Month;
+  int32_t Day;
+  int32_t Hour;
+  int32_t Minute;
+  int32_t Second;
+  DDateTimeT()
+      : Year(0),
+        Month(0),
+        Day(0),
+        Hour(0),
+        Minute(0),
+        Second(0) {
+  }
+};
+
+struct DDateTime FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef DDateTimeT NativeTableType;
+  typedef DDateTimeBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_YEAR = 4,
+    VT_MONTH = 6,
+    VT_DAY = 8,
+    VT_HOUR = 10,
+    VT_MINUTE = 12,
+    VT_SECOND = 14
+  };
+  int32_t Year() const {
+    return GetField<int32_t>(VT_YEAR, 0);
+  }
+  int32_t Month() const {
+    return GetField<int32_t>(VT_MONTH, 0);
+  }
+  int32_t Day() const {
+    return GetField<int32_t>(VT_DAY, 0);
+  }
+  int32_t Hour() const {
+    return GetField<int32_t>(VT_HOUR, 0);
+  }
+  int32_t Minute() const {
+    return GetField<int32_t>(VT_MINUTE, 0);
+  }
+  int32_t Second() const {
+    return GetField<int32_t>(VT_SECOND, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_YEAR) &&
+           VerifyField<int32_t>(verifier, VT_MONTH) &&
+           VerifyField<int32_t>(verifier, VT_DAY) &&
+           VerifyField<int32_t>(verifier, VT_HOUR) &&
+           VerifyField<int32_t>(verifier, VT_MINUTE) &&
+           VerifyField<int32_t>(verifier, VT_SECOND) &&
+           verifier.EndTable();
+  }
+  DDateTimeT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(DDateTimeT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<DDateTime> Pack(flatbuffers::FlatBufferBuilder &_fbb, const DDateTimeT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct DDateTimeBuilder {
+  typedef DDateTime Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_Year(int32_t Year) {
+    fbb_.AddElement<int32_t>(DDateTime::VT_YEAR, Year, 0);
+  }
+  void add_Month(int32_t Month) {
+    fbb_.AddElement<int32_t>(DDateTime::VT_MONTH, Month, 0);
+  }
+  void add_Day(int32_t Day) {
+    fbb_.AddElement<int32_t>(DDateTime::VT_DAY, Day, 0);
+  }
+  void add_Hour(int32_t Hour) {
+    fbb_.AddElement<int32_t>(DDateTime::VT_HOUR, Hour, 0);
+  }
+  void add_Minute(int32_t Minute) {
+    fbb_.AddElement<int32_t>(DDateTime::VT_MINUTE, Minute, 0);
+  }
+  void add_Second(int32_t Second) {
+    fbb_.AddElement<int32_t>(DDateTime::VT_SECOND, Second, 0);
+  }
+  explicit DDateTimeBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  DDateTimeBuilder &operator=(const DDateTimeBuilder &);
+  flatbuffers::Offset<DDateTime> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<DDateTime>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<DDateTime> CreateDDateTime(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t Year = 0,
+    int32_t Month = 0,
+    int32_t Day = 0,
+    int32_t Hour = 0,
+    int32_t Minute = 0,
+    int32_t Second = 0) {
+  DDateTimeBuilder builder_(_fbb);
+  builder_.add_Second(Second);
+  builder_.add_Minute(Minute);
+  builder_.add_Hour(Hour);
+  builder_.add_Day(Day);
+  builder_.add_Month(Month);
+  builder_.add_Year(Year);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<DDateTime> CreateDDateTime(flatbuffers::FlatBufferBuilder &_fbb, const DDateTimeT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct HostConnectT : public flatbuffers::NativeTable {
   typedef HostConnect TableType;
@@ -1232,6 +1352,47 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBuffe
       _Port,
       _HasCharacter,
       _State);
+}
+
+inline DDateTimeT *DDateTime::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<DDateTimeT> _o = std::unique_ptr<DDateTimeT>(new DDateTimeT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void DDateTime::UnPackTo(DDateTimeT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = Year(); _o->Year = _e; }
+  { auto _e = Month(); _o->Month = _e; }
+  { auto _e = Day(); _o->Day = _e; }
+  { auto _e = Hour(); _o->Hour = _e; }
+  { auto _e = Minute(); _o->Minute = _e; }
+  { auto _e = Second(); _o->Second = _e; }
+}
+
+inline flatbuffers::Offset<DDateTime> DDateTime::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DDateTimeT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateDDateTime(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<DDateTime> CreateDDateTime(flatbuffers::FlatBufferBuilder &_fbb, const DDateTimeT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const DDateTimeT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _Year = _o->Year;
+  auto _Month = _o->Month;
+  auto _Day = _o->Day;
+  auto _Hour = _o->Hour;
+  auto _Minute = _o->Minute;
+  auto _Second = _o->Second;
+  return CreateDDateTime(
+      _fbb,
+      _Year,
+      _Month,
+      _Day,
+      _Hour,
+      _Minute,
+      _Second);
 }
 
 inline HostConnectT *HostConnect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {

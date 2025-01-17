@@ -18,12 +18,13 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
     @Result                       INT         OUTPUT
   , @AccountSeq                   INT         OUTPUT
   , @AccountType                  INT         OUTPUT
+  --계정상태
+  , @AccountStatus                INT         OUTPUT
   -- 마지막 접속 게임서버ID
   , @LatestConnectGameServerID    INT         OUTPUT     
 
   -- 접속된 로그인서버 ID
   , @ConnectedLoginServerID       INT         OUTPUT
-
   -- 삭제 대기기간
   , @RemainingPeriod              DATETIME    OUTPUT
 
@@ -49,8 +50,9 @@ BEGIN
     SET @Result = 0
     SET @AccountSeq = 0
     SET @AccountType = 0
+    SET @AccountStatus = 0
     SET @LatestConnectGameServerID = 0
-    SET @ConnectedLoginServerID = '1900-01-01'
+    SET @ConnectedLoginServerID = 0
 
     --계정 유형
     DECLARE @Account_Type               INT = 99
@@ -63,8 +65,7 @@ BEGIN
         , LastTime        DATETIME
     )
 
-    --계정 상태
-    DECLARE @Account_Status             INT = 0
+    
     DECLARE @Platform_GuestLogin        INT = 99
     BEGIN
         SELECT
@@ -123,7 +124,7 @@ BEGIN
             --기존 계정
             SELECT
                   @ConnectedLoginServerID = ConnectLoginServerID
-                , @Account_Status = AccountStatus
+                , @AccountStatus = AccountStatus
               FROM 
                 Account
              WHERE
@@ -132,7 +133,7 @@ BEGIN
             -- 기존 계정의 상태 여부에 따른 result값 출력
             -- EAccountStatus
             -- 계정의 상태가 정상이 아닐경우 
-            IF(@Account_Status > 1)
+            IF(@AccountStatus > 1)
             BEGIN
                 UPDATE
                         Account
@@ -142,10 +143,10 @@ BEGIN
                   WHERE
                         AccountSeq = @AccountSeq
 
-                IF(@Account_Status = 3)
+                IF(@AccountStatus = 3)
                     SET @Result = 3     --계정 영구 정지
                 
-                ELSE IF(@Account_Status = 4)
+                ELSE IF(@AccountStatus = 4)
                     SET @Result = 4     --계정 일시 정지
 
                 --특정 상태가 더 있을 경우 추가

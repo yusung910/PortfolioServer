@@ -87,6 +87,9 @@
     <ClInclude Include="StrFilterKR.h">
       <Filter>Util\StrChecker\StrFilter</Filter>
     </ClInclude>
+    <ClInclude Include="PocoTimeUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="StrFilterKR.cpp">
       <Filter>Util\StrChecker\StrFilter</Filter>
+    </ClCompile>
+    <ClCompile Include="PocoTimeUtil.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

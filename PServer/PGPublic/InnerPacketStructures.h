@@ -28,14 +28,14 @@
 class LoginAccountProcessSelectDTO : public InnerDataInterface
 {
 public:
-
     int Result = (int)EDBResult::None;
+
     int AccountSeq = 0;
     int AccountType = 0;
     int AccountStatus = 0;
     int LastConnectGameServerID = 0;
-
-    Poco::DateTime DeleteRemainingPeriod = { 1900, 1, 1, 0, 0, 0 };
+    int ConnectedLoginServerID = 0;         //접속된 로그인 서버
+    Poco::DateTime RemainingPeriod = { 1900, 1, 1, 0, 0, 0 };
 
     int OTP = 0;
 
@@ -50,7 +50,7 @@ public:
     int IPAddress32 = 0;
 
     //
-    std::unordered_set<int> HeroExistServerList;
+    std::unordered_set<int> PilgrimExistServerList;
 
 public:
     virtual void Release() override;
@@ -77,7 +77,7 @@ public:
 
     int AccountSeq = 0;
 
-    std::vector<AccountPilgrim> characterList;
+    std::vector<AccountPilgrim> PligrimList;
 
 public:
     virtual void Release() override;

@@ -23,14 +23,15 @@ bool LoginDBService::OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
     int lOTP = (int)Random::GetInst()->GetRandomRange(10000000, 9999999);
 
     BEGIN_SESSION;
-        lSess << "{ CALL spAccountLoginProcessSelect(?, ?,?,?,?,?, ?,?,?,?,?,?) }"
+        lSess << "{ CALL spAccountLoginProcessSelect(?, ?,?,?,?,?,?, ?,?,?,?,?,?) }"
             , out(lReq->Result)
 
             , out(lReq->AccountSeq)
             , out(lReq->AccountType)
             , out(lReq->AccountStatus)
             , out(lReq->LastConnectGameServerID)
-            , out(lReq->DeleteRemainingPeriod)
+            , out(lReq->ConnectedLoginServerID)
+            , out(lReq->RemainingPeriod)
 
             , in(lReq->LoginPlatformType)
             , in(lReq->AccountUIDkey)
@@ -41,7 +42,7 @@ bool LoginDBService::OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
             , in(lReq->BuildType)
             , in(lReq->IPAddress32)
 
-            ,now;
+            , now;
     END_SESSION
     
     //계정 조회 결과에 따른 처리

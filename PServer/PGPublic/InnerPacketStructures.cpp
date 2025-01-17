@@ -3,10 +3,10 @@
 
 void LoginAccountProcessSelectDTO::Release()
 {
-    HeroExistServerList.clear();
+    PilgrimExistServerList.clear();
 }
 
 void LoginAccountPilgrimSelectDTO::Release()
 {
-    characterList.clear();
+    PligrimList.clear();
 }
