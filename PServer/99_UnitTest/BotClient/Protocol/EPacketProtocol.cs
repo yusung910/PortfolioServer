@@ -14,6 +14,7 @@ public enum EPacketProtocol : int
   LUDB_AuthReq = 10002,
   UDBL_AuthRes = 10003,
   LC_AuthRes = 10004,
+  LC_AuthErrorRes = 10005,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,

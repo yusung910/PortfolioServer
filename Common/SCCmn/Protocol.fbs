@@ -63,7 +63,7 @@ enum EPacketProtocol:int
     LUDB_AuthReq,
     UDBL_AuthRes,
     LC_AuthRes,
-
+    LC_AuthErrorRes,
 
 
 	//-------------------------------------------------------------------------
@@ -117,7 +117,10 @@ enum EErrorMsg:int
     //
     EF_KICK_DUPLICATE_LOGIN                                     = 10211,
     EF_KICK_INVALID_PLATFORM                                    = 10212,
-    EF_KICK_INVALID_APP_VERSION                                 = 10213
+    EF_KICK_INVALID_APP_VERSION                                 = 10213,
+
+    //제재 중인 계정
+    EF_SANCTION_ACCOUNT                                         = 11001
 
 }
 
@@ -218,6 +221,13 @@ table LCAuthRes
     TimeZone:int;
 
     messageid:EPacketProtocol = LC_AuthRes;
+}
+
+table LCAuthErrorRes
+{
+    Error: int;
+    Value: int;
+    messageid:EPacketProtocol = LC_AuthErrorRes;
 }
 
 

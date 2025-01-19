@@ -38,6 +38,10 @@ struct LCAuthRes;
 struct LCAuthResBuilder;
 struct LCAuthResT;
 
+struct LCAuthErrorRes;
+struct LCAuthErrorResBuilder;
+struct LCAuthErrorResT;
+
 struct CSEnterGameReq;
 struct CSEnterGameReqBuilder;
 struct CSEnterGameReqT;
@@ -61,13 +65,14 @@ enum EPacketProtocol {
   LUDB_AuthReq = 10002,
   UDBL_AuthRes = 10003,
   LC_AuthRes = 10004,
+  LC_AuthErrorRes = 10005,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,
   PacketMax = 10104
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[14] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[15] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -79,6 +84,7 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[14] {
     LUDB_AuthReq,
     UDBL_AuthRes,
     LC_AuthRes,
+    LC_AuthErrorRes,
     CS_AuthReq,
     CS_EnterGameReq,
     SC_EnterGameAck,
@@ -99,6 +105,7 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case LUDB_AuthReq: return "LUDB_AuthReq";
     case UDBL_AuthRes: return "UDBL_AuthRes";
     case LC_AuthRes: return "LC_AuthRes";
+    case LC_AuthErrorRes: return "LC_AuthErrorRes";
     case CS_AuthReq: return "CS_AuthReq";
     case CS_EnterGameReq: return "CS_EnterGameReq";
     case SC_EnterGameAck: return "SC_EnterGameAck";
@@ -118,10 +125,11 @@ enum EErrorMsg {
   EF_KICK_MAINTENANCE = 10202,
   EF_KICK_DUPLICATE_LOGIN = 10211,
   EF_KICK_INVALID_PLATFORM = 10212,
-  EF_KICK_INVALID_APP_VERSION = 10213
+  EF_KICK_INVALID_APP_VERSION = 10213,
+  EF_SANCTION_ACCOUNT = 11001
 };
 
-inline const EErrorMsg (&EnumValuesEErrorMsg())[11] {
+inline const EErrorMsg (&EnumValuesEErrorMsg())[12] {
   static const EErrorMsg values[] = {
     EF_NONE,
     EF_HOST_IP_IS_NOT_ALLOWED,
@@ -133,7 +141,8 @@ inline const EErrorMsg (&EnumValuesEErrorMsg())[11] {
     EF_KICK_MAINTENANCE,
     EF_KICK_DUPLICATE_LOGIN,
     EF_KICK_INVALID_PLATFORM,
-    EF_KICK_INVALID_APP_VERSION
+    EF_KICK_INVALID_APP_VERSION,
+    EF_SANCTION_ACCOUNT
   };
   return values;
 }
@@ -151,6 +160,7 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
     case EF_KICK_DUPLICATE_LOGIN: return "EF_KICK_DUPLICATE_LOGIN";
     case EF_KICK_INVALID_PLATFORM: return "EF_KICK_INVALID_PLATFORM";
     case EF_KICK_INVALID_APP_VERSION: return "EF_KICK_INVALID_APP_VERSION";
+    case EF_SANCTION_ACCOUNT: return "EF_SANCTION_ACCOUNT";
     default: return "";
   }
 }
@@ -1031,6 +1041,86 @@ inline flatbuffers::Offset<LCAuthRes> CreateLCAuthResDirect(
 
 flatbuffers::Offset<LCAuthRes> CreateLCAuthRes(flatbuffers::FlatBufferBuilder &_fbb, const LCAuthResT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct LCAuthErrorResT : public flatbuffers::NativeTable {
+  typedef LCAuthErrorRes TableType;
+  int32_t Error;
+  int32_t Value;
+  EPacketProtocol messageid;
+  LCAuthErrorResT()
+      : Error(0),
+        Value(0),
+        messageid(LC_AuthErrorRes) {
+  }
+};
+
+struct LCAuthErrorRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef LCAuthErrorResT NativeTableType;
+  typedef LCAuthErrorResBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ERROR = 4,
+    VT_VALUE = 6,
+    VT_MESSAGEID = 8
+  };
+  int32_t Error() const {
+    return GetField<int32_t>(VT_ERROR, 0);
+  }
+  int32_t Value() const {
+    return GetField<int32_t>(VT_VALUE, 0);
+  }
+  EPacketProtocol messageid() const {
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10005));
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_ERROR) &&
+           VerifyField<int32_t>(verifier, VT_VALUE) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
+           verifier.EndTable();
+  }
+  LCAuthErrorResT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(LCAuthErrorResT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<LCAuthErrorRes> Pack(flatbuffers::FlatBufferBuilder &_fbb, const LCAuthErrorResT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct LCAuthErrorResBuilder {
+  typedef LCAuthErrorRes Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_Error(int32_t Error) {
+    fbb_.AddElement<int32_t>(LCAuthErrorRes::VT_ERROR, Error, 0);
+  }
+  void add_Value(int32_t Value) {
+    fbb_.AddElement<int32_t>(LCAuthErrorRes::VT_VALUE, Value, 0);
+  }
+  void add_messageid(EPacketProtocol messageid) {
+    fbb_.AddElement<int32_t>(LCAuthErrorRes::VT_MESSAGEID, static_cast<int32_t>(messageid), 10005);
+  }
+  explicit LCAuthErrorResBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  LCAuthErrorResBuilder &operator=(const LCAuthErrorResBuilder &);
+  flatbuffers::Offset<LCAuthErrorRes> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<LCAuthErrorRes>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<LCAuthErrorRes> CreateLCAuthErrorRes(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t Error = 0,
+    int32_t Value = 0,
+    EPacketProtocol messageid = LC_AuthErrorRes) {
+  LCAuthErrorResBuilder builder_(_fbb);
+  builder_.add_messageid(messageid);
+  builder_.add_Value(Value);
+  builder_.add_Error(Error);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<LCAuthErrorRes> CreateLCAuthErrorRes(flatbuffers::FlatBufferBuilder &_fbb, const LCAuthErrorResT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct CSEnterGameReqT : public flatbuffers::NativeTable {
   typedef CSEnterGameReq TableType;
   std::string accountid;
@@ -1602,6 +1692,38 @@ inline flatbuffers::Offset<LCAuthRes> CreateLCAuthRes(flatbuffers::FlatBufferBui
       _LastConnectServerID,
       _ServerTick,
       _TimeZone,
+      _messageid);
+}
+
+inline LCAuthErrorResT *LCAuthErrorRes::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<LCAuthErrorResT> _o = std::unique_ptr<LCAuthErrorResT>(new LCAuthErrorResT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void LCAuthErrorRes::UnPackTo(LCAuthErrorResT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = Error(); _o->Error = _e; }
+  { auto _e = Value(); _o->Value = _e; }
+  { auto _e = messageid(); _o->messageid = _e; }
+}
+
+inline flatbuffers::Offset<LCAuthErrorRes> LCAuthErrorRes::Pack(flatbuffers::FlatBufferBuilder &_fbb, const LCAuthErrorResT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateLCAuthErrorRes(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<LCAuthErrorRes> CreateLCAuthErrorRes(flatbuffers::FlatBufferBuilder &_fbb, const LCAuthErrorResT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LCAuthErrorResT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _Error = _o->Error;
+  auto _Value = _o->Value;
+  auto _messageid = _o->messageid;
+  return CreateLCAuthErrorRes(
+      _fbb,
+      _Error,
+      _Value,
       _messageid);
 }
 

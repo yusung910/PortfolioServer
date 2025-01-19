@@ -17,6 +17,44 @@ bool GServerCheckService::Start()
     return CreateThread();
 }
 
+int GServerCheckService::GetServerConnectWaitingPlayerCount(const int& _serverID)
+{
+    AutoLock(m_xWaitingLock);
+    auto lIt = m_umWaitingList.find(_serverID);
+    if (lIt == m_umWaitingList.end())
+        return 0;
+
+    return (int)(lIt->second.m_vQueueList.size() + lIt->second.m_vWaitingDataList.size());
+}
+
+const int& GServerCheckService::GetLatestGameServerID() const noexcept
+{
+    return m_nLatestGameServerID;
+}
+
+GameServerInfo* GServerCheckService::FindServer(const int& _serverID)
+{
+    AutoLock(m_xServerListLock);
+
+    auto lIt = m_umGameServerList.find(_serverID);
+    if (lIt == m_umGameServerList.end())
+        return nullptr;
+
+    return lIt->second;
+}
+
+int GServerCheckService::GetGServerIDByHostID(const int& _hostID)
+{
+    AutoLock(m_xServerListLock);
+
+    auto lIt = m_umHIDGSIDList.find(_hostID);
+
+    if (lIt == m_umHIDGSIDList.end())
+        return 0;
+
+    return lIt->second;
+}
+
 bool GServerCheckService::LoadGameServers()
 {
     if (true == m_bInitialized)
@@ -68,6 +106,68 @@ bool GServerCheckService::LoadGameServers()
     return true;
 }
 
+void GServerCheckService::FillPacketServerList(flatbuffers::FlatBufferBuilder& _fbb, std::vector<flatbuffers::Offset<DServerInfo>>& _vec, const std::unordered_set<int>& _existPilgrimServerList)
+{
+    AutoLock(m_xServerListLock);
+    for (auto& lIt : m_umGameServerList)
+    {
+        if (nullptr == lIt.second)
+            continue;
+
+        if (lIt.second->m_eServerType != EServer::Game)
+            continue;
+
+        auto& lInfo = lIt.second;
+
+        bool lPilgrimExists = false;
+        if (_existPilgrimServerList.find(lInfo->m_nServerID) != _existPilgrimServerList.end())
+            lPilgrimExists = true;
+
+        _vec.push_back(
+            CreateDServerInfo(_fbb
+                ,lInfo->m_nServerID
+                ,lInfo->m_nServerState
+                ,_fbb.CreateString(lInfo->m_sOutboundHost)
+                ,lInfo->m_nOutboundPort
+                , lPilgrimExists
+                ,0)
+        );
+    }
+}
+
+bool GServerCheckService::SetWaitingEnqueue(const int& _serverID, const int& _hostID)
+{
+    AutoLock(m_xWaitingLock);
+    auto lIt = m_umWaitingList.find(_serverID);
+    if (lIt == m_umWaitingList.end())
+        return false;
+
+    lIt->second.m_vQueueList.emplace_back(_hostID);
+    return true;
+}
+
+void GServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol& _msgID, void* _msg, const int& _msgSize)
+{
+    if (nullptr == _msg)
+        return;
+    
+    auto lServer = FindServer(_serverID);
+
+    if (nullptr == lServer)
+        return;
+
+    Packet::SharedPtr lPacket = Packet::New();
+    if (false == lPacket->SetPacketData(lServer->m_nHostID, _msg, _msgSize))
+        return;
+
+    NetworkManager::GetInst().Send(lServer->m_nHostID, lPacket);
+}
+
+void GServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol& _msgID, flatbuffers::FlatBufferBuilder& _fbb)
+{
+    SendPacket(_serverID, _msgID, _fbb.GetBufferPointer(), _fbb.GetSize());
+}
+
 bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
 {
     AutoLock(m_xServerListLock);
@@ -88,7 +188,7 @@ bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
 
         it->second->m_nHostID = _hostID;
         //
-        m_umGameServerIDList.insert_or_assign(_hostID, it->second->m_nServerID);
+        m_umHIDGSIDList.insert_or_assign(_hostID, it->second->m_nServerID);
         it->second->m_bIsConnected = true;
         it->second->m_bIsConnecting = false;
 
@@ -107,9 +207,9 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
 {
     AutoLock(m_xServerListLock);
 
-    auto lServerID = m_umGameServerIDList.find(_hostID);
-    if (lServerID != m_umGameServerIDList.end())
-        m_umGameServerIDList.erase(lServerID);
+    auto lServerID = m_umHIDGSIDList.find(_hostID);
+    if (lServerID != m_umHIDGSIDList.end())
+        m_umHIDGSIDList.erase(lServerID);
 
     for (auto it = m_umGameServerList.begin(); it != m_umGameServerList.end(); ++it)
     {

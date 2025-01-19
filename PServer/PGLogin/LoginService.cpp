@@ -7,6 +7,7 @@
 #include "LoginPlayerManager.h"
 #include "StrChecker.h"
 #include "NetworkCenter.h"
+#include "GServerCheckService.h"
 
 #include <GlobalConst.h>
 #include <InnerPacketStructures.h>
@@ -182,13 +183,21 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
         //영구 or 일시 정지 캐릭 - 계정 스테이터스 상태에 따라 영구 or 일시정지 기간을 보내준다
         flatbuffers::FlatBufferBuilder lFbb;
         const auto& diff = lRes->RemainingPeriod - PocoTimeUtil::GetLocalTime();
+        auto lPacket = CreateLCAuthErrorRes(lFbb, EErrorMsg::EF_SANCTION_ACCOUNT);
+        lFbb.Finish(lPacket);
+
+        //LOG_WRITE()를 해줘야 하나?
+
+        LoginPlayerManager::GetInst().SendPacket(_data->m_nHostID, EPacketProtocol::LC_AuthErrorRes, lFbb);
+        return false;
     }
 
+    int lLastGameServer = lRes->LastConnectGameServerID;
+    if (nullptr == GServerCheckService::GetInst().FindServer(lLastGameServer))
+        lLastGameServer = GServerCheckService::GetInst().GetLatestGameServerID();
 
-    
-
-
-
+    lPc->m_nSelectedServerID = lLastGameServer;
+    lPc->m_nOTP = lRes->OTP;
 
 
 

@@ -8,6 +8,7 @@ const long long WINDOWS_XNIX_TIME_GAP = 11644473600000ll;
 /// </summary>
 class TimeUtil
 {
+public:
 	/// <summary>
 	/// 인자값으로 전달받은 tick(64bit)을 timestamp(time_t)로 변환
 	/// </summary>

@@ -29,7 +29,7 @@ protected:
     //Client -> LoginServer
     bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
 
-    //
+    //UDB -> LoginServer
     bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
 
 private:
