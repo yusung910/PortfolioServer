@@ -16,23 +16,23 @@ public struct LCAuthErrorRes : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public LCAuthErrorRes __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public int Error { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int ErrorCode { get { int o = __p.__offset(4); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public int Value { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public EPacketProtocol Messageid { get { int o = __p.__offset(8); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.LC_AuthErrorRes; } }
 
   public static Offset<LCAuthErrorRes> CreateLCAuthErrorRes(FlatBufferBuilder builder,
-      int Error = 0,
+      int ErrorCode = 0,
       int Value = 0,
       EPacketProtocol messageid = EPacketProtocol.LC_AuthErrorRes) {
     builder.StartTable(3);
     LCAuthErrorRes.AddMessageid(builder, messageid);
     LCAuthErrorRes.AddValue(builder, Value);
-    LCAuthErrorRes.AddError(builder, Error);
+    LCAuthErrorRes.AddErrorCode(builder, ErrorCode);
     return LCAuthErrorRes.EndLCAuthErrorRes(builder);
   }
 
   public static void StartLCAuthErrorRes(FlatBufferBuilder builder) { builder.StartTable(3); }
-  public static void AddError(FlatBufferBuilder builder, int Error) { builder.AddInt(0, Error, 0); }
+  public static void AddErrorCode(FlatBufferBuilder builder, int ErrorCode) { builder.AddInt(0, ErrorCode, 0); }
   public static void AddValue(FlatBufferBuilder builder, int Value) { builder.AddInt(1, Value, 0); }
   public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(2, (int)messageid, 10005); }
   public static Offset<LCAuthErrorRes> EndLCAuthErrorRes(FlatBufferBuilder builder) {
@@ -45,7 +45,7 @@ public struct LCAuthErrorRes : IFlatbufferObject
     return _o;
   }
   public void UnPackTo(LCAuthErrorResT _o) {
-    _o.Error = this.Error;
+    _o.ErrorCode = this.ErrorCode;
     _o.Value = this.Value;
     _o.Messageid = this.Messageid;
   }
@@ -53,7 +53,7 @@ public struct LCAuthErrorRes : IFlatbufferObject
     if (_o == null) return default(Offset<LCAuthErrorRes>);
     return CreateLCAuthErrorRes(
       builder,
-      _o.Error,
+      _o.ErrorCode,
       _o.Value,
       _o.Messageid);
   }
@@ -61,12 +61,12 @@ public struct LCAuthErrorRes : IFlatbufferObject
 
 public class LCAuthErrorResT
 {
-  public int Error { get; set; }
+  public int ErrorCode { get; set; }
   public int Value { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
   public LCAuthErrorResT() {
-    this.Error = 0;
+    this.ErrorCode = 0;
     this.Value = 0;
     this.Messageid = EPacketProtocol.LC_AuthErrorRes;
   }

@@ -33,8 +33,8 @@ public:
     int AccountSeq = 0;
     int AccountType = 0;
     int AccountStatus = 0;
-    int LastConnectGameServerID = 0;
-    int ConnectedLoginServerID = 0;         //접속된 로그인 서버
+    int LastConnectServerID = 0;
+    int ConnectedServerID = 0;         //접속된 로그인 서버
     Poco::DateTime RemainingPeriod = { 1900, 1, 1, 0, 0, 0 };
 
     int OTP = 0;

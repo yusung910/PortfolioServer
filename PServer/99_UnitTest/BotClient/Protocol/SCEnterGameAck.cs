@@ -16,36 +16,36 @@ public struct SCEnterGameAck : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public SCEnterGameAck __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public string Accountid { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public string AccountID { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAccountidBytes() { return __p.__vector_as_span<byte>(4, 1); }
+  public Span<byte> GetAccountIDBytes() { return __p.__vector_as_span<byte>(4, 1); }
 #else
-  public ArraySegment<byte>? GetAccountidBytes() { return __p.__vector_as_arraysegment(4); }
+  public ArraySegment<byte>? GetAccountIDBytes() { return __p.__vector_as_arraysegment(4); }
 #endif
-  public byte[] GetAccountidArray() { return __p.__vector_as_array<byte>(4); }
-  public string Accountpw { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetAccountIDArray() { return __p.__vector_as_array<byte>(4); }
+  public string AccountPW { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAccountpwBytes() { return __p.__vector_as_span<byte>(6, 1); }
+  public Span<byte> GetAccountPWBytes() { return __p.__vector_as_span<byte>(6, 1); }
 #else
-  public ArraySegment<byte>? GetAccountpwBytes() { return __p.__vector_as_arraysegment(6); }
+  public ArraySegment<byte>? GetAccountPWBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
-  public byte[] GetAccountpwArray() { return __p.__vector_as_array<byte>(6); }
+  public byte[] GetAccountPWArray() { return __p.__vector_as_array<byte>(6); }
   public EPacketProtocol Messageid { get { int o = __p.__offset(8); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.SC_EnterGameAck; } }
 
   public static Offset<SCEnterGameAck> CreateSCEnterGameAck(FlatBufferBuilder builder,
-      StringOffset accountidOffset = default(StringOffset),
-      StringOffset accountpwOffset = default(StringOffset),
+      StringOffset AccountIDOffset = default(StringOffset),
+      StringOffset AccountPWOffset = default(StringOffset),
       EPacketProtocol messageid = EPacketProtocol.SC_EnterGameAck) {
     builder.StartTable(3);
     SCEnterGameAck.AddMessageid(builder, messageid);
-    SCEnterGameAck.AddAccountpw(builder, accountpwOffset);
-    SCEnterGameAck.AddAccountid(builder, accountidOffset);
+    SCEnterGameAck.AddAccountPW(builder, AccountPWOffset);
+    SCEnterGameAck.AddAccountID(builder, AccountIDOffset);
     return SCEnterGameAck.EndSCEnterGameAck(builder);
   }
 
   public static void StartSCEnterGameAck(FlatBufferBuilder builder) { builder.StartTable(3); }
-  public static void AddAccountid(FlatBufferBuilder builder, StringOffset accountidOffset) { builder.AddOffset(0, accountidOffset.Value, 0); }
-  public static void AddAccountpw(FlatBufferBuilder builder, StringOffset accountpwOffset) { builder.AddOffset(1, accountpwOffset.Value, 0); }
+  public static void AddAccountID(FlatBufferBuilder builder, StringOffset AccountIDOffset) { builder.AddOffset(0, AccountIDOffset.Value, 0); }
+  public static void AddAccountPW(FlatBufferBuilder builder, StringOffset AccountPWOffset) { builder.AddOffset(1, AccountPWOffset.Value, 0); }
   public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(2, (int)messageid, 10103); }
   public static Offset<SCEnterGameAck> EndSCEnterGameAck(FlatBufferBuilder builder) {
     int o = builder.EndTable();
@@ -57,31 +57,31 @@ public struct SCEnterGameAck : IFlatbufferObject
     return _o;
   }
   public void UnPackTo(SCEnterGameAckT _o) {
-    _o.Accountid = this.Accountid;
-    _o.Accountpw = this.Accountpw;
+    _o.AccountID = this.AccountID;
+    _o.AccountPW = this.AccountPW;
     _o.Messageid = this.Messageid;
   }
   public static Offset<SCEnterGameAck> Pack(FlatBufferBuilder builder, SCEnterGameAckT _o) {
     if (_o == null) return default(Offset<SCEnterGameAck>);
-    var _accountid = _o.Accountid == null ? default(StringOffset) : builder.CreateString(_o.Accountid);
-    var _accountpw = _o.Accountpw == null ? default(StringOffset) : builder.CreateString(_o.Accountpw);
+    var _AccountID = _o.AccountID == null ? default(StringOffset) : builder.CreateString(_o.AccountID);
+    var _AccountPW = _o.AccountPW == null ? default(StringOffset) : builder.CreateString(_o.AccountPW);
     return CreateSCEnterGameAck(
       builder,
-      _accountid,
-      _accountpw,
+      _AccountID,
+      _AccountPW,
       _o.Messageid);
   }
 };
 
 public class SCEnterGameAckT
 {
-  public string Accountid { get; set; }
-  public string Accountpw { get; set; }
+  public string AccountID { get; set; }
+  public string AccountPW { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
   public SCEnterGameAckT() {
-    this.Accountid = null;
-    this.Accountpw = null;
+    this.AccountID = null;
+    this.AccountPW = null;
     this.Messageid = EPacketProtocol.SC_EnterGameAck;
   }
 }

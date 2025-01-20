@@ -20,11 +20,11 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
   , @AccountType                  INT         OUTPUT
   --계정상태
   , @AccountStatus                INT         OUTPUT
-  -- 마지막 접속 게임서버ID
-  , @LatestConnectGameServerID    INT         OUTPUT     
+  -- 마지막 접속 서버ID
+  , @LatestConnectServerID        INT         OUTPUT     
 
-  -- 접속된 로그인서버 ID
-  , @ConnectedLoginServerID       INT         OUTPUT
+  -- 접속된 서버 ID
+  , @ConnectedServerID            INT         OUTPUT
   -- 삭제 대기기간
   , @RemainingPeriod              DATETIME    OUTPUT
 
@@ -34,7 +34,7 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
   , @PlatformID                   VARCHAR(255)
 
   -- (from server)접속 시도하는 로그인 서버ID
-  , @ConnectingLoginServerID      INT
+  , @ConnectingServerID           INT
   , @OTP                          INT
   , @ClientType                   INT
   , @AppVersion                   INT
@@ -45,14 +45,18 @@ AS
 
 BEGIN
     --Transact-SQL문 또는 저장 프로시저의 영향을 받은 행의 수를 나타내는 메시지가 결과 집합의 일부로 반환되지 않도록 한다.
-    SET NOCOUNT ON;
+	SET NOCOUNT ON
+	SET LOCK_TIMEOUT 3000
+	SET XACT_ABORT ON
+	SET TRANSACTION ISOLATION LEVEL READ COMMITTED
 
     SET @Result = 0
     SET @AccountSeq = 0
     SET @AccountType = 0
     SET @AccountStatus = 0
-    SET @LatestConnectGameServerID = 0
-    SET @ConnectedLoginServerID = 0
+    SET @LatestConnectServerID = 0
+    SET @ConnectedServerID = 0
+    SET @RemainingPeriod = '1900-01-01'
 
     --계정 유형
     DECLARE @Account_Type               INT = 99
@@ -60,9 +64,9 @@ BEGIN
     --캐릭터가 있는 서버 목록
     DECLARE @ExsistPilgrimServerID    TABLE
     (
-          ServerID        INT
-        , PilgrimLevel  INT
-        , LastTime        DATETIME
+          ServerID          INT
+        , PilgrimLevel      INT
+        , LastTime          DATETIME
     )
 
     
@@ -86,8 +90,8 @@ BEGIN
                 SET @AccountType = @Account_Type
 
                 -- 1. Account Table
-                INSERT INTO Account(AccountUKey, ConnectLoginServerID, OTP, IPAddress32)
-                VALUES (@AccountUKey, @ConnectingLoginServerID, @OTP, @IPAddress32)
+                INSERT INTO Account(AccountUKey, ConnectServerID, OTP, IPAddress32)
+                VALUES (@AccountUKey, @ConnectingServerID, @OTP, @IPAddress32)
 
                 -- Check
                 IF(1 <> @@ROWCOUNT)
@@ -123,7 +127,7 @@ BEGIN
         BEGIN
             --기존 계정
             SELECT
-                  @ConnectedLoginServerID = ConnectLoginServerID
+                  @ConnectedServerID = ConnectServerID
                 , @AccountStatus = AccountStatus
               FROM 
                 Account
@@ -138,7 +142,7 @@ BEGIN
                 UPDATE
                         Account
                     SET
-                        ConnectLoginServerID = 0,
+                        ConnectServerID = 0,
                         OTP = NULL
                   WHERE
                         AccountSeq = @AccountSeq
@@ -164,13 +168,13 @@ BEGIN
                 UPDATE 
                     Account
                 SET
-                      ConnectLoginServerID = @ConnectingLoginServerID
+                      ConnectServerID = @ConnectingServerID
                     , OTP = @OTP
                     , IPAddress32 = @IPAddress32
                 OUTPUT
                       inserted.AccountSeq
                     , inserted.AccountType
-                    , inserted.ConnectLoginServerID
+                    , inserted.ConnectServerID
                 INTO @Table
 
                 WHERE
@@ -185,13 +189,13 @@ BEGIN
                 SELECT 
                       @AccountSeq = AccountSeq
                     , @AccountType = AccountType
-                    , @LatestConnectGameServerID = ConnectLoginServerID
+                    , @LatestConnectServerID = ConnectServerID
                 FROM
                     @Table
             END
 
             --이미 접속 되어 있는지 여부 확인
-            IF(0 <> @ConnectedLoginServerID)
+            IF(0 <> @ConnectedServerID)
                 SET @Result = 1
             ELSE
                 SET @Result = 0

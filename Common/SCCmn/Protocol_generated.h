@@ -42,6 +42,10 @@ struct LCAuthErrorRes;
 struct LCAuthErrorResBuilder;
 struct LCAuthErrorResT;
 
+struct LSKickDuplicateConnectUserReq;
+struct LSKickDuplicateConnectUserReqBuilder;
+struct LSKickDuplicateConnectUserReqT;
+
 struct CSEnterGameReq;
 struct CSEnterGameReqBuilder;
 struct CSEnterGameReqT;
@@ -61,18 +65,20 @@ enum EPacketProtocol {
   Host_ConnectFailed = 3,
   Host_Hello = 12,
   SC_IntegrationErrorNotification = 10000,
+  //////////////////////////////////////////////////////////
   CL_AuthReq = 10001,
   LUDB_AuthReq = 10002,
   UDBL_AuthRes = 10003,
   LC_AuthRes = 10004,
   LC_AuthErrorRes = 10005,
+  LS_KickDuplicateConnectUserReq = 10006,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,
   PacketMax = 10104
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[15] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[16] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -85,6 +91,7 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[15] {
     UDBL_AuthRes,
     LC_AuthRes,
     LC_AuthErrorRes,
+    LS_KickDuplicateConnectUserReq,
     CS_AuthReq,
     CS_EnterGameReq,
     SC_EnterGameAck,
@@ -106,6 +113,7 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case UDBL_AuthRes: return "UDBL_AuthRes";
     case LC_AuthRes: return "LC_AuthRes";
     case LC_AuthErrorRes: return "LC_AuthErrorRes";
+    case LS_KickDuplicateConnectUserReq: return "LS_KickDuplicateConnectUserReq";
     case CS_AuthReq: return "CS_AuthReq";
     case CS_EnterGameReq: return "CS_EnterGameReq";
     case SC_EnterGameAck: return "SC_EnterGameAck";
@@ -1043,11 +1051,11 @@ flatbuffers::Offset<LCAuthRes> CreateLCAuthRes(flatbuffers::FlatBufferBuilder &_
 
 struct LCAuthErrorResT : public flatbuffers::NativeTable {
   typedef LCAuthErrorRes TableType;
-  int32_t Error;
+  int32_t ErrorCode;
   int32_t Value;
   EPacketProtocol messageid;
   LCAuthErrorResT()
-      : Error(0),
+      : ErrorCode(0),
         Value(0),
         messageid(LC_AuthErrorRes) {
   }
@@ -1057,12 +1065,12 @@ struct LCAuthErrorRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef LCAuthErrorResT NativeTableType;
   typedef LCAuthErrorResBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ERROR = 4,
+    VT_ERRORCODE = 4,
     VT_VALUE = 6,
     VT_MESSAGEID = 8
   };
-  int32_t Error() const {
-    return GetField<int32_t>(VT_ERROR, 0);
+  int32_t ErrorCode() const {
+    return GetField<int32_t>(VT_ERRORCODE, 0);
   }
   int32_t Value() const {
     return GetField<int32_t>(VT_VALUE, 0);
@@ -1072,7 +1080,7 @@ struct LCAuthErrorRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyField<int32_t>(verifier, VT_ERROR) &&
+           VerifyField<int32_t>(verifier, VT_ERRORCODE) &&
            VerifyField<int32_t>(verifier, VT_VALUE) &&
            VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
@@ -1086,8 +1094,8 @@ struct LCAuthErrorResBuilder {
   typedef LCAuthErrorRes Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_Error(int32_t Error) {
-    fbb_.AddElement<int32_t>(LCAuthErrorRes::VT_ERROR, Error, 0);
+  void add_ErrorCode(int32_t ErrorCode) {
+    fbb_.AddElement<int32_t>(LCAuthErrorRes::VT_ERRORCODE, ErrorCode, 0);
   }
   void add_Value(int32_t Value) {
     fbb_.AddElement<int32_t>(LCAuthErrorRes::VT_VALUE, Value, 0);
@@ -1109,26 +1117,118 @@ struct LCAuthErrorResBuilder {
 
 inline flatbuffers::Offset<LCAuthErrorRes> CreateLCAuthErrorRes(
     flatbuffers::FlatBufferBuilder &_fbb,
-    int32_t Error = 0,
+    int32_t ErrorCode = 0,
     int32_t Value = 0,
     EPacketProtocol messageid = LC_AuthErrorRes) {
   LCAuthErrorResBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
   builder_.add_Value(Value);
-  builder_.add_Error(Error);
+  builder_.add_ErrorCode(ErrorCode);
   return builder_.Finish();
 }
 
 flatbuffers::Offset<LCAuthErrorRes> CreateLCAuthErrorRes(flatbuffers::FlatBufferBuilder &_fbb, const LCAuthErrorResT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
+struct LSKickDuplicateConnectUserReqT : public flatbuffers::NativeTable {
+  typedef LSKickDuplicateConnectUserReq TableType;
+  int32_t AccountSeq;
+  int32_t ErrorCode;
+  int32_t ExistPilgrimServerID;
+  EPacketProtocol messageid;
+  LSKickDuplicateConnectUserReqT()
+      : AccountSeq(0),
+        ErrorCode(0),
+        ExistPilgrimServerID(0),
+        messageid(LS_KickDuplicateConnectUserReq) {
+  }
+};
+
+struct LSKickDuplicateConnectUserReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef LSKickDuplicateConnectUserReqT NativeTableType;
+  typedef LSKickDuplicateConnectUserReqBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_ACCOUNTSEQ = 4,
+    VT_ERRORCODE = 6,
+    VT_EXISTPILGRIMSERVERID = 8,
+    VT_MESSAGEID = 10
+  };
+  int32_t AccountSeq() const {
+    return GetField<int32_t>(VT_ACCOUNTSEQ, 0);
+  }
+  int32_t ErrorCode() const {
+    return GetField<int32_t>(VT_ERRORCODE, 0);
+  }
+  int32_t ExistPilgrimServerID() const {
+    return GetField<int32_t>(VT_EXISTPILGRIMSERVERID, 0);
+  }
+  EPacketProtocol messageid() const {
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10006));
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_ACCOUNTSEQ) &&
+           VerifyField<int32_t>(verifier, VT_ERRORCODE) &&
+           VerifyField<int32_t>(verifier, VT_EXISTPILGRIMSERVERID) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
+           verifier.EndTable();
+  }
+  LSKickDuplicateConnectUserReqT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(LSKickDuplicateConnectUserReqT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<LSKickDuplicateConnectUserReq> Pack(flatbuffers::FlatBufferBuilder &_fbb, const LSKickDuplicateConnectUserReqT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct LSKickDuplicateConnectUserReqBuilder {
+  typedef LSKickDuplicateConnectUserReq Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_AccountSeq(int32_t AccountSeq) {
+    fbb_.AddElement<int32_t>(LSKickDuplicateConnectUserReq::VT_ACCOUNTSEQ, AccountSeq, 0);
+  }
+  void add_ErrorCode(int32_t ErrorCode) {
+    fbb_.AddElement<int32_t>(LSKickDuplicateConnectUserReq::VT_ERRORCODE, ErrorCode, 0);
+  }
+  void add_ExistPilgrimServerID(int32_t ExistPilgrimServerID) {
+    fbb_.AddElement<int32_t>(LSKickDuplicateConnectUserReq::VT_EXISTPILGRIMSERVERID, ExistPilgrimServerID, 0);
+  }
+  void add_messageid(EPacketProtocol messageid) {
+    fbb_.AddElement<int32_t>(LSKickDuplicateConnectUserReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10006);
+  }
+  explicit LSKickDuplicateConnectUserReqBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  LSKickDuplicateConnectUserReqBuilder &operator=(const LSKickDuplicateConnectUserReqBuilder &);
+  flatbuffers::Offset<LSKickDuplicateConnectUserReq> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<LSKickDuplicateConnectUserReq>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<LSKickDuplicateConnectUserReq> CreateLSKickDuplicateConnectUserReq(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t AccountSeq = 0,
+    int32_t ErrorCode = 0,
+    int32_t ExistPilgrimServerID = 0,
+    EPacketProtocol messageid = LS_KickDuplicateConnectUserReq) {
+  LSKickDuplicateConnectUserReqBuilder builder_(_fbb);
+  builder_.add_messageid(messageid);
+  builder_.add_ExistPilgrimServerID(ExistPilgrimServerID);
+  builder_.add_ErrorCode(ErrorCode);
+  builder_.add_AccountSeq(AccountSeq);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<LSKickDuplicateConnectUserReq> CreateLSKickDuplicateConnectUserReq(flatbuffers::FlatBufferBuilder &_fbb, const LSKickDuplicateConnectUserReqT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
 struct CSEnterGameReqT : public flatbuffers::NativeTable {
   typedef CSEnterGameReq TableType;
-  std::string accountid;
-  std::string accountpw;
-  int32_t hostid;
+  std::string AccountID;
+  std::string AccountPW;
+  int32_t HostID;
   EPacketProtocol messageid;
   CSEnterGameReqT()
-      : hostid(0),
+      : HostID(0),
         messageid(CS_EnterGameReq) {
   }
 };
@@ -1142,13 +1242,13 @@ struct CSEnterGameReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_HOSTID = 8,
     VT_MESSAGEID = 10
   };
-  const flatbuffers::String *accountid() const {
+  const flatbuffers::String *AccountID() const {
     return GetPointer<const flatbuffers::String *>(VT_ACCOUNTID);
   }
-  const flatbuffers::String *accountpw() const {
+  const flatbuffers::String *AccountPW() const {
     return GetPointer<const flatbuffers::String *>(VT_ACCOUNTPW);
   }
-  int32_t hostid() const {
+  int32_t HostID() const {
     return GetField<int32_t>(VT_HOSTID, 0);
   }
   EPacketProtocol messageid() const {
@@ -1157,9 +1257,9 @@ struct CSEnterGameReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ACCOUNTID) &&
-           verifier.VerifyString(accountid()) &&
+           verifier.VerifyString(AccountID()) &&
            VerifyOffset(verifier, VT_ACCOUNTPW) &&
-           verifier.VerifyString(accountpw()) &&
+           verifier.VerifyString(AccountPW()) &&
            VerifyField<int32_t>(verifier, VT_HOSTID) &&
            VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
@@ -1173,14 +1273,14 @@ struct CSEnterGameReqBuilder {
   typedef CSEnterGameReq Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_accountid(flatbuffers::Offset<flatbuffers::String> accountid) {
-    fbb_.AddOffset(CSEnterGameReq::VT_ACCOUNTID, accountid);
+  void add_AccountID(flatbuffers::Offset<flatbuffers::String> AccountID) {
+    fbb_.AddOffset(CSEnterGameReq::VT_ACCOUNTID, AccountID);
   }
-  void add_accountpw(flatbuffers::Offset<flatbuffers::String> accountpw) {
-    fbb_.AddOffset(CSEnterGameReq::VT_ACCOUNTPW, accountpw);
+  void add_AccountPW(flatbuffers::Offset<flatbuffers::String> AccountPW) {
+    fbb_.AddOffset(CSEnterGameReq::VT_ACCOUNTPW, AccountPW);
   }
-  void add_hostid(int32_t hostid) {
-    fbb_.AddElement<int32_t>(CSEnterGameReq::VT_HOSTID, hostid, 0);
+  void add_HostID(int32_t HostID) {
+    fbb_.AddElement<int32_t>(CSEnterGameReq::VT_HOSTID, HostID, 0);
   }
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(CSEnterGameReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10102);
@@ -1199,31 +1299,31 @@ struct CSEnterGameReqBuilder {
 
 inline flatbuffers::Offset<CSEnterGameReq> CreateCSEnterGameReq(
     flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::String> accountid = 0,
-    flatbuffers::Offset<flatbuffers::String> accountpw = 0,
-    int32_t hostid = 0,
+    flatbuffers::Offset<flatbuffers::String> AccountID = 0,
+    flatbuffers::Offset<flatbuffers::String> AccountPW = 0,
+    int32_t HostID = 0,
     EPacketProtocol messageid = CS_EnterGameReq) {
   CSEnterGameReqBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
-  builder_.add_hostid(hostid);
-  builder_.add_accountpw(accountpw);
-  builder_.add_accountid(accountid);
+  builder_.add_HostID(HostID);
+  builder_.add_AccountPW(AccountPW);
+  builder_.add_AccountID(AccountID);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<CSEnterGameReq> CreateCSEnterGameReqDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const char *accountid = nullptr,
-    const char *accountpw = nullptr,
-    int32_t hostid = 0,
+    const char *AccountID = nullptr,
+    const char *AccountPW = nullptr,
+    int32_t HostID = 0,
     EPacketProtocol messageid = CS_EnterGameReq) {
-  auto accountid__ = accountid ? _fbb.CreateString(accountid) : 0;
-  auto accountpw__ = accountpw ? _fbb.CreateString(accountpw) : 0;
+  auto AccountID__ = AccountID ? _fbb.CreateString(AccountID) : 0;
+  auto AccountPW__ = AccountPW ? _fbb.CreateString(AccountPW) : 0;
   return CreateCSEnterGameReq(
       _fbb,
-      accountid__,
-      accountpw__,
-      hostid,
+      AccountID__,
+      AccountPW__,
+      HostID,
       messageid);
 }
 
@@ -1231,8 +1331,8 @@ flatbuffers::Offset<CSEnterGameReq> CreateCSEnterGameReq(flatbuffers::FlatBuffer
 
 struct SCEnterGameAckT : public flatbuffers::NativeTable {
   typedef SCEnterGameAck TableType;
-  std::string accountid;
-  std::string accountpw;
+  std::string AccountID;
+  std::string AccountPW;
   EPacketProtocol messageid;
   SCEnterGameAckT()
       : messageid(SC_EnterGameAck) {
@@ -1247,10 +1347,10 @@ struct SCEnterGameAck FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_ACCOUNTPW = 6,
     VT_MESSAGEID = 8
   };
-  const flatbuffers::String *accountid() const {
+  const flatbuffers::String *AccountID() const {
     return GetPointer<const flatbuffers::String *>(VT_ACCOUNTID);
   }
-  const flatbuffers::String *accountpw() const {
+  const flatbuffers::String *AccountPW() const {
     return GetPointer<const flatbuffers::String *>(VT_ACCOUNTPW);
   }
   EPacketProtocol messageid() const {
@@ -1259,9 +1359,9 @@ struct SCEnterGameAck FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ACCOUNTID) &&
-           verifier.VerifyString(accountid()) &&
+           verifier.VerifyString(AccountID()) &&
            VerifyOffset(verifier, VT_ACCOUNTPW) &&
-           verifier.VerifyString(accountpw()) &&
+           verifier.VerifyString(AccountPW()) &&
            VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
            verifier.EndTable();
   }
@@ -1274,11 +1374,11 @@ struct SCEnterGameAckBuilder {
   typedef SCEnterGameAck Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_accountid(flatbuffers::Offset<flatbuffers::String> accountid) {
-    fbb_.AddOffset(SCEnterGameAck::VT_ACCOUNTID, accountid);
+  void add_AccountID(flatbuffers::Offset<flatbuffers::String> AccountID) {
+    fbb_.AddOffset(SCEnterGameAck::VT_ACCOUNTID, AccountID);
   }
-  void add_accountpw(flatbuffers::Offset<flatbuffers::String> accountpw) {
-    fbb_.AddOffset(SCEnterGameAck::VT_ACCOUNTPW, accountpw);
+  void add_AccountPW(flatbuffers::Offset<flatbuffers::String> AccountPW) {
+    fbb_.AddOffset(SCEnterGameAck::VT_ACCOUNTPW, AccountPW);
   }
   void add_messageid(EPacketProtocol messageid) {
     fbb_.AddElement<int32_t>(SCEnterGameAck::VT_MESSAGEID, static_cast<int32_t>(messageid), 10103);
@@ -1297,27 +1397,27 @@ struct SCEnterGameAckBuilder {
 
 inline flatbuffers::Offset<SCEnterGameAck> CreateSCEnterGameAck(
     flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::String> accountid = 0,
-    flatbuffers::Offset<flatbuffers::String> accountpw = 0,
+    flatbuffers::Offset<flatbuffers::String> AccountID = 0,
+    flatbuffers::Offset<flatbuffers::String> AccountPW = 0,
     EPacketProtocol messageid = SC_EnterGameAck) {
   SCEnterGameAckBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
-  builder_.add_accountpw(accountpw);
-  builder_.add_accountid(accountid);
+  builder_.add_AccountPW(AccountPW);
+  builder_.add_AccountID(AccountID);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<SCEnterGameAck> CreateSCEnterGameAckDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const char *accountid = nullptr,
-    const char *accountpw = nullptr,
+    const char *AccountID = nullptr,
+    const char *AccountPW = nullptr,
     EPacketProtocol messageid = SC_EnterGameAck) {
-  auto accountid__ = accountid ? _fbb.CreateString(accountid) : 0;
-  auto accountpw__ = accountpw ? _fbb.CreateString(accountpw) : 0;
+  auto AccountID__ = AccountID ? _fbb.CreateString(AccountID) : 0;
+  auto AccountPW__ = AccountPW ? _fbb.CreateString(AccountPW) : 0;
   return CreateSCEnterGameAck(
       _fbb,
-      accountid__,
-      accountpw__,
+      AccountID__,
+      AccountPW__,
       messageid);
 }
 
@@ -1704,7 +1804,7 @@ inline LCAuthErrorResT *LCAuthErrorRes::UnPack(const flatbuffers::resolver_funct
 inline void LCAuthErrorRes::UnPackTo(LCAuthErrorResT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = Error(); _o->Error = _e; }
+  { auto _e = ErrorCode(); _o->ErrorCode = _e; }
   { auto _e = Value(); _o->Value = _e; }
   { auto _e = messageid(); _o->messageid = _e; }
 }
@@ -1717,13 +1817,48 @@ inline flatbuffers::Offset<LCAuthErrorRes> CreateLCAuthErrorRes(flatbuffers::Fla
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LCAuthErrorResT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _Error = _o->Error;
+  auto _ErrorCode = _o->ErrorCode;
   auto _Value = _o->Value;
   auto _messageid = _o->messageid;
   return CreateLCAuthErrorRes(
       _fbb,
-      _Error,
+      _ErrorCode,
       _Value,
+      _messageid);
+}
+
+inline LSKickDuplicateConnectUserReqT *LSKickDuplicateConnectUserReq::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<LSKickDuplicateConnectUserReqT> _o = std::unique_ptr<LSKickDuplicateConnectUserReqT>(new LSKickDuplicateConnectUserReqT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void LSKickDuplicateConnectUserReq::UnPackTo(LSKickDuplicateConnectUserReqT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = AccountSeq(); _o->AccountSeq = _e; }
+  { auto _e = ErrorCode(); _o->ErrorCode = _e; }
+  { auto _e = ExistPilgrimServerID(); _o->ExistPilgrimServerID = _e; }
+  { auto _e = messageid(); _o->messageid = _e; }
+}
+
+inline flatbuffers::Offset<LSKickDuplicateConnectUserReq> LSKickDuplicateConnectUserReq::Pack(flatbuffers::FlatBufferBuilder &_fbb, const LSKickDuplicateConnectUserReqT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateLSKickDuplicateConnectUserReq(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<LSKickDuplicateConnectUserReq> CreateLSKickDuplicateConnectUserReq(flatbuffers::FlatBufferBuilder &_fbb, const LSKickDuplicateConnectUserReqT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LSKickDuplicateConnectUserReqT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _AccountSeq = _o->AccountSeq;
+  auto _ErrorCode = _o->ErrorCode;
+  auto _ExistPilgrimServerID = _o->ExistPilgrimServerID;
+  auto _messageid = _o->messageid;
+  return CreateLSKickDuplicateConnectUserReq(
+      _fbb,
+      _AccountSeq,
+      _ErrorCode,
+      _ExistPilgrimServerID,
       _messageid);
 }
 
@@ -1736,9 +1871,9 @@ inline CSEnterGameReqT *CSEnterGameReq::UnPack(const flatbuffers::resolver_funct
 inline void CSEnterGameReq::UnPackTo(CSEnterGameReqT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = accountid(); if (_e) _o->accountid = _e->str(); }
-  { auto _e = accountpw(); if (_e) _o->accountpw = _e->str(); }
-  { auto _e = hostid(); _o->hostid = _e; }
+  { auto _e = AccountID(); if (_e) _o->AccountID = _e->str(); }
+  { auto _e = AccountPW(); if (_e) _o->AccountPW = _e->str(); }
+  { auto _e = HostID(); _o->HostID = _e; }
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
@@ -1750,15 +1885,15 @@ inline flatbuffers::Offset<CSEnterGameReq> CreateCSEnterGameReq(flatbuffers::Fla
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CSEnterGameReqT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _accountid = _o->accountid.empty() ? 0 : _fbb.CreateString(_o->accountid);
-  auto _accountpw = _o->accountpw.empty() ? 0 : _fbb.CreateString(_o->accountpw);
-  auto _hostid = _o->hostid;
+  auto _AccountID = _o->AccountID.empty() ? 0 : _fbb.CreateString(_o->AccountID);
+  auto _AccountPW = _o->AccountPW.empty() ? 0 : _fbb.CreateString(_o->AccountPW);
+  auto _HostID = _o->HostID;
   auto _messageid = _o->messageid;
   return CreateCSEnterGameReq(
       _fbb,
-      _accountid,
-      _accountpw,
-      _hostid,
+      _AccountID,
+      _AccountPW,
+      _HostID,
       _messageid);
 }
 
@@ -1771,8 +1906,8 @@ inline SCEnterGameAckT *SCEnterGameAck::UnPack(const flatbuffers::resolver_funct
 inline void SCEnterGameAck::UnPackTo(SCEnterGameAckT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = accountid(); if (_e) _o->accountid = _e->str(); }
-  { auto _e = accountpw(); if (_e) _o->accountpw = _e->str(); }
+  { auto _e = AccountID(); if (_e) _o->AccountID = _e->str(); }
+  { auto _e = AccountPW(); if (_e) _o->AccountPW = _e->str(); }
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
@@ -1784,13 +1919,13 @@ inline flatbuffers::Offset<SCEnterGameAck> CreateSCEnterGameAck(flatbuffers::Fla
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SCEnterGameAckT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _accountid = _o->accountid.empty() ? 0 : _fbb.CreateString(_o->accountid);
-  auto _accountpw = _o->accountpw.empty() ? 0 : _fbb.CreateString(_o->accountpw);
+  auto _AccountID = _o->AccountID.empty() ? 0 : _fbb.CreateString(_o->AccountID);
+  auto _AccountPW = _o->AccountPW.empty() ? 0 : _fbb.CreateString(_o->AccountPW);
   auto _messageid = _o->messageid;
   return CreateSCEnterGameAck(
       _fbb,
-      _accountid,
-      _accountpw,
+      _AccountID,
+      _AccountPW,
       _messageid);
 }
 

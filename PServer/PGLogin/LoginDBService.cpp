@@ -2,12 +2,14 @@
 #include "LoginDBService.h"
 #include "NetworkCenter.h"
 
+#include <ServerConfig.h>
 #include <StringUtil.h>
 #include <Random.h>
 #include <InnerPacketStructures.h>
 
 LoginDBService::LoginDBService()
 {
+    m_nCurrentServerID = ServerConfig::GetInst().GetConfig().GetMainListenerInfo().m_nServerID;
     RegisterHandler(EPacketProtocol::LUDB_AuthReq, &LoginDBService::OnLUDBLoginReq);
 }
 
@@ -29,13 +31,13 @@ bool LoginDBService::OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
             , out(lReq->AccountSeq)
             , out(lReq->AccountType)
             , out(lReq->AccountStatus)
-            , out(lReq->LastConnectGameServerID)
-            , out(lReq->ConnectedLoginServerID)
+            , out(lReq->LastConnectServerID)
+            , out(lReq->ConnectedServerID)
             , out(lReq->RemainingPeriod)
 
             , in(lReq->LoginPlatformType)
             , in(lReq->AccountUIDkey)
-            , in(lReq->ConnectingLoginServerID)
+            , in(m_nCurrentServerID)
             , in(lOTP)
             , in(lReq->ClientType)
             , in(lReq->AppVersion)

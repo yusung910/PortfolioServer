@@ -186,20 +186,56 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
         auto lPacket = CreateLCAuthErrorRes(lFbb, EErrorMsg::EF_SANCTION_ACCOUNT);
         lFbb.Finish(lPacket);
 
-        //LOG_WRITE()를 해줘야 하나?
-
+        VIEW_WRITE_ERROR(L"OnUDBLAuthRes :: Sanction Account, HostID: %d, AccountSeq: %d", lPc->m_nHostID, lRes->AccountSeq);
         LoginPlayerManager::GetInst().SendPacket(_data->m_nHostID, EPacketProtocol::LC_AuthErrorRes, lFbb);
         return false;
     }
 
-    int lLastGameServer = lRes->LastConnectGameServerID;
+    int lLastGameServer = lRes->LastConnectServerID;
     if (nullptr == GServerCheckService::GetInst().FindServer(lLastGameServer))
         lLastGameServer = GServerCheckService::GetInst().GetLatestGameServerID();
 
     lPc->m_nSelectedServerID = lLastGameServer;
     lPc->m_nOTP = lRes->OTP;
 
+    //플레이어 캐릭터 seq 저장
+    lPc->m_umPilgrimSeqList.swap(lRes->PilgrimExistServerList);
+    if (lRes->Result == (int)EDBResult::DuplicateLogin)
+    {
+        //마지막으로 접속한 gameServerID
+        auto lServerInfo = GServerCheckService::GetInst().FindServer(lRes->LastConnectServerID);
+        
+        if(nullptr != lServerInfo
+            && true == lServerInfo->m_bIsConnected)
+        {
+            flatbuffers::FlatBufferBuilder lFbb;
 
+            auto lPacket = CreateLSKickDuplicateConnectUserReq(lFbb, lRes->AccountSeq, EF_KICK_DUPLICATE_LOGIN, lRes->LastConnectServerID);
+            lFbb.Finish(lPacket);
+
+            GServerCheckService::GetInst().SendPacket(lRes->LastConnectServerID, EPacketProtocol::LS_KickDuplicateConnectUserReq, lFbb);
+
+            lPc->m_eState = ELoginState::DuplicateKick;
+
+            VIEW_WRITE_ERROR(L"OnUDBLAuthRes - HostID: %d, Duplicate Login. AccountSeq: %d", _data->m_nHostID, lRes->AccountSeq);
+
+            return true;
+        }
+        else
+        {
+            if (true == ServerConfig::GetInst().GetConfig().GetMainListenerInfo().m_bIsLive)
+            {
+                //live 서버
+
+            }
+            else
+            {
+            }
+        }
+
+
+        return false;
+    }
 
     return true;
 }

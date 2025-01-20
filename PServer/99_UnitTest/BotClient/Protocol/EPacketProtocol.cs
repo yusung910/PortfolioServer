@@ -10,11 +10,13 @@ public enum EPacketProtocol : int
   Host_ConnectFailed = 3,
   Host_Hello = 12,
   SC_IntegrationErrorNotification = 10000,
+  //////////////////////////////////////////////////////////
   CL_AuthReq = 10001,
   LUDB_AuthReq = 10002,
   UDBL_AuthRes = 10003,
   LC_AuthRes = 10004,
   LC_AuthErrorRes = 10005,
+  LS_KickDuplicateConnectUserReq = 10006,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,

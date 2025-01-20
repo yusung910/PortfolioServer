@@ -16,8 +16,8 @@ CREATE TABLE [dbo].[Account]
     [AppVersion]                    [int]                   NULL,
     --클라 빌드 유형
     [BuildType]                     [int]                   NULL,
-    -- 접속한 로그인서버 ID
-    [ConnectLoginServerID]          [int]                   NULL,
+    -- 계정이 접속하는 서버가 저장되는 컬럼(로그인 -> Game 등등)
+    [ConnectServerID]               [int]                   NULL,
     --otp
     [OTP]                           [varchar](8)            NULL,
     --IP 32bit
@@ -38,7 +38,7 @@ ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_OTP] DEFAULT ((0)) FOR [O
 GO
 ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_AccountStatus] DEFAULT ((0)) FOR [AccountStatus]
 GO
-ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_ConnectLoginServerID] DEFAULT ((0)) FOR [ConnectLoginServerID]
+ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_ConnectServerID] DEFAULT ((0)) FOR [ConnectServerID]
 GO
 ALTER TABLE [dbo].[Account] ADD CONSTRAINT [DF_Account_CreateDate] DEFAULT (getdate()) FOR [CreateDate]
 GO

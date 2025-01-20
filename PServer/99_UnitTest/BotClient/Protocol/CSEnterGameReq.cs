@@ -16,40 +16,40 @@ public struct CSEnterGameReq : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public CSEnterGameReq __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public string Accountid { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public string AccountID { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAccountidBytes() { return __p.__vector_as_span<byte>(4, 1); }
+  public Span<byte> GetAccountIDBytes() { return __p.__vector_as_span<byte>(4, 1); }
 #else
-  public ArraySegment<byte>? GetAccountidBytes() { return __p.__vector_as_arraysegment(4); }
+  public ArraySegment<byte>? GetAccountIDBytes() { return __p.__vector_as_arraysegment(4); }
 #endif
-  public byte[] GetAccountidArray() { return __p.__vector_as_array<byte>(4); }
-  public string Accountpw { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public byte[] GetAccountIDArray() { return __p.__vector_as_array<byte>(4); }
+  public string AccountPW { get { int o = __p.__offset(6); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAccountpwBytes() { return __p.__vector_as_span<byte>(6, 1); }
+  public Span<byte> GetAccountPWBytes() { return __p.__vector_as_span<byte>(6, 1); }
 #else
-  public ArraySegment<byte>? GetAccountpwBytes() { return __p.__vector_as_arraysegment(6); }
+  public ArraySegment<byte>? GetAccountPWBytes() { return __p.__vector_as_arraysegment(6); }
 #endif
-  public byte[] GetAccountpwArray() { return __p.__vector_as_array<byte>(6); }
-  public int Hostid { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public byte[] GetAccountPWArray() { return __p.__vector_as_array<byte>(6); }
+  public int HostID { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public EPacketProtocol Messageid { get { int o = __p.__offset(10); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.CS_EnterGameReq; } }
 
   public static Offset<CSEnterGameReq> CreateCSEnterGameReq(FlatBufferBuilder builder,
-      StringOffset accountidOffset = default(StringOffset),
-      StringOffset accountpwOffset = default(StringOffset),
-      int hostid = 0,
+      StringOffset AccountIDOffset = default(StringOffset),
+      StringOffset AccountPWOffset = default(StringOffset),
+      int HostID = 0,
       EPacketProtocol messageid = EPacketProtocol.CS_EnterGameReq) {
     builder.StartTable(4);
     CSEnterGameReq.AddMessageid(builder, messageid);
-    CSEnterGameReq.AddHostid(builder, hostid);
-    CSEnterGameReq.AddAccountpw(builder, accountpwOffset);
-    CSEnterGameReq.AddAccountid(builder, accountidOffset);
+    CSEnterGameReq.AddHostID(builder, HostID);
+    CSEnterGameReq.AddAccountPW(builder, AccountPWOffset);
+    CSEnterGameReq.AddAccountID(builder, AccountIDOffset);
     return CSEnterGameReq.EndCSEnterGameReq(builder);
   }
 
   public static void StartCSEnterGameReq(FlatBufferBuilder builder) { builder.StartTable(4); }
-  public static void AddAccountid(FlatBufferBuilder builder, StringOffset accountidOffset) { builder.AddOffset(0, accountidOffset.Value, 0); }
-  public static void AddAccountpw(FlatBufferBuilder builder, StringOffset accountpwOffset) { builder.AddOffset(1, accountpwOffset.Value, 0); }
-  public static void AddHostid(FlatBufferBuilder builder, int hostid) { builder.AddInt(2, hostid, 0); }
+  public static void AddAccountID(FlatBufferBuilder builder, StringOffset AccountIDOffset) { builder.AddOffset(0, AccountIDOffset.Value, 0); }
+  public static void AddAccountPW(FlatBufferBuilder builder, StringOffset AccountPWOffset) { builder.AddOffset(1, AccountPWOffset.Value, 0); }
+  public static void AddHostID(FlatBufferBuilder builder, int HostID) { builder.AddInt(2, HostID, 0); }
   public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(3, (int)messageid, 10102); }
   public static Offset<CSEnterGameReq> EndCSEnterGameReq(FlatBufferBuilder builder) {
     int o = builder.EndTable();
@@ -61,35 +61,35 @@ public struct CSEnterGameReq : IFlatbufferObject
     return _o;
   }
   public void UnPackTo(CSEnterGameReqT _o) {
-    _o.Accountid = this.Accountid;
-    _o.Accountpw = this.Accountpw;
-    _o.Hostid = this.Hostid;
+    _o.AccountID = this.AccountID;
+    _o.AccountPW = this.AccountPW;
+    _o.HostID = this.HostID;
     _o.Messageid = this.Messageid;
   }
   public static Offset<CSEnterGameReq> Pack(FlatBufferBuilder builder, CSEnterGameReqT _o) {
     if (_o == null) return default(Offset<CSEnterGameReq>);
-    var _accountid = _o.Accountid == null ? default(StringOffset) : builder.CreateString(_o.Accountid);
-    var _accountpw = _o.Accountpw == null ? default(StringOffset) : builder.CreateString(_o.Accountpw);
+    var _AccountID = _o.AccountID == null ? default(StringOffset) : builder.CreateString(_o.AccountID);
+    var _AccountPW = _o.AccountPW == null ? default(StringOffset) : builder.CreateString(_o.AccountPW);
     return CreateCSEnterGameReq(
       builder,
-      _accountid,
-      _accountpw,
-      _o.Hostid,
+      _AccountID,
+      _AccountPW,
+      _o.HostID,
       _o.Messageid);
   }
 };
 
 public class CSEnterGameReqT
 {
-  public string Accountid { get; set; }
-  public string Accountpw { get; set; }
-  public int Hostid { get; set; }
+  public string AccountID { get; set; }
+  public string AccountPW { get; set; }
+  public int HostID { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
   public CSEnterGameReqT() {
-    this.Accountid = null;
-    this.Accountpw = null;
-    this.Hostid = 0;
+    this.AccountID = null;
+    this.AccountPW = null;
+    this.HostID = 0;
     this.Messageid = EPacketProtocol.CS_EnterGameReq;
   }
 }
