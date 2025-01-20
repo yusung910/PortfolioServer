@@ -83,3 +83,9 @@ public:
     virtual void Release() override;
 
 };
+
+class AccountConnectServerIDClearDTO : public InnerDataInterface
+{
+public:
+    int AccountSeq = 0;
+};

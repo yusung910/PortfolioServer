@@ -10,14 +10,15 @@
 LoginDBService::LoginDBService()
 {
     m_nCurrentServerID = ServerConfig::GetInst().GetConfig().GetMainListenerInfo().m_nServerID;
-    RegisterHandler(EPacketProtocol::LUDB_AuthReq, &LoginDBService::OnLUDBLoginReq);
+    RegisterHandler(EPacketProtocol::LUDB_AuthReq, &LoginDBService::_OnLUDBLoginReq);
+    RegisterHandler(EPacketProtocol::LUDB_ConnectServerIDClear, &LoginDBService::_OnLUDBConnectServerIDClear);
 }
 
 LoginDBService::~LoginDBService()
 {
 }
 
-bool LoginDBService::OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
+bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
 {
     CheckSession();
 
@@ -82,6 +83,36 @@ bool LoginDBService::OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
     }
 
     SendToLoginService(EPacketProtocol::UDBL_AuthRes, _data);
+
+    return true;
+}
+
+bool LoginDBService::_OnLUDBConnectServerIDClear(std::shared_ptr<InnerPacket> _data)
+{
+    if (nullptr == _data.get())
+        return false;
+
+    if (nullptr == _data->m_pData)
+        return false;
+
+    _ConnectServerIDClear(static_cast<AccountConnectServerIDClearDTO*>(_data->m_pData)->AccountSeq);
+
+    SafeDelete(_data->m_pData);
+
+    return true;
+}
+
+bool LoginDBService::_ConnectServerIDClear(int _serverID)
+{
+    CheckSession();
+
+
+    BEGIN_SESSION;
+    lSess << "{ CALL spAccountConnectServerIDClear(?) }"
+        , in(_serverID)
+
+        , now;
+    END_SESSION
 
     return true;
 }

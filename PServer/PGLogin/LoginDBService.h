@@ -11,6 +11,11 @@ public:
     virtual ~LoginDBService();
 
 private:
-    bool OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data);
+    bool _OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data);
+    bool _OnLUDBConnectServerIDClear(std::shared_ptr<InnerPacket> _data);
+
+    bool _ConnectServerIDClear(int _serverID);
+
+
 };
 

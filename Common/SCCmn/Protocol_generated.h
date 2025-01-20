@@ -72,13 +72,14 @@ enum EPacketProtocol {
   LC_AuthRes = 10004,
   LC_AuthErrorRes = 10005,
   LS_KickDuplicateConnectUserReq = 10006,
+  LUDB_ConnectServerIDClear = 10007,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,
   PacketMax = 10104
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[16] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[17] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -92,6 +93,7 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[16] {
     LC_AuthRes,
     LC_AuthErrorRes,
     LS_KickDuplicateConnectUserReq,
+    LUDB_ConnectServerIDClear,
     CS_AuthReq,
     CS_EnterGameReq,
     SC_EnterGameAck,
@@ -114,6 +116,7 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case LC_AuthRes: return "LC_AuthRes";
     case LC_AuthErrorRes: return "LC_AuthErrorRes";
     case LS_KickDuplicateConnectUserReq: return "LS_KickDuplicateConnectUserReq";
+    case LUDB_ConnectServerIDClear: return "LUDB_ConnectServerIDClear";
     case CS_AuthReq: return "CS_AuthReq";
     case CS_EnterGameReq: return "CS_EnterGameReq";
     case SC_EnterGameAck: return "SC_EnterGameAck";

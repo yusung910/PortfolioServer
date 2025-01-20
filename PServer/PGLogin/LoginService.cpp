@@ -226,7 +226,11 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
             if (true == ServerConfig::GetInst().GetConfig().GetMainListenerInfo().m_bIsLive)
             {
                 //live 서버
+                AccountConnectServerIDClearDTO* lReq = new AccountConnectServerIDClearDTO;
+                lReq->AccountSeq = (int)lRes->AccountSeq;
+                SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
+                //return _SendErrorMessage(_data->m_nHostID, );
             }
             else
             {
