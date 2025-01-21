@@ -25,11 +25,11 @@
     <Filter Include="2_Structure">
       <UniqueIdentifier>{430e1665-f892-45ca-9204-b15520b97a59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3_Functions">
-      <UniqueIdentifier>{f5133109-307e-4e85-8944-6fec00ac978f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2_Structure\LoginPlayer">
       <UniqueIdentifier>{c10cb5f3-4a11-412b-8f1c-69c5d919afc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_Functions">
+      <UniqueIdentifier>{f5133109-307e-4e85-8944-6fec00ac978f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,13 +64,16 @@
       <Filter>2_Structure\LoginPlayer</Filter>
     </ClInclude>
     <ClInclude Include="NetworkCenter.h">
-      <Filter>3_Functions</Filter>
+      <Filter>1_Services\3_Functions</Filter>
     </ClInclude>
     <ClInclude Include="LoginDBLoadBalancer.h">
       <Filter>1_Services\2_DB</Filter>
     </ClInclude>
     <ClInclude Include="LoginDBService.h">
       <Filter>1_Services\2_DB</Filter>
+    </ClInclude>
+    <ClInclude Include="OPFService.h">
+      <Filter>1_Services\4_OuterPlatform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -102,10 +105,13 @@
       <Filter>2_Structure\LoginPlayer</Filter>
     </ClCompile>
     <ClCompile Include="NetworkCenter.cpp">
-      <Filter>3_Functions</Filter>
+      <Filter>1_Services\3_Functions</Filter>
     </ClCompile>
     <ClCompile Include="LoginDBService.cpp">
       <Filter>1_Services\2_DB</Filter>
+    </ClCompile>
+    <ClCompile Include="OPFService.cpp">
+      <Filter>1_Services\4_OuterPlatform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

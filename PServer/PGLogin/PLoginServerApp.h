@@ -20,6 +20,6 @@ private:
      */
     void _InitLog();
 
-    bool _InitUserDB();
+    bool _InitAccountDB();
 };
 

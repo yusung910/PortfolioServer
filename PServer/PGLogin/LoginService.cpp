@@ -137,6 +137,8 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
 
     }
 
+    
+
     return true;
 }
 
@@ -225,21 +227,44 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
         {
             if (true == ServerConfig::GetInst().GetConfig().GetMainListenerInfo().m_bIsLive)
             {
+                VIEW_WRITE_ERROR(L"OnUDBLAuthRes - HostID: %d, Duplicate Login. AccountSeq: %d", _data->m_nHostID, lRes->AccountSeq);
+
                 //live 서버
                 AccountConnectServerIDClearDTO* lReq = new AccountConnectServerIDClearDTO;
                 lReq->AccountSeq = (int)lRes->AccountSeq;
                 SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
-                //return _SendErrorMessage(_data->m_nHostID, );
+                return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_ERROR, EPacketProtocol::CS_AuthReq, true);
             }
             else
             {
+                if(lRes->ConnectedServerID < 10901
+                    || lRes->ConnectedServerID > 10999)
+                    return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_KICK, EPacketProtocol::CS_AuthReq, true);
             }
+
+            AccountConnectServerIDClearDTO* lReq = new AccountConnectServerIDClearDTO;
+            lReq->AccountSeq = (int)lRes->AccountSeq;
+            SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
+
+
+            return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_ERROR, EPacketProtocol::CS_AuthReq, true);
         }
 
 
         return false;
     }
+
+    flatbuffers::FlatBufferBuilder lFbb;
+    std::vector<flatbuffers::Offset<DServerInfo>> lServerList;
+    GServerCheckService::GetInst().FillPacketServerList(lFbb, lServerList, lPc->m_umPilgrimSeqList);
+    auto lPacket = CreateLCAuthRes(lFbb, lRes->AccountSeq, lFbb.CreateVector(lServerList), lRes->LastConnectServerID, Clock::GetTick64(), PocoTimeUtil::GetLocalTimezone());
+
+    lFbb.Finish(lPacket);
+
+    LoginPlayerManager::GetInst().SendPacket(_data->m_nHostID, EPacketProtocol::LC_AuthRes, lFbb);
+    //
+
 
     return true;
 }

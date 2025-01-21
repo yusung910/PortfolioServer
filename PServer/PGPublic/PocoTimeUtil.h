@@ -39,7 +39,7 @@ constexpr int MONTHLY_INIT_DAY = 1;
 
 //DAY, HOUR
 constexpr std::pair<Poco::DateTime::DaysOfWeek, int> WEEKLY_PAYMENT_INIT = std::make_pair(Poco::DateTime::WEDNESDAY, 10);	// 주간 누적 금액 초기화 
-class SCoreAPI PocoTimeUtil
+class PocoTimeUtil
 {
 public:
     static bool IsZeroTime(const Poco::DateTime& _date);

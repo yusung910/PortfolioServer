@@ -71,13 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\jwt-cpp\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\jwt-cpp\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
@@ -170,6 +170,7 @@
     <ClInclude Include="LoginServerNES.h" />
     <ClInclude Include="LoginService.h" />
     <ClInclude Include="NetworkCenter.h" />
+    <ClInclude Include="OPFService.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PLoginServerApp.h" />
     <ClInclude Include="WaitingList.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="LoginService.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="NetworkCenter.cpp" />
+    <ClCompile Include="OPFService.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

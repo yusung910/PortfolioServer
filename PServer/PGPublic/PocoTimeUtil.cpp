@@ -167,7 +167,7 @@ Poco::DateTime PocoTimeUtil::AddSecond(const Poco::DateTime& _time, const int& _
 
 std::string PocoTimeUtil::ToString(const Poco::DateTime& _dt)
 {
-    char lStrTime[37] = { 0, };
+    char lStrTime[32] = { 0, };
     sprintf_s(lStrTime, sizeof(lStrTime), "[%04d-%02d-%02d %02d:%02d:%02d %03d]",
         _dt.year(), _dt.month(), _dt.day(), _dt.hour(), _dt.minute(), _dt.second(), _dt.millisecond());
     return std::string(lStrTime);
@@ -175,7 +175,7 @@ std::string PocoTimeUtil::ToString(const Poco::DateTime& _dt)
 
 std::wstring PocoTimeUtil::ToWString(const Poco::DateTime& _dt)
 {
-    wchar_t lStrTime[37] = { 0, };
+    wchar_t lStrTime[32] = { 0, };
     swprintf_s(lStrTime, sizeof(lStrTime), L"[%04d-%02d-%02d %02d:%02d:%02d %03d]",
         _dt.year(), _dt.month(), _dt.day(), _dt.hour(), _dt.minute(), _dt.second(), _dt.millisecond());
     return std::wstring(lStrTime);

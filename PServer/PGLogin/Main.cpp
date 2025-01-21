@@ -2,7 +2,7 @@
 #include <iostream>
 #include <MiniDump.h>
 
-//#include "PGameServerApp.h"
+#include "PLoginServerApp.h"
 
 //기존에 프로세스가 실행되고 있는지 확인한다.
 bool IsRedundantExecution([[maybe_unused]] const std::wstring& _prjName = L"PSGame")
@@ -40,12 +40,13 @@ int main()
         return 0;
 
     MiniDump::SetupExceptionHandler();
-    //PGameServerApp app;
-    //if (false == app.Initialize())
-    //    return -1;
+    PLoginServerApp app;
 
-    //if (false == app.RunLoop())
-    //    return -2;
+    if (false == app.Initialize())
+        return -1;
+
+    if (false == app.RunLoop())
+        return -2;
 
     return 0;
 }
