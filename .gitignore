@@ -181,3 +181,4 @@ BuildVersion.hxx
 #DB 관련파일들
 *.jfm
 *.dbmdl
+/SQL/**/bin
