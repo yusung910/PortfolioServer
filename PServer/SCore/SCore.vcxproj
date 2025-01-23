@@ -224,24 +224,24 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(SolutionDir)..\lib\OpenSSL\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\OpenSSL\lib\VC\$(PlatformTarget)\MD;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(SolutionDir)..\lib\OpenSSL\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\OpenSSL\lib\VC\$(PlatformTarget)\MD;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
     <OutDir>$(SolutionDir)..\Binaries\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Output\$(ProjectName)\$(PlatformTarget)\$(Configuration)\</IntDir>
-    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\lib\JsonCPP\include;$(SolutionDir)..\lib\LZ4\include\;$(SolutionDir)..\lib\BugTrap\include\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)SCommon\;$(SolutionDir)..\lib\OpenSSL\include\;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x64)</ReferencePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\LZ4\$(PlatformTarget);$(SolutionDir)..\lib\BugTrap\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\OpenSSL\lib\VC\$(PlatformTarget)\MD;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">

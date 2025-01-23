@@ -25,6 +25,7 @@ LoginService::LoginService()
     RegisterHandler(&LoginService::OnHostClose);
     RegisterHandler(&LoginService::OnCLAuthReq);
     RegisterInnerHandler(EPacketProtocol::UDBL_AuthRes, &LoginService::OnUDBLAuthRes);
+    RegisterInnerHandler(EPacketProtocol::PL_AuthLoginRes, &LoginService::OnPLAuthLoginRes);
 
 }
 
@@ -115,12 +116,14 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
 
 
     std::string lAccountUKey = (nullptr == _msg.AccountUKey()) ? "" : _msg.AccountUKey()->c_str();
+    std::string lLoginPlatformToken = (nullptr == _msg.LoginPlatformToken()) ? "" : _msg.LoginPlatformToken()->c_str();
+    std::string lStoreToken = (nullptr == _msg.StoreToken()) ? "" : _msg.StoreToken()->c_str();
 
     
     //로그인 플랫폼 타입(Google, AppStore 등등)에 따른 처리
     switch ((ELoginPlatform::Type)_msg.LoginPlatformType())
     {
-        case ELoginPlatform::GuestLogin:
+        case ELoginPlatform::Guest:
         {
             bool lIsValidKey = StrChecker::GetInst().IsValidStr(lAccountUKey, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
 
@@ -149,7 +152,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     if (nullptr == _data->m_pData)
         return false;
 
-    LoginAccountProcessSelectDTO* lRes = static_cast<LoginAccountProcessSelectDTO*>(_data->m_pData);
+    spLoginAccountProcessSelectDTO* lRes = static_cast<spLoginAccountProcessSelectDTO*>(_data->m_pData);
 
     //
     auto lPc = LoginPlayerManager::GetInst().Find(_data->m_nHostID);
@@ -230,7 +233,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
                 VIEW_WRITE_ERROR(L"OnUDBLAuthRes - HostID: %d, Duplicate Login. AccountSeq: %d", _data->m_nHostID, lRes->AccountSeq);
 
                 //live 서버
-                AccountConnectServerIDClearDTO* lReq = new AccountConnectServerIDClearDTO;
+                spAccountConnectServerIDClearDTO* lReq = new spAccountConnectServerIDClearDTO;
                 lReq->AccountSeq = (int)lRes->AccountSeq;
                 SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
@@ -243,7 +246,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
                     return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_KICK, EPacketProtocol::CS_AuthReq, true);
             }
 
-            AccountConnectServerIDClearDTO* lReq = new AccountConnectServerIDClearDTO;
+            spAccountConnectServerIDClearDTO* lReq = new spAccountConnectServerIDClearDTO;
             lReq->AccountSeq = (int)lRes->AccountSeq;
             SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
@@ -265,6 +268,12 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     LoginPlayerManager::GetInst().SendPacket(_data->m_nHostID, EPacketProtocol::LC_AuthRes, lFbb);
     //
 
+
+    return true;
+}
+
+bool LoginService::OnPLAuthLoginRes(InnerPacket::SharedPtr _data)
+{
 
     return true;
 }
@@ -305,14 +314,14 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
 
     lPc->m_eState = ELoginState::DBProcess;
 
-    LoginAccountProcessSelectDTO* ldto = new LoginAccountProcessSelectDTO();
-    ldto->ClientType = _clientType;
-    ldto->AppVersion = _appVer;
-    ldto->AccountUIDkey = _accountUKey;
-    ldto->LoginPlatformType = _pfType;
-    ldto->IPAddress32 = NetworkManager::GetInst().GetIPInt32(_hostID);
+    spLoginAccountProcessSelectDTO* lDTO = new spLoginAccountProcessSelectDTO();
+    lDTO->ClientType = _clientType;
+    lDTO->AppVersion = _appVer;
+    lDTO->AccountUIDkey = _accountUKey;
+    lDTO->LoginPlatformType = _pfType;
+    lDTO->IPAddress32 = NetworkManager::GetInst().GetIPInt32(_hostID);
 
-    SendToUDB(_hostID, EPacketProtocol::LUDB_AuthReq, ldto);
+    SendToUDB(_hostID, EPacketProtocol::LUDB_AuthReq, lDTO);
 
     return true;
 }
@@ -392,6 +401,17 @@ void LoginService::_UpdateTitle()
     int lVer = GetServerVer();
     int lLibVer = GetLibraryRev();
 
+    int lTotalServerCount = GServerCheckService::GetInst().GetTotalServerCount();
+
+    int lConnectedServerCount = GServerCheckService::GetInst().GetConnectedServerCount();
+
+    sprintf_s(lTmp, sizeof(lTmp), "TITLE LoginServer(%d) Rev: %d(%d), Connect : [%d/%d]",
+        lServerID,
+        lVer,
+        lLibVer,
+        lTotalServerCount,
+        lConnectedServerCount
+    );
 
     system(lTmp);
 }

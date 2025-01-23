@@ -18,6 +18,8 @@ public enum EPacketProtocol : int
   LC_AuthErrorRes = 10005,
   LS_KickDuplicateConnectUserReq = 10006,
   LUDB_ConnectServerIDClear = 10007,
+  LP_AuthLoginReq = 10008,
+  PL_AuthLoginRes = 10009,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,

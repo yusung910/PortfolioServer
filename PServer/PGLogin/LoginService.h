@@ -32,6 +32,9 @@ protected:
     //UDB -> LoginServer
     bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
 
+    //Platform -> LoginServer
+    bool OnPLAuthLoginRes(InnerPacket::SharedPtr _data);
+
 private:
     void _KickProcess();
 

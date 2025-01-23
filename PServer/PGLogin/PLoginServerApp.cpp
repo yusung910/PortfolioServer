@@ -34,6 +34,8 @@ bool PLoginServerApp::Initialize()
     if (false == _InitAccountDB())
         return false;
 
+    //ServerConst::GetInst();
+
     return true;
 }
 

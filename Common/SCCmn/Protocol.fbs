@@ -68,6 +68,9 @@ enum EPacketProtocol:int
     LS_KickDuplicateConnectUserReq,
     LUDB_ConnectServerIDClear,
 
+    LP_AuthLoginReq,
+    PL_AuthLoginRes,
+
     //GameServer
     CS_AuthReq                              = 10101,
 	CS_EnterGameReq,
@@ -103,6 +106,7 @@ enum EErrorMsg:int
 	// 인증오류
 	EF_LOGIN_ERROR  											= 101,
     EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID                         = 102,
+    EF_LOGIN_ERROR_OUTER_PLATFORM,
 
 
     //-------------------------------------------------------------------------
@@ -205,11 +209,14 @@ table CLAuthReq
     ClientType:int;               // Client::Type
     AppVersion:int;               // 어플 버전
 
+    LoginPlatformType:int;        //로그인 플랫폼(google, naver, facebook 등등)
+    LoginPlatformToken:string;    //로그인 하는 플랫폼에서 생성하는 토큰값
+
+
     //추후 Google, App에 따른 데이터 추가가 필요하다
     StoreType:int;                //스토어 타입
-
-    LoginPlatformType:int;        //로그인 플랫폼(google, naver, facebook 등등)
-
+    StoreToken:string;            //스토어 토큰
+    
     messageid:EPacketProtocol = CL_AuthReq;
 }
 

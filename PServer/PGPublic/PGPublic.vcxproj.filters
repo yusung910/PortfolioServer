@@ -90,6 +90,9 @@
     <ClInclude Include="PocoTimeUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="MDBServerConst.h">
+      <Filter>Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="PocoTimeUtil.cpp">
       <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="MDBServerConst.cpp">
+      <Filter>Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

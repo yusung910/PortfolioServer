@@ -1,12 +1,12 @@
 #include "PGPPrivate.h"
 #include "InnerPacketStructures.h"
 
-void LoginAccountProcessSelectDTO::Release()
+void spLoginAccountProcessSelectDTO::Release()
 {
     PilgrimExistServerList.clear();
 }
 
-void LoginAccountPilgrimSelectDTO::Release()
+void spLoginAccountPilgrimSelectDTO::Release()
 {
     PligrimList.clear();
 }

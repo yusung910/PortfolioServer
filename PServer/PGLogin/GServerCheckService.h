@@ -24,7 +24,7 @@ private:
 
     std::mutex m_xServerListLock;
     std::atomic_int m_nTotalServerCount = 0;
-    std::atomic_int m_nConnectedSererCount = 0;
+    std::atomic_int m_nConnectedServerCount = 0;
 
 public:
     GServerCheckService();
@@ -49,6 +49,9 @@ public:
 
     void SendPacket(const int& _serverID, const EPacketProtocol& _msgID, void* _msg, const int& _msgSize);
     void SendPacket(const int& _serverID, const EPacketProtocol& _msgID, flatbuffers::FlatBufferBuilder& _fbb);
+
+    int GetTotalServerCount() noexcept;
+    int GetConnectedServerCount() noexcept;
 
 protected:
     //

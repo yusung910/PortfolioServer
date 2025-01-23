@@ -5,16 +5,22 @@
 ## 1. 코딩 규칙
  > 기본은 카멜 표기법을 따름
  
-### 1.1 클래스, DB 프로시저 네이밍 룰
+### 1.1 클래스, DB 프로시저, InnerPacket 구조체 네이밍 룰
     1. Pacade 클래스 이름은 접미어로 PO(Pacade Object)를 붙인다
     2. 해당 클래스의 header 파일 확장자는 .hxx, C++ 파일 확장자는 동일하게 .cpp
     3. NES = NetworkEventSync, 네트워크 이벤트에 사용되는 클래스
        각각의 서버에서 상속받아 사용하는 부모 클래스
     4. DB 프로시저를 호출하고 결과값을 전달받기 위한 클래스의 접미사를 DTO로 한다.
-        -> LoginAccountProcessSelectDTO
-    5. DB 프로시저는 접두어에 sp를 붙인다.
+        -> spLoginAccountProcessSelectDTO
+    5. DB 프로시저는 접두어에 sp 붙인다.
         -> spAccountLoginProcessSelect
     6. 게임 플레이어가 플레이 하는 캐릭터의 명칭은 Pilgrim으로 한다
+    7. InnerPacketStructures에 DB에서 사용하는 구조체와, InnerPacket에서 사용하는
+       데이터 구조체가 있음.
+        -> DB에서 사용하는 구조체의 경우 접두어 sp와 접미어 DTO를 사용한다
+        -> 내부 서비스(Service) 클래스에서 사용하는 Packet구조체의 경우
+           Protocol 선언 규칙을 따른다
+           ex) LP : LoginService to Platform Service
 ### 1.2 Parameter 타입의 변수는 '_'로 시작
 ```c
 function test(int _a)

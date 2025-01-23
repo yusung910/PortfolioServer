@@ -168,6 +168,16 @@ void GServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol
     SendPacket(_serverID, _msgID, _fbb.GetBufferPointer(), _fbb.GetSize());
 }
 
+int GServerCheckService::GetTotalServerCount() noexcept
+{
+    return m_nTotalServerCount.load();
+}
+
+int GServerCheckService::GetConnectedServerCount() noexcept
+{
+    return m_nConnectedServerCount.load();
+}
+
 bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
 {
     AutoLock(m_xServerListLock);
@@ -286,6 +296,6 @@ void GServerCheckService::_CheckConnect()
     }
 
     m_nTotalServerCount.exchange(lTotalServerCount);
-    m_nConnectedSererCount.exchange(lConnectedServerCount);
+    m_nConnectedServerCount.exchange(lConnectedServerCount);
 
 }

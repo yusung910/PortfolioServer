@@ -22,7 +22,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
 {
     CheckSession();
 
-    LoginAccountProcessSelectDTO* lReq = static_cast<LoginAccountProcessSelectDTO*>(_data->m_pData);
+    spLoginAccountProcessSelectDTO* lReq = static_cast<spLoginAccountProcessSelectDTO*>(_data->m_pData);
     int lOTP = (int)Random::GetInst()->GetRandomRange(10000000, 9999999);
 
     BEGIN_SESSION;
@@ -70,7 +70,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
     if ((EDBResult)lReq->Result == EDBResult::Success)
     {
         //캐릭터 조회
-        std::vector<LoginAccountPilgrimSelectDTO::AccountPilgrim> lPilgrimList;
+        std::vector<spLoginAccountPilgrimSelectDTO::AccountPilgrim> lPilgrimList;
         BEGIN_SESSION;
 
         lSess << "{CALL spAccountPilgrimListSelect(?)}"
@@ -95,7 +95,7 @@ bool LoginDBService::_OnLUDBConnectServerIDClear(std::shared_ptr<InnerPacket> _d
     if (nullptr == _data->m_pData)
         return false;
 
-    _ConnectServerIDClear(static_cast<AccountConnectServerIDClearDTO*>(_data->m_pData)->AccountSeq);
+    _ConnectServerIDClear(static_cast<spAccountConnectServerIDClearDTO*>(_data->m_pData)->AccountSeq);
 
     SafeDelete(_data->m_pData);
 

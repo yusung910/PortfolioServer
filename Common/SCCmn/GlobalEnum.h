@@ -104,7 +104,8 @@ namespace ELoginPlatform
         Google = 1,
         Naver,
         AppStore,
-        GuestLogin = 99,
+        Facebook,
+        Guest = 99,
         Max
     };
 }

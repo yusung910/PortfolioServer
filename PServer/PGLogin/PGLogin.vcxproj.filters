@@ -75,6 +75,9 @@
     <ClInclude Include="OPFService.h">
       <Filter>1_Services\4_OuterPlatform</Filter>
     </ClInclude>
+    <ClInclude Include="IPFService.h">
+      <Filter>1_Services\5_InnerPlatform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -112,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="OPFService.cpp">
       <Filter>1_Services\4_OuterPlatform</Filter>
+    </ClCompile>
+    <ClCompile Include="IPFService.cpp">
+      <Filter>1_Services\5_InnerPlatform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

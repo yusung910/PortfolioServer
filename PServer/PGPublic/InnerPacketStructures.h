@@ -24,8 +24,29 @@
 
 #include "PEnum.h"
 
-//
-class LoginAccountProcessSelectDTO : public InnerDataInterface
+//Inner Packet
+class LPAuthLogin : public InnerDataInterface
+{
+public:
+    EErrorMsg Result = EErrorMsg::EF_LOGIN_ERROR_OUTER_PLATFORM;
+
+    ELoginPlatform::Type LoginPlatformType = ELoginPlatform::Type::None;
+    std::string AccountUKey = "";
+
+    std::string StoreToken = "";
+    std::string StoreID = "";
+    std::string ReturnToken = "";
+
+
+
+    int ClientType = 0;
+    int AppVersion = 0;
+    int StoreType = 0;
+};
+
+
+//DB
+class spLoginAccountProcessSelectDTO : public InnerDataInterface
 {
 public:
     int Result = (int)EDBResult::None;
@@ -62,7 +83,7 @@ public:
 
 };
 
-class LoginAccountPilgrimSelectDTO : public InnerDataInterface
+class spLoginAccountPilgrimSelectDTO : public InnerDataInterface
 {
 public:
     typedef Poco::Tuple
@@ -84,7 +105,7 @@ public:
 
 };
 
-class AccountConnectServerIDClearDTO : public InnerDataInterface
+class spAccountConnectServerIDClearDTO : public InnerDataInterface
 {
 public:
     int AccountSeq = 0;
