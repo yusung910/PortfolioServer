@@ -33,7 +33,7 @@
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
     <ClInclude Include="InnerPacketStructures.h" />
-    <ClInclude Include="MDBServerConst.h" />
+    <ClInclude Include="ServerConst.h" />
     <ClInclude Include="PConst.h" />
     <ClInclude Include="PConstVars.h" />
     <ClInclude Include="PEnum.h" />
@@ -52,7 +52,7 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="InnerPacketStructures.cpp" />
-    <ClCompile Include="MDBServerConst.cpp" />
+    <ClCompile Include="ServerConst.cpp" />
     <ClCompile Include="PConst.cpp" />
     <ClCompile Include="PGPPrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -90,7 +90,7 @@
     <ClInclude Include="PocoTimeUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="MDBServerConst.h">
+    <ClInclude Include="ServerConst.h">
       <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,7 +128,7 @@
     <ClCompile Include="PocoTimeUtil.cpp">
       <Filter>Util</Filter>
     </ClCompile>
-    <ClCompile Include="MDBServerConst.cpp">
+    <ClCompile Include="ServerConst.cpp">
       <Filter>Config</Filter>
     </ClCompile>
   </ItemGroup>
