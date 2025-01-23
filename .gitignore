@@ -181,4 +181,4 @@ BuildVersion.hxx
 #DB 관련파일들
 *.jfm
 *.dbmdl
-/PServer/SQL/**/bin
+/PServer/SQL/**/bin/
