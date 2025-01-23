@@ -162,7 +162,7 @@ BEGIN
                 (
                       AccountSeq                  INT
                     , AccountType                 INT
-                    , LastConnectedLoginServer    INT
+                    , LastLoginServer             INT
                 )
 
                 UPDATE 
@@ -172,9 +172,9 @@ BEGIN
                     , OTP = @OTP
                     , IPAddress32 = @IPAddress32
                 OUTPUT
-                      inserted.AccountSeq
-                    , inserted.AccountType
-                    , inserted.ConnectServerID
+                      inserted.AccountSeq,
+                      inserted.AccountType,
+                      inserted.ConnectServerID
                 INTO @Table
 
                 WHERE
@@ -189,7 +189,7 @@ BEGIN
                 SELECT 
                       @AccountSeq = AccountSeq
                     , @AccountType = AccountType
-                    , @LatestConnectServerID = ConnectServerID
+                    , @LatestConnectServerID = LastLoginServer
                 FROM
                     @Table
             END
