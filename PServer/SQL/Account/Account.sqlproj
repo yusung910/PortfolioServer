@@ -66,6 +66,7 @@
     <Build Include="Tables\AccountPilgrim.sql" />
     <Build Include="Tables\AccountPlatform.sql" />
     <Build Include="StoredProcedure\spAccountConnectServerIDClear.sql" />
+    <Build Include="Tables\ServerConst.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Account.refactorlog" />

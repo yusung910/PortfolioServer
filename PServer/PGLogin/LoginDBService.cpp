@@ -25,7 +25,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
     spLoginAccountProcessSelectDTO* lReq = static_cast<spLoginAccountProcessSelectDTO*>(_data->m_pData);
     int lOTP = (int)Random::GetInst()->GetRandomRange(10000000, 9999999);
 
-    BEGIN_SESSION;
+    BEGIN_SESSION
         lSess << "{ CALL spAccountLoginProcessSelect(?, ?,?,?,?,?,?, ?,?,?,?,?,?) }"
             , out(lReq->Result)
 
@@ -46,7 +46,8 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
             , in(lReq->IPAddress32)
 
             , now;
-    END_SESSION
+    END_SESSION;
+
     
     //계정 조회 결과에 따른 처리
     switch ((EDBResult)lReq->Result)

@@ -20,6 +20,16 @@ private:
 
 
 public:
+    ServerConst();
+    virtual ~ServerConst() = default;
 
+    const int GetInt(const EServerConst& _id) const;
+    const std::wstring* GetString(const EServerConst& _id) const;
+
+    bool LoadServerConst(DBService* _service);
+    void SetDefault();
+
+private:
+    bool _IsIntConst(const EServerConst& _id);
 };
 
