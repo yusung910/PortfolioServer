@@ -4,28 +4,28 @@
 
 #include "PLoginServerApp.h"
 
-//ê¸°ì¡´ì— í”„ë¡œì„¸ìŠ¤ê°€ ì‹¤í–‰ë˜ê³  ìˆëŠ”ì§€ í™•ì¸í•œë‹¤.
-bool IsRedundantExecution([[maybe_unused]] const std::wstring& _prjName = L"PSGame")
+//±âÁ¸¿¡ ÇÁ·Î¼¼½º°¡ ½ÇÇàµÇ°í ÀÖ´ÂÁö È®ÀÎÇÑ´Ù.
+bool IsRedundantExecution([[maybe_unused]] const std::wstring& _prjName = L"PGLogin")
 {
     HANDLE lMutex = nullptr;
 
-    //ëª…ëª…ë˜ê±°ë‚˜ ëª…ëª…ë˜ì§€ ì•Šì€ mutex ê°ì²´ë¥¼ ìƒì„±í•˜ëŠ” í•¨ìˆ˜.
+    //¸í¸íµÇ°Å³ª ¸í¸íµÇÁö ¾ÊÀº mutex °´Ã¼¸¦ »ı¼ºÇÏ´Â ÇÔ¼ö.
     //https://learn.microsoft.com/ko-kr/windows/win32/api/synchapi/nf-synchapi-createmutexa
-    lMutex = CreateMutex(nullptr, false, L"PGServer");
+    lMutex = CreateMutex(nullptr, false, L"PGLogin");
 
     if (nullptr == lMutex)
     {
-        MessageBox(nullptr, L"Mutex ìƒì„± ì‹¤íŒ¨ - í”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.", _prjName.c_str(), MB_OK);
+        MessageBox(nullptr, L"Mutex »ı¼º ½ÇÆĞ - ÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù.", _prjName.c_str(), MB_OK);
 
         return false;
     }
 
-    //ê¸°ì¡´ì— ì´ë¯¸ ì„œë²„ê°€ ì‹¤í–‰ë˜ì–´ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ í™•ì¸í•œë‹¤.
+    //±âÁ¸¿¡ ÀÌ¹Ì ¼­¹ö°¡ ½ÇÇàµÇ¾îÀÖ´ÂÁö ¿©ºÎ¸¦ È®ÀÎÇÑ´Ù.
     if (::GetLastError() == ERROR_ALREADY_EXISTS)
     {
         CloseHandle(lMutex);
         lMutex = INVALID_HANDLE_VALUE;
-        MessageBox(nullptr, L"í”„ë¡œê·¸ë¨ì´ ì´ë¯¸ ì‹¤í–‰ ì¤‘ì…ë‹ˆë‹¤.", _prjName.c_str(), MB_OK);
+        MessageBox(nullptr, L"ÇÁ·Î±×·¥ÀÌ ÀÌ¹Ì ½ÇÇà ÁßÀÔ´Ï´Ù.", _prjName.c_str(), MB_OK);
         return false;
     }
 

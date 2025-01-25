@@ -24,11 +24,11 @@ int64_t ServerMonitor::GetCurrentMemory() const
 {
 	int64_t lRet = -1;
 
-	//ì§€ê¸ˆ ì‹¤í–‰ì¤‘ì¸ í”„ë¡œì„¸ìŠ¤ì˜ ID
+	//Áö±İ ½ÇÇàÁßÀÎ ÇÁ·Î¼¼½ºÀÇ ID
 	DWORD lDwProcessID = GetCurrentProcessId();
 	PROCESS_MEMORY_COUNTERS lPMC;
 
-	//OpenProcess(): ê¸°ì¡´ í”„ë¡œì„¸ìŠ¤ì˜ Handleì„ ê°€ì ¸ì˜¨ë‹¤
+	//OpenProcess(): ±âÁ¸ ÇÁ·Î¼¼½ºÀÇ HandleÀ» °¡Á®¿Â´Ù
 	//https://learn.microsoft.com/ko-kr/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess
 	HANDLE lHandleProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, lDwProcessID);
 	if (NULL == lHandleProcess)
@@ -101,7 +101,7 @@ double ServerMonitor::GetCurrentCPUUsage()
 	memcpy(&lSys, &lfSystem, sizeof(FILETIME));
 	memcpy(&lUser, &lfUser, sizeof(FILETIME));
 
-	lPer = (double)((lSys.QuadPart - m_oLastSystemCPU.QuadPart) + (lUser.QuadPart - m_oLastSystemCPU.QuadPart));
+	lPer = (double)((lSys.QuadPart - m_oLastSystemCPU.QuadPart) + (lUser.QuadPart - m_oLastUserCPU.QuadPart));
 
 	lPer /= (double)(lNow.QuadPart - m_oLastCPU.QuadPart);
 	lPer /= (double)m_nCPUNums;
@@ -112,7 +112,7 @@ double ServerMonitor::GetCurrentCPUUsage()
 
 	CloseHandle(lHProcess);
 
-	return lPer * 100.0f;
+	return lPer * 100.0;
 }
 
 std::string ServerMonitor::GetCurrentCPUUsageString(const double& _usage)
@@ -153,14 +153,14 @@ double ServerMonitor::GetMachineMemoryUsage(int64_t& _usage, int64_t& _total) co
 	memset(&lMemStat, 0x00, sizeof(MEMORYSTATUSEX));
 	lMemStat.dwLength = sizeof(lMemStat);
 
-	//dwLengthì€ ì´ˆê¸° ì…ë ¥ ê°’(êµ¬ì¡°ì²´ í¬ê¸°)
-	//	dwMemoryLoad: ë©”ëª¨ë¦¬ ì‚¬ìš©ëŸ‰(%)
-	//	ullTotalPhys : ì‹¤ì œ ì´ ë¬¼ë¦¬ ë©”ëª¨ë¦¬ í¬ê¸°
-	//	ullAvailPhys : ë¬¼ë¦¬ ë©”ëª¨ë¦¬ ì¤‘ì— ì‚¬ìš©ê°€ëŠ¥í•œ ë©”ëª¨ë¦¬
-	//	ullTotalPageFile : ì´ í˜ì´ì§€ íŒŒì¼ í¬ê¸°
-	//	ullAvailPageFile : ì‚¬ìš© ê°€ëŠ¥í•œ í˜ì´ì§€ íŒŒì¼ í¬ê¸°
-	//	ullTotalVirtual : ì´ ê°€ìƒ ë©”ëª¨ë¦¬ í¬ê¸°
-	//	ullAvailExtendedVirtual : í™•ì¥ ë©”ëª¨ë¦¬ í¬ê¸°.
+	//dwLengthÀº ÃÊ±â ÀÔ·Â °ª(±¸Á¶Ã¼ Å©±â)
+	//	dwMemoryLoad: ¸Ş¸ğ¸® »ç¿ë·®(%)
+	//	ullTotalPhys : ½ÇÁ¦ ÃÑ ¹°¸® ¸Ş¸ğ¸® Å©±â
+	//	ullAvailPhys : ¹°¸® ¸Ş¸ğ¸® Áß¿¡ »ç¿ë°¡´ÉÇÑ ¸Ş¸ğ¸®
+	//	ullTotalPageFile : ÃÑ ÆäÀÌÁö ÆÄÀÏ Å©±â
+	//	ullAvailPageFile : »ç¿ë °¡´ÉÇÑ ÆäÀÌÁö ÆÄÀÏ Å©±â
+	//	ullTotalVirtual : ÃÑ °¡»ó ¸Ş¸ğ¸® Å©±â
+	//	ullAvailExtendedVirtual : È®Àå ¸Ş¸ğ¸® Å©±â.
 
 	if (TRUE == GlobalMemoryStatusEx(&lMemStat))
 	{

@@ -108,21 +108,11 @@ namespace ELoginPlatform
         Guest = 99,
         Max
     };
-}
 
-//Store 결제
-namespace EStore
-{
-    enum Type
+    inline bool IsGuestPlatform(const Type& _t)
     {
-        None = 0,
-        GooglePlay = 1,
-        OneStore = 2,
-        AppStore = 11,
-        WindowsUniversal = 21,
-
-        Max
-    };
+        return (_t == Guest);
+    }
 }
 
 //빌드 유형

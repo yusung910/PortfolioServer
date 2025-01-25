@@ -4,7 +4,7 @@
  *  @date 2025-01-21
  *  @project PGLogin
  *
- *  ì™¸ë¶€ í”Œë«í¼(google, naver, facebook, apple ë“±)ê³¼ í†µì‹ í•˜ê¸° ìœ„í•œ í´ë˜ìŠ¤
+ *  ¿ÜºÎ ÇÃ·§Æû(google, naver, facebook, apple µî)°ú Åë½ÅÇÏ±â À§ÇÑ Å¬·¡½º
  */
 #pragma once
 #include <RefSingleton.h>

@@ -1,8 +1,8 @@
 #pragma once
 #include "StrFilterInterface.h"
 
-constexpr const wchar_t* REGEX_PATTERN_KR = L"([^A-Za-z0-9ê°€-ê¹‹ë‚˜-ë‹£ë‹¤-ë”¯ë¼-ë§‡ë§ˆ-ë°“ë°”-ë¹Ÿì‚¬-ì‹·ì•„-ìì-ì§›ì°¨-ì¹³ì¹´-í‚¿íƒ€-íŒ‹íŒŒ-í•—í•˜-í£ê¹Œ-ë‚—ë”°-ë»ë¹ -ì‚«ì‹¸-ì•ƒì§œ-ì°§])";
-constexpr const wchar_t* REGEX_PATTERN_WITH_SPECIAL_KR = L"([^A-Za-z0-9ã„±-í£!?,.()* ])";
+constexpr const wchar_t* REGEX_PATTERN_KR = L"([^A-Za-z0-9°¡-ƒ‰³ª-ˆ¢´Ù-‹L¶ó-¡¸¶-“J¹Ù-•½»ç-šï¾Æ-ŸçÀÚ-£ Â÷-¯†Ä«-µiÅ¸-»MÆÄ-À˜ÇÏ-ÆR±î-…ùµû-êºü-˜ª½Î-ÏÂ¥-Âö])";
+constexpr const wchar_t* REGEX_PATTERN_WITH_SPECIAL_KR = L"([^A-Za-z0-9¤¡-ÆR!?,.()* ])";
 
 class StrFilterKR : public StrFilterInterface
 {

@@ -3,13 +3,13 @@
 #include "ServiceDivision.h"
 
 
-#pragma region | êµ­ë‚´ ë¼ì´ë¸Œ ì„œë¹„ìŠ¤ ì „ìš© Define
+#pragma region | ±¹³» ¶óÀÌºê ¼­ºñ½º Àü¿ë Define
 #ifdef KR_SERVICE
 
 #endif
 
 
-#pragma region | í…ŒìŠ¤íŠ¸ ì „ìš© Define
+#pragma region | Å×½ºÆ® Àü¿ë Define
 #ifdef DEV_TEST
 #ifdef KR_SERVICE
 

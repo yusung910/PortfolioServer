@@ -69,10 +69,10 @@ void ServerAppPO::Run()
 
 bool ServerAppPO::_Begin()
 {
-    //ë„¤íŠ¸ì›Œí¬ ìƒì„±
+    //³×Æ®¿öÅ© »ı¼º
     NetworkManager::GetInst().CreateNetwork();
 
-    //ì„œë²„ ë³„ NetworkEventSyncê°€ ìƒì„± ë˜ì§€ ì•Šì•˜ì„ ê²½ìš° ì¤‘ë‹¨
+    //¼­¹ö º° NetworkEventSync°¡ »ı¼º µÇÁö ¾Ê¾ÒÀ» °æ¿ì Áß´Ü
     if (nullptr == m_pEventSync)
     {
         VIEW_WRITE_ERROR(L"Server:%s _Begin() Failed - m_pEventSync is nullptr", StringUtil::ToWideChar(m_oListenerInfo.m_sServiceName).c_str());

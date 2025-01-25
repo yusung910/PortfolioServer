@@ -5,6 +5,7 @@
 #include "LoginDBService.h"
 #include "LoginService.h"
 #include "LoginServerNES.h"
+#include "ServerConst.h"
 #include <ServerConfig.h>
 #include <ServerApp.h>
 
@@ -25,7 +26,7 @@ PLoginServerApp::~PLoginServerApp()
 
 bool PLoginServerApp::Initialize()
 {
-    //ÏÑúÎ≤Ñ ÏÑ§Ï†ï(ServerConfig.json)ÏùÑ Î∂àÎü¨Ïò®Îã§
+    //º≠πˆ º≥¡§(ServerConfig.json)¿ª ∫“∑Øø¬¥Ÿ
     ServerConfig::GetInst().LoadConfig();
     GServerCheckService::GetInst().LoadGameServers();
 
@@ -34,8 +35,9 @@ bool PLoginServerApp::Initialize()
     if (false == _InitAccountDB())
         return false;
 
-    //ServerConst::GetInst();
-
+    ServerConst::GetInst().SetDefault();
+    auto lService = LoginDBLoadBalancer::GetInst().GetDirectService<LoginDBService>();
+    ServerConst::GetInst().LoadServerConst(lService);
     return true;
 }
 
@@ -57,7 +59,7 @@ bool PLoginServerApp::RunLoop()
     auto lApp = std::make_shared<ServerApp>();
     auto lEventSync = std::make_shared<LoginServerNES>();
 
-    //Ïï°ÏÖò ÏóÜÏùÑ Îïå ÏûêÎèôÏúºÎ°ú Ïó∞Í≤∞ ÎÅäÎäî ÏãúÍ∞Ñ ÏÑ§Ï†ï ÏÇ≠Ï†ú
+    //æ◊º« æ¯¿ª ∂ß ¿⁄µø¿∏∑Œ ø¨∞· ≤˜¥¬ Ω√∞£ º≥¡§ ªË¡¶
     //lEventSync->SetTimeoutMS(INT_MAX);
 
     lApp->SetListenerInfo(lMainInfo);

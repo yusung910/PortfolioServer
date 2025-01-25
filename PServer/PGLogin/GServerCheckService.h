@@ -32,7 +32,7 @@ public:
 
     bool Start();
 
-    //ì„œë²„ ì ‘ì† ëŒ€ê¸° ì¸ì› ìˆ˜
+    //¼­¹ö Á¢¼Ó ´ë±â ÀÎ¿ø ¼ö
     int GetServerConnectWaitingPlayerCount(const int& _serverID);
     const int& GetLatestGameServerID() const noexcept;
 
@@ -59,7 +59,7 @@ protected:
     bool OnHostClose(int _hostID, const HostClose& _msg);
 
 private:
-    //Login -> Game ì„œë²„ ì—°ê²° ì²´í¬
+    //Login -> Game ¼­¹ö ¿¬°á Ã¼Å©
     void _CheckConnect();
 
 };

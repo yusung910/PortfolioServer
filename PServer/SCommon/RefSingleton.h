@@ -1,5 +1,5 @@
 #pragma once
-// М▐╛Л²╦М└╟К╔╪ Л┌╛Л ╘М∙≤Л╖─ Л∙┼К┼■ Л▀╠Й╦─М├╓
+// фВюнем╦╕ ╩Г©КгоаЖ ╬й╢б ╫л╠шеФ
 template <class T>
 class RefSingleton
 {

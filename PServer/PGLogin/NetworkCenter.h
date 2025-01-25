@@ -3,6 +3,7 @@
 
 #include "LoginDBLoadBalancer.h"
 #include "LoginService.h"
+#include "OPFService.h"
 
 #include <InnerPacket.h>
 
@@ -85,7 +86,20 @@ inline void SendToLoginService(const EPacketProtocol& _msgID, InnerPacket::Share
     LoginService::GetInst().InnerPacketPush(_packet);
 }
 
-//send to Platform service(google , ios ...)
+//send to Platform service
+template <typename T>
+inline void SendToPlatform(const int& _hostID, const EPacketProtocol& _msgID, T* _msg)
+{
+    if (nullptr == _msg)
+        return;
+
+    InnerPacket::SharedPtr lPacket = InnerPacket::New();
+    lPacket->m_nHostID = _hostID;
+    lPacket->m_nProtocol = _msgID;
+    lPacket->m_pData = _msg;
+
+    OPFService::GetInst().InnerPacketPush(lPacket);
+}
 
 
 //send to PF

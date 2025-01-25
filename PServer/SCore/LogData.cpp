@@ -41,7 +41,7 @@ std::wstring LogData::ToString()
 
     wchar_t lStrTmp[50] = { 0, };
 
-    //timeptr êµ¬ì¡°ì˜ ì‹œê°„ ë° ë‚ ì§œ ìŠ¤í™ì„ ì™€ì´ë“œ ë¬¸ì ìŠ¤íŠ¸ë§ìœ¼ë¡œ ë³€í™˜
+    //timeptr ±¸Á¶ÀÇ ½Ã°£ ¹× ³¯Â¥ ½ºÆåÀ» ¿ÍÀÌµå ¹®ÀÚ ½ºÆ®¸µÀ¸·Î º¯È¯
     size_t lOffset = wcsftime(lStrTmp, _countof(lStrTmp), L"[%Y-%m-%d %H:%M:%S]", &lTimeData);
 
     //

@@ -12,7 +12,7 @@ int64_t Clock::GetFileTime()
     FILETIME lFT = {};
     GetSystemTimeAsFileTime(&lFT);
 
-    int64_t lFileTime100ns = ((int64_t)lFT.dwLowDateTime << 32) + (((int64_t)lFT.dwLowDateTime));
+    int64_t lFileTime100ns = ((int64_t)lFT.dwHighDateTime << 32) + (((int64_t)lFT.dwLowDateTime));
 
     return lFileTime100ns;
 }

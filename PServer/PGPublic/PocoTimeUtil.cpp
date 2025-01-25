@@ -41,7 +41,7 @@ Poco::DateTime PocoTimeUtil::MakeTime(const int& _year, const int& _month, const
 
 int PocoTimeUtil::GetLocalTimezone()
 {
-    //tzd() : utc(ì„¸ê³„ í˜‘ì •ì‹œ) + dst(ì¼ê´‘ ì ˆì•½ ì‹œê°„ì œ: í‘œì¤€ ì‹œ ë³´ë‹¤ 1ì‹œê°„ ì•ë‹¹ê¸´ ê°’) ê°’ì„ ë°˜í™˜
+    //tzd() : utc(¼¼°è ÇùÁ¤½Ã) + dst(ÀÏ±¤ Àı¾à ½Ã°£Á¦: Ç¥ÁØ ½Ã º¸´Ù 1½Ã°£ ¾Õ´ç±ä °ª) °ªÀ» ¹İÈ¯
     return Poco::Timezone::tzd() / 3600;
 }
 
@@ -208,7 +208,7 @@ Poco::DateTime PocoTimeUtil::GetToday0AMTime()
 Poco::DateTime PocoTimeUtil::GetToday5AMTime()
 {
     auto lCurTime = PocoTimeUtil::GetLocalTime();
-    //í˜„ì¬ ì‹œê°ì´ 05ì‹œ ì´ì „ì¼ ê²½ìš° ê·¸ ì „ë‚ ì˜ ìƒˆë²½ 5ì‹œë¥¼ ë°˜í™˜í•œë‹¤. 
+    //ÇöÀç ½Ã°¢ÀÌ 05½Ã ÀÌÀüÀÏ °æ¿ì ±× Àü³¯ÀÇ »õº® 5½Ã¸¦ ¹İÈ¯ÇÑ´Ù. 
     if (lCurTime.hour() < 5)
         lCurTime = PocoTimeUtil::AddDay(lCurTime, -1);
 
@@ -229,10 +229,10 @@ Poco::DateTime PocoTimeUtil::GetLastWeeklyInitTime()
     auto lDayofWeek = lCurTime.dayOfWeek();
 
     auto lAddDay = 0;
-    //ì´ˆê¸°í™” ìš”ì¼ì´ ì§€ë‚˜ê¸° ì „ì¼ ê²½ìš°
+    //ÃÊ±âÈ­ ¿äÀÏÀÌ Áö³ª±â ÀüÀÏ °æ¿ì
     if (lDayofWeek < WEEKLY_INIT_DAY)
     {
-        //ê·¸ ì „ì£¼ì˜ ì´ˆê¸°í™”ìš”ì¼ì„ ë°˜í™˜
+        //±× ÀüÁÖÀÇ ÃÊ±âÈ­¿äÀÏÀ» ¹İÈ¯
         lAddDay = -7 + (WEEKLY_INIT_DAY - lDayofWeek);
     }
     else

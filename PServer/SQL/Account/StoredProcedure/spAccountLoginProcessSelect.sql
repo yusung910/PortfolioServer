@@ -30,7 +30,7 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
 
   --계정 로그인 플랫폼 유형
   , @LoginPlatformType            INT
-  , @AccountUKey                  VARCHAR(255)
+  , @AccountToken                 VARCHAR(255)
   , @PlatformID                   VARCHAR(255)
 
   -- (from server)접속 시도하는 로그인 서버ID
@@ -78,7 +78,7 @@ BEGIN
         FROM
             Account
         WHERE
-            AccountUKey = @AccountUKey
+            AccountToken = @AccountToken
     END
 
 
@@ -90,8 +90,8 @@ BEGIN
                 SET @AccountType = @Account_Type
 
                 -- 1. Account Table
-                INSERT INTO Account(AccountUKey, ConnectServerID, OTP, IPAddress32)
-                VALUES (@AccountUKey, @ConnectingServerID, @OTP, @IPAddress32)
+                INSERT INTO Account(AccountToken, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectServerID, OTP, IPAddress32)
+                VALUES (@AccountToken, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingServerID, @OTP, @IPAddress32)
 
                 -- Check
                 IF(1 <> @@ROWCOUNT)
@@ -103,22 +103,6 @@ BEGIN
 
                 -- @@IDENTITY : 현재 세션의 테이블에서 생성(insert)된 마지막 ID 값을 반환
                 SET @AccountSeq = @@IDENTITY
-
-                -- 다른 플랫폼(NAVER, GOOGLE, FACEBOOK 등 로그인 할 경우)
-                IF(@Platform_GuestLogin <> @LoginPlatformType)
-                    BEGIN
-                        --AccountPlatform 테이블
-                        INSERT INTO AccountPlatform(PlatformID, AccountSeq, LoginPlatformType, BuildType, AppVersion, ClientType)
-                        VALUES(@PlatformID, @AccountSeq, @LoginPlatformType, @BuildType, @AppVersion, @ClientType)
-
-                        IF(1 <> @@ROWCOUNT)
-                        BEGIN
-                            ROLLBACK TRAN
-                            SET @Result = 1
-                            RETURN
-                        END
-                    END
-
             COMMIT TRAN
 
             SET @Result = 0

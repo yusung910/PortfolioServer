@@ -10,7 +10,7 @@ class LoginPlayer : public Object<LoginPlayer>
 public:
     EClient::Type m_eClientType = EClient::Type::None;  //접속 클라 유형
     EBuild::Type m_eBuildType = EBuild::Type::None;     //빌드 종류
-    EStore::Type m_eStoreType = EStore::Type::None;     //결제 스토어 타입
+    ELoginPlatform::Type m_eLoginPlatformType = ELoginPlatform::Type::None;     //결제 스토어 타입
 
     int m_nAppVersion = 0;                              //클라 앱 버전
     int m_nBuildStamp = 0;                              //클라 빌드 번호

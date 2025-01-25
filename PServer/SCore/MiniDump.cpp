@@ -5,9 +5,9 @@
 
 // MiniDump
 #include <BugTrap.h>
-#pragma warning(disable : 4091)	// dbghelp.h typedef ê²½ê³ .
+#pragma warning(disable : 4091)	// dbghelp.h typedef °æ°í.
 #include <dbghelp.h>
-#pragma warning(disable : 4091)	// dbghelp.h typedef ê²½ê³ .
+#pragma warning(disable : 4091)	// dbghelp.h typedef °æ°í.
 
 #include <filesystem>
 
@@ -28,7 +28,7 @@
 
 void MiniDump::SetupExceptionHandler(bool _autoRestart)
 {
-    // í˜„ì¬ ì‹¤í–‰íŒŒì¼(.exe) ì´ë¦„ì°¾ê¸°
+    // ÇöÀç ½ÇÇàÆÄÀÏ(.exe) ÀÌ¸§Ã£±â
     wchar_t appName[MAX_PATH] = {};
     GetModuleFileNameW(nullptr, appName, MAX_PATH);
 
@@ -45,7 +45,7 @@ void MiniDump::SetupExceptionHandler(bool _autoRestart)
         | MiniDumpWithTokenInformation // includes security token related data.
         ;
 
-    // BugTrap ë“±ë¡
+    // BugTrap µî·Ï
     BT_InstallSehFilter();
     BT_SetAppName(fullPath.stem().c_str());
 

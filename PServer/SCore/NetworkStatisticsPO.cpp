@@ -26,21 +26,21 @@ void NetworkStatisticsPO::Disconnect()
 
 void NetworkStatisticsPO::Reset()
 {
-    // Send & Receive íŠ¸ëž˜í”½
+    // Send & Receive Æ®·¡ÇÈ
     m_nLastCheckRecvBytes = 0;
     m_nLastCheckSendBytes = 0;
 
     m_nTotalRecvBytes = 0;
     m_nTotalSendBytes = 0;
 
-    // Send & Recevie íŒ¨í‚· ìˆ˜
+    // Send & Recevie ÆÐÅ¶ ¼ö
     m_nLastCheckRecvCount = 0;
     m_nLastCheckSendCount = 0;
 
     m_nTotalRecvCount = 0;
     m_nTotalSendCount = 0;
 
-    // Connection ìˆ˜
+    // Connection ¼ö
     m_nCurrentConnectionCount = 0;
     m_nTotalConnectionCount = 0;
 }

@@ -37,7 +37,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
             , out(lReq->RemainingPeriod)
 
             , in(lReq->LoginPlatformType)
-            , in(lReq->AccountUIDkey)
+            , in(lReq->AccountToken)
             , in(m_nCurrentServerID)
             , in(lOTP)
             , in(lReq->ClientType)
@@ -49,20 +49,20 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
     END_SESSION;
 
     
-    //ê³„ì • ì¡°íšŒ ê²°ê³¼ì— ë”°ë¥¸ ì²˜ë¦¬
+    //°èÁ¤ Á¶È¸ °á°ú¿¡ µû¸¥ Ã³¸®
     switch ((EDBResult)lReq->Result)
     {
         case EDBResult::DuplicateLogin:
             VIEW_DEBUG("DuplicateLogin");
-            //ì¤‘ë³µ ë¡œê·¸ì¸ì¼ ê²½ìš°ì—ë„ otp ê°’ì´ í•„ìš”í•˜ê¸° ë•Œë¬¸ì— [[fallthrough]] ì´ìš©í•˜ì—¬
-            //ë‹¤ìŒ caseë¬¸ê¹Œì§€ ì‹¤í–‰í•œë‹¤.
+            //Áßº¹ ·Î±×ÀÎÀÏ °æ¿ì¿¡µµ otp °ªÀÌ ÇÊ¿äÇÏ±â ¶§¹®¿¡ [[fallthrough]] ÀÌ¿ëÇÏ¿©
+            //´ÙÀ½ case¹®±îÁö ½ÇÇàÇÑ´Ù.
             [[fallthrough]];
         case EDBResult::Success:
             lReq->OTP = lOTP;
             break;
         case EDBResult::AccountCreateFailed:
-        case EDBResult::DurationBlock:  //ê³„ì • ì¼ì‹œ ì •ì§€
-        case EDBResult::PermanentBlock: //ì˜êµ¬ ì •ì§€
+        case EDBResult::DurationBlock:  //°èÁ¤ ÀÏ½Ã Á¤Áö
+        case EDBResult::PermanentBlock: //¿µ±¸ Á¤Áö
         default:
             break;
     }
@@ -70,7 +70,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
 
     if ((EDBResult)lReq->Result == EDBResult::Success)
     {
-        //ìºë¦­í„° ì¡°íšŒ
+        //Ä³¸¯ÅÍ Á¶È¸
         std::vector<spLoginAccountPilgrimSelectDTO::AccountPilgrim> lPilgrimList;
         BEGIN_SESSION;
 

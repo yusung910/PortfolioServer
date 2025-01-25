@@ -72,7 +72,7 @@ size_t Base64Util::Decode(const char* _srcBuffer, const size_t& _srcSize, char* 
 
     std::string lWorkBuffer(_srcBuffer);
 
-    //_srcBufferê°€ 4(BASE64_DECODE_PAIR_SIZE)ì˜ ë°°ìˆ˜ê°€ ì•„ë‹ê²½ìš°
+    //_srcBuffer°¡ 4(BASE64_DECODE_PAIR_SIZE)ÀÇ ¹è¼ö°¡ ¾Æ´Ò°æ¿ì
     if (lWorkBuffer.size() % BASE64_DECODE_PAIR_SIZE != 0)
     {
         int lRemain = BASE64_DECODE_PAIR_SIZE - (int)(lWorkBuffer.size() % BASE64_DECODE_PAIR_SIZE);

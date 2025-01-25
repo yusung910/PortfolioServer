@@ -6,18 +6,18 @@
 
 LoggingManagerPO::LoggingManagerPO()
 {
-    //ì‹œê°„
+    //½Ã°£
     tm lCurrentTime = {};
-    //í‹±
+    //Æ½
     time_t lCurrentTick = time(nullptr);
 
-    //ì„œë²„ ë¡œì»¬ íƒ€ì„ í˜¸ì¶œ
+    //¼­¹ö ·ÎÄÃ Å¸ÀÓ È£Ãâ
     auto lErr = localtime_s(&lCurrentTime, &lCurrentTick);
 
-    //ì„œë²„ ë¡œì»¬ íƒ€ì„ì„ ì •ìƒì ìœ¼ë¡œ í˜¸ì¶œ í–ˆì„ ê²½ìš°
+    //¼­¹ö ·ÎÄÃ Å¸ÀÓÀ» Á¤»óÀûÀ¸·Î È£Ãâ ÇßÀ» °æ¿ì
     if (lErr == 0)
     {
-        //ë¡œê·¸ íŒŒì¼ì„ ì €ì¥í•  í´ë”ëª…ì„ ìƒì„±
+        //·Î±× ÆÄÀÏÀ» ÀúÀåÇÒ Æú´õ¸íÀ» »ı¼º
         char lTmp[7] = { 0, };
         sprintf_s(lTmp, sizeof(lTmp), "%02d%02d%02d", (lCurrentTime.tm_year + 1900) % 100, lCurrentTime.tm_mon + 1, lCurrentTime.tm_mday);
 
@@ -75,7 +75,7 @@ bool LoggingManagerPO::Start()
     if (nullptr != m_pThread)
         return false;
 
-    // ë¡œê·¸ ì €ì¥ í´ë” ê²½ë¡œ ì„¤ì •
+    // ·Î±× ÀúÀå Æú´õ °æ·Î ¼³Á¤
     std::string lTmpDir = m_sLogDirConfig + "/" + m_sLogDateFolder + "/";
     m_oLogDirPath = std::filesystem::path(lTmpDir.c_str());
 
@@ -186,7 +186,7 @@ void LoggingManagerPO::_Run()
                 if (true == pLog->m_bShowConsole)
                 {
                     _ChangeConsoleColor(pLog->m_eLogLvl);
-                    //wosyncstream ì“°ë ˆë“œ ë‚´ì—ì„œ ë’¤ì„ì´ì§€ ì•Šë„ë¡ í•˜ê¸° ìœ„í•´ ì‚¬ìš©
+                    //wosyncstream ¾²·¹µå ³»¿¡¼­ µÚ¼¯ÀÌÁö ¾Êµµ·Ï ÇÏ±â À§ÇØ »ç¿ë
                     //https://tango1202.github.io/cpp-stl/modern-cpp-stl-input-output/#c20-%EB%8F%99%EA%B8%B0%ED%99%94-%EC%B6%9C%EB%A0%A5
                     std::wosyncstream(std::wcout) << pLog->ToString().c_str() << std::endl;
                 }
@@ -248,16 +248,16 @@ void LoggingManagerPO::_Run()
 
 bool LoggingManagerPO::_MakeFolder()
 {
-    //ë¡œê·¸ë¥¼ ì €ì¥í•  ê²½ë¡œê°€ ì¡´ì¬í•˜ê³  ìˆëŠ”ì§€ í™•ì¸
+    //·Î±×¸¦ ÀúÀåÇÒ °æ·Î°¡ Á¸ÀçÇÏ°í ÀÖ´ÂÁö È®ÀÎ
     if (true == std::filesystem::exists(m_oLogDirPath))
     {
-        //ë¡œê·¸ë¥¼ ì €ì¥í•  ê²½ë¡œê°€ ì¡´ì¬ í•  ê²½ìš° í•´ë‹¹ ê²½ë¡œê°€ ë””ë ‰í† ë¦¬ì¸ì§€ í™•ì¸
+        //·Î±×¸¦ ÀúÀåÇÒ °æ·Î°¡ Á¸Àç ÇÒ °æ¿ì ÇØ´ç °æ·Î°¡ µğ·ºÅä¸®ÀÎÁö È®ÀÎ
         if (true == std::filesystem::is_directory(m_oLogDirPath))
             return true;
     }
 
     std::error_code lEC = {};
-    //ë””ë ‰í† ë¦¬ ìƒì„±
+    //µğ·ºÅä¸® »ı¼º
     if (false == std::filesystem::create_directories(m_oLogDirPath, lEC))
     {
         if (lEC.value() == 0)
@@ -281,7 +281,7 @@ bool LoggingManagerPO::_CheckErrorFileChangeable()
 
 bool LoggingManagerPO::_CheckFileChangeable(const std::filesystem::path& _file)
 {
-    // íŒŒì¼ì´ ì¡´ì¬ í•˜ëŠ”ì§€ ì—¬ë¶€ í™•ì¸
+    // ÆÄÀÏÀÌ Á¸Àç ÇÏ´ÂÁö ¿©ºÎ È®ÀÎ
     if (false == std::filesystem::exists(_file))
         return false;
 

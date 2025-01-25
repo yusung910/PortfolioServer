@@ -82,11 +82,13 @@ void ServerConst::SetDefault()
 
 bool ServerConst::_IsIntConst(const EServerConst& _id)
 {
-    switch (_id)
-    {
+    //switch (_id)
+    //{
 
-    default:
-        break;
-    }
+    //default:
+    //    break;
+    //}
+    
+    
     return true;
 }

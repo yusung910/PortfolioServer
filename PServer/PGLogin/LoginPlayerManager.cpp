@@ -7,7 +7,7 @@ LoginPlayerManager::LoginPlayerManager()
 
 LoginPlayerManager::~LoginPlayerManager()
 {
-    //í´ëž˜ìŠ¤ê°€ ì†Œë©¸ í•  ë•Œ êµ³ì´..??
+    //Å¬·¡½º°¡ ¼Ò¸ê ÇÒ ¶§ ±»ÀÌ..??
     //AutoLock(m_xHostLock);
 
     m_umPlayerList.clear();
@@ -27,9 +27,9 @@ LoginPlayer* LoginPlayerManager::Add(int& _hostID, const CLAuthReq& _msg)
     lAddPlayer->m_eClientType = (EClient::Type)_msg.ClientType();
 
     lAddPlayer->m_nAppVersion = _msg.AppVersion();
-    lAddPlayer->m_eStoreType = (EStore::Type)_msg.StoreType();
+    lAddPlayer->m_eLoginPlatformType = (ELoginPlatform::Type)_msg.LoginPlatformType();
 
-    lAddPlayer->m_sAuthKey = _msg.AccountUKey()->c_str();
+    lAddPlayer->m_sAuthKey = _msg.AccountToken()->c_str();
 
     m_umPlayerList.insert_or_assign(_hostID, lAddPlayer);
 
@@ -113,7 +113,7 @@ bool LoginPlayerManager::GetPlayerData(const int& _accountSeq, int& _hostID, int
     return false;
 }
 
-bool LoginPlayerManager::GetPlayerDataForDeque(const int& _hostID, int& _accountSeq, int& _ServerID, int& _otp, EStore::Type& _storeType)
+bool LoginPlayerManager::GetPlayerDataForDeque(const int& _hostID, int& _accountSeq, int& _ServerID, int& _otp, ELoginPlatform::Type& _loginPlatformType)
 {
     AutoLock(m_xHostLock);
     auto lIt = m_umPlayerList.find(_hostID);
@@ -126,7 +126,7 @@ bool LoginPlayerManager::GetPlayerDataForDeque(const int& _hostID, int& _account
     _accountSeq = lIt->second->m_nAccountSeq;
     _ServerID = lIt->second->m_nSelectedServerID;
     _otp = lIt->second->m_nOTP;
-    _storeType = lIt->second->m_eStoreType;
+    _loginPlatformType = lIt->second->m_eLoginPlatformType;
 
     return true;
 }

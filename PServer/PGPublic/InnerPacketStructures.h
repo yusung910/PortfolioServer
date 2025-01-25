@@ -31,17 +31,13 @@ public:
     EErrorMsg Result = EErrorMsg::EF_LOGIN_ERROR_OUTER_PLATFORM;
 
     ELoginPlatform::Type LoginPlatformType = ELoginPlatform::Type::None;
-    std::string AccountUKey = "";
+    std::string AccountToken = "";
 
-    std::string StoreToken = "";
-    std::string StoreID = "";
     std::string ReturnToken = "";
 
-
-
+    std::string StoreToken = "";
     int ClientType = 0;
     int AppVersion = 0;
-    int StoreType = 0;
 };
 
 
@@ -49,6 +45,7 @@ public:
 class spLoginAccountProcessSelectDTO : public InnerDataInterface
 {
 public:
+    //out
     int Result = (int)EDBResult::None;
 
     int AccountSeq = 0;
@@ -58,15 +55,14 @@ public:
     int ConnectedServerID = 0;         //접속된 로그인 서버
     Poco::DateTime RemainingPeriod = { 1900, 1, 1, 0, 0, 0 };
 
-    int OTP = 0;
 
+    //in
+    int LoginPlatformType = 0;
+    std::string AccountToken;
+    int ConnectingLoginServerID = 0;
+    int OTP = 0;
     int ClientType = 0;
     int AppVersion = 0;
-    int LoginPlatformType = 0;
-    std::string AccountUIDkey;
-    
-    int ConnectingLoginServerID = 0;
-
     int BuildType = 0;
     int IPAddress32 = 0;
 

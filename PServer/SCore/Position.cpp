@@ -137,7 +137,7 @@ float Position::GetXYDistanceNotSqrt(const Position& _other) const
 
 float Position::GetLength() const
 {
-    //sqrtf ì œê³±ê·¼
+    //sqrtf Á¦°ö±Ù
     return sqrtf(GetLengthPow());
 }
 

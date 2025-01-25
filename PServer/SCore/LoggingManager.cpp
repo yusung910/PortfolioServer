@@ -3,11 +3,11 @@
 #include "LoggingManagerPO.hxx"
 #include "StringUtil.h"
 
-// ìŠ¤íƒ ì‚¬ì´ì¦ˆ ì˜¤ë¥˜
-// ë©”ëª¨ë¦¬ì˜ ìŠ¤íƒì˜ì—­ì— ì €ì¥ë˜ëŠ” ë°ì´í„°ì˜ í¬ê¸°ê°€ ì¼ì • ìˆ˜ì¹˜ ë„˜ì–´ê°ˆ ê²½ìš°
-// C6262 ê²½ê³  ë©”ì„¸ì§€(ì—ëŸ¬ X)ë¥¼ ì¶œë ¥í•œë‹¤. ì´ ê²½ê³  ë©”ì„¸ì§€ë¥¼ í•´ê²°í•˜ê¸° ìœ„í•´
-// í•´ë‹¹ ë°ì´í„°ë¥¼ í™ ì˜ì—­ì— ì €ì¥í•´ì•¼ í•œë‹¤
-// í™ ì˜ì—­ì— ì €ì¥í•˜ê¸° ìœ„í•´ ë™ì í• ë‹¹ì„ ì´ìš©í•œë‹¤.
+// ½ºÅÃ »çÀÌÁî ¿À·ù
+// ¸Ş¸ğ¸®ÀÇ ½ºÅÃ¿µ¿ª¿¡ ÀúÀåµÇ´Â µ¥ÀÌÅÍÀÇ Å©±â°¡ ÀÏÁ¤ ¼öÄ¡ ³Ñ¾î°¥ °æ¿ì
+// C6262 °æ°í ¸Ş¼¼Áö(¿¡·¯ X)¸¦ Ãâ·ÂÇÑ´Ù. ÀÌ °æ°í ¸Ş¼¼Áö¸¦ ÇØ°áÇÏ±â À§ÇØ
+// ÇØ´ç µ¥ÀÌÅÍ¸¦ Èü ¿µ¿ª¿¡ ÀúÀåÇØ¾ß ÇÑ´Ù
+// Èü ¿µ¿ª¿¡ ÀúÀåÇÏ±â À§ÇØ µ¿ÀûÇÒ´çÀ» ÀÌ¿ëÇÑ´Ù.
 #define LOG_C6262_TUNE
 
 LoggingManager::LoggingManager()
@@ -77,7 +77,7 @@ void LoggingManager::ViewForce(const char* _pFunc, const ELogLevel& _lvl, const 
     }
 
 #ifdef LOG_C6262_TUNE
-    //unique_ptr, shared_ptr(í¬ì¸í„°)ê°€ deleteë  ë•Œ ì‹¤í–‰ ë  ê¸°ë³¸ Destructor(ì†Œë©¸ì)ë¥¼ ëª…ì‹œí•œë‹¤
+    //unique_ptr, shared_ptr(Æ÷ÀÎÅÍ)°¡ deleteµÉ ¶§ ½ÇÇà µÉ ±âº» Destructor(¼Ò¸êÀÚ)¸¦ ¸í½ÃÇÑ´Ù
     std::shared_ptr<wchar_t> lpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
     wchar_t* lpBuffer = lpBuf.get();
 #else
@@ -109,7 +109,7 @@ void LoggingManager::ViewForce(const char* _pFunc, const ELogLevel& _lvl, const 
     }
 
 #ifdef LOG_C6262_TUNE
-    //unique_ptr, shared_ptr(í¬ì¸í„°)ê°€ deleteë  ë•Œ ì‹¤í–‰ ë  ê¸°ë³¸ Destructor(ì†Œë©¸ì)ë¥¼ ëª…ì‹œí•œë‹¤
+    //unique_ptr, shared_ptr(Æ÷ÀÎÅÍ)°¡ deleteµÉ ¶§ ½ÇÇà µÉ ±âº» Destructor(¼Ò¸êÀÚ)¸¦ ¸í½ÃÇÑ´Ù
     std::shared_ptr<char> lpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
     char* lpBuffer = lpBuf.get();
 #else
@@ -131,7 +131,7 @@ void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& 
     if (m_pManagerPO == nullptr) return;
 
 #ifdef LOG_C6262_TUNE
-    //unique_ptr, shared_ptr(í¬ì¸í„°)ê°€ deleteë  ë•Œ ì‹¤í–‰ ë  ê¸°ë³¸ Destructor(ì†Œë©¸ì)ë¥¼ ëª…ì‹œí•œë‹¤
+    //unique_ptr, shared_ptr(Æ÷ÀÎÅÍ)°¡ deleteµÉ ¶§ ½ÇÇà µÉ ±âº» Destructor(¼Ò¸êÀÚ)¸¦ ¸í½ÃÇÑ´Ù
     std::shared_ptr<wchar_t> lpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
     wchar_t* lpBuffer = lpBuf.get();
 #else
@@ -153,7 +153,7 @@ void LoggingManager::Log(const char* _pFunc, const ELogLevel& _lvl, const bool& 
     if (m_pManagerPO == nullptr) return;
 
 #ifdef LOG_C6262_TUNE
-    //unique_ptr, shared_ptr(í¬ì¸í„°)ê°€ deleteë  ë•Œ ì‹¤í–‰ ë  ê¸°ë³¸ Destructor(ì†Œë©¸ì)ë¥¼ ëª…ì‹œí•œë‹¤
+    //unique_ptr, shared_ptr(Æ÷ÀÎÅÍ)°¡ deleteµÉ ¶§ ½ÇÇà µÉ ±âº» Destructor(¼Ò¸êÀÚ)¸¦ ¸í½ÃÇÑ´Ù
     std::shared_ptr<char> lpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
     char* lpBuffer = lpBuf.get();
 #else
@@ -175,7 +175,7 @@ void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _
     if (m_pManagerPO == nullptr) return;
 
 #ifdef LOG_C6262_TUNE
-    //unique_ptr, shared_ptr(í¬ì¸í„°)ê°€ deleteë  ë•Œ ì‹¤í–‰ ë  ê¸°ë³¸ Destructor(ì†Œë©¸ì)ë¥¼ ëª…ì‹œí•œë‹¤
+    //unique_ptr, shared_ptr(Æ÷ÀÎÅÍ)°¡ deleteµÉ ¶§ ½ÇÇà µÉ ±âº» Destructor(¼Ò¸êÀÚ)¸¦ ¸í½ÃÇÑ´Ù
     std::shared_ptr<wchar_t> lpBuf(new wchar_t[MAX_LOG_STRING_SIZE], std::default_delete<wchar_t[]>());
     wchar_t* lpBuffer = lpBuf.get();
 #else
@@ -198,7 +198,7 @@ void LoggingManager::Log(const char* _pFunc, const int _line, const ELogLevel& _
     if (m_pManagerPO == nullptr) return;
 
 #ifdef LOG_C6262_TUNE
-    //unique_ptr, shared_ptr(í¬ì¸í„°)ê°€ deleteë  ë•Œ ì‹¤í–‰ ë  ê¸°ë³¸ Destructor(ì†Œë©¸ì)ë¥¼ ëª…ì‹œí•œë‹¤
+    //unique_ptr, shared_ptr(Æ÷ÀÎÅÍ)°¡ deleteµÉ ¶§ ½ÇÇà µÉ ±âº» Destructor(¼Ò¸êÀÚ)¸¦ ¸í½ÃÇÑ´Ù
     std::shared_ptr<char> lpBuf(new char[MAX_LOG_STRING_SIZE], std::default_delete<char[]>());
     char* lpBuffer = lpBuf.get();
 #else

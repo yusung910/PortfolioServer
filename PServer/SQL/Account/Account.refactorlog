@@ -21,4 +21,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="seq" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="21aa3cec-9e17-4a95-9652-c7cfe7c8f3bb" ChangeDateTime="01/24/2025 17:33:14">
+    <Property Name="ElementName" Value="[dbo].[Account].[AccountUKey]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Account]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AccountID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="479f1822-c377-4ae5-8b34-1c0b7a0105bc" ChangeDateTime="01/25/2025 09:44:56">
+    <Property Name="ElementName" Value="[dbo].[Account].[AccountID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Account]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AccountToken" />
+  </Operation>
 </Operations>

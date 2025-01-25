@@ -63,7 +63,7 @@ const EStrFilterType& StrFilterInterface::GetFilterType() const noexcept
 
 bool StrFilterInterface::_IsKorCharacter(const wchar_t& _ch)
 {
-    if (_ch >= L'ê°€' && _ch <= L'íž£')
+    if (_ch >= L'°¡' && _ch <= L'ÆR')
         return true;
     return false;
 }

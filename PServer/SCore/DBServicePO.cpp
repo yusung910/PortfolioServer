@@ -69,7 +69,7 @@ unsigned int DBServicePO::Run()
 {
     while (false == m_ShouldExit)
     {
-        //timer ì‹¤í–‰
+        //timer ½ÇÇà
         UpdateTimer();
 
         m_oPacketQueue.Swap(m_oWorkList);

@@ -27,18 +27,18 @@ int LZ4Compressor::Compress(const char* pSrcData, const int& nSrcSize, char* pDs
     int nRet = LZ4_compress_default(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize));
     if (nRet < nSrcSize)
     {
-        // ì••ì¶• ì„±ê³µ!... ì´ì§€ë§Œ
+        // ¾ĞÃà ¼º°ø!... ÀÌÁö¸¸
         if (nRet > nDstBufferSize)
-            nRet = 0;   // ëŒ€ìƒ ë²„í¼ ì‚¬ì´ì¦ˆê°€ ì‘ì•„
+            nRet = 0;   // ´ë»ó ¹öÆÛ »çÀÌÁî°¡ ÀÛ¾Æ
         else
             memcpy_s(pDstBuffer, static_cast<rsize_t>(nDstBufferSize), pTempBuffer, static_cast<rsize_t>(nRet));
     }
     else
     {
-        nRet = 0; // ì••ì¶• ì‹¤íŒ¨
+        nRet = 0; // ¾ĞÃà ½ÇÆĞ
     }
 
-    return nRet;    // ì••ì¶•ëœ í¬ê¸°
+    return nRet;    // ¾ĞÃàµÈ Å©±â
 }
 
 int LZ4Compressor::Decompress(const char* pSrcData, const int& nSrcSize, char* pDstBuffer, const int& nDstBufferSize, char* pTempBuffer, const int& nTempBufferSize)
@@ -54,7 +54,7 @@ int LZ4Compressor::Decompress(const char* pSrcData, const int& nSrcSize, char* p
     int nRet = LZ4_decompress_safe(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize));
     if (nRet > 0)
     {
-        // ì••ì¶• í’€ê¸° ì„±ê³µ!... ì´ì§€ë§Œ
+        // ¾ĞÃà Ç®±â ¼º°ø!... ÀÌÁö¸¸
         if (nRet > nDstBufferSize)
             nRet = 0;
         else
@@ -65,5 +65,5 @@ int LZ4Compressor::Decompress(const char* pSrcData, const int& nSrcSize, char* p
         nRet = 0;
     }
 
-    return nRet;       // ì••ì¶• í•´ì œ í›„ ì›ë³¸ ì‚¬ì´ì¦ˆ
+    return nRet;       // ¾ĞÃà ÇØÁ¦ ÈÄ ¿øº» »çÀÌÁî
 }

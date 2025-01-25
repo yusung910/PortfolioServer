@@ -13,8 +13,8 @@ private:
 
 	size_t m_nAllocationCnt = 0;
 public:
-	//íƒ€ì… ì •ì˜
-	//ì°¸ê³  : https://cjwoov.tistory.com/68
+	//Å¸ÀÔ Á¤ÀÇ
+	//Âü°í : https://cjwoov.tistory.com/68
 	using AutoReleaseUniuqePtr = std::unique_ptr<T, std::function<void(T*)>>;
 
 	static ObjectPool<T>* GetInst()

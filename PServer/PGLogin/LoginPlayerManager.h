@@ -51,7 +51,7 @@ public:
 
 public: // Get Data
     bool GetPlayerData(const int& _accountSeq, int& _hostID, int& _ServerID, std::string& _platformID, std::string& _returnToken);
-    bool GetPlayerDataForDeque(const int& _hostID, int& _accountSeq, int& _ServerID, int& _otp, EStore::Type& _storeType);
+    bool GetPlayerDataForDeque(const int& _hostID, int& _accountSeq, int& _ServerID, int& _otp, ELoginPlatform::Type& _loginPlatformType);
     bool SetServerID(const int& _hostID, const int& _serverID);
 
 public: //network

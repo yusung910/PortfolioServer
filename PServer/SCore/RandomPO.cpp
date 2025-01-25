@@ -55,7 +55,7 @@ int RandomPO::GetRandomRange(const int& _min, const int& _max)
 
 float RandomPO::GetRandomRangef(const float& _min, const float& _max)
 {
-	const int64_t lDivideRange = 10000000ll;	// floatì˜ ìœ íš¨ìë¦¿ìˆ˜ëŠ” 7ìë¦¬
+	const int64_t lDivideRange = 10000000ll;	// floatÀÇ À¯È¿ÀÚ¸´¼ö´Â 7ÀÚ¸®
 	const float lMultiplierRange = 1.0f / 10000000.0f;
 	return _min + ((GenerateRandom64(&m_nMti, m_lMt) & lDivideRange) * lMultiplierRange * (_max - _min));
 }

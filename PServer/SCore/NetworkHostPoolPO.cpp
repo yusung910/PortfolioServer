@@ -41,11 +41,11 @@ NetworkHostPO* NetworkHostPoolPO::Allocate()
     {
         ++m_nLastHostID;
 
-        //m_nLastHostIDì˜ ê°’ì´ 20ì–µì´ ë„˜ì„ ê²½ìš° 1ë¡œ ìˆœíšŒ
+        //m_nLastHostIDÀÇ °ªÀÌ 20¾ïÀÌ ³ÑÀ» °æ¿ì 1·Î ¼øÈ¸
         if (m_nLastHostID > 2000000000)
             m_nLastHostID = 1;
 
-        //ë§µì— ìˆì„ ê²½ìš° pass
+        //¸Ê¿¡ ÀÖÀ» °æ¿ì pass
         if (m_umActiveMap.find(m_nLastHostID) != m_umActiveMap.end())
             continue;
 

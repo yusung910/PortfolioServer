@@ -20,7 +20,7 @@ bool ServerConfigData::LoadConfig(const std::wstring& _configFile)
     std::error_code lEC;
     auto lCurrentDir = fs::current_path(lEC);
     if (lEC.value() != 0)
-        return false;   //íŒŒì¼ ê²½ë¡œ í˜¸ì¶œ ì—ëŸ¬
+        return false;   //ÆÄÀÏ °æ·Î È£Ãâ ¿¡·¯
 
     std::wstring lwsPath(lCurrentDir.c_str() + std::wstring(L"\\") + _configFile);
 
@@ -52,7 +52,7 @@ bool ServerConfigData::Reload()
     std::error_code lEC;
     auto lCurrentDir = fs::current_path(lEC);
     if (lEC.value() != 0)
-        return false;   //íŒŒì¼ ê²½ë¡œ í˜¸ì¶œ ì—ëŸ¬
+        return false;   //ÆÄÀÏ °æ·Î È£Ãâ ¿¡·¯
 
     std::wstring lwsPath(lCurrentDir.c_str() + std::wstring(L"\\") + m_sConfigFileName);
 
@@ -251,7 +251,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
         return false;
 
 
-    //ì•”,ë³µí˜¸í™”
+    //¾Ï,º¹È£È­
     XORUtil lXORUtil;
     Base64Util lBase64;
 
@@ -276,7 +276,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
 
         const auto& lMainListenerInfo = lRoot["MainListener"];
 
-        //MainListenerê°€ ì—†ì„ ê²½ìš° ì¢…ë£Œ
+        //MainListener°¡ ¾øÀ» °æ¿ì Á¾·á
         if (true == lMainListenerInfo.isNull())
             return false;
 
@@ -318,7 +318,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
     //GameServer List
     m_umGameServers.clear();
     /*!
-     *  JsonExample) Root ì•„ëž˜ì— ë„£ì–´ì•¼í•œë‹¤.
+     *  JsonExample) Root ¾Æ·¡¿¡ ³Ö¾î¾ßÇÑ´Ù.
      *  {
      *      GameServerList:{
      *          "10101" : {
@@ -364,7 +364,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
     //LoginServer List
     m_umLoginServers.clear();
     /*!
-     *  JsonExample) Root ì•„ëž˜ì— ë„£ì–´ì•¼í•œë‹¤.
+     *  JsonExample) Root ¾Æ·¡¿¡ ³Ö¾î¾ßÇÑ´Ù.
      *  {
      *      LoginServerList:{
      *          "1" : {
@@ -536,9 +536,9 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
 
             std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 
-            //DB íŒ¨ìŠ¤ì›Œë“œì˜ ì•”í˜¸í™” ìˆœì„œëŠ” ë³µí˜¸í™” ì—­ìˆœ
-            //ì•”í˜¸í™” : XORUtil -> Base64
-            //ë³µí˜¸í™” : Base64 -> XORUtil
+            //DB ÆÐ½º¿öµåÀÇ ¾ÏÈ£È­ ¼ø¼­´Â º¹È£È­ ¿ª¼ø
+            //¾ÏÈ£È­ : XORUtil -> Base64
+            //º¹È£È­ : Base64 -> XORUtil
             char lTmp[1024] = { 0, };
             char lTmpForXOR[1024] = { 0, };
             

@@ -1,13 +1,13 @@
-// pch.h: ë¯¸ë¦¬ ì»´íŒŒì¼ëœ í—¤ë” íŒŒì¼ìž…ë‹ˆë‹¤.
-// ì•„ëž˜ ë‚˜ì—´ëœ íŒŒì¼ì€ í•œ ë²ˆë§Œ ì»´íŒŒì¼ë˜ì—ˆìœ¼ë©°, í–¥í›„ ë¹Œë“œì— ëŒ€í•œ ë¹Œë“œ ì„±ëŠ¥ì„ í–¥ìƒí•©ë‹ˆë‹¤.
-// ì½”ë“œ ì»´íŒŒì¼ ë° ì—¬ëŸ¬ ì½”ë“œ ê²€ìƒ‰ ê¸°ëŠ¥ì„ í¬í•¨í•˜ì—¬ IntelliSense ì„±ëŠ¥ì—ë„ ì˜í–¥ì„ ë¯¸ì¹©ë‹ˆë‹¤.
-// ê·¸ëŸ¬ë‚˜ ì—¬ê¸°ì— ë‚˜ì—´ëœ íŒŒì¼ì€ ë¹Œë“œ ê°„ ì—…ë°ì´íŠ¸ë˜ëŠ” ê²½ìš° ëª¨ë‘ ë‹¤ì‹œ ì»´íŒŒì¼ë¨.
-// ë¹Œë“œ ì†Œìš” ì‹œê°„ì´ ì¦ê°€ë  ìˆ˜ ìžˆìŒ.
+// pch.h: ¹Ì¸® ÄÄÆÄÀÏµÈ Çì´õ ÆÄÀÏÀÔ´Ï´Ù.
+// ¾Æ·¡ ³ª¿­µÈ ÆÄÀÏÀº ÇÑ ¹ø¸¸ ÄÄÆÄÀÏµÇ¾úÀ¸¸ç, ÇâÈÄ ºôµå¿¡ ´ëÇÑ ºôµå ¼º´ÉÀ» Çâ»óÇÕ´Ï´Ù.
+// ÄÚµå ÄÄÆÄÀÏ ¹× ¿©·¯ ÄÚµå °Ë»ö ±â´ÉÀ» Æ÷ÇÔÇÏ¿© IntelliSense ¼º´É¿¡µµ ¿µÇâÀ» ¹ÌÄ¨´Ï´Ù.
+// ±×·¯³ª ¿©±â¿¡ ³ª¿­µÈ ÆÄÀÏÀº ºôµå °£ ¾÷µ¥ÀÌÆ®µÇ´Â °æ¿ì ¸ðµÎ ´Ù½Ã ÄÄÆÄÀÏµÊ.
+// ºôµå ¼Ò¿ä ½Ã°£ÀÌ Áõ°¡µÉ ¼ö ÀÖÀ½.
 #pragma warning(disable : 4819)
 
 #ifndef PCH_H
 #define PCH_H
-// ì—¬ê¸°ì— ë¯¸ë¦¬ ì»´íŒŒì¼í•˜ë ¤ëŠ” í—¤ë” ì¶”ê°€
+// ¿©±â¿¡ ¹Ì¸® ÄÄÆÄÀÏÇÏ·Á´Â Çì´õ Ãß°¡
 #include <memory>
 #include <LoggingMacro.h>
 #include <Packet.h>

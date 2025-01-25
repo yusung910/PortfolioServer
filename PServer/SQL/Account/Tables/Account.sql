@@ -1,31 +1,31 @@
 CREATE TABLE [dbo].[Account]
 (
     --계정 고유 번호
-    [AccountSeq]                    [int] IDENTITY(1,1)     NOT NULL,
-    --계정 고유 key(문자열)
-    [AccountUKey]                   [varchar](255)          NOT NULL,
+    [AccountSeq]                        [int] IDENTITY(1,1)     NOT NULL,
+    --계정 고유 key(문자열)-> loginPlaform(google, naver 등등)에서 생성되는 키를 저장
+    [AccountToken]                      [varchar](255)          NOT NULL,
     --계정 상태(0 : 정상, 9:삭제 대기, 91: 삭제 등등)
-    [AccountStatus]                 [int]                   NOT NULL,
+    [AccountStatus]                     [int]                   NOT NULL,
     --계정 유형(0 : 일반 유저, 1: GM, 2: QA 등등)
-    [AccountType]                   [int]                   NOT NULL,
+    [AccountType]                       [int]                   NOT NULL DEFAULT ((0)),
     --로그인 플랫폼 (ELogin 99: GuestLogin,  1 : Google 등등)
-    [LoginPlatformType]             [int]                   NOT NULL,
+    [LoginPlatformType]                 [int]                   NOT NULL,
     --클라 타입(EClinet -> 0: window, 1: Android 등등)
-    [ClientType]                    [int]                   NOT NULL,
+    [ClientType]                        [int]                   NOT NULL,
     --클라 AppVersion
-    [AppVersion]                    [int]                   NULL,
+    [AppVersion]                        [int]                   NULL,
     --클라 빌드 유형
-    [BuildType]                     [int]                   NULL,
+    [BuildType]                         [int]                   NULL,
     -- 계정이 접속하는 서버가 저장되는 컬럼(로그인 -> Game 등등)
-    [ConnectServerID]               [int]                   NULL,
+    [ConnectServerID]                   [int]                   NULL,
     --otp
-    [OTP]                           [varchar](8)            NULL,
+    [OTP]                               [varchar](8)            NULL,
     --IP 32bit
-    [IPAddress32]                   [int]                   NULL,
+    [IPAddress32]                       [int]                   NULL,
     -- 생성일
-    [CreateDate]                    [datetime]              NULL,
+    [CreateDate]                        [datetime]              NULL,
     -- 수정일
-    [UpdateDate]                    [datetime]              NULL,
+    [UpdateDate]                        [datetime]              NULL,
     
     CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED
     (

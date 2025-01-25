@@ -126,7 +126,7 @@ float Position2D::GetLengthPow() const
 }
 
 /*
-   â†‘ ë°©í–¥ì´ 0ë„, ì‹œê³„ ë°©í–¥ìœ¼ë¡œ ê°ë„ ì¦ê°€.
+   ¡è ¹æÇâÀÌ 0µµ, ½Ã°è ¹æÇâÀ¸·Î °¢µµ Áõ°¡.
 */
 float Position2D::GetDirectionDegree() const
 {

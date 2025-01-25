@@ -187,11 +187,11 @@ bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
         if (nullptr == it->second)
             continue;
 
-        //íŒ¨í‚·ìœ¼ë¡œ ì „ë‹¬ ë°›ì€ Portì™€ ì ‘ì† í™•ì¸í•  Port ë¹„êµ
+        //ÆÐÅ¶À¸·Î Àü´Þ ¹ÞÀº Port¿Í Á¢¼Ó È®ÀÎÇÒ Port ºñ±³
         if (it->second->m_nOutboundPort != _msg.peerport())
             continue;
 
-        //IP ë¹„êµ
+        //IP ºñ±³
         if (it->second->m_sOutboundHost.compare(_msg.peerip()->c_str()) != 0)
             continue;
 

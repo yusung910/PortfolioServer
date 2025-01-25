@@ -32,16 +32,16 @@ unsigned int ServicePO::Run()
 {
 	while (false == m_bShouldExit)
 	{
-		//Timer ìž‘ì—…
+		//Timer ÀÛ¾÷
 		UpdateTimer();
 
-		//ë‚´ë¶€ íŒ¨í‚· ì²˜ë¦¬
+		//³»ºÎ ÆÐÅ¶ Ã³¸®
 		_InnerPacketProcess();
 
-		//ì¶”ê°€ í•¨ìˆ˜
+		//Ãß°¡ ÇÔ¼ö
 		_AdditionalWorkProcess();
 
-		// íŒ¨í‚·ì²˜ë¦¬
+		// ÆÐÅ¶Ã³¸®
 		_DispatchPacketProcess();
 	}
 
@@ -107,11 +107,11 @@ void ServicePO::_DispatchPacketProcess()
 	{
 		if (false == _DispatchPacket(*lPacket))
 		{
-			//Dispatch Packet ì—ëŸ¬ ë°œìƒì‹œ ì—ëŸ¬ ë¡œê·¸ ìž‘ì„± ë¶€ë¶„
+			//Dispatch Packet ¿¡·¯ ¹ß»ý½Ã ¿¡·¯ ·Î±× ÀÛ¼º ºÎºÐ
 			VIEW_WRITE_ERROR("DispatchPacket Fail! is not Packet Function(), MessageID: %d", lPacket->GetMessageID());
 		}
 
-		lPacket.reset(); // ì†Œë©¸ì²˜ë¦¬
+		lPacket.reset(); // ¼Ò¸êÃ³¸®
 	}
 
 	if (true == m_oOuterPacketWorkList.empty())

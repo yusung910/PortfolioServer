@@ -36,7 +36,7 @@ LoginService::~LoginService()
 bool LoginService::Start()
 {
     RegisterTimer(LOGIN_SERVICE_KICK_DELAY_MS, std::bind(&LoginService::_KickProcess, this));
-    RegisterTimer(KICK_RESERVE_DELAY_MS, std::bind(&LoginService::_Statistics, this));
+    RegisterTimer(PG_TRAFFIC_CHECK_TIME_MS, std::bind(&LoginService::_Statistics, this));
     RegisterTimer(5000, std::bind(&LoginService::_UpdateTitle, this));
 
     return CreateThread();
@@ -78,7 +78,7 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         return false;
     }
 
-    // Client ë²„ì „
+    // Client ¹öÀü
     int lClientVer = 0;
 
     const auto lClientType = _msg.ClientType();
@@ -97,8 +97,8 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         return false;
     }
 
-    //íŒ¨í‚·ì˜ AppVersionê³¼ í´ë¼ì´ì–¸íŠ¸ íƒ€ì…ì„ ë¹„êµí•œë‹¤
-    //í´ë¼ì´ì–¸íŠ¸ì˜ invalidë¥¼ ê²€ì¦í•˜ê¸° ìœ„í•œê²ƒìœ¼ë¡œ ë³´ì¸ë‹¤.
+    //ÆĞÅ¶ÀÇ AppVersion°ú Å¬¶óÀÌ¾ğÆ® Å¸ÀÔÀ» ºñ±³ÇÑ´Ù
+    //Å¬¶óÀÌ¾ğÆ®ÀÇ invalid¸¦ °ËÁõÇÏ±â À§ÇÑ°ÍÀ¸·Î º¸ÀÎ´Ù.
     if (lClientVer != 0
         && lClientVer > _msg.AppVersion())
     {
@@ -106,40 +106,45 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         return _SendErrorMessage(_hostID, EErrorMsg::EF_KICK_INVALID_APP_VERSION, _msg.messageid(), true);
     }
 
-    // í”Œë«í¼ í™•ì¸
-    if (PFunc::GetInst().CheckHasStr(_msg.AccountUKey()) == false)
+    // ÇÃ·§Æû È®ÀÎ
+    if (PFunc::GetInst().CheckHasStr(_msg.AccountToken()) == false)
     {
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d UniqueKey is Missing", _hostID);
-        //ì—ëŸ¬ë©”ì„¸ì§€ ì „ì†¡
+        //¿¡·¯¸Ş¼¼Áö Àü¼Û
         return _SendErrorMessage(_hostID, EErrorMsg::EF_NONE, _msg.messageid(), true);
     }
 
-
-    std::string lAccountUKey = (nullptr == _msg.AccountUKey()) ? "" : _msg.AccountUKey()->c_str();
-    std::string lLoginPlatformToken = (nullptr == _msg.LoginPlatformToken()) ? "" : _msg.LoginPlatformToken()->c_str();
-    std::string lStoreToken = (nullptr == _msg.StoreToken()) ? "" : _msg.StoreToken()->c_str();
+    std::string lAccountToken = (nullptr == _msg.AccountToken()) ? "" : _msg.AccountToken()->c_str();
 
     
-    //ë¡œê·¸ì¸ í”Œë«í¼ íƒ€ì…(Google, AppStore ë“±ë“±)ì— ë”°ë¥¸ ì²˜ë¦¬
-    switch ((ELoginPlatform::Type)_msg.LoginPlatformType())
+    if(ELoginPlatform::IsGuestPlatform((ELoginPlatform::Type)_msg.LoginPlatformType()))
     {
-        case ELoginPlatform::Guest:
+        //·Î±×ÀÎ ÇÃ·§Æû Å¸ÀÔÀÌ GuestÀÏ ¶§
+        bool lIsValidKey = StrChecker::GetInst().IsValidStr(lAccountToken, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
+
+        if (false == lIsValidKey)
         {
-            bool lIsValidKey = StrChecker::GetInst().IsValidStr(lAccountUKey, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
-
-            if (false == lIsValidKey)
-            {
-                VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountUKey is Invalid");
-                _SendErrorMessage(_hostID, EErrorMsg::EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID, _msg.messageid(), true);
-                AddKickReserve(_hostID);
-                return false;
-            }
-
+            VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountUKey is Invalid");
+            _SendErrorMessage(_hostID, EErrorMsg::EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID, _msg.messageid(), true);
+            AddKickReserve(_hostID);
+            return false;
         }
-        break;
+
+        _AuthLoginProcess(_hostID, _msg.ClientType(), _msg.AppVersion(), (ELoginPlatform::Type)_msg.LoginPlatformType(), lAccountToken);
+    }
+    else
+    {
+        lPlayer->m_eState = ELoginState::PlatformAuthorize;
+        LPAuthLogin* lLPAuth = new LPAuthLogin;
+        lLPAuth->LoginPlatformType = (ELoginPlatform::Type)_msg.LoginPlatformType();
+        lLPAuth->AccountToken = lAccountToken;
+
+        lLPAuth->ClientType = _msg.ClientType();
+        lLPAuth->AppVersion = _msg.AppVersion();
+
+        SendToPlatform(_hostID, EPacketProtocol::LP_AuthLoginReq, lLPAuth);
 
     }
-
     
 
     return true;
@@ -164,7 +169,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     }
 
 
-    //ì˜êµ¬ ì œì œë˜ì–´ ìˆëŠ” ê³„ì •
+    //¿µ±¸ Á¦Á¦µÇ¾î ÀÖ´Â °èÁ¤
     if (lRes->Result == (int)EDBResult::PermanentBlock)
     {
         //_SendErrorMessage(EF_)
@@ -172,7 +177,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
         return false;
     }
 
-    //ê¸°ê°„ ì œì œ
+    //±â°£ Á¦Á¦
     if (lRes->Result == (int)EDBResult::DurationBlock)
     {
         //_SendErrorMessage(EF_)
@@ -180,12 +185,12 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
         return false;
     }
 
-    //AccountSeq ê¸°ë¡
+    //AccountSeq ±â·Ï
     lPc->m_nAccountSeq = lRes->AccountSeq;
 
     if (lRes->RemainingPeriod != Poco::DateTime(1900, 1, 1))
     {
-        //ì˜êµ¬ or ì¼ì‹œ ì •ì§€ ìºë¦­ - ê³„ì • ìŠ¤í…Œì´í„°ìŠ¤ ìƒíƒœì— ë”°ë¼ ì˜êµ¬ or ì¼ì‹œì •ì§€ ê¸°ê°„ì„ ë³´ë‚´ì¤€ë‹¤
+        //¿µ±¸ or ÀÏ½Ã Á¤Áö Ä³¸¯ - °èÁ¤ ½ºÅ×ÀÌÅÍ½º »óÅÂ¿¡ µû¶ó ¿µ±¸ or ÀÏ½ÃÁ¤Áö ±â°£À» º¸³»ÁØ´Ù
         flatbuffers::FlatBufferBuilder lFbb;
         const auto& diff = lRes->RemainingPeriod - PocoTimeUtil::GetLocalTime();
         auto lPacket = CreateLCAuthErrorRes(lFbb, EErrorMsg::EF_SANCTION_ACCOUNT);
@@ -203,11 +208,11 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     lPc->m_nSelectedServerID = lLastGameServer;
     lPc->m_nOTP = lRes->OTP;
 
-    //í”Œë ˆì´ì–´ ìºë¦­í„° seq ì €ì¥
+    //ÇÃ·¹ÀÌ¾î Ä³¸¯ÅÍ seq ÀúÀå
     lPc->m_umPilgrimSeqList.swap(lRes->PilgrimExistServerList);
     if (lRes->Result == (int)EDBResult::DuplicateLogin)
     {
-        //ë§ˆì§€ë§‰ìœ¼ë¡œ ì ‘ì†í•œ gameServerID
+        //¸¶Áö¸·À¸·Î Á¢¼ÓÇÑ gameServerID
         auto lServerInfo = GServerCheckService::GetInst().FindServer(lRes->LastConnectServerID);
         
         if(nullptr != lServerInfo
@@ -232,7 +237,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
             {
                 VIEW_WRITE_ERROR(L"OnUDBLAuthRes - HostID: %d, Duplicate Login. AccountSeq: %d", _data->m_nHostID, lRes->AccountSeq);
 
-                //live ì„œë²„
+                //live ¼­¹ö
                 spAccountConnectServerIDClearDTO* lReq = new spAccountConnectServerIDClearDTO;
                 lReq->AccountSeq = (int)lRes->AccountSeq;
                 SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
@@ -293,7 +298,7 @@ bool LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _error
     return false;
 }
 
-bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountUKey)
+bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountToken)
 {
     auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
 
@@ -305,9 +310,9 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
         return false;
     }
 
-    if (true == _accountUKey.empty())
+    if (true == _accountToken.empty())
     {
-        VIEW_WRITE_ERROR(L"_AuthLoginProcess :: _accountUKey is Missing");
+        VIEW_WRITE_ERROR(L"_AuthLoginProcess :: _accountToken is Missing");
 
         return _SendErrorMessage(_hostID, EErrorMsg::EF_FAIL_MISSING_REQUIRED_FIELD, EPacketProtocol::CL_AuthReq, true);
     }
@@ -317,7 +322,7 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
     spLoginAccountProcessSelectDTO* lDTO = new spLoginAccountProcessSelectDTO();
     lDTO->ClientType = _clientType;
     lDTO->AppVersion = _appVer;
-    lDTO->AccountUIDkey = _accountUKey;
+    lDTO->AccountToken = _accountToken;
     lDTO->LoginPlatformType = _pfType;
     lDTO->IPAddress32 = NetworkManager::GetInst().GetIPInt32(_hostID);
 
@@ -414,25 +419,5 @@ void LoginService::_UpdateTitle()
     );
 
     system(lTmp);
-}
 
-bool LoginService::_AuthGuestLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type& _type, const std::string& _accountUKey)
-{
-    VIEW_INFO("OnCLAuthReq:: _AuthGuestLoginProcess HostID: %d", _hostID);
-
-    auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
-
-    if (nullptr == lPc)
-    {
-
-        return false;
-    }
-
-    if (true == _accountUKey.empty())
-    {
-        //í´ë¼ì—ì„œ AccountUkeyê°€ ì—†ì„ ê²½ìš°
-        return false;
-    }
-
-    return true;
 }

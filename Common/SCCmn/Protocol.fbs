@@ -205,18 +205,16 @@ table HostHello
 
 table CLAuthReq
 {
-    AccountUKey:string;           // 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용
-    ClientType:int;               // Client::Type
-    AppVersion:int;               // 어플 버전
+    //플랫폼(google, naver, facebook 등등에서 얻어오는 토큰값)
+    //또는 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용되는 값
+    AccountToken                   :string;
+    //로그인 플랫폼(google, naver, facebook 등등)
+    LoginPlatformType           :int;
+    // 클라 유형(pc, mobile 등등)
+    ClientType                  :int;               
+    // 어플 버전
+    AppVersion                  :int;
 
-    LoginPlatformType:int;        //로그인 플랫폼(google, naver, facebook 등등)
-    LoginPlatformToken:string;    //로그인 하는 플랫폼에서 생성하는 토큰값
-
-
-    //추후 Google, App에 따른 데이터 추가가 필요하다
-    StoreType:int;                //스토어 타입
-    StoreToken:string;            //스토어 토큰
-    
     messageid:EPacketProtocol = CL_AuthReq;
 }
 
