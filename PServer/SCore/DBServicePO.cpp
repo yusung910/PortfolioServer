@@ -17,7 +17,7 @@ void DBServicePO::SetDBConfig(const std::string& _userID, const std::string& _pa
     }
     else
     {
-        VIEW_WRITE_ERROR("Database(Server: %s, DB: %s)Initialize", _host.c_str(), _database.c_str());
+        VIEW_SYSTEM("Database(Server: %s, DB: %s)Initialize", _host.c_str(), _database.c_str());
     }
 }
 

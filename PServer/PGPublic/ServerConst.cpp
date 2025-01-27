@@ -42,7 +42,7 @@ bool ServerConst::LoadServerConst(DBService* _service)
     int lType = 0;
 
     BEGIN_SESSION
-        lStmt << "{ CALL spServerConfigList }"
+        lStmt << "{ CALL spServerConstSelect }"
             , into(lType)
             , into(lStrVal)
             , range(0, 1)

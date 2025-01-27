@@ -52,7 +52,7 @@ enum class ESocketCloseType : int
     ProcessClose,
     SendContextLimited,	// Context Limit에 걸림
 
-    ConnectFailed,	// 클라이언트모드로 서버 연결 실패
+    ConnectFailed,	    // 클라이언트모드로 서버 연결 실패
 #ifdef MANUAL_KICK_BY_SEND_QUEUE_COUNT
     SendQueueExceed,	// 패킷을 보내지 못하고 쌓여있음. (Acceptor Host 전용)
 

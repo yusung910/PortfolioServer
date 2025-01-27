@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BotClient.Network.Util
 {
-    public class JsonParsing : Singleton<PacketDataBuilder>
+    public class JsonParsing : Singleton<JsonParsing>
     {
         public JsonParsing() { }
 

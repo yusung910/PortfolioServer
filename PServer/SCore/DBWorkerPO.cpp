@@ -1,7 +1,7 @@
 #include "stdafx.hxx"
 #include "DBWorkerPO.hxx"
 
-std::atomic_bool DBWorkerPO::m_bInitialized = true;
+std::atomic_bool DBWorkerPO::m_bInitialized = false;
 
 DBWorkerPO::~DBWorkerPO()
 {
@@ -18,7 +18,7 @@ void DBWorkerPO::SetDBConfig(const std::string& _driver
     char lTmpConnection[512] = { 0, };
 
     //driver = SQLOLEDB.1
-    sprintf_s(lTmpConnection, std::size(lTmpConnection), "DRIVER=%s;UID=%s;PWD=%s;DATABASE=%s;SERVER=%s,%s;", _driver.c_str(), _host.c_str(), _port.c_str(), _userID.c_str(), _password.c_str(), _database.c_str());
+    sprintf_s(lTmpConnection, std::size(lTmpConnection), "DRIVER=%s;UID=%s;PWD=%s;DATABASE=%s;SERVER=%s,%s;", _driver.c_str(), _userID.c_str(), _password.c_str(), _database.c_str(),_host.c_str(), _port.c_str());
 
     m_sConnection.assign(lTmpConnection);
     m_sODBCDriver.assign(_driver);
@@ -73,6 +73,10 @@ bool DBWorkerPO::_ConnectDB()
         SafeDelete(lSession);
 
         VIEW_INFO(L"Connecting to %s", StringUtil::ToWideChar(m_sDBName).c_str());
+    }
+    catch (Poco::NotFoundException& ex)
+    {
+        VIEW_WRITE_ERROR(L"NotFoundException::%s", StringUtil::UTF8_WSTR(ex.displayText()).c_str());
     }
     catch (Poco::Data::ConnectionFailedException& ex)
     {

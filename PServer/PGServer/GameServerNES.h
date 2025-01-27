@@ -1,10 +1,10 @@
 #pragma once
 #include <NetworkEventSync.h>
-class GSNetworkEventSync : public NetworkEventSync
+class GameServerNES : public NetworkEventSync
 {
 public:
-    GSNetworkEventSync() = default;
-    virtual ~GSNetworkEventSync() = default;
+    GameServerNES() = default;
+    virtual ~GameServerNES() = default;
 
 
     /*!

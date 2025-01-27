@@ -15,12 +15,12 @@ bool StrFilterInterface::IsValidASCII(const std::wstring& _str, const size_t& _m
     return !_IsFiltered(_str, m_oAsciiPattern);
 }
 
-bool StrFilterInterface::IsValidAccountUKey(const std::wstring& _str, const size_t& _min, const size_t& _max)
+bool StrFilterInterface::IsValidAccountToken(const std::wstring& _str, const size_t& _min, const size_t& _max)
 {
     if (false == IsBetween(_min, _max, _str.size()))
         return false;
 
-    return !_IsFiltered(_str, m_oAccountUKeyPattern);
+    return !_IsFiltered(_str, m_oAccountTokenPattern);
 }
 
 bool StrFilterInterface::HasInjection(const std::wstring& _str)

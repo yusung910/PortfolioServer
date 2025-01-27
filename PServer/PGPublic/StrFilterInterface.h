@@ -29,7 +29,7 @@ private:
     EStrFilterType m_eFilterType = EStrFilterType::None;
 
     std::wregex m_oAsciiPattern = std::wregex(REGEX_PATTERN_ASCII);
-    std::wregex m_oAccountUKeyPattern = std::wregex(REGEX_PATTERN_ASCII_ACCOUNT_UKEY);
+    std::wregex m_oAccountTokenPattern = std::wregex(REGEX_PATTERN_ASCII_ACCOUNT_UKEY);
     std::wregex m_oInjectionPattern = std::wregex(REGEX_PATTERN_INJECTION);
 
 public:
@@ -39,7 +39,7 @@ public:
     virtual bool IsFirstCharacter(const wchar_t& _ch) = 0;
 
     bool IsValidASCII(const std::wstring& _str, const size_t& _min, const size_t& _max);
-    bool IsValidAccountUKey(const std::wstring& _str, const size_t& _min, const size_t& _max);
+    bool IsValidAccountToken(const std::wstring& _str, const size_t& _min, const size_t& _max);
 
     bool HasInjection(const std::wstring& _str);
 

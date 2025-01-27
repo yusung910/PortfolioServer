@@ -2,7 +2,7 @@
 #include "PGameServerApp.h"
 #include <ServerConfig.h>
 #include <ServerApp.h>
-#include "GSNetworkEventSync.h"
+#include "GameServerNES.h"
 
 #include "GameService.h"
 #include "GameDBService.h"
@@ -54,7 +54,7 @@ bool PGameServerApp::RunLoop()
     VIEW_SYSTEM("Server Configuration Load Complated Profile Service:%s ID:%d", lMainInfo.m_sServiceName.c_str(), lMainInfo.m_nServerID);
 
     auto lApp = std::make_shared<ServerApp>();
-    auto lEventSync = std::make_shared<GSNetworkEventSync>();
+    auto lEventSync = std::make_shared<GameServerNES>();
 
     //액션 없을 때 자동으로 연결 끊는 시간 설정 삭제
     //lEventSync->SetTimeoutMS(INT_MAX);

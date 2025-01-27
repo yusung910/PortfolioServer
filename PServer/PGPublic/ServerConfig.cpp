@@ -532,7 +532,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
             lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
-            lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
+            lInertInfo.m_nThreadCount = lDBInfo.get("THREADS", 0).asInt();
 
             std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 
@@ -569,7 +569,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
             lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
-            lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
+            lInertInfo.m_nThreadCount = lDBInfo.get("THREADS", 0).asInt();
 
             std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 
@@ -619,7 +619,7 @@ bool ServerConfigData::_LoadConfig(const std::wstring& _confFile, size_t _fileSi
             lInertInfo.m_sDBName = lDBInfo.get("DATABASE", "").asString();
 
             lInertInfo.m_sUserID = lDBInfo.get("UID", "server").asString();
-            lInertInfo.m_nThreadCount = lDBInfo.get("Thread", 0).asInt();
+            lInertInfo.m_nThreadCount = lDBInfo.get("THREADS", 0).asInt();
 
             std::string lTmpPwd = lDBInfo.get("PWD", "").asString();
 

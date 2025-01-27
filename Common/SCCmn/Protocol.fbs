@@ -207,13 +207,13 @@ table CLAuthReq
 {
     //플랫폼(google, naver, facebook 등등에서 얻어오는 토큰값)
     //또는 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용되는 값
-    AccountToken                   :string;
+    AccountToken                    :string;
     //로그인 플랫폼(google, naver, facebook 등등)
-    LoginPlatformType           :int;
+    LoginPlatformType               :int;
     // 클라 유형(pc, mobile 등등)
-    ClientType                  :int;               
+    ClientType                      :int;
     // 어플 버전
-    AppVersion                  :int;
+    AppVersion                      :int;
 
     messageid:EPacketProtocol = CL_AuthReq;
 }

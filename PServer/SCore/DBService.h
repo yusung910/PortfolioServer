@@ -16,7 +16,7 @@
 #define END_SESSION     }                                                                                   \
                         catch(Poco::Data::ODBC::StatementException& ex)                                     \
                         {                                                                                   \
-                            VIEW_WRITE_ERROR("\n%s", StringUtil::UTF8_WSTR(ex.message().c_str()).c_str());  \
+                            VIEW_WRITE_ERROR(L"\n%s", StringUtil::UTF8_WSTR(ex.message().c_str()).c_str());  \
                         }                                                                                   \
                         catch(std::exception& e)                                                            \
                         {                                                                                   \

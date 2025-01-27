@@ -11,21 +11,32 @@ using System.Windows.Forms;
 using BotClient.Network.Const;
 using BotClient.Network.Util;
 using System.Collections;
-namespace BotClient.Network
+using BotClient.Util;
+
+namespace BotClient.Network.Data
 {
-    public class Packet : SocketAsyncEventArgs
+    public class Packet : Singleton<Packet>
     {
         private bool m_bIsCompress = false;
+        private int m_nHostID = 0;
+
+        public int ClientHostID
+        {
+            get { return m_nHostID; } set { m_nHostID = value; }
+        }
+
+        private byte[] m_buff;
+        public byte[] Buffer
+        {
+            get { return m_buff; }
+        }
 
         PacketDataBuilder m_packetBuilder = PacketDataBuilder.Instance;
 
         public Packet() { }
 
-        public void SetPacketData(EPacketProtocol _msgID, string[] _args)
+        public void SetPacketData(EPacketProtocol _msgID, FlatBufferBuilder builder)
         {
-            //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
-            FlatBufferBuilder builder = m_packetBuilder.SetPacketBuildData(_msgID, _args);
-
             //body 패킷
             var lBodyPacket = builder.SizedByteArray();
 
@@ -59,15 +70,13 @@ namespace BotClient.Network
             }
 
             //패킷 데이터 세팅
-            byte[] buf = new byte[PacketbodyLen + NetworkGlobalConst.PACKET_HEADER_SIZE];
+            m_buff = new byte[PacketbodyLen + NetworkGlobalConst.PACKET_HEADER_SIZE];
 
-            Array.Copy(lPayloadSizeByte, 0, buf, 0, msgIDBytes.Length);
+            Array.Copy(lPayloadSizeByte, 0, m_buff, 0, msgIDBytes.Length);
 
-            Array.Copy(msgIDBytes, 0, buf, 4, msgIDBytes.Length);
+            Array.Copy(msgIDBytes, 0, m_buff, 4, msgIDBytes.Length);
             
-            Array.Copy(lBodyPacket, 0, buf, NetworkGlobalConst.PACKET_HEADER_SIZE, PacketbodyLen);
-
-            SetBuffer(buf, 0, buf.Length);
+            Array.Copy(lBodyPacket, 0, m_buff, NetworkGlobalConst.PACKET_HEADER_SIZE, PacketbodyLen);
         }
     }
 }

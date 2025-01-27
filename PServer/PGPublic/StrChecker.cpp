@@ -9,7 +9,7 @@ StrChecker::StrChecker()
 
 #ifdef KR_SERVICE
     m_umFilterList.insert_or_assign(EStrFilterType::Kor, new StrFilterKR);
-
+    ChangeFilterType(EStrFilterType::Kor);
 #endif // KR_SERVICE
 }
 
@@ -98,23 +98,23 @@ bool StrChecker::IsValidStr8OnlyASCII(const std::string& _str, const size_t& _mi
 }
 
 
-bool StrChecker::IsValidStrAccountUKey(const std::wstring& _str, const size_t& _min, const size_t& _max)
+bool StrChecker::IsValidStrAccountToken(const std::wstring& _str, const size_t& _min, const size_t& _max)
 {
     if (nullptr == m_pFilter)
         return false;
 
-    if (false == m_pFilter->IsValidAccountUKey(_str, _min, _max))
+    if (false == m_pFilter->IsValidAccountToken(_str, _min, _max))
         return false;
 
     return true;
 }
 
-bool StrChecker::IsValidStrAccountUKey(const std::string& _str, const size_t& _min, const size_t& _max)
+bool StrChecker::IsValidStrAccountToken(const std::string& _str, const size_t& _min, const size_t& _max)
 {
-    return IsValidStrAccountUKey(StringUtil::ToWideChar(_str), _min, _max);
+    return IsValidStrAccountToken(StringUtil::ToWideChar(_str), _min, _max);
 }
 
-bool StrChecker::IsValidStr8AccountUKey(const std::string& _str, const size_t& _min, const size_t& _max)
+bool StrChecker::IsValidStr8AccountToken(const std::string& _str, const size_t& _min, const size_t& _max)
 {
-    return IsValidStrAccountUKey(StringUtil::UTF8_WSTR(_str), _min, _max);
+    return IsValidStrAccountToken(StringUtil::UTF8_WSTR(_str), _min, _max);
 }

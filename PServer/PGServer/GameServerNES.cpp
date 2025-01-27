@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "GSNetworkEventSync.h"
+#include "GameServerNES.h"
 #include "GameService.h"
 #include "LoggingMacro.h"
 
-void GSNetworkEventSync::OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType)
+void GameServerNES::OnConnect(const int& _hostID, const std::string& _ip, const int& _port, const int& _serverType)
 {
 	flatbuffers::FlatBufferBuilder lMSG;
 	auto lObj = CreateHostConnect(lMSG
@@ -20,7 +20,7 @@ void GSNetworkEventSync::OnConnect(const int& _hostID, const std::string& _ip, c
 		GameService::GetInst().Push(lPacket);
 }
 
-void GSNetworkEventSync::OnClose(const int& _hostID)
+void GameServerNES::OnClose(const int& _hostID)
 {
     flatbuffers::FlatBufferBuilder lMSG;
     auto lObj = CreateHostClose(lMSG);
@@ -35,7 +35,7 @@ void GSNetworkEventSync::OnClose(const int& _hostID)
 
 }
 
-void GSNetworkEventSync::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
+void GameServerNES::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
 {
 	Packet::SharedPtr lMSG = Packet::New();
 	lMSG->SetPacketData(_msgID, _msg, _msgSize);
@@ -44,6 +44,4 @@ void GSNetworkEventSync::OnReceive(const int& _hostID, const int& _msgID, char* 
     //
 
 	GameService::GetInst().Push(lMSG);
-
-
 }

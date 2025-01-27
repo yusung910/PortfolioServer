@@ -42,7 +42,7 @@ std::wstring LogData::ToString()
     wchar_t lStrTmp[50] = { 0, };
 
     //timeptr 구조의 시간 및 날짜 스펙을 와이드 문자 스트링으로 변환
-    size_t lOffset = wcsftime(lStrTmp, _countof(lStrTmp), L"[%Y-%m-%d %H:%M:%S]", &lTimeData);
+    size_t lOffset = wcsftime(lStrTmp, _countof(lStrTmp), L"[%Y-%m-%d %H:%M:%S", &lTimeData);
 
     //
     int lMS = (int)(std::chrono::duration_cast<std::chrono::milliseconds>(m_oLogTime.time_since_epoch()).count() & 1000);

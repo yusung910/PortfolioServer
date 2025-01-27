@@ -24,7 +24,7 @@
     <ClCompile Include="GameService.cpp">
       <Filter>1_Main</Filter>
     </ClCompile>
-    <ClCompile Include="GSNetworkEventSync.cpp">
+    <ClCompile Include="GameServerNES.cpp">
       <Filter>1_Main</Filter>
     </ClCompile>
     <ClCompile Include="GameDBService.cpp">
@@ -41,7 +41,7 @@
     <ClInclude Include="GameService.h">
       <Filter>1_Main</Filter>
     </ClInclude>
-    <ClInclude Include="GSNetworkEventSync.h">
+    <ClInclude Include="GameServerNES.h">
       <Filter>1_Main</Filter>
     </ClInclude>
     <ClInclude Include="GameDBService.h">

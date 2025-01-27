@@ -51,16 +51,16 @@ void LoginService::AddKickReserve(const int& _hostID)
 
 bool LoginService::OnHostConnect(int _hostID, const HostConnect& _msg)
 {
-    VIEW_DEBUG(L"Host(%d) Connected::(%s : %d)", _hostID, StringUtil::ToWideChar(_msg.peerip()->data()).c_str(), _msg.peerport());
+    VIEW_INFO(L"Host(%d) Connected::(%s:%d)", _hostID, StringUtil::ToWideChar(_msg.peerip()->data()).c_str(), _msg.peerport());
     NetworkManager::GetInst().OnConnect(_hostID);
     NetworkManager::GetInst().SetClientHostMode(_hostID, true);
 
     return true;
 }
 
-bool LoginService::OnHostClose(int _hostID, const HostConnect& _msg)
+bool LoginService::OnHostClose(int _hostID, const HostClose& _msg)
 {
-    VIEW_DEBUG(L"Host(%d) Disconnected.", _hostID);
+    VIEW_INFO(L"Host(%d) Disconnected.", _hostID);
     NetworkManager::GetInst().OnDisconnect(_hostID);
     return true;
 }
@@ -120,11 +120,11 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
     if(ELoginPlatform::IsGuestPlatform((ELoginPlatform::Type)_msg.LoginPlatformType()))
     {
         //로그인 플랫폼 타입이 Guest일 때
-        bool lIsValidKey = StrChecker::GetInst().IsValidStr(lAccountToken, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
+        bool lIsValidKey = StrChecker::GetInst().IsValidStrAccountToken(lAccountToken, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
 
         if (false == lIsValidKey)
         {
-            VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountUKey is Invalid");
+            VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountToken is Invalid");
             _SendErrorMessage(_hostID, EErrorMsg::EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID, _msg.messageid(), true);
             AddKickReserve(_hostID);
             return false;
@@ -287,6 +287,7 @@ bool LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _error
 {
     flatbuffers::FlatBufferBuilder lFbb;
     auto lPacket = CreateSCIntegrationErrorNotification(lFbb, _msgID, (int)_errorMsg);
+    lFbb.Finish(lPacket);
 
     LoginPlayerManager::GetInst().SendPacket(_hostID, EPacketProtocol::SC_IntegrationErrorNotification, lFbb);
 

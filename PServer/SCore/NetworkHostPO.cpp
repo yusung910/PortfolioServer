@@ -886,6 +886,8 @@ std::wstring NetworkHostPO::_GetSocketCloseTypeString(const ESocketCloseType& _e
         return L"Close by PreocessClose. (Close By Server)";
     case ESocketCloseType::SendContextLimited:
         return L"Send Context Limited (Close by Server)";
+    case ESocketCloseType::ConnectFailed:
+        return L"Connect Failed (Client)";
     case ESocketCloseType::SendQueueExceed:
         return L"Send Queue Count Exceed! (Close by Server)";
     default:

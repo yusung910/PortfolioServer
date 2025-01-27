@@ -20,138 +20,68 @@ using Newtonsoft.Json;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using BotClient.Log;
+using BotClient.Config;
+using BotClient.Util;
+using BotClient.Network.Data;
 //using BotClient.Network.Util;
-
+//https://nowonbun.tistory.com/685
 namespace BotClient.Network
 {
-    public class NetworkManager
+    public class NetworkManager : Singleton<NetworkManager>
     {
-        JsonParsing m_jsonParse = new JsonParsing();
-        LogManager logging = new LogManager();
-        Socket m_oSocket;
-        Packet mPacket;
+        PacketDataBuilder m_oPacketBuilder = PacketDataBuilder.Instance;
+        VOBuilder m_oVOb = VOBuilder.Instance;
+        private string m_sIp;
+        public string IP
+        {
+            get { return m_sIp; }
+            set { m_sIp = value; }
+        }
 
-        public NetworkManager() {}
+        private int m_nPort;
+        public int PORT
+        {
+            get { return m_nPort; }
+            set { m_nPort = value; }
+        }
+
+        List<ClientSocket> m_ClientSocketList = new List<ClientSocket>();
+
+        private int m_nConnectCount;
+        public int ConnectCount
+        {
+            get { return m_nConnectCount; }
+            set { m_nConnectCount = value; }
+        }
+
+
+
+        public NetworkManager() { }
 
         public void Connect()
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 35201);
-            m_oSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            Packet args = new Packet();
-            args.Completed += ConnectComplete;
-            args.RemoteEndPoint = endPoint;
-
-            m_oSocket.ConnectAsync(args);
-        }
-
-        public void ConnectComplete(object _obj, SocketAsyncEventArgs _args)
-        {
-            if (_args.SocketError == SocketError.Success)
+            int lBeginHostID = m_ClientSocketList.Count;
+            for (int i = 0; i < m_nConnectCount; i++)
             {
-                //데이터 송신 전용 객체
-                mPacket = new Packet();
-                mPacket.Completed += OnSendCompleted;
-
-                //데이터 수신 객체
-                Packet recvArgs = new Packet();
-                recvArgs.SetBuffer(new byte[NetworkGlobalConst.MAX_PACKET_DATA_SIZE], 0, NetworkGlobalConst.MAX_PACKET_DATA_SIZE);
-                recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvComplete);
-
-                bool isPending = m_oSocket.ReceiveAsync(recvArgs);
-                if (isPending == false)
-                    OnRecvComplete(null, recvArgs);
-
-            }
-            else
-            {
-                MessageBox.Show("Socket Error!");
-            }
-
-        }
-
-        public void OnRecvComplete(object obj, SocketAsyncEventArgs _args)
-        {
-            if (_args.BytesTransferred > 0 && _args.SocketError == SocketError.Success)
-            {
-
-                //압축 여부는 패킷의 맨 앞에 설정 되어 있음.
-                //LZ4를 이용해서 크기에 따라 압축, 해제 작업이 필요하다.
-                //https://github.com/IonKiwi/lz4.net
-                //buff.Get(0~3)->패킷 사이즈
-                //buff.Get(4~7)->MessageID
-                //others -> 데이터
-                ByteBuffer buff = new ByteBuffer(_args.Buffer);
-
-                //패킷 헤더
-                byte[] packetHeader = buff.ToArray(0, 4);
-                BitArray packetHeaderBit = new BitArray(packetHeader);
-
-                //패킷 압죽 여부 확인 비트
-                bool isCompress = packetHeaderBit.Get(31);
-
-                //패킷 메세지 id
-                byte[] msgIDByte = buff.ToArray(4, 4);
-
-                // If the system architecture is little-endian (that is, little end first),
-                // reverse the byte array.
-                Array.Reverse(msgIDByte);
-                EPacketProtocol msgID = (EPacketProtocol)BitConverter.ToInt32(msgIDByte, 0);
-
-                //패킷 body 길이
-                int msgBodyLen = 0;
-
-                if (isCompress)
-                {
-                    packetHeaderBit.Set(31, false);
-                }
-
-                msgBodyLen = BitArrayConverter.BitArrayToInt32(packetHeaderBit);
-                byte[] msgBody = buff.ToArray(8, msgBodyLen);
-
-                if (isCompress)
-                {
-                    byte[] uncompressPacketData = new byte[LZ4Codec.MaximumOutputSize(msgBodyLen)];
-                    LZ4Codec.Decode(msgBody, 0, msgBodyLen, uncompressPacketData, 0, uncompressPacketData.Length);
-                    Array.Clear(msgBody, 0, msgBody.Length);
-                    msgBody = uncompressPacketData;
-                }
-
-                logging.Log(m_jsonParse.ConvertToJsonObj(msgID, msgBody));
-                // 새로운 데이터 수신을 준비합니다.
-                bool pending = m_oSocket.ReceiveAsync(_args);
-                if (pending == false)
-                    OnRecvComplete(null, _args);
+                var lSocket = new ClientSocket(m_sIp, m_nPort);
+                lSocket.HostID = i + lBeginHostID;
+                m_ClientSocketList.Add(lSocket);
             }
         }
 
-        public void OnSendCompleted(object obj, SocketAsyncEventArgs _args)
+        public void Send(EPacketProtocol _msgID)
         {
-            if (_args.BytesTransferred > 0 && _args.SocketError == SocketError.Success)
-                mPacket.BufferList = null;
-        }
-
-        public void Send()
-        {
-            if (mPacket == null)
+            //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
+            for (int i = 0; i < m_ClientSocketList.Count; i++)
             {
-                MessageBox.Show("Server Connect is Fail");
-                return;
+                FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, m_oVOb.GenerateVO(_msgID, i));
+                Packet.Instance.SetPacketData(_msgID, fbb);
+                m_ClientSocketList[i].Send(Packet.Instance.Buffer);
             }
-
-            //string[] data = { "yusung910@nate.com", "ABCDEFGABC" };
-            //mPacket.SetPacketData(EPacketProtocol.CS_AuthReq, data);
-
-            m_oSocket.SendAsync(mPacket);
         }
 
         public void Disconnect()
         {
-            if (m_oSocket != null)
-            {
-                m_oSocket.Disconnect(true);
-                m_oSocket.Close();
-                m_oSocket = null;
-            }
         }
     }
 }

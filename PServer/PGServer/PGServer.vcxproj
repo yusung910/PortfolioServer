@@ -29,7 +29,7 @@
   <ItemGroup>
     <ClCompile Include="GameDBService.cpp" />
     <ClCompile Include="GameService.cpp" />
-    <ClCompile Include="GSNetworkEventSync.cpp" />
+    <ClCompile Include="GameServerNES.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -42,7 +42,7 @@
     <ClInclude Include="GameDBLoadBalancer.h" />
     <ClInclude Include="GameDBService.h" />
     <ClInclude Include="GameService.h" />
-    <ClInclude Include="GSNetworkEventSync.h" />
+    <ClInclude Include="GameServerNES.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PGameServerApp.h" />
   </ItemGroup>
