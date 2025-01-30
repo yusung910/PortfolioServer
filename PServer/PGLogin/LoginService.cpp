@@ -338,7 +338,7 @@ void LoginService::_KickProcess()
 
     AutoLock(m_xKickLock);
 
-    for (auto it = m_umKickList.begin(); it != m_umKickList.end(); ++it)
+    for (auto it = m_umKickList.begin(); it != m_umKickList.end();)
     {
         if (lNow > it->second)
         {

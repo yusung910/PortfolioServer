@@ -26,7 +26,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
     int lOTP = (int)Random::GetInst()->GetRandomRange(10000000, 9999999);
 
     BEGIN_SESSION
-        lSess << "{ CALL spAccountLoginProcessSelect(?, ?,?,?,?,?,?, ?,?,?,?,?,?) }"
+        lSess << "{ CALL spAccountLoginProcessSelect(?, ?,?,?,?,?,?, ?,?,?,?,?,?,?,?) }"
             , out(lReq->Result)
 
             , out(lReq->AccountSeq)

@@ -31,7 +31,6 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
   --계정 로그인 플랫폼 유형
   , @LoginPlatformType            INT
   , @AccountToken                 VARCHAR(255)
-  , @PlatformID                   VARCHAR(255)
 
   -- (from server)접속 시도하는 로그인 서버ID
   , @ConnectingServerID           INT

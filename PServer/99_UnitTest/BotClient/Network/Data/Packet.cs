@@ -31,8 +31,6 @@ namespace BotClient.Network.Data
             get { return m_buff; }
         }
 
-        PacketDataBuilder m_packetBuilder = PacketDataBuilder.Instance;
-
         public Packet() { }
 
         public void SetPacketData(EPacketProtocol _msgID, FlatBufferBuilder builder)

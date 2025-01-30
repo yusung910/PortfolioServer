@@ -23,29 +23,20 @@ using BotClient.Log;
 using BotClient.Config;
 using BotClient.Util;
 using BotClient.Network.Data;
-//using BotClient.Network.Util;
-//https://nowonbun.tistory.com/685
+
 namespace BotClient.Network
 {
     public class NetworkManager : Singleton<NetworkManager>
     {
         PacketDataBuilder m_oPacketBuilder = PacketDataBuilder.Instance;
         VOBuilder m_oVOb = VOBuilder.Instance;
-        private string m_sIp;
-        public string IP
-        {
-            get { return m_sIp; }
-            set { m_sIp = value; }
-        }
 
-        private int m_nPort;
-        public int PORT
-        {
-            get { return m_nPort; }
-            set { m_nPort = value; }
-        }
+        private List<ClientSocket> m_ClientSocketList = new List<ClientSocket>();
 
-        List<ClientSocket> m_ClientSocketList = new List<ClientSocket>();
+        public List<ClientSocket> ClientSocketList
+        {
+            get { return m_ClientSocketList; }
+        }
 
         private int m_nConnectCount;
         public int ConnectCount
@@ -54,28 +45,41 @@ namespace BotClient.Network
             set { m_nConnectCount = value; }
         }
 
-
-
         public NetworkManager() { }
 
-        public void Connect()
+        public void GenerateSocket()
         {
             int lBeginHostID = m_ClientSocketList.Count;
             for (int i = 0; i < m_nConnectCount; i++)
             {
-                var lSocket = new ClientSocket(m_sIp, m_nPort);
+                var lSocket = new ClientSocket();
                 lSocket.HostID = i + lBeginHostID;
                 m_ClientSocketList.Add(lSocket);
             }
         }
 
-        public void Send(EPacketProtocol _msgID)
+        public void ConnectSockets(JToken _serverInfo)
+        {
+            foreach (var lSocket in m_ClientSocketList)
+            {
+                lSocket.Connect(_serverInfo);
+            }
+        }
+
+
+        public void Broadcast(EPacketProtocol _msgID)
         {
             //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
+            if (m_ClientSocketList.Count == 0)
+            {
+                MessageBox.Show("Generate Socket!");
+                return;
+            }
             for (int i = 0; i < m_ClientSocketList.Count; i++)
             {
                 FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, m_oVOb.GenerateVO(_msgID, i));
                 Packet.Instance.SetPacketData(_msgID, fbb);
+
                 m_ClientSocketList[i].Send(Packet.Instance.Buffer);
             }
         }

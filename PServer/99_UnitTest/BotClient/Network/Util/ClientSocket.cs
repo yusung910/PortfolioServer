@@ -1,6 +1,7 @@
 ﻿using BotClient.Network.Const;
 using FlatBuffers;
 using K4os.Compression.LZ4;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +13,9 @@ using System.Threading.Tasks;
 
 namespace BotClient.Network.Util
 {
-    class ClientSocket : Socket
+    public class ClientSocket : Socket
     {
         private byte[] m_buff= new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
-
-        private IPEndPoint m_IEP;
 
         private int m_nHostID;
         public int HostID
@@ -25,10 +24,36 @@ namespace BotClient.Network.Util
             set { m_nHostID = value; }
         }
 
-        public ClientSocket(string _ip, int _port) : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+        private int m_nConnectServerID;
+        public int ConnectServerID
         {
-            m_IEP = new IPEndPoint(IPAddress.Parse(_ip), _port);
-            base.BeginConnect(m_IEP, ConnectComplete, this);
+            get { return m_nConnectServerID; }
+        }
+
+        private string m_sConnectServerName;
+        public string ConnectServerName
+        {
+            get { return m_sConnectServerName; }
+        }
+
+        private bool m_bIsAddedGridRow;
+        public bool AddedGridRow
+        {
+            get { return m_bIsAddedGridRow; }
+            set { m_bIsAddedGridRow = value; }
+        }
+
+        public ClientSocket() : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+        {
+        }
+
+        public void Connect(JToken _serverInfo)
+        {
+            m_nConnectServerID = int.Parse(_serverInfo["ServerID"].ToString());
+            m_sConnectServerName = _serverInfo["Name"].ToString();
+
+            if(!Connected)
+                base.BeginConnect(new IPEndPoint(IPAddress.Parse(_serverInfo["BindAddress"].ToString()), int.Parse(_serverInfo["BindPort"].ToString())), ConnectComplete, this);
         }
 
         public void Send(string _msg)
@@ -43,6 +68,9 @@ namespace BotClient.Network.Util
         private void ConnectComplete(IAsyncResult _rslt)
         {
             base.EndConnect(_rslt);
+
+            MainForm.form.SetSocketConnectStatus(m_nHostID, ConnectServerName + "(" +ConnectServerID+ ")", ((Connected) ? "Connected" : "Disconnected") );
+
             base.BeginReceive(m_buff, 0, m_buff.Length, SocketFlags.None, Receive, this);
         }
 

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -9,7 +11,14 @@ namespace BotClient.Network.Data
 {
     public class InnerPacketVO
     {
-        public InnerPacketVO() { }
+        public InnerPacketVO(int _msgID)
+        {
+            PacketID = (int)_msgID;
+            PacketName = Enum.GetName(typeof(EPacketProtocol), _msgID);
+        }
+
+        public string PacketName = "";
+        public int PacketID = -1;
     }
 
     public class LCAuthReqVO : InnerPacketVO
@@ -23,5 +32,12 @@ namespace BotClient.Network.Data
         public int ClientType;
         // 어플 버전
         public int AppVersion;
+
+        public LCAuthReqVO(int _msgID) : base(_msgID) { }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }

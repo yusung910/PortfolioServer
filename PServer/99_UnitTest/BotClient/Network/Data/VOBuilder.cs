@@ -16,15 +16,17 @@ namespace BotClient.Network.Data
         public InnerPacketVO GenerateVO(EPacketProtocol _msgID, int _hostID)
         {
             InnerPacketVO ret = null;
+
             switch (_msgID)
             {
                 case EPacketProtocol.CL_AuthReq:
                     {
-                        ret = new LCAuthReqVO();
+                        ret = new LCAuthReqVO((int)_msgID);
                         ((LCAuthReqVO)ret).AccountToken = "BOT_CLIENT_" + _hostID;
                         ((LCAuthReqVO)ret).LoginPlatformType = 99;
                         ((LCAuthReqVO)ret).ClientType = 21;
                         ((LCAuthReqVO)ret).AppVersion = 55;
+
                     }
                 break;
 
