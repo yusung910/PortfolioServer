@@ -13,7 +13,7 @@ namespace BotClient.Network.Data
     {
         public PacketDataBuilder() { }
 
-        public FlatBufferBuilder SetPacketBuildData(EPacketProtocol _msgID, InnerPacketVO _args)
+        public FlatBufferBuilder SetPacketBuildData(EPacketProtocol _msgID, IInnerPacketVO _args)
         {
             FlatBufferBuilder retBuilder = new FlatBufferBuilder(1);
 

@@ -63,7 +63,7 @@ namespace BotClient
         {
             int msgID = (int)lbPacketList.SelectedValue;
             
-            m_oManager.Broadcast((EPacketProtocol)msgID);
+            m_oManager.Send((EPacketProtocol)msgID, -1);
         }
 
         private void btnLogClear_Click(object sender, EventArgs e)
@@ -142,6 +142,14 @@ namespace BotClient
                     row.Cells["ConnectStatus"].Value = _connectStatus;
                 }
             }
+        }
+
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+            int msgID = (int)lbPacketList.SelectedValue;
+            int selectedRownum = dgSocketList.Rows.GetRowCount(DataGridViewElementStates.Selected);
+            string hostID = dgSocketList.SelectedRows[selectedRownum].Cells["HostID"].Value.ToString();
+            m_oManager.Send((EPacketProtocol)msgID, int.Parse(hostID));
         }
     }
 }

@@ -66,8 +66,7 @@ namespace BotClient.Network
             }
         }
 
-
-        public void Broadcast(EPacketProtocol _msgID)
+        public void Send(EPacketProtocol _msgID, int _hostID)
         {
             //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
             if (m_ClientSocketList.Count == 0)
@@ -75,12 +74,48 @@ namespace BotClient.Network
                 MessageBox.Show("Generate Socket!");
                 return;
             }
-            for (int i = 0; i < m_ClientSocketList.Count; i++)
+
+
+            List<ClientSocket> _socketList = new List<ClientSocket>();
+
+            if (_hostID > -1)
             {
-                FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, m_oVOb.GenerateVO(_msgID, i));
+                foreach (var lSocket in m_ClientSocketList)
+                {
+                    if (lSocket.HostID == _hostID)
+                    {
+                        _socketList.Add(lSocket);
+                    }
+                }
+            }
+            else
+            {
+                _socketList = m_ClientSocketList;
+            }
+
+            Broadcast(_msgID, _socketList);
+        }
+
+
+        public void Broadcast(EPacketProtocol _msgID, List<ClientSocket> _socketList)
+        {
+            //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
+            if (_socketList.Count == 0)
+            {
+                MessageBox.Show("Generate Socket!");
+                return;
+            }
+
+            foreach (var lSocket in _socketList)
+            {
+                InnerPacketVO lInnerPacket = new InnerPacketVO((int)_msgID);
+
+                m_oVOb.Socket = lSocket;
+                var lVo = m_oVOb.GenerateVO(_msgID);
+                FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, lVo);
                 Packet.Instance.SetPacketData(_msgID, fbb);
 
-                m_ClientSocketList[i].Send(Packet.Instance.Buffer);
+                lSocket.Send(Packet.Instance.Buffer);
             }
         }
 

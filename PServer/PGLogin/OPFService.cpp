@@ -84,11 +84,13 @@ EErrorMsg OPFService::_AuthProcess_Facebook(LPAuthLogin* _data)
 
 EErrorMsg OPFService::_AuthProcess_Google(LPAuthLogin* _data)
 {
+    //https://notspoon.tistory.com/47#google_vignette
     return EErrorMsg::EF_NONE;
 }
 
 EErrorMsg OPFService::_AuthProcess_Naver(LPAuthLogin* _data)
 {
+    //https://developers.naver.com/docs/common/openapiguide/apilist.md#%EB%84%A4%EC%9D%B4%EB%B2%84-%EB%A1%9C%EA%B7%B8%EC%9D%B8
     return EErrorMsg::EF_NONE;
 }
 

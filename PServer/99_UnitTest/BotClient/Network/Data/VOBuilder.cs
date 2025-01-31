@@ -1,8 +1,10 @@
-﻿using BotClient.Util;
+﻿using BotClient.Network.Util;
+using BotClient.Util;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,25 +14,30 @@ namespace BotClient.Network.Data
     {
         public VOBuilder() { }
 
-
-        public InnerPacketVO GenerateVO(EPacketProtocol _msgID, int _hostID)
+        private ClientSocket m_oSocket = null;
+        public ClientSocket Socket
         {
-            InnerPacketVO ret = null;
+            get { return m_oSocket; }
+            set { m_oSocket = value; }
+        }
+        
+
+
+        public IInnerPacketVO GenerateVO(EPacketProtocol _msgID)
+        {
+            IInnerPacketVO ret = null;
 
             switch (_msgID)
             {
                 case EPacketProtocol.CL_AuthReq:
                     {
-                        ret = new LCAuthReqVO((int)_msgID);
-                        ((LCAuthReqVO)ret).AccountToken = "BOT_CLIENT_" + _hostID;
+                        ret = new LCAuthReqVO();
+                        ((LCAuthReqVO)ret).AccountToken = "BOT_CLIENT_" + Socket.HostID;
                         ((LCAuthReqVO)ret).LoginPlatformType = 99;
                         ((LCAuthReqVO)ret).ClientType = 21;
                         ((LCAuthReqVO)ret).AppVersion = 55;
-
                     }
-                break;
-
-
+                    break;
             }
             return ret;
         }

@@ -37,6 +37,9 @@
             this.lbPacketList = new System.Windows.Forms.ListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.dgSocketList = new System.Windows.Forms.DataGridView();
+            this.HostID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConnectedServer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConnectStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lbServerList = new System.Windows.Forms.ListBox();
             this.btnPacketBroadcast = new System.Windows.Forms.Button();
@@ -44,9 +47,7 @@
             this.btnGenerateSocketList = new System.Windows.Forms.Button();
             this.txtSessionCount = new System.Windows.Forms.TextBox();
             this.btnServerConnect = new System.Windows.Forms.Button();
-            this.HostID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConnectedServer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConnectStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSend = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -77,6 +78,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnSend);
             this.groupBox3.Controls.Add(this.groupBox1);
             this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.groupBox2);
@@ -151,6 +153,27 @@
             this.dgSocketList.Size = new System.Drawing.Size(313, 604);
             this.dgSocketList.TabIndex = 1;
             // 
+            // HostID
+            // 
+            this.HostID.HeaderText = "HostID";
+            this.HostID.Name = "HostID";
+            this.HostID.ReadOnly = true;
+            this.HostID.Width = 50;
+            // 
+            // ConnectedServer
+            // 
+            this.ConnectedServer.HeaderText = "ConnectedServer";
+            this.ConnectedServer.Name = "ConnectedServer";
+            this.ConnectedServer.ReadOnly = true;
+            this.ConnectedServer.Width = 110;
+            // 
+            // ConnectStatus
+            // 
+            this.ConnectStatus.HeaderText = "ConnectStatus";
+            this.ConnectStatus.Name = "ConnectStatus";
+            this.ConnectStatus.ReadOnly = true;
+            this.ConnectStatus.Width = 110;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.lbServerList);
@@ -222,26 +245,15 @@
             this.btnServerConnect.UseVisualStyleBackColor = true;
             this.btnServerConnect.Click += new System.EventHandler(this.btnServerConnect_Click);
             // 
-            // HostID
+            // btnSend
             // 
-            this.HostID.HeaderText = "HostID";
-            this.HostID.Name = "HostID";
-            this.HostID.ReadOnly = true;
-            this.HostID.Width = 50;
-            // 
-            // ConnectedServer
-            // 
-            this.ConnectedServer.HeaderText = "ConnectedServer";
-            this.ConnectedServer.Name = "ConnectedServer";
-            this.ConnectedServer.ReadOnly = true;
-            this.ConnectedServer.Width = 110;
-            // 
-            // ConnectStatus
-            // 
-            this.ConnectStatus.HeaderText = "ConnectStatus";
-            this.ConnectStatus.Name = "ConnectStatus";
-            this.ConnectStatus.ReadOnly = true;
-            this.ConnectStatus.Width = 110;
+            this.btnSend.Location = new System.Drawing.Point(397, 658);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 8;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // MainForm
             // 
@@ -286,6 +298,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn HostID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConnectedServer;
         private System.Windows.Forms.DataGridViewTextBoxColumn ConnectStatus;
+        private System.Windows.Forms.Button btnSend;
     }
 }
 

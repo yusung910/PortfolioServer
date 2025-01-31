@@ -9,6 +9,18 @@ using System.Threading.Tasks;
 
 namespace BotClient.Network.Data
 {
+    public class IInnerPacketVO
+    {
+        public IInnerPacketVO() { }
+        ~IInnerPacketVO()
+        {
+            Release();
+        }
+    
+        public void Release() { }
+
+
+    }
     public class InnerPacketVO
     {
         public InnerPacketVO(int _msgID)
@@ -19,9 +31,21 @@ namespace BotClient.Network.Data
 
         public string PacketName = "";
         public int PacketID = -1;
+
+        private IInnerPacketVO m_nPacketData;
+        public IInnerPacketVO Data
+        {
+            get {  return m_nPacketData; }
+            set { m_nPacketData = value; }
+        }
+
+        public override string ToString()
+        {
+            return "Packet: " + PacketName + "("+ PacketID + ") - " + JsonConvert.SerializeObject(m_nPacketData);
+        }
     }
 
-    public class LCAuthReqVO : InnerPacketVO
+    public class LCAuthReqVO : IInnerPacketVO
     {
         //플랫폼(google, naver, facebook 등등에서 얻어오는 토큰값)
         //또는 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용되는 값
@@ -32,12 +56,10 @@ namespace BotClient.Network.Data
         public int ClientType;
         // 어플 버전
         public int AppVersion;
+    }
 
-        public LCAuthReqVO(int _msgID) : base(_msgID) { }
-
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+    public class LCAuthRes : IInnerPacketVO
+    {
+        
     }
 }
