@@ -78,12 +78,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\CLAuthReq.cs" />
     <Compile Include="Protocol\CSEnterGameReq.cs" />
+    <Compile Include="Protocol\DDateTime.cs" />
+    <Compile Include="Protocol\DServerInfo.cs" />
     <Compile Include="Protocol\EErrorMsg.cs" />
     <Compile Include="Protocol\EPacketProtocol.cs" />
     <Compile Include="Protocol\HostClose.cs" />
     <Compile Include="Protocol\HostConnect.cs" />
     <Compile Include="Protocol\HostConnectFailed.cs" />
     <Compile Include="Protocol\HostHello.cs" />
+    <Compile Include="Protocol\LCAuthErrorRes.cs" />
+    <Compile Include="Protocol\LCAuthRes.cs" />
+    <Compile Include="Protocol\LSKickDuplicateConnectUserReq.cs" />
     <Compile Include="Protocol\SCEnterGameAck.cs" />
     <Compile Include="Protocol\SCIntegrationErrorNotification.cs" />
     <Compile Include="Util\Singleton.cs" />

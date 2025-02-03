@@ -31,6 +31,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lbSocketTelecomLog = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnSend = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnPacketSearch = new System.Windows.Forms.Button();
@@ -47,7 +48,6 @@
             this.btnGenerateSocketList = new System.Windows.Forms.Button();
             this.txtSessionCount = new System.Windows.Forms.TextBox();
             this.btnServerConnect = new System.Windows.Forms.Button();
-            this.btnSend = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -90,6 +90,16 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "SocketControl";
+            // 
+            // btnSend
+            // 
+            this.btnSend.Location = new System.Drawing.Point(397, 658);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 8;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // groupBox1
             // 
@@ -152,6 +162,7 @@
             this.dgSocketList.RowTemplate.Height = 23;
             this.dgSocketList.Size = new System.Drawing.Size(313, 604);
             this.dgSocketList.TabIndex = 1;
+            this.dgSocketList.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSocketList_CellContentClick);
             // 
             // HostID
             // 
@@ -244,16 +255,6 @@
             this.btnServerConnect.Text = "Connect";
             this.btnServerConnect.UseVisualStyleBackColor = true;
             this.btnServerConnect.Click += new System.EventHandler(this.btnServerConnect_Click);
-            // 
-            // btnSend
-            // 
-            this.btnSend.Location = new System.Drawing.Point(397, 658);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(75, 23);
-            this.btnSend.TabIndex = 8;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // MainForm
             // 

@@ -1,5 +1,7 @@
 ﻿using BotClient.Network.Util;
 using BotClient.Util;
+using FlatBuffers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -20,8 +22,6 @@ namespace BotClient.Network.Data
             get { return m_oSocket; }
             set { m_oSocket = value; }
         }
-        
-
 
         public IInnerPacketVO GenerateVO(EPacketProtocol _msgID)
         {
@@ -40,6 +40,23 @@ namespace BotClient.Network.Data
                     break;
             }
             return ret;
+        }
+
+        public string ConvertByteBufferToString(EPacketProtocol _msgID, ByteBuffer _buff)
+        {
+            string ret = null;
+
+            switch (_msgID)
+            {
+                case EPacketProtocol.LC_AuthRes:
+                {
+                    var obj = LCAuthRes.GetRootAsLCAuthRes(_buff);
+                    ret = JsonConvert.SerializeObject(obj);
+                }
+                break;
+            }
+
+            return "Packet: " + Enum.GetName(typeof(EPacketProtocol), _msgID) + "(" + _msgID + ") - " + ret;
         }
     }
 }

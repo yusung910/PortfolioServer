@@ -108,7 +108,7 @@ void ServicePO::_DispatchPacketProcess()
 		if (false == _DispatchPacket(*lPacket))
 		{
 			//Dispatch Packet 에러 발생시 에러 로그 작성 부분
-			VIEW_WRITE_ERROR("DispatchPacket Fail! is not Packet Function(), MessageID: %d", lPacket->GetMessageID());
+			//VIEW_WRITE_ERROR("DispatchPacket Fail! is not Packet Function(), MessageID: %d", lPacket->GetMessageID());
 		}
 
 		lPacket.reset(); // 소멸처리

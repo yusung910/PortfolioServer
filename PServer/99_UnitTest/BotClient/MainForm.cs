@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -150,6 +151,21 @@ namespace BotClient
             int selectedRownum = dgSocketList.Rows.GetRowCount(DataGridViewElementStates.Selected);
             string hostID = dgSocketList.SelectedRows[selectedRownum].Cells["HostID"].Value.ToString();
             m_oManager.Send((EPacketProtocol)msgID, int.Parse(hostID));
+        }
+
+        private void dgSocketList_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string hostID = dgSocketList.Rows[e.RowIndex].Cells["HostID"].Value.ToString();
+            
+            var lSocket = m_oManager.GetSocket(int.Parse(hostID));
+
+            if (lSocket != null)
+            {
+                foreach (var item in lSocket.PacketLogList)
+                {
+                    //Console.WriteLine(item.Key + " " + item.Value);
+                }
+            }
         }
     }
 }

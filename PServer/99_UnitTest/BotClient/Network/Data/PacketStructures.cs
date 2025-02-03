@@ -57,9 +57,4 @@ namespace BotClient.Network.Data
         // 어플 버전
         public int AppVersion;
     }
-
-    public class LCAuthRes : IInnerPacketVO
-    {
-        
-    }
 }

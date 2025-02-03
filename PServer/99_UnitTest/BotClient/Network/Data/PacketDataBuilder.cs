@@ -13,7 +13,7 @@ namespace BotClient.Network.Data
     {
         public PacketDataBuilder() { }
 
-        public FlatBufferBuilder SetPacketBuildData(EPacketProtocol _msgID, IInnerPacketVO _args)
+        public FlatBufferBuilder SetPacketBuildData(EPacketProtocol _msgID, InnerPacketVO _args)
         {
             FlatBufferBuilder retBuilder = new FlatBufferBuilder(1);
 
@@ -22,7 +22,7 @@ namespace BotClient.Network.Data
             switch (_msgID)
             {
                 case EPacketProtocol.CL_AuthReq:
-                    var data = (LCAuthReqVO)_args;
+                    var data = (LCAuthReqVO)_args.Data;
                     var accountToken = retBuilder.CreateString(data.AccountToken);
 
                     CLAuthReq.StartCLAuthReq(retBuilder);

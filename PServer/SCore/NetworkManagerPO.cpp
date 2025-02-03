@@ -540,7 +540,8 @@ void NetworkManagerPO::OnRecv(const int& _bytes)
 bool NetworkManagerPO::IsConnected(const int& _hostID)
 {
     AutoLock(m_xConnectionListLock);
-    return m_oUsingHostIDList.find(_hostID) != m_oUsingHostIDList.end(_hostID);
+    //쫌 .end()함수에 값좀 쳐넣지 마라
+    return m_oUsingHostIDList.find(_hostID) != m_oUsingHostIDList.end();
 }
 
 NetworkStatistics* NetworkManagerPO::GetStatistics()

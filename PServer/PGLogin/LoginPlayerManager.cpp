@@ -8,8 +8,7 @@ LoginPlayerManager::LoginPlayerManager()
 LoginPlayerManager::~LoginPlayerManager()
 {
     //≈¨∑°Ω∫∞° º“∏Í «“ ∂ß ±ª¿Ã..??
-    //AutoLock(m_xHostLock);
-
+    AutoLock(m_xHostLock);
     m_umPlayerList.clear();
     m_umOTPList.clear();
 }

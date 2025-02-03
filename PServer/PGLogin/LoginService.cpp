@@ -72,7 +72,7 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
     if (nullptr == lPlayer)
     {
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d Duplicate Auth Request!!", _hostID);
-        _SendErrorMessage(_hostID, EErrorMsg::EF_KICK_DUPLICATE_LOGIN, _msg.messageid(), true);
+        _SendErrorMessage(_hostID, EErrorMsg::EF_KICK_DUPLICATE_LOGIN, _msg.messageid());
         AddKickReserve(_hostID);
 
         return false;

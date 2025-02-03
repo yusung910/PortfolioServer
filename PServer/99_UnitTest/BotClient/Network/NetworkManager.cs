@@ -66,6 +66,21 @@ namespace BotClient.Network
             }
         }
 
+        public ClientSocket GetSocket(int _hostID)
+        {
+            ClientSocket ret = null;
+            foreach (var lSocket in m_ClientSocketList)
+            {
+                if(lSocket.HostID == _hostID)
+                {
+                    ret = lSocket;
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
         public void Send(EPacketProtocol _msgID, int _hostID)
         {
             //패킷 구조체(strucT)별로 데이터를 생성하고 생성된 builder를 반환한다.
@@ -112,10 +127,22 @@ namespace BotClient.Network
 
                 m_oVOb.Socket = lSocket;
                 var lVo = m_oVOb.GenerateVO(_msgID);
-                FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, lVo);
-                Packet.Instance.SetPacketData(_msgID, fbb);
+                lInnerPacket.Data = lVo;
 
-                lSocket.Send(Packet.Instance.Buffer);
+                FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, lInnerPacket);
+                
+                Packet.Instance.SetPacketData(_msgID, fbb);
+                lSocket.AddPacketLog(DateTime.Now.ToString("yy-MM-dd HH:mm:ss fff"), lInnerPacket.ToString());
+
+                try
+                {
+                    lSocket.Send(Packet.Instance.Buffer);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+                }
+
             }
         }
 

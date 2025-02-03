@@ -1,6 +1,8 @@
 ﻿using BotClient.Network.Const;
+using BotClient.Network.Data;
 using FlatBuffers;
 using K4os.Compression.LZ4;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -8,14 +10,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BotClient.Network.Util
 {
     public class ClientSocket : Socket
     {
         private byte[] m_buff= new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
+        //<time, content>
+        private Dictionary<string, string> m_oPacketLogList = new Dictionary<string, string>();
+
+        public Dictionary<string, string> PacketLogList
+        {
+            get { return m_oPacketLogList; }
+        }
+
+        VOBuilder m_oVOb = VOBuilder.Instance;
+
 
         private int m_nHostID;
         public int HostID
@@ -67,11 +82,18 @@ namespace BotClient.Network.Util
 
         private void ConnectComplete(IAsyncResult _rslt)
         {
-            base.EndConnect(_rslt);
+            if (Connected)
+            {
+                base.EndConnect(_rslt);
 
-            MainForm.form.SetSocketConnectStatus(m_nHostID, ConnectServerName + "(" +ConnectServerID+ ")", ((Connected) ? "Connected" : "Disconnected") );
+                MainForm.form.SetSocketConnectStatus(m_nHostID, ConnectServerName + "(" + ConnectServerID + ")", ((Connected) ? "Connected" : "Disconnected"));
 
-            base.BeginReceive(m_buff, 0, m_buff.Length, SocketFlags.None, Receive, this);
+                base.BeginReceive(m_buff, 0, m_buff.Length, SocketFlags.None, Receive, this);
+            }
+            else
+            {
+                m_oPacketLogList.Add("ERROR!!", "Server is Down!!");
+            }
         }
 
         private void Receive(IAsyncResult _rslt)
@@ -113,7 +135,19 @@ namespace BotClient.Network.Util
                     Array.Clear(msgBody, 0, msgBody.Length);
                     msgBody = uncompressPacketData;
                 }
+
+                if (null != msgBody)
+                {
+                    ByteBuffer bb = new ByteBuffer(msgBody);
+                    AddPacketLog(DateTime.Now.ToString("yy-MM-dd HH:mm:ss fff"), m_oVOb.ConvertByteBufferToString(msgID, bb));
+                    Console.WriteLine("Done!");
+                }
             }
+        }
+
+        public void AddPacketLog(string _date, string _packetData)
+        {
+            m_oPacketLogList.Add(_date, _packetData);
         }
     }
 }
