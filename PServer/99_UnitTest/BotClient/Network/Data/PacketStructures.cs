@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,8 +42,15 @@ namespace BotClient.Network.Data
 
         public override string ToString()
         {
-            return "Packet: " + PacketName + "("+ PacketID + ") - " + JsonConvert.SerializeObject(m_nPacketData);
+            return JsonConvert.SerializeObject(this);
         }
+
+        public JObject GetJObject()
+        {
+            return JObject.Parse(ToString());
+        }
+
+
     }
 
     public class LCAuthReqVO : IInnerPacketVO

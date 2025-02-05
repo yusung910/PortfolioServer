@@ -31,9 +31,10 @@ bool PLoginServerApp::Initialize()
     GServerCheckService::GetInst().LoadGameServers();
 
     _InitLog();
-
-    if (false == _InitAccountDB())
-        return false;
+    
+    //회사 PC에서는 DB접근이 안되도록해야한다.
+    //if (false == _InitAccountDB())
+    //    return false;
 
     ServerConst::GetInst().SetDefault();
     auto lService = LoginDBLoadBalancer::GetInst().GetDirectService<LoginDBService>();

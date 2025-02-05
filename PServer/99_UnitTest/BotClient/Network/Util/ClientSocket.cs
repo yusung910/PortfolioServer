@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -20,17 +21,39 @@ namespace BotClient.Network.Util
 {
     public class ClientSocket : Socket
     {
-        private byte[] m_buff= new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
-        //<time, content>
-        private Dictionary<string, string> m_oPacketLogList = new Dictionary<string, string>();
+        public event SocketConnect socketConnectEvt;
 
-        public Dictionary<string, string> PacketLogList
+        private byte[] m_buff = new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
+        //<time, content>
+        private Dictionary<int, JObject> m_oSendPacketLogList = new Dictionary<int, JObject>();
+        private Dictionary<int, JObject> m_oReceivePacketLogList = new Dictionary<int, JObject>();
+
+        private int m_nPacketReceiveCount = 0;
+        private int m_nPacketSendCount = 0;
+
+        public Dictionary<int, JObject> SendPacketLogList
         {
-            get { return m_oPacketLogList; }
+            get { return m_oSendPacketLogList; }
         }
+
+        public Dictionary<int, JObject> ReceivePacketLogList
+        {
+            get { return m_oReceivePacketLogList; }
+        }
+
 
         VOBuilder m_oVOb = VOBuilder.Instance;
 
+        public static event EventHandler Disconnected;
+
+        private static void DisconnectEvent()
+        {
+            EventHandler lHandler = Disconnected;
+            if (lHandler != null)
+            {
+                lHandler(null, EventArgs.Empty);
+            }
+        }
 
         private int m_nHostID;
         public int HostID
@@ -66,9 +89,18 @@ namespace BotClient.Network.Util
         {
             m_nConnectServerID = int.Parse(_serverInfo["ServerID"].ToString());
             m_sConnectServerName = _serverInfo["Name"].ToString();
-
-            if(!Connected)
+            try
+            {
                 base.BeginConnect(new IPEndPoint(IPAddress.Parse(_serverInfo["BindAddress"].ToString()), int.Parse(_serverInfo["BindPort"].ToString())), ConnectComplete, this);
+            }
+            catch (SocketException _se)
+            {
+                Console.WriteLine("HostID: {0}, {1}", m_nHostID, _se.Message);
+            }
+            catch (Exception _e)
+            {
+                Console.WriteLine("HostID: {0}, {1}", m_nHostID, _e.Message);
+            }
         }
 
         public void Send(string _msg)
@@ -85,21 +117,33 @@ namespace BotClient.Network.Util
             if (Connected)
             {
                 base.EndConnect(_rslt);
-
-                MainForm.form.SetSocketConnectStatus(m_nHostID, ConnectServerName + "(" + ConnectServerID + ")", ((Connected) ? "Connected" : "Disconnected"));
-
+                socketConnectEvt(m_nHostID, ConnectServerName + "(" + ConnectServerID + ")", ((Connected) ? "Connected" : "Disconnected"));
                 base.BeginReceive(m_buff, 0, m_buff.Length, SocketFlags.None, Receive, this);
-            }
-            else
-            {
-                m_oPacketLogList.Add("ERROR!!", "Server is Down!!");
             }
         }
 
         private void Receive(IAsyncResult _rslt)
         {
-            if (Connected)
+            try
             {
+                SocketError lSE;
+                int receiveLen = base.EndReceive(_rslt, out lSE);
+
+                if (receiveLen <= 0)
+                {
+                    SocketClose();
+                    return;
+                }
+
+                if (lSE != SocketError.Success)
+                {
+                    SocketClose();
+                    return;
+                }
+
+                //ReceiveTime
+                string lReceiveTime = DateTime.Now.ToString();
+
                 ByteBuffer buff = new ByteBuffer(m_buff);
 
                 //패킷 헤더
@@ -111,6 +155,7 @@ namespace BotClient.Network.Util
 
                 //패킷 메세지 id
                 byte[] msgIDByte = buff.ToArray(4, 4);
+
 
                 // If the system architecture is little-endian (that is, little end first),
                 // reverse the byte array.
@@ -135,19 +180,45 @@ namespace BotClient.Network.Util
                     Array.Clear(msgBody, 0, msgBody.Length);
                     msgBody = uncompressPacketData;
                 }
+                ByteBuffer bb = new ByteBuffer(msgBody);
 
-                if (null != msgBody)
-                {
-                    ByteBuffer bb = new ByteBuffer(msgBody);
-                    AddPacketLog(DateTime.Now.ToString("yy-MM-dd HH:mm:ss fff"), m_oVOb.ConvertByteBufferToString(msgID, bb));
-                    Console.WriteLine("Done!");
-                }
+                JObject jObj = m_oVOb.ConvertByteBufferToJObject((int)msgID, bb);
+                jObj.Add("Time", lReceiveTime);
+
+                AddPacketLog(false, jObj);
+            }
+            catch (ArgumentException _ae)
+            {
+                Console.WriteLine("ArgumentException - " + _ae.Message);
+                SocketClose();
+            }
+            catch (Exception _e)
+            {
+                Console.WriteLine("ClientSocket ReceivedCallback - " + _e.Message);
+                SocketClose();
             }
         }
 
-        public void AddPacketLog(string _date, string _packetData)
+        public void AddPacketLog(bool _isSend, JObject _packetData)
         {
-            m_oPacketLogList.Add(_date, _packetData);
+            if (_isSend)
+            {
+                ++m_nPacketSendCount;
+                m_oSendPacketLogList.Add(m_nPacketSendCount, _packetData);
+            }
+            else
+            {
+                ++m_nPacketReceiveCount;
+                m_oReceivePacketLogList.Add(m_nPacketReceiveCount, _packetData);
+            }
+        }
+
+        private void SocketClose()
+        {
+            m_oReceivePacketLogList.Clear();
+            m_oSendPacketLogList.Clear();
+            base.Dispose();
+            base.Close();
         }
     }
 }

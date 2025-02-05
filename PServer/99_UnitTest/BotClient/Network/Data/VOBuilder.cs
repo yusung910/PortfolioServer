@@ -2,6 +2,7 @@
 using BotClient.Util;
 using FlatBuffers;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -32,7 +33,7 @@ namespace BotClient.Network.Data
                 case EPacketProtocol.CL_AuthReq:
                     {
                         ret = new LCAuthReqVO();
-                        ((LCAuthReqVO)ret).AccountToken = "BOT_CLIENT_" + Socket.HostID;
+                        ((LCAuthReqVO)ret).AccountToken = "BOT_CLIENT_" + m_oSocket.HostID;
                         ((LCAuthReqVO)ret).LoginPlatformType = 99;
                         ((LCAuthReqVO)ret).ClientType = 21;
                         ((LCAuthReqVO)ret).AppVersion = 55;
@@ -42,21 +43,26 @@ namespace BotClient.Network.Data
             return ret;
         }
 
-        public string ConvertByteBufferToString(EPacketProtocol _msgID, ByteBuffer _buff)
+        public JObject ConvertByteBufferToJObject(int _msgID, ByteBuffer _buff)
         {
-            string ret = null;
+            IFlatbufferObject obj = null;
+            JObject retObj = new JObject();
+            retObj.Add("PacketID", _msgID.ToString());
+            retObj.Add("PacketName", Enum.GetName(typeof(EPacketProtocol), _msgID));
 
-            switch (_msgID)
+            switch ((EPacketProtocol)_msgID)
             {
                 case EPacketProtocol.LC_AuthRes:
-                {
-                    var obj = LCAuthRes.GetRootAsLCAuthRes(_buff);
-                    ret = JsonConvert.SerializeObject(obj);
-                }
-                break;
+                    obj = LCAuthRes.GetRootAsLCAuthRes(_buff);
+                    break;
+
+                case EPacketProtocol.SC_IntegrationErrorNotification:
+                    obj = SCIntegrationErrorNotification.GetRootAsSCIntegrationErrorNotification(_buff);
+                    break;  
             }
 
-            return "Packet: " + Enum.GetName(typeof(EPacketProtocol), _msgID) + "(" + _msgID + ") - " + ret;
+            retObj.Add("Data", JObject.Parse(JsonConvert.SerializeObject(obj)));
+            return retObj;
         }
     }
 }

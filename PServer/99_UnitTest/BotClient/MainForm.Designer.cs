@@ -47,7 +47,6 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnGenerateSocketList = new System.Windows.Forms.Button();
             this.txtSessionCount = new System.Windows.Forms.TextBox();
-            this.btnServerConnect = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -62,7 +61,7 @@
             this.groupBox4.Controls.Add(this.lbSocketTelecomLog);
             this.groupBox4.Location = new System.Drawing.Point(594, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(986, 693);
+            this.groupBox4.Size = new System.Drawing.Size(302, 693);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "PacketLog";
@@ -73,7 +72,7 @@
             this.lbSocketTelecomLog.ItemHeight = 12;
             this.lbSocketTelecomLog.Location = new System.Drawing.Point(6, 15);
             this.lbSocketTelecomLog.Name = "lbSocketTelecomLog";
-            this.lbSocketTelecomLog.Size = new System.Drawing.Size(974, 664);
+            this.lbSocketTelecomLog.Size = new System.Drawing.Size(289, 664);
             this.lbSocketTelecomLog.TabIndex = 1;
             // 
             // groupBox3
@@ -218,7 +217,6 @@
             // 
             this.groupBox6.Controls.Add(this.btnGenerateSocketList);
             this.groupBox6.Controls.Add(this.txtSessionCount);
-            this.groupBox6.Controls.Add(this.btnServerConnect);
             this.groupBox6.Location = new System.Drawing.Point(6, 132);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(226, 49);
@@ -228,11 +226,11 @@
             // 
             // btnGenerateSocketList
             // 
-            this.btnGenerateSocketList.Location = new System.Drawing.Point(62, 15);
+            this.btnGenerateSocketList.Location = new System.Drawing.Point(91, 18);
             this.btnGenerateSocketList.Name = "btnGenerateSocketList";
-            this.btnGenerateSocketList.Size = new System.Drawing.Size(75, 24);
+            this.btnGenerateSocketList.Size = new System.Drawing.Size(127, 24);
             this.btnGenerateSocketList.TabIndex = 6;
-            this.btnGenerateSocketList.Text = "Generate";
+            this.btnGenerateSocketList.Text = "Connect";
             this.btnGenerateSocketList.UseVisualStyleBackColor = true;
             this.btnGenerateSocketList.Click += new System.EventHandler(this.btnGenerateSocketList_Click);
             // 
@@ -240,27 +238,17 @@
             // 
             this.txtSessionCount.Location = new System.Drawing.Point(7, 18);
             this.txtSessionCount.Name = "txtSessionCount";
-            this.txtSessionCount.Size = new System.Drawing.Size(49, 21);
+            this.txtSessionCount.Size = new System.Drawing.Size(78, 21);
             this.txtSessionCount.TabIndex = 5;
             this.txtSessionCount.TextChanged += new System.EventHandler(this.txtSessionCount_TextChanged);
             this.txtSessionCount.Enter += new System.EventHandler(this.txtSessionCount_Enter);
             this.txtSessionCount.Leave += new System.EventHandler(this.txtSessionCount_Leave);
             // 
-            // btnServerConnect
-            // 
-            this.btnServerConnect.Location = new System.Drawing.Point(143, 15);
-            this.btnServerConnect.Name = "btnServerConnect";
-            this.btnServerConnect.Size = new System.Drawing.Size(76, 24);
-            this.btnServerConnect.TabIndex = 3;
-            this.btnServerConnect.Text = "Connect";
-            this.btnServerConnect.UseVisualStyleBackColor = true;
-            this.btnServerConnect.Click += new System.EventHandler(this.btnServerConnect_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1592, 716);
+            this.ClientSize = new System.Drawing.Size(904, 713);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Name = "MainForm";
@@ -282,7 +270,6 @@
         #endregion
         private System.Windows.Forms.ListBox lbPacketList;
         private System.Windows.Forms.Button btnPacketBroadcast;
-        private System.Windows.Forms.Button btnServerConnect;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListBox lbServerList;

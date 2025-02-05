@@ -47,7 +47,7 @@ namespace BotClient.Network
 
         public NetworkManager() { }
 
-        public void GenerateSocket()
+        public void GenerateSockets()
         {
             int lBeginHostID = m_ClientSocketList.Count;
             for (int i = 0; i < m_nConnectCount; i++)
@@ -124,15 +124,18 @@ namespace BotClient.Network
             foreach (var lSocket in _socketList)
             {
                 InnerPacketVO lInnerPacket = new InnerPacketVO((int)_msgID);
-
+                string lSendTime = DateTime.Now.ToString();
                 m_oVOb.Socket = lSocket;
                 var lVo = m_oVOb.GenerateVO(_msgID);
                 lInnerPacket.Data = lVo;
 
                 FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, lInnerPacket);
-                
                 Packet.Instance.SetPacketData(_msgID, fbb);
-                lSocket.AddPacketLog(DateTime.Now.ToString("yy-MM-dd HH:mm:ss fff"), lInnerPacket.ToString());
+
+                var jobj = lInnerPacket.GetJObject();
+                jobj.Add("Time", lSendTime);
+
+                lSocket.AddPacketLog(true, jobj);
 
                 try
                 {
@@ -140,7 +143,7 @@ namespace BotClient.Network
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
+                    Console.WriteLine(e.ToString());
                 }
 
             }

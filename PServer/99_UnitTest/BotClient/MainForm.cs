@@ -2,6 +2,7 @@
 using BotClient.Network;
 using BotClient.Network.Data;
 using FlatBuffers;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,16 +18,15 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BotClient
 {
+    public delegate void SocketConnect(int _hostID, string _serverName, string _status);
+
     public partial class MainForm : Form
     {
         NetworkManager m_oManager = NetworkManager.Instance;
         LoadServerConfig m_oServerConfig = LoadServerConfig.Instance;
 
-        public static MainForm form;
-
         public MainForm()
         {
-            form = this;
             InitializeComponent();
         }
 
@@ -51,15 +51,6 @@ namespace BotClient
         private void lbPacketList_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
-
-        private void btnServerConnect_Click(object sender, EventArgs e)
-        {
-            KeyValuePair<string, string> lSelectedMap = (KeyValuePair<string, string>)lbServerList.SelectedItem;
-            string id = lSelectedMap.Value;
-
-            m_oManager.ConnectSockets(m_oServerConfig.FindServerInfo(id));
-        }
-
         private void btnPacketBroadcast_Click(object sender, EventArgs e)
         {
             int msgID = (int)lbPacketList.SelectedValue;
@@ -112,8 +103,11 @@ namespace BotClient
 
             if (decimal.TryParse(lstrCount, out lCount))
             {
+                //Server info
+                KeyValuePair<string, string> lSelectedMap = (KeyValuePair<string, string>)lbServerList.SelectedItem;
+                string id = lSelectedMap.Value;
                 m_oManager.ConnectCount = Decimal.ToInt32(lCount);
-                m_oManager.GenerateSocket();
+                m_oManager.GenerateSockets();
 
                 foreach (var socket in m_oManager.ClientSocketList)
                 {
@@ -122,26 +116,14 @@ namespace BotClient
                     string lHID = socket.HostID.ToString();
                     dgSocketList.Rows.Add(lHID, "none", "none");
                     socket.AddedGridRow = true;
+                    socket.socketConnectEvt += ShowSocketConnected;
                 }
+
+                m_oManager.ConnectSockets(m_oServerConfig.FindServerInfo(id));
             }
             else
             {
                 MessageBox.Show("Generate Count is not a Number!");
-            }
-        }
-
-        public void SetSocketConnectStatus(int _hostID, string _connectServerName, string _connectStatus)
-        {
-            foreach (DataGridViewRow row in dgSocketList.Rows)
-            {
-                if (row.Cells["HostID"].Value == null)
-                    continue;
-
-                if (row.Cells["HostID"].Value.ToString() == _hostID.ToString())
-                {
-                    row.Cells["ConnectedServer"].Value = _connectServerName;
-                    row.Cells["ConnectStatus"].Value = _connectStatus;
-                }
             }
         }
 
@@ -161,9 +143,29 @@ namespace BotClient
 
             if (lSocket != null)
             {
-                foreach (var item in lSocket.PacketLogList)
+                foreach (var item in lSocket.SendPacketLogList)
                 {
-                    //Console.WriteLine(item.Key + " " + item.Value);
+                    //int msgID = int.Parse(item.Value["Messageid"].ToString());
+                    //string packetName = Enum.GetName(typeof(EPacketProtocol), msgID);
+                }
+                foreach (var item in lSocket.ReceivePacketLogList)
+                {
+
+                }
+            }
+        }
+
+        private void ShowSocketConnected(int _hostID, string _serverName, string _status)
+        {
+            foreach (DataGridViewRow row in dgSocketList.Rows)
+            {
+                if (row.Cells["HostID"].Value == null)
+                    continue;
+
+                if (row.Cells["HostID"].Value.ToString() == _hostID.ToString())
+                {
+                    row.Cells["ConnectedServer"].Value = _serverName;
+                    row.Cells["ConnectStatus"].Value = _status;
                 }
             }
         }
