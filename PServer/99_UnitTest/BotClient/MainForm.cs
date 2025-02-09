@@ -12,6 +12,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,6 +26,8 @@ namespace BotClient
 {
     public delegate void SocketConnect(int _hostID, string _serverName, string _status);
 
+    public delegate void SocketDisconnect(int _hostID);
+
     public partial class MainForm : Form
     {
         NetworkManager m_oManager = NetworkManager.Instance;
@@ -32,7 +35,11 @@ namespace BotClient
 
         ClientSocket m_oSelectedSocket = null;
 
+        //패킷 검색
         Dictionary<EPacketProtocol, string> m_PacketSearchResult = new Dictionary<EPacketProtocol, string>();
+
+        //패킷 로그 검색
+        Dictionary<EPacketProtocol, string> m_PacketLogSearchResult = new Dictionary<EPacketProtocol, string>();
 
         public MainForm()
         {
@@ -73,7 +80,7 @@ namespace BotClient
 
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
-            m_oManager.Disconnect();
+
         }
 
         private void txtSessionCount_TextChanged(object sender, EventArgs e)
@@ -107,6 +114,7 @@ namespace BotClient
                     dgSocketList.Rows.Add(lHID, "none", "none");
                     socket.AddedGridRow = true;
                     socket.socketConnectEvt += ShowSocketConnected;
+                    socket.socketDisconnectEvt += ShowSocketDisconnected;
                 }
 
                 m_oManager.ConnectSockets(m_oServerConfig.FindServerInfo(id));
@@ -169,6 +177,22 @@ namespace BotClient
                 {
                     row.Cells["ConnectedServer"].Value = _serverName;
                     row.Cells["ConnectStatus"].Value = _status;
+                }
+            }
+        }
+
+        private void ShowSocketDisconnected(int _hostID)
+        {
+            m_oManager.Disconnect(_hostID);
+
+            foreach (DataGridViewRow row in dgSocketList.Rows)
+            {
+                if(row.Cells["HostID"].Value == null)
+                    continue;
+                if (row.Cells["HostID"].Value.ToString() == _hostID.ToString())
+                {
+                    row.Cells["ConnectedServer"].Value = "None";
+                    row.Cells["ConnectStatus"].Value = "Disconnected";
                 }
             }
         }
@@ -272,6 +296,19 @@ namespace BotClient
         private void tbPacketLogSearch_KeyUp(object sender, KeyEventArgs e)
         {
             string lSearchKeyword = tbPacketLogSearch.Text;
+            Regex lRegex = new Regex(@lSearchKeyword);
+
+            if (lSearchKeyword != null)
+            {
+                m_PacketLogSearchResult.Clear();
+            }
+
+            if (m_oSelectedSocket == null) return;
+
+            foreach (var item in lbSocketTelecomLog.Items)
+            {
+
+            }
         }
 
         private void tbRecvDataSearch_KeyUp(object sender, KeyEventArgs e)

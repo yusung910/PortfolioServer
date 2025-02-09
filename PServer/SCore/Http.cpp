@@ -46,7 +46,7 @@ std::string Http::GetServerURL() const
     return m_pHttp->m_sURL;
 }
 
-void Http::SetPort(const int& _port)
+void Http::SetServerPort(const int& _port)
 {
     if (nullptr == m_pHttp)
         return;
@@ -58,7 +58,7 @@ void Http::SetPort(const int& _port)
     m_pHttp->m_nPort = _port;
 }
 
-int Http::GetPort() const
+int Http::GetServerPort() const
 {
     if (nullptr == m_pHttp)
         return 0;
@@ -106,6 +106,19 @@ bool Http::GetSecure() const
         return false;
 
     return m_pHttp->m_bIsSecure;
+}
+
+void Http::SetPost(const bool& _Post)
+{
+    if (nullptr != m_pHttp)
+        m_pHttp->m_bIsPost = _Post;
+}
+
+bool Http::IsPost() const
+{
+    if (nullptr == m_pHttp)
+        return false;
+    return m_pHttp->m_bIsPost;
 }
 
 void Http::AddHeader(const std::string& _key, const std::string& _val)

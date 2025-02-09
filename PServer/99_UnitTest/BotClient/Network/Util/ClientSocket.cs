@@ -24,6 +24,8 @@ namespace BotClient.Network.Util
     {
         public event SocketConnect socketConnectEvt;
 
+        public event SocketDisconnect socketDisconnectEvt;
+
         private byte[] m_buff = new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
         //<time, content>
         private Dictionary<int, JObject> m_oPacketLogList = new Dictionary<int, JObject>();
@@ -100,10 +102,12 @@ namespace BotClient.Network.Util
             catch (SocketException _se)
             {
                 Console.WriteLine("HostID: {0}, {1}", m_nHostID, _se.Message);
+                socketDisconnectEvt(m_nHostID);
             }
             catch (Exception _e)
             {
                 Console.WriteLine("HostID: {0}, {1}", m_nHostID, _e.Message);
+                socketDisconnectEvt(m_nHostID);
             }
         }
 

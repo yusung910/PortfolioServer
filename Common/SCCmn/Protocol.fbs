@@ -104,9 +104,14 @@ enum EErrorMsg:int
 	// Login Server
     //-------------------------------------------------------------------------
 	// 인증오류
-	EF_LOGIN_ERROR  											= 101,
-    EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID                         = 102,
-    EF_LOGIN_ERROR_OUTER_PLATFORM,
+	EF_LOGIN_ERROR  											= 101,      //로그인 오류
+    EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID                         = 102,      //인증키 오류
+    
+    EF_LOGIN_PF_GOOGLE_ERROR                                    = 111,
+    EF_LOGIN_PF_APPSTORE_ERROR                                  = 121,
+    EF_LOGIN_PF_NAVER_ERROR                                     = 131,
+    EF_LOGIN_PF_FACEBOOK_ERROR                                  = 141,
+    
 
 
     //-------------------------------------------------------------------------

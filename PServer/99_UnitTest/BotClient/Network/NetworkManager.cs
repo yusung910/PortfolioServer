@@ -150,8 +150,17 @@ namespace BotClient.Network
             }
         }
 
-        public void Disconnect()
+        public void Disconnect(int _hostID)
         {
+            var socket = m_ClientSocketList.Find(p => p.HostID == _hostID);
+            if (socket != null)
+            {
+                m_ClientSocketList.Remove(socket);
+                socket.Close();
+                socket = null;
+            }
         }
+
+
     }
 }

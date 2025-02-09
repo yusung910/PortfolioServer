@@ -3,6 +3,11 @@
 #include "LoginPlayerManager.h"
 #include "NetworkCenter.h"
 
+#include <json/json.h>
+#include <Base64Util.h>
+
+//#include <RSAUtil.h>
+
 #include <NetworkManager.h>
 #include <GlobalEnum.h>
 //jwt
@@ -41,6 +46,7 @@ bool OPFService::OnLPAuthLoginReq(InnerPacket::SharedPtr _data)
 
     try
     {
+        //Client Other Platform Token invalid Check
         LPAuthLogin* lData = static_cast<LPAuthLogin*>(_data->m_pData);
 
         switch(lData->LoginPlatformType)
@@ -74,23 +80,54 @@ bool OPFService::OnLPAuthLoginReq(InnerPacket::SharedPtr _data)
 
 EErrorMsg OPFService::_AuthProcess_AppStore(LPAuthLogin* _data)
 {
+    if (nullptr == _data)
+        return EF_LOGIN_ERROR;
+
     return EErrorMsg::EF_NONE;
 }
 
 EErrorMsg OPFService::_AuthProcess_Facebook(LPAuthLogin* _data)
 {
+    if (nullptr == _data)
+        return EF_LOGIN_ERROR;
+
     return EErrorMsg::EF_NONE;
 }
 
 EErrorMsg OPFService::_AuthProcess_Google(LPAuthLogin* _data)
 {
-    //https://notspoon.tistory.com/47#google_vignette
+    if (nullptr == _data)
+        return EF_LOGIN_ERROR;
+
+    m_oHttp.SetContextData(DEFAULT_CTXT_TYPE);
+    m_oHttp.SetServerURL("oauth2.googleapis.com");
+    m_oHttp.SetSubURL("/tokeninfo");
+    m_oHttp.SetPost(false);
+    m_oHttp.SetServerPort(443);
+    m_oHttp.SetSecure(true);
+
+    std::string lParam = "id_token=" + _data->AccountToken;
+
+    m_oHttp.SetContextData(lParam);
+    
+    std::string lStrRet = "";
+    if (m_oHttp.RequestHTTP(lStrRet) == false)
+        return EF_LOGIN_PF_GOOGLE_ERROR;
+
+    Json::Reader lReader;
+    Json::Value lRoot;
+
+    if(lReader.parse(lStrRet, lRoot) == false)
+
+
     return EErrorMsg::EF_NONE;
 }
 
 EErrorMsg OPFService::_AuthProcess_Naver(LPAuthLogin* _data)
 {
-    //https://developers.naver.com/docs/common/openapiguide/apilist.md#%EB%84%A4%EC%9D%B4%EB%B2%84-%EB%A1%9C%EA%B7%B8%EC%9D%B8
+    if (nullptr == _data)
+        return EF_LOGIN_ERROR;
+
     return EErrorMsg::EF_NONE;
 }
 

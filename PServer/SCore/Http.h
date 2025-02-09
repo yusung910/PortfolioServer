@@ -27,8 +27,8 @@ public:
     void SetServerURL(const std::string& _str);
     std::string GetServerURL() const;
 
-    void SetPort(const int& _port);
-    int GetPort() const;
+    void SetServerPort(const int& _port);
+    int GetServerPort() const;
 
     void SetSubURL(const std::string& _str);
     std::string GetSubURL() const;
@@ -38,6 +38,9 @@ public:
 
     void SetSecure(const bool& _isSecure = true);
     bool GetSecure() const;
+
+    void SetPost(const bool& _Post = true);
+    bool IsPost() const;
 
     void AddHeader(const std::string& _key, const std::string& _val);
     std::string GetHeader(const std::string& _key);
