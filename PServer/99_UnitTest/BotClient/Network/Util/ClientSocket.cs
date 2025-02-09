@@ -16,6 +16,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BotClient.Network.Util
 {
@@ -25,22 +26,22 @@ namespace BotClient.Network.Util
 
         private byte[] m_buff = new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
         //<time, content>
-        private Dictionary<int, JObject> m_oSendPacketLogList = new Dictionary<int, JObject>();
-        private Dictionary<int, JObject> m_oReceivePacketLogList = new Dictionary<int, JObject>();
+        private Dictionary<int, JObject> m_oPacketLogList = new Dictionary<int, JObject>();
 
-        private int m_nPacketReceiveCount = 0;
-        private int m_nPacketSendCount = 0;
+        //
+        private Dictionary<string, int> m_oPacketViewLogList = new Dictionary<string, int>();
 
-        public Dictionary<int, JObject> SendPacketLogList
+        public Dictionary<string, int> PacketViewList
         {
-            get { return m_oSendPacketLogList; }
+            get { return m_oPacketViewLogList; }
         }
 
-        public Dictionary<int, JObject> ReceivePacketLogList
-        {
-            get { return m_oReceivePacketLogList; }
-        }
+        private int m_nPacketLogID = 0;
 
+        public Dictionary<int, JObject> PacketLogList
+        {
+            get { return m_oPacketLogList; }
+        }
 
         VOBuilder m_oVOb = VOBuilder.Instance;
 
@@ -89,6 +90,9 @@ namespace BotClient.Network.Util
         {
             m_nConnectServerID = int.Parse(_serverInfo["ServerID"].ToString());
             m_sConnectServerName = _serverInfo["Name"].ToString();
+
+            if (Connected) return;
+
             try
             {
                 base.BeginConnect(new IPEndPoint(IPAddress.Parse(_serverInfo["BindAddress"].ToString()), int.Parse(_serverInfo["BindPort"].ToString())), ConnectComplete, this);
@@ -142,7 +146,7 @@ namespace BotClient.Network.Util
                 }
 
                 //ReceiveTime
-                string lReceiveTime = DateTime.Now.ToString();
+                string lReceiveTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:dd fff");
 
                 ByteBuffer buff = new ByteBuffer(m_buff);
 
@@ -184,8 +188,9 @@ namespace BotClient.Network.Util
 
                 JObject jObj = m_oVOb.ConvertByteBufferToJObject((int)msgID, bb);
                 jObj.Add("Time", lReceiveTime);
+                jObj.Add("Type", "Recv");
 
-                AddPacketLog(false, jObj);
+                AddPacketLog(jObj);
             }
             catch (ArgumentException _ae)
             {
@@ -199,24 +204,17 @@ namespace BotClient.Network.Util
             }
         }
 
-        public void AddPacketLog(bool _isSend, JObject _packetData)
+        public void AddPacketLog(JObject _packetData)
         {
-            if (_isSend)
-            {
-                ++m_nPacketSendCount;
-                m_oSendPacketLogList.Add(m_nPacketSendCount, _packetData);
-            }
-            else
-            {
-                ++m_nPacketReceiveCount;
-                m_oReceivePacketLogList.Add(m_nPacketReceiveCount, _packetData);
-            }
+            ++m_nPacketLogID;
+            m_oPacketLogList.Add(m_nPacketLogID, _packetData);
+            string lPacketName = string.Format("[{0} :: {1}] - {2}({3})", _packetData["Time"], _packetData["Type"], _packetData["PacketName"], _packetData["PacketID"]);
+            m_oPacketViewLogList.Add(lPacketName, m_nPacketLogID);
         }
 
         private void SocketClose()
         {
-            m_oReceivePacketLogList.Clear();
-            m_oSendPacketLogList.Clear();
+            m_oPacketLogList.Clear();
             base.Dispose();
             base.Close();
         }

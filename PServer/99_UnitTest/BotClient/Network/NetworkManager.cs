@@ -124,7 +124,7 @@ namespace BotClient.Network
             foreach (var lSocket in _socketList)
             {
                 InnerPacketVO lInnerPacket = new InnerPacketVO((int)_msgID);
-                string lSendTime = DateTime.Now.ToString();
+                string lSendTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:dd fff");
                 m_oVOb.Socket = lSocket;
                 var lVo = m_oVOb.GenerateVO(_msgID);
                 lInnerPacket.Data = lVo;
@@ -132,10 +132,11 @@ namespace BotClient.Network
                 FlatBufferBuilder fbb = m_oPacketBuilder.SetPacketBuildData(_msgID, lInnerPacket);
                 Packet.Instance.SetPacketData(_msgID, fbb);
 
-                var jobj = lInnerPacket.GetJObject();
-                jobj.Add("Time", lSendTime);
+                var jObj = lInnerPacket.GetJObject();
+                jObj.Add("Time", lSendTime);
+                jObj.Add("Type", "Send");
 
-                lSocket.AddPacketLog(true, jobj);
+                lSocket.AddPacketLog(jObj);
 
                 try
                 {
