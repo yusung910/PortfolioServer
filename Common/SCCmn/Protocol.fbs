@@ -104,11 +104,26 @@ enum EErrorMsg:int
 	// Login Server
     //-------------------------------------------------------------------------
 	// 인증오류
-	EF_LOGIN_ERROR  											= 101,      //로그인 오류
+	EF_LOGIN_PF_ERROR  											= 101,      //로그인 오류
     EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID                         = 102,      //인증키 오류
     
     EF_LOGIN_PF_GOOGLE_ERROR                                    = 111,
+    EF_LOGIN_PF_GOOGLE_ERR_PROTOCOL                             = 112,
+    EF_LOGIN_PF_GOOGLE_ERR_SUBJECT                              = 113,
+    EF_LOGIN_PF_GOOGLE_ERR_EXPIRE                               = 114,
+    EF_LOGIN_PF_GOOGLE_ERR_TOKEN                                = 115,
+
+
     EF_LOGIN_PF_APPSTORE_ERROR                                  = 121,
+    EF_LOGIN_PF_APPSTORE_ERR_PROTOCOL                           = 122,
+    EF_LOGIN_PF_APPSTORE_ERR_SUBJECT                            = 123,
+    EF_LOGIN_PF_APPSTORE_ERR_EXPIRE                             = 124,
+    EF_LOGIN_PF_APPSTORE_ERR_TOKEN                              = 125,
+
+    EF_LOGIN_PF_APPSTORE_ERROR_KEYLOAD                          = 126,
+    EF_LOGIN_PF_APPSTORE_MISSING_KEY                            = 127,
+    EF_LOGIN_PF_APPSTORE_JWT_ERROR                              = 128,
+
     EF_LOGIN_PF_NAVER_ERROR                                     = 131,
     EF_LOGIN_PF_FACEBOOK_ERROR                                  = 141,
     
@@ -212,9 +227,11 @@ table CLAuthReq
 {
     //플랫폼(google, naver, facebook 등등에서 얻어오는 토큰값)
     //또는 클라에서 접속 할 때 사용할 기본키, 계정처럼 사용되는 값
-    AccountToken                    :string;
+    AccountID                       :string;
     //로그인 플랫폼(google, naver, facebook 등등)
     LoginPlatformType               :int;
+    //플랫폼에서 받아오는 토큰
+    PlatformToken                   :string;
     // 클라 유형(pc, mobile 등등)
     ClientType                      :int;
     // 어플 버전

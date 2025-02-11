@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[Account]
     --계정 고유 번호
     [AccountSeq]                        [int] IDENTITY(1,1)     NOT NULL,
     --계정 고유 key(문자열)-> loginPlaform(google, naver 등등)에서 생성되는 키를 저장
-    [AccountToken]                      [varchar](255)          NOT NULL,
+    [AccountID]                         [varchar](255)          NOT NULL,
     --계정 상태(0 : 정상, 9:삭제 대기, 91: 삭제 등등)
     [AccountStatus]                     [int]                   NOT NULL,
     --계정 유형(0 : 일반 유저, 1: GM, 2: QA 등등)

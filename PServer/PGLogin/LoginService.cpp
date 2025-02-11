@@ -114,13 +114,13 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         return _SendErrorMessage(_hostID, EErrorMsg::EF_NONE, _msg.messageid(), true);
     }
 
-    std::string lAccountToken = (nullptr == _msg.AccountToken()) ? "" : _msg.AccountToken()->c_str();
+    std::string lAccountID = (nullptr == _msg.AccountToken()) ? "" : _msg.AccountToken()->c_str();
 
     
     if(ELoginPlatform::IsGuestPlatform((ELoginPlatform::Type)_msg.LoginPlatformType()))
     {
         //로그인 플랫폼 타입이 Guest일 때
-        bool lIsValidKey = StrChecker::GetInst().IsValidStrAccountToken(lAccountToken, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
+        bool lIsValidKey = StrChecker::GetInst().IsValidStrAccountToken(lAccountID, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
 
         if (false == lIsValidKey)
         {
@@ -130,14 +130,14 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
             return false;
         }
 
-        _AuthLoginProcess(_hostID, _msg.ClientType(), _msg.AppVersion(), (ELoginPlatform::Type)_msg.LoginPlatformType(), lAccountToken);
+        _AuthLoginProcess(_hostID, _msg.ClientType(), _msg.AppVersion(), (ELoginPlatform::Type)_msg.LoginPlatformType(), lAccountID);
     }
     else
     {
         lPlayer->m_eState = ELoginState::PlatformAuthorize;
         LPAuthLogin* lLPAuth = new LPAuthLogin;
         lLPAuth->LoginPlatformType = (ELoginPlatform::Type)_msg.LoginPlatformType();
-        lLPAuth->AccountToken = lAccountToken;
+        lLPAuth->AccountToken = lAccountID;
 
         lLPAuth->ClientType = _msg.ClientType();
         lLPAuth->AppVersion = _msg.AppVersion();
@@ -242,7 +242,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
                 lReq->AccountSeq = (int)lRes->AccountSeq;
                 SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
-                return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_ERROR, EPacketProtocol::CS_AuthReq, true);
+                return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_PF_ERROR, EPacketProtocol::CS_AuthReq, true);
             }
             else
             {
@@ -256,7 +256,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
             SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
 
-            return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_ERROR, EPacketProtocol::CS_AuthReq, true);
+            return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_PF_ERROR, EPacketProtocol::CS_AuthReq, true);
         }
 
 
@@ -299,7 +299,7 @@ bool LoginService::_SendErrorMessage(const int& _hostID, const EErrorMsg& _error
     return false;
 }
 
-bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountToken)
+bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountID)
 {
     auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
 
@@ -311,9 +311,9 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
         return false;
     }
 
-    if (true == _accountToken.empty())
+    if (true == _accountID.empty())
     {
-        VIEW_WRITE_ERROR(L"_AuthLoginProcess :: _accountToken is Missing");
+        VIEW_WRITE_ERROR(L"_AuthLoginProcess :: _accountID is Missing");
 
         return _SendErrorMessage(_hostID, EErrorMsg::EF_FAIL_MISSING_REQUIRED_FIELD, EPacketProtocol::CL_AuthReq, true);
     }
@@ -323,7 +323,7 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
     spLoginAccountProcessSelectDTO* lDTO = new spLoginAccountProcessSelectDTO();
     lDTO->ClientType = _clientType;
     lDTO->AppVersion = _appVer;
-    lDTO->AccountToken = _accountToken;
+    lDTO->AccountToken = _accountID;
     lDTO->LoginPlatformType = _pfType;
     lDTO->IPAddress32 = NetworkManager::GetInst().GetIPInt32(_hostID);
 

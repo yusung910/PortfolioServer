@@ -26,8 +26,8 @@ public:
     bool IsValidStrOnlyASCII(const std::string& _str, const size_t& _min, const size_t& _max);
     bool IsValidStr8OnlyASCII(const std::string& _str, const size_t& _min, const size_t& _max);
 
-    bool IsValidStrAccountToken(const std::wstring& _str, const size_t& _min, const size_t& _max);
-    bool IsValidStrAccountToken(const std::string& _str, const size_t& _min, const size_t& _max);
-    bool IsValidStr8AccountToken(const std::string& _str, const size_t& _min, const size_t& _max);
+    bool IsValidStrAccountID(const std::wstring& _str, const size_t& _min, const size_t& _max);
+    bool IsValidStrAccountID(const std::string& _str, const size_t& _min, const size_t& _max);
+    bool IsValidStr8AccountID(const std::string& _str, const size_t& _min, const size_t& _max);
 };
 

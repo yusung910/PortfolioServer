@@ -74,6 +74,7 @@
     <ClInclude Include="Position2D.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="RandomPO.hxx" />
+    <ClInclude Include="RSAUtil.h" />
     <ClInclude Include="SConnectorTargetInfo.h" />
     <ClInclude Include="SCoreAPI.h" />
     <ClInclude Include="Fan.h" />
@@ -131,6 +132,7 @@
     <ClCompile Include="Position2D.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="RandomPO.cpp" />
+    <ClCompile Include="RSAUtil.cpp" />
     <ClCompile Include="SCoreAPI.cpp" />
     <ClCompile Include="Fan.cpp" />
     <ClCompile Include="ServerApp.cpp" />

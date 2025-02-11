@@ -22,14 +22,14 @@ namespace BotClient.Network.Data
             switch (_msgID)
             {
                 case EPacketProtocol.CL_AuthReq:
-                    var data = (LCAuthReqVO)_args.Data;
-                    var accountToken = retBuilder.CreateString(data.AccountToken);
+                    var lData = (LCAuthReqVO)_args.Data;
+                    var accountID = retBuilder.CreateString(lData.AccountID);
 
                     CLAuthReq.StartCLAuthReq(retBuilder);
-                    CLAuthReq.AddAccountToken(retBuilder, accountToken);
-                    CLAuthReq.AddLoginPlatformType(retBuilder, data.LoginPlatformType);
-                    CLAuthReq.AddClientType(retBuilder, data.ClientType);
-                    CLAuthReq.AddAppVersion(retBuilder, data.AppVersion);
+                    CLAuthReq.AddAccountID(retBuilder, accountID);
+                    CLAuthReq.AddLoginPlatformType(retBuilder, lData.LoginPlatformType);
+                    CLAuthReq.AddClientType(retBuilder, lData.ClientType);
+                    CLAuthReq.AddAppVersion(retBuilder, lData.AppVersion);
 
                     var endoffset = CLAuthReq.EndCLAuthReq(retBuilder);
                     retBuilder.Finish(endoffset.Value);

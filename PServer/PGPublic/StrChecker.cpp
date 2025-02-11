@@ -98,23 +98,23 @@ bool StrChecker::IsValidStr8OnlyASCII(const std::string& _str, const size_t& _mi
 }
 
 
-bool StrChecker::IsValidStrAccountToken(const std::wstring& _str, const size_t& _min, const size_t& _max)
+bool StrChecker::IsValidStrAccountID(const std::wstring& _str, const size_t& _min, const size_t& _max)
 {
     if (nullptr == m_pFilter)
         return false;
 
-    if (false == m_pFilter->IsValidAccountToken(_str, _min, _max))
+    if (false == m_pFilter->IsValidAccountID(_str, _min, _max))
         return false;
 
     return true;
 }
 
-bool StrChecker::IsValidStrAccountToken(const std::string& _str, const size_t& _min, const size_t& _max)
+bool StrChecker::IsValidStrAccountID(const std::string& _str, const size_t& _min, const size_t& _max)
 {
-    return IsValidStrAccountToken(StringUtil::ToWideChar(_str), _min, _max);
+    return IsValidStrAccountID(StringUtil::ToWideChar(_str), _min, _max);
 }
 
-bool StrChecker::IsValidStr8AccountToken(const std::string& _str, const size_t& _min, const size_t& _max)
+bool StrChecker::IsValidStr8AccountID(const std::string& _str, const size_t& _min, const size_t& _max)
 {
-    return IsValidStrAccountToken(StringUtil::UTF8_WSTR(_str), _min, _max);
+    return IsValidStrAccountID(StringUtil::UTF8_WSTR(_str), _min, _max);
 }
