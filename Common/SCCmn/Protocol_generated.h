@@ -10,6 +10,10 @@ struct DServerInfo;
 struct DServerInfoBuilder;
 struct DServerInfoT;
 
+struct DConnectServerInfo;
+struct DConnectServerInfoBuilder;
+struct DConnectServerInfoT;
+
 struct DDateTime;
 struct DDateTimeBuilder;
 struct DDateTimeT;
@@ -46,6 +50,14 @@ struct LSKickDuplicateConnectUserReq;
 struct LSKickDuplicateConnectUserReqBuilder;
 struct LSKickDuplicateConnectUserReqT;
 
+struct CLConnectGameServerReq;
+struct CLConnectGameServerReqBuilder;
+struct CLConnectGameServerReqT;
+
+struct LCConnectGameServerRes;
+struct LCConnectGameServerResBuilder;
+struct LCConnectGameServerResT;
+
 struct CSEnterGameReq;
 struct CSEnterGameReqBuilder;
 struct CSEnterGameReqT;
@@ -73,15 +85,17 @@ enum EPacketProtocol {
   LC_AuthErrorRes = 10005,
   LS_KickDuplicateConnectUserReq = 10006,
   LUDB_ConnectServerIDClear = 10007,
-  LP_AuthLoginReq = 10008,
-  PL_AuthLoginRes = 10009,
+  CL_ConnectGameServerReq = 10008,
+  LC_ConnectGameServerRes = 10009,
+  LP_AuthLoginReq = 10010,
+  PL_AuthLoginRes = 10011,
   CS_AuthReq = 10101,
   CS_EnterGameReq = 10102,
   SC_EnterGameAck = 10103,
   PacketMax = 10104
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[19] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[21] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -96,6 +110,8 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[19] {
     LC_AuthErrorRes,
     LS_KickDuplicateConnectUserReq,
     LUDB_ConnectServerIDClear,
+    CL_ConnectGameServerReq,
+    LC_ConnectGameServerRes,
     LP_AuthLoginReq,
     PL_AuthLoginRes,
     CS_AuthReq,
@@ -121,6 +137,8 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case LC_AuthErrorRes: return "LC_AuthErrorRes";
     case LS_KickDuplicateConnectUserReq: return "LS_KickDuplicateConnectUserReq";
     case LUDB_ConnectServerIDClear: return "LUDB_ConnectServerIDClear";
+    case CL_ConnectGameServerReq: return "CL_ConnectGameServerReq";
+    case LC_ConnectGameServerRes: return "LC_ConnectGameServerRes";
     case LP_AuthLoginReq: return "LP_AuthLoginReq";
     case PL_AuthLoginRes: return "PL_AuthLoginRes";
     case CS_AuthReq: return "CS_AuthReq";
@@ -361,6 +379,98 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfoDirect(
 }
 
 flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct DConnectServerInfoT : public flatbuffers::NativeTable {
+  typedef DConnectServerInfo TableType;
+  int32_t DestServerID;
+  bool IsAllow;
+  int32_t WaitingCount;
+  int32_t OTP;
+  DConnectServerInfoT()
+      : DestServerID(0),
+        IsAllow(false),
+        WaitingCount(0),
+        OTP(0) {
+  }
+};
+
+struct DConnectServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef DConnectServerInfoT NativeTableType;
+  typedef DConnectServerInfoBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_DESTSERVERID = 4,
+    VT_ISALLOW = 6,
+    VT_WAITINGCOUNT = 8,
+    VT_OTP = 10
+  };
+  int32_t DestServerID() const {
+    return GetField<int32_t>(VT_DESTSERVERID, 0);
+  }
+  bool IsAllow() const {
+    return GetField<uint8_t>(VT_ISALLOW, 0) != 0;
+  }
+  int32_t WaitingCount() const {
+    return GetField<int32_t>(VT_WAITINGCOUNT, 0);
+  }
+  int32_t OTP() const {
+    return GetField<int32_t>(VT_OTP, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_DESTSERVERID) &&
+           VerifyField<uint8_t>(verifier, VT_ISALLOW) &&
+           VerifyField<int32_t>(verifier, VT_WAITINGCOUNT) &&
+           VerifyField<int32_t>(verifier, VT_OTP) &&
+           verifier.EndTable();
+  }
+  DConnectServerInfoT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(DConnectServerInfoT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<DConnectServerInfo> Pack(flatbuffers::FlatBufferBuilder &_fbb, const DConnectServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct DConnectServerInfoBuilder {
+  typedef DConnectServerInfo Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_DestServerID(int32_t DestServerID) {
+    fbb_.AddElement<int32_t>(DConnectServerInfo::VT_DESTSERVERID, DestServerID, 0);
+  }
+  void add_IsAllow(bool IsAllow) {
+    fbb_.AddElement<uint8_t>(DConnectServerInfo::VT_ISALLOW, static_cast<uint8_t>(IsAllow), 0);
+  }
+  void add_WaitingCount(int32_t WaitingCount) {
+    fbb_.AddElement<int32_t>(DConnectServerInfo::VT_WAITINGCOUNT, WaitingCount, 0);
+  }
+  void add_OTP(int32_t OTP) {
+    fbb_.AddElement<int32_t>(DConnectServerInfo::VT_OTP, OTP, 0);
+  }
+  explicit DConnectServerInfoBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  DConnectServerInfoBuilder &operator=(const DConnectServerInfoBuilder &);
+  flatbuffers::Offset<DConnectServerInfo> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<DConnectServerInfo>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<DConnectServerInfo> CreateDConnectServerInfo(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t DestServerID = 0,
+    bool IsAllow = false,
+    int32_t WaitingCount = 0,
+    int32_t OTP = 0) {
+  DConnectServerInfoBuilder builder_(_fbb);
+  builder_.add_OTP(OTP);
+  builder_.add_WaitingCount(WaitingCount);
+  builder_.add_DestServerID(DestServerID);
+  builder_.add_IsAllow(IsAllow);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<DConnectServerInfo> CreateDConnectServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DConnectServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct DDateTimeT : public flatbuffers::NativeTable {
   typedef DDateTime TableType;
@@ -834,7 +944,7 @@ flatbuffers::Offset<HostHello> CreateHostHello(flatbuffers::FlatBufferBuilder &_
 
 struct CLAuthReqT : public flatbuffers::NativeTable {
   typedef CLAuthReq TableType;
-  std::string AccountToken;
+  std::string AccountID;
   int32_t LoginPlatformType;
   std::string PlatformToken;
   int32_t ClientType;
@@ -852,15 +962,15 @@ struct CLAuthReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   typedef CLAuthReqT NativeTableType;
   typedef CLAuthReqBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
-    VT_ACCOUNTTOKEN = 4,
+    VT_ACCOUNTID = 4,
     VT_LOGINPLATFORMTYPE = 6,
     VT_PLATFORMTOKEN = 8,
     VT_CLIENTTYPE = 10,
     VT_APPVERSION = 12,
     VT_MESSAGEID = 14
   };
-  const flatbuffers::String *AccountToken() const {
-    return GetPointer<const flatbuffers::String *>(VT_ACCOUNTTOKEN);
+  const flatbuffers::String *AccountID() const {
+    return GetPointer<const flatbuffers::String *>(VT_ACCOUNTID);
   }
   int32_t LoginPlatformType() const {
     return GetField<int32_t>(VT_LOGINPLATFORMTYPE, 0);
@@ -879,8 +989,8 @@ struct CLAuthReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
-           VerifyOffset(verifier, VT_ACCOUNTTOKEN) &&
-           verifier.VerifyString(AccountToken()) &&
+           VerifyOffset(verifier, VT_ACCOUNTID) &&
+           verifier.VerifyString(AccountID()) &&
            VerifyField<int32_t>(verifier, VT_LOGINPLATFORMTYPE) &&
            VerifyOffset(verifier, VT_PLATFORMTOKEN) &&
            verifier.VerifyString(PlatformToken()) &&
@@ -898,8 +1008,8 @@ struct CLAuthReqBuilder {
   typedef CLAuthReq Table;
   flatbuffers::FlatBufferBuilder &fbb_;
   flatbuffers::uoffset_t start_;
-  void add_AccountToken(flatbuffers::Offset<flatbuffers::String> AccountToken) {
-    fbb_.AddOffset(CLAuthReq::VT_ACCOUNTTOKEN, AccountToken);
+  void add_AccountID(flatbuffers::Offset<flatbuffers::String> AccountID) {
+    fbb_.AddOffset(CLAuthReq::VT_ACCOUNTID, AccountID);
   }
   void add_LoginPlatformType(int32_t LoginPlatformType) {
     fbb_.AddElement<int32_t>(CLAuthReq::VT_LOGINPLATFORMTYPE, LoginPlatformType, 0);
@@ -930,7 +1040,7 @@ struct CLAuthReqBuilder {
 
 inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(
     flatbuffers::FlatBufferBuilder &_fbb,
-    flatbuffers::Offset<flatbuffers::String> AccountToken = 0,
+    flatbuffers::Offset<flatbuffers::String> AccountID = 0,
     int32_t LoginPlatformType = 0,
     flatbuffers::Offset<flatbuffers::String> PlatformToken = 0,
     int32_t ClientType = 0,
@@ -942,23 +1052,23 @@ inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(
   builder_.add_ClientType(ClientType);
   builder_.add_PlatformToken(PlatformToken);
   builder_.add_LoginPlatformType(LoginPlatformType);
-  builder_.add_AccountToken(AccountToken);
+  builder_.add_AccountID(AccountID);
   return builder_.Finish();
 }
 
 inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReqDirect(
     flatbuffers::FlatBufferBuilder &_fbb,
-    const char *AccountToken = nullptr,
+    const char *AccountID = nullptr,
     int32_t LoginPlatformType = 0,
     const char *PlatformToken = nullptr,
     int32_t ClientType = 0,
     int32_t AppVersion = 0,
     EPacketProtocol messageid = CL_AuthReq) {
-  auto AccountToken__ = AccountToken ? _fbb.CreateString(AccountToken) : 0;
+  auto AccountID__ = AccountID ? _fbb.CreateString(AccountID) : 0;
   auto PlatformToken__ = PlatformToken ? _fbb.CreateString(PlatformToken) : 0;
   return CreateCLAuthReq(
       _fbb,
-      AccountToken__,
+      AccountID__,
       LoginPlatformType,
       PlatformToken__,
       ClientType,
@@ -1275,6 +1385,154 @@ inline flatbuffers::Offset<LSKickDuplicateConnectUserReq> CreateLSKickDuplicateC
 }
 
 flatbuffers::Offset<LSKickDuplicateConnectUserReq> CreateLSKickDuplicateConnectUserReq(flatbuffers::FlatBufferBuilder &_fbb, const LSKickDuplicateConnectUserReqT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct CLConnectGameServerReqT : public flatbuffers::NativeTable {
+  typedef CLConnectGameServerReq TableType;
+  int32_t serverid;
+  EPacketProtocol messageid;
+  CLConnectGameServerReqT()
+      : serverid(0),
+        messageid(CL_ConnectGameServerReq) {
+  }
+};
+
+struct CLConnectGameServerReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef CLConnectGameServerReqT NativeTableType;
+  typedef CLConnectGameServerReqBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_SERVERID = 4,
+    VT_MESSAGEID = 6
+  };
+  int32_t serverid() const {
+    return GetField<int32_t>(VT_SERVERID, 0);
+  }
+  EPacketProtocol messageid() const {
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10008));
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_SERVERID) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
+           verifier.EndTable();
+  }
+  CLConnectGameServerReqT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(CLConnectGameServerReqT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<CLConnectGameServerReq> Pack(flatbuffers::FlatBufferBuilder &_fbb, const CLConnectGameServerReqT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct CLConnectGameServerReqBuilder {
+  typedef CLConnectGameServerReq Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_serverid(int32_t serverid) {
+    fbb_.AddElement<int32_t>(CLConnectGameServerReq::VT_SERVERID, serverid, 0);
+  }
+  void add_messageid(EPacketProtocol messageid) {
+    fbb_.AddElement<int32_t>(CLConnectGameServerReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10008);
+  }
+  explicit CLConnectGameServerReqBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  CLConnectGameServerReqBuilder &operator=(const CLConnectGameServerReqBuilder &);
+  flatbuffers::Offset<CLConnectGameServerReq> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<CLConnectGameServerReq>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<CLConnectGameServerReq> CreateCLConnectGameServerReq(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t serverid = 0,
+    EPacketProtocol messageid = CL_ConnectGameServerReq) {
+  CLConnectGameServerReqBuilder builder_(_fbb);
+  builder_.add_messageid(messageid);
+  builder_.add_serverid(serverid);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<CLConnectGameServerReq> CreateCLConnectGameServerReq(flatbuffers::FlatBufferBuilder &_fbb, const CLConnectGameServerReqT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct LCConnectGameServerResT : public flatbuffers::NativeTable {
+  typedef LCConnectGameServerRes TableType;
+  std::unique_ptr<DConnectServerInfoT> ServerInfo;
+  std::unique_ptr<DConnectServerInfoT> MessengerServerInfo;
+  EPacketProtocol messageid;
+  LCConnectGameServerResT()
+      : messageid(LC_ConnectGameServerRes) {
+  }
+};
+
+struct LCConnectGameServerRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef LCConnectGameServerResT NativeTableType;
+  typedef LCConnectGameServerResBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_SERVERINFO = 4,
+    VT_MESSENGERSERVERINFO = 6,
+    VT_MESSAGEID = 8
+  };
+  const DConnectServerInfo *ServerInfo() const {
+    return GetPointer<const DConnectServerInfo *>(VT_SERVERINFO);
+  }
+  const DConnectServerInfo *MessengerServerInfo() const {
+    return GetPointer<const DConnectServerInfo *>(VT_MESSENGERSERVERINFO);
+  }
+  EPacketProtocol messageid() const {
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10009));
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_SERVERINFO) &&
+           verifier.VerifyTable(ServerInfo()) &&
+           VerifyOffset(verifier, VT_MESSENGERSERVERINFO) &&
+           verifier.VerifyTable(MessengerServerInfo()) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
+           verifier.EndTable();
+  }
+  LCConnectGameServerResT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(LCConnectGameServerResT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<LCConnectGameServerRes> Pack(flatbuffers::FlatBufferBuilder &_fbb, const LCConnectGameServerResT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct LCConnectGameServerResBuilder {
+  typedef LCConnectGameServerRes Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_ServerInfo(flatbuffers::Offset<DConnectServerInfo> ServerInfo) {
+    fbb_.AddOffset(LCConnectGameServerRes::VT_SERVERINFO, ServerInfo);
+  }
+  void add_MessengerServerInfo(flatbuffers::Offset<DConnectServerInfo> MessengerServerInfo) {
+    fbb_.AddOffset(LCConnectGameServerRes::VT_MESSENGERSERVERINFO, MessengerServerInfo);
+  }
+  void add_messageid(EPacketProtocol messageid) {
+    fbb_.AddElement<int32_t>(LCConnectGameServerRes::VT_MESSAGEID, static_cast<int32_t>(messageid), 10009);
+  }
+  explicit LCConnectGameServerResBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  LCConnectGameServerResBuilder &operator=(const LCConnectGameServerResBuilder &);
+  flatbuffers::Offset<LCConnectGameServerRes> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<LCConnectGameServerRes>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<LCConnectGameServerRes> CreateLCConnectGameServerRes(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<DConnectServerInfo> ServerInfo = 0,
+    flatbuffers::Offset<DConnectServerInfo> MessengerServerInfo = 0,
+    EPacketProtocol messageid = LC_ConnectGameServerRes) {
+  LCConnectGameServerResBuilder builder_(_fbb);
+  builder_.add_messageid(messageid);
+  builder_.add_MessengerServerInfo(MessengerServerInfo);
+  builder_.add_ServerInfo(ServerInfo);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<LCConnectGameServerRes> CreateLCConnectGameServerRes(flatbuffers::FlatBufferBuilder &_fbb, const LCConnectGameServerResT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct CSEnterGameReqT : public flatbuffers::NativeTable {
   typedef CSEnterGameReq TableType;
@@ -1599,6 +1857,41 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBuffe
       _State);
 }
 
+inline DConnectServerInfoT *DConnectServerInfo::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<DConnectServerInfoT> _o = std::unique_ptr<DConnectServerInfoT>(new DConnectServerInfoT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void DConnectServerInfo::UnPackTo(DConnectServerInfoT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = DestServerID(); _o->DestServerID = _e; }
+  { auto _e = IsAllow(); _o->IsAllow = _e; }
+  { auto _e = WaitingCount(); _o->WaitingCount = _e; }
+  { auto _e = OTP(); _o->OTP = _e; }
+}
+
+inline flatbuffers::Offset<DConnectServerInfo> DConnectServerInfo::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DConnectServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateDConnectServerInfo(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<DConnectServerInfo> CreateDConnectServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DConnectServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const DConnectServerInfoT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _DestServerID = _o->DestServerID;
+  auto _IsAllow = _o->IsAllow;
+  auto _WaitingCount = _o->WaitingCount;
+  auto _OTP = _o->OTP;
+  return CreateDConnectServerInfo(
+      _fbb,
+      _DestServerID,
+      _IsAllow,
+      _WaitingCount,
+      _OTP);
+}
+
 inline DDateTimeT *DDateTime::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   std::unique_ptr<DDateTimeT> _o = std::unique_ptr<DDateTimeT>(new DDateTimeT());
   UnPackTo(_o.get(), _resolver);
@@ -1777,7 +2070,7 @@ inline CLAuthReqT *CLAuthReq::UnPack(const flatbuffers::resolver_function_t *_re
 inline void CLAuthReq::UnPackTo(CLAuthReqT *_o, const flatbuffers::resolver_function_t *_resolver) const {
   (void)_o;
   (void)_resolver;
-  { auto _e = AccountToken(); if (_e) _o->AccountToken = _e->str(); }
+  { auto _e = AccountID(); if (_e) _o->AccountID = _e->str(); }
   { auto _e = LoginPlatformType(); _o->LoginPlatformType = _e; }
   { auto _e = PlatformToken(); if (_e) _o->PlatformToken = _e->str(); }
   { auto _e = ClientType(); _o->ClientType = _e; }
@@ -1793,7 +2086,7 @@ inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(flatbuffers::FlatBufferBui
   (void)_rehasher;
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CLAuthReqT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _AccountToken = _o->AccountToken.empty() ? 0 : _fbb.CreateString(_o->AccountToken);
+  auto _AccountID = _o->AccountID.empty() ? 0 : _fbb.CreateString(_o->AccountID);
   auto _LoginPlatformType = _o->LoginPlatformType;
   auto _PlatformToken = _o->PlatformToken.empty() ? 0 : _fbb.CreateString(_o->PlatformToken);
   auto _ClientType = _o->ClientType;
@@ -1801,7 +2094,7 @@ inline flatbuffers::Offset<CLAuthReq> CreateCLAuthReq(flatbuffers::FlatBufferBui
   auto _messageid = _o->messageid;
   return CreateCLAuthReq(
       _fbb,
-      _AccountToken,
+      _AccountID,
       _LoginPlatformType,
       _PlatformToken,
       _ClientType,
@@ -1914,6 +2207,67 @@ inline flatbuffers::Offset<LSKickDuplicateConnectUserReq> CreateLSKickDuplicateC
       _AccountSeq,
       _ErrorCode,
       _ExistPilgrimServerID,
+      _messageid);
+}
+
+inline CLConnectGameServerReqT *CLConnectGameServerReq::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<CLConnectGameServerReqT> _o = std::unique_ptr<CLConnectGameServerReqT>(new CLConnectGameServerReqT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void CLConnectGameServerReq::UnPackTo(CLConnectGameServerReqT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = serverid(); _o->serverid = _e; }
+  { auto _e = messageid(); _o->messageid = _e; }
+}
+
+inline flatbuffers::Offset<CLConnectGameServerReq> CLConnectGameServerReq::Pack(flatbuffers::FlatBufferBuilder &_fbb, const CLConnectGameServerReqT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateCLConnectGameServerReq(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<CLConnectGameServerReq> CreateCLConnectGameServerReq(flatbuffers::FlatBufferBuilder &_fbb, const CLConnectGameServerReqT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const CLConnectGameServerReqT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _serverid = _o->serverid;
+  auto _messageid = _o->messageid;
+  return CreateCLConnectGameServerReq(
+      _fbb,
+      _serverid,
+      _messageid);
+}
+
+inline LCConnectGameServerResT *LCConnectGameServerRes::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<LCConnectGameServerResT> _o = std::unique_ptr<LCConnectGameServerResT>(new LCConnectGameServerResT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void LCConnectGameServerRes::UnPackTo(LCConnectGameServerResT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = ServerInfo(); if (_e) _o->ServerInfo = std::unique_ptr<DConnectServerInfoT>(_e->UnPack(_resolver)); }
+  { auto _e = MessengerServerInfo(); if (_e) _o->MessengerServerInfo = std::unique_ptr<DConnectServerInfoT>(_e->UnPack(_resolver)); }
+  { auto _e = messageid(); _o->messageid = _e; }
+}
+
+inline flatbuffers::Offset<LCConnectGameServerRes> LCConnectGameServerRes::Pack(flatbuffers::FlatBufferBuilder &_fbb, const LCConnectGameServerResT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateLCConnectGameServerRes(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<LCConnectGameServerRes> CreateLCConnectGameServerRes(flatbuffers::FlatBufferBuilder &_fbb, const LCConnectGameServerResT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LCConnectGameServerResT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _ServerInfo = _o->ServerInfo ? CreateDConnectServerInfo(_fbb, _o->ServerInfo.get(), _rehasher) : 0;
+  auto _MessengerServerInfo = _o->MessengerServerInfo ? CreateDConnectServerInfo(_fbb, _o->MessengerServerInfo.get(), _rehasher) : 0;
+  auto _messageid = _o->messageid;
+  return CreateLCConnectGameServerRes(
+      _fbb,
+      _ServerInfo,
+      _MessengerServerInfo,
       _messageid);
 }
 

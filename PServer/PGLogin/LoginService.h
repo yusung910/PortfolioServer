@@ -28,12 +28,18 @@ protected:
 
     //Client -> LoginServer
     bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
+    bool OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg);
 
     //UDB -> LoginServer
     bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
 
     //Platform -> LoginServer
     bool OnPLAuthLoginRes(InnerPacket::SharedPtr _data);
+
+    //LoginServer -> Client
+    bool OnLCConnectGameServerRes(int _hostID, const LCConnectGameServerRes& _msg);
+
+
 
 private:
     void _KickProcess();

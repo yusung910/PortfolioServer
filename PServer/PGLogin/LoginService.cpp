@@ -107,24 +107,24 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
     }
 
     // 플랫폼 확인
-    if (PFunc::GetInst().CheckHasStr(_msg.AccountToken()) == false)
+    if (PFunc::GetInst().CheckHasStr(_msg.AccountID()) == false)
     {
         VIEW_WRITE_ERROR(L"OnCLAuthReq :: %d UniqueKey is Missing", _hostID);
         //에러메세지 전송
         return _SendErrorMessage(_hostID, EErrorMsg::EF_NONE, _msg.messageid(), true);
     }
 
-    std::string lAccountID = (nullptr == _msg.AccountToken()) ? "" : _msg.AccountToken()->c_str();
+    std::string lAccountID = (nullptr == _msg.AccountID()) ? "" : _msg.AccountID()->c_str();
 
     
     if(ELoginPlatform::IsGuestPlatform((ELoginPlatform::Type)_msg.LoginPlatformType()))
     {
         //로그인 플랫폼 타입이 Guest일 때
-        bool lIsValidKey = StrChecker::GetInst().IsValidStrAccountToken(lAccountID, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
+        bool lIsValidKey = StrChecker::GetInst().IsValidStrAccountID(lAccountID, 0, ACCOUNT_UNIQUE_KEY_MAXSIZE);
 
         if (false == lIsValidKey)
         {
-            VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountToken is Invalid");
+            VIEW_WRITE_ERROR(L"LoginService :: OnCLAuthReq AccountID is Invalid");
             _SendErrorMessage(_hostID, EErrorMsg::EF_LOGIN_ACCOUNT_UNIQUE_KEY_INVALID, _msg.messageid(), true);
             AddKickReserve(_hostID);
             return false;
@@ -137,7 +137,7 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
         lPlayer->m_eState = ELoginState::PlatformAuthorize;
         LPAuthLogin* lLPAuth = new LPAuthLogin;
         lLPAuth->LoginPlatformType = (ELoginPlatform::Type)_msg.LoginPlatformType();
-        lLPAuth->AccountToken = lAccountID;
+        lLPAuth->AccountID = lAccountID;
 
         lLPAuth->ClientType = _msg.ClientType();
         lLPAuth->AppVersion = _msg.AppVersion();
@@ -147,6 +147,47 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
     }
     
 
+    return true;
+}
+
+bool LoginService::OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg)
+{
+    auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
+    if (nullptr == lPc)
+    {
+        VIEW_WRITE_INFO(L"OnCLConnectGameServerReq Kick - PC is nullptr");
+        AddKickReserve(_hostID);
+        return false;
+    }
+
+    //Selected Server
+    lPc->m_nSelectedServerID = _msg.serverid();
+
+    auto lServerInfo = GServerCheckService::GetInst().FindServer(_msg.serverid());
+
+    if (nullptr == lServerInfo)
+    {
+        VIEW_WRITE_INFO(L"OnCLConnectGameServerReq Kick - GameServer Info is nullptr");
+        AddKickReserve(_hostID);
+        return false;
+    }
+
+    if (_msg.serverid() >= 10101
+        && _msg.serverid() <= 10999)
+    {
+        // 게임서버 이외 메신저, 빌링서버 등
+        // 연결 정보를 클라에 전송하기 위한 데이터 세팅
+        DConnectServerInfoT lConnInfo;
+        lConnInfo.DestServerID = _msg.serverid();
+        lConnInfo.IsAllow = true;
+        lConnInfo.OTP = lPc->m_nOTP;
+        lConnInfo.WaitingCount = 1;
+
+
+    }
+    
+    //GameServer 연결 대기 등록
+    GServerCheckService::GetInst().SetWaitingEnqueue(_msg.serverid(), _hostID);
     return true;
 }
 
@@ -242,13 +283,13 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
                 lReq->AccountSeq = (int)lRes->AccountSeq;
                 SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
-                return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_PF_ERROR, EPacketProtocol::CS_AuthReq, true);
+                return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_PF_ERROR, EPacketProtocol::CL_AuthReq, true);
             }
             else
             {
                 if(lRes->ConnectedServerID < 10901
                     || lRes->ConnectedServerID > 10999)
-                    return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_KICK, EPacketProtocol::CS_AuthReq, true);
+                    return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_KICK, EPacketProtocol::CL_AuthReq, true);
             }
 
             spAccountConnectServerIDClearDTO* lReq = new spAccountConnectServerIDClearDTO;
@@ -256,7 +297,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
             SendToUDB(_data->m_nHostID, EPacketProtocol::LUDB_ConnectServerIDClear, lReq);
 
 
-            return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_PF_ERROR, EPacketProtocol::CS_AuthReq, true);
+            return _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_LOGIN_PF_ERROR, EPacketProtocol::CL_AuthReq, true);
         }
 
 
@@ -271,15 +312,19 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     lFbb.Finish(lPacket);
 
     LoginPlayerManager::GetInst().SendPacket(_data->m_nHostID, EPacketProtocol::LC_AuthRes, lFbb);
-    //
 
-
+    // 서버 선택창에서 보여줄 버프 리스트를 가져와서 클라에 보내주는 작업이 필요할까?
     return true;
 }
 
 bool LoginService::OnPLAuthLoginRes(InnerPacket::SharedPtr _data)
 {
 
+    return true;
+}
+
+bool LoginService::OnLCConnectGameServerRes(int _hostID, const LCConnectGameServerRes& _msg)
+{
     return true;
 }
 
@@ -323,7 +368,7 @@ bool LoginService::_AuthLoginProcess(int _hostID, const int& _clientType, const 
     spLoginAccountProcessSelectDTO* lDTO = new spLoginAccountProcessSelectDTO();
     lDTO->ClientType = _clientType;
     lDTO->AppVersion = _appVer;
-    lDTO->AccountToken = _accountID;
+    lDTO->AccountID = _accountID;
     lDTO->LoginPlatformType = _pfType;
     lDTO->IPAddress32 = NetworkManager::GetInst().GetIPInt32(_hostID);
 

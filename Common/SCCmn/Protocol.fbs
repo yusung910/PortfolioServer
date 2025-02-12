@@ -44,6 +44,9 @@
 //-----------------------------------------------------------------------------
 enum EPacketProtocol:int
 {
+    //////////////////////////////////////////////////////////
+    //  Common
+    
 	None = 0,
 	Host_Connect,
 	Host_Close,
@@ -58,7 +61,7 @@ enum EPacketProtocol:int
 
 
     //////////////////////////////////////////////////////////
-    // 10001 ~ 20000  --> Auth, Session ...
+    //  Login Server 
 
     CL_AuthReq                              = 10001,
     LUDB_AuthReq,
@@ -67,12 +70,21 @@ enum EPacketProtocol:int
     LC_AuthErrorRes,
     LS_KickDuplicateConnectUserReq,
     LUDB_ConnectServerIDClear,
+    
+    //
+    LS_Connect
 
     LP_AuthLoginReq,
     PL_AuthLoginRes,
 
-    //GameServer
-    CS_AuthReq                              = 10101,
+    CL_ConnectGameServerReq,
+    LC_ConnectGameServerRes,
+
+
+    //////////////////////////////////////////////////////////
+    //  GameServer
+
+    CS_AuthReq                              = 50001,
 	CS_EnterGameReq,
 	SC_EnterGameAck,
 
@@ -166,6 +178,14 @@ table DServerInfo
 
     HasCharacter:bool;          //서버에 캐릭터 존재하고 있는지
     State:int;                  //EServerState 서버 추천 여부
+}
+
+table DConnectServerInfo
+{
+    DestServerID    : int;
+    IsAllow         : bool;
+    WaitingCount    : int;  
+    OTP             : int;
 }
 
 table DDateTime
@@ -265,6 +285,22 @@ table LSKickDuplicateConnectUserReq
     ExistPilgrimServerID: int;
 
     messageid:EPacketProtocol = LS_KickDuplicateConnectUserReq;
+}
+
+table CLConnectGameServerReq
+{
+    serverid: int;
+
+    messageid:EPacketProtocol = CL_ConnectGameServerReq;
+}
+
+table LCConnectGameServerRes
+{
+    ServerInfo: DConnectServerInfo;
+
+    MessengerServerInfo:DConnectServerInfo;
+    //BillingServer 추가?
+    messageid:EPacketProtocol = LC_ConnectGameServerRes;
 }
 
 //-----------------------------------------------------------------------------
