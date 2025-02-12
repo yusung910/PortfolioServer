@@ -28,7 +28,7 @@ LoginPlayer* LoginPlayerManager::Add(int& _hostID, const CLAuthReq& _msg)
     lAddPlayer->m_nAppVersion = _msg.AppVersion();
     lAddPlayer->m_eLoginPlatformType = (ELoginPlatform::Type)_msg.LoginPlatformType();
 
-    lAddPlayer->m_sAuthKey = _msg.AccountToken()->c_str();
+    lAddPlayer->m_sAuthKey = _msg.AccountID()->c_str();
 
     m_umPlayerList.insert_or_assign(_hostID, lAddPlayer);
 

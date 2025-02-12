@@ -28,12 +28,18 @@ protected:
 
     //Client -> LoginServer
     bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
+    bool OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg);
 
     //UDB -> LoginServer
     bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
 
     //Platform -> LoginServer
     bool OnPLAuthLoginRes(InnerPacket::SharedPtr _data);
+
+    //LoginServer -> Client
+    bool OnLCConnectGameServerRes(int _hostID, const LCConnectGameServerRes& _msg);
+
+
 
 private:
     void _KickProcess();
@@ -45,6 +51,6 @@ private:
     bool _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick = false);
 
     //Login 진행
-    bool _AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountToken);
+    bool _AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountID);
 };
 

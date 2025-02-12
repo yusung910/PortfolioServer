@@ -282,6 +282,9 @@
     <ClInclude Include="Http.h">
       <Filter>Network\Web</Filter>
     </ClInclude>
+    <ClInclude Include="RSAUtil.h">
+      <Filter>Util\Crypto</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -427,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="Http.cpp">
       <Filter>Network\Web</Filter>
+    </ClCompile>
+    <ClCompile Include="RSAUtil.cpp">
+      <Filter>Util\Crypto</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

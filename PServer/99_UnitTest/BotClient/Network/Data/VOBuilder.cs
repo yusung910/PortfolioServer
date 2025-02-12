@@ -33,7 +33,7 @@ namespace BotClient.Network.Data
                 case EPacketProtocol.CL_AuthReq:
                     {
                         ret = new LCAuthReqVO();
-                        ((LCAuthReqVO)ret).AccountToken = "BOT_CLIENT_" + m_oSocket.HostID;
+                        ((LCAuthReqVO)ret).AccountID = "BOT_CLIENT_" + m_oSocket.HostID;
                         ((LCAuthReqVO)ret).LoginPlatformType = 99;
                         ((LCAuthReqVO)ret).ClientType = 21;
                         ((LCAuthReqVO)ret).AppVersion = 55;

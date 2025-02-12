@@ -28,14 +28,14 @@
 class LPAuthLogin : public InnerDataInterface
 {
 public:
-    EErrorMsg Result = EErrorMsg::EF_LOGIN_ERROR_OUTER_PLATFORM;
+    EErrorMsg Result = EErrorMsg::EF_LOGIN_PF_ERROR;
 
     ELoginPlatform::Type LoginPlatformType = ELoginPlatform::Type::None;
-    std::string AccountToken = "";
+    std::string AccountID = "";
 
     std::string ReturnToken = "";
 
-    std::string StoreToken = "";
+    std::string PlatformToken = "";
     int ClientType = 0;
     int AppVersion = 0;
 };
@@ -58,7 +58,7 @@ public:
 
     //in
     int LoginPlatformType = 0;
-    std::string AccountToken;
+    std::string AccountID;
     int ConnectingLoginServerID = 0;
     int OTP = 0;
     int ClientType = 0;

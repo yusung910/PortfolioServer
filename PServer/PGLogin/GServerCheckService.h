@@ -58,6 +58,11 @@ protected:
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
     bool OnHostClose(int _hostID, const HostClose& _msg);
 
+    // 게임 서버 상태
+    // 게임 서버에서 로그인 서버로 보낸 패킷을 받아서 처리하는 함수 (SL)
+    //bool 
+    
+
 private:
     //Login -> Game 서버 연결 체크
     void _CheckConnect();

@@ -37,7 +37,7 @@ bool LoginDBService::_OnLUDBLoginReq(std::shared_ptr<InnerPacket> _data)
             , out(lReq->RemainingPeriod)
 
             , in(lReq->LoginPlatformType)
-            , in(lReq->AccountToken)
+            , in(lReq->AccountID)
             , in(m_nCurrentServerID)
             , in(lOTP)
             , in(lReq->ClientType)

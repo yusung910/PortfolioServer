@@ -30,7 +30,7 @@ CREATE PROCEDURE [dbo].[spAccountLoginProcessSelect]
 
   --계정 로그인 플랫폼 유형
   , @LoginPlatformType            INT
-  , @AccountToken                 VARCHAR(255)
+  , @AccountID                    VARCHAR(255)
 
   -- (from server)접속 시도하는 로그인 서버ID
   , @ConnectingServerID           INT
@@ -77,7 +77,7 @@ BEGIN
         FROM
             Account
         WHERE
-            AccountToken = @AccountToken
+            AccountID = @AccountID
     END
 
 
@@ -89,8 +89,8 @@ BEGIN
                 SET @AccountType = @Account_Type
 
                 -- 1. Account Table
-                INSERT INTO Account(AccountToken, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectServerID, OTP, IPAddress32)
-                VALUES (@AccountToken, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingServerID, @OTP, @IPAddress32)
+                INSERT INTO Account(AccountID, LoginPlatformType, ClientType, AppVersion, BuildType, ConnectServerID, OTP, IPAddress32)
+                VALUES (@AccountID, @LoginPlatformType, @ClientType, @AppVersion, @BuildType, @ConnectingServerID, @OTP, @IPAddress32)
 
                 -- Check
                 IF(1 <> @@ROWCOUNT)
