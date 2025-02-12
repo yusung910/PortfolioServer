@@ -73,13 +73,13 @@ public:
         return lpRet;
     }
 
-    void GetList(std::vector<T*>& _oList)
+    void GetList(std::vector<T*>& _list)
     {
         std::lock_guard<std::recursive_mutex> lGuard(m_xLock);
 
         while (false == m_oQueue.empty())
         {
-            _oList.push_back(m_oQueue.front());
+            _list.push_back(m_oQueue.front());
             m_oQueue.pop();
         }
     }
