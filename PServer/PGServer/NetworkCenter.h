@@ -4,7 +4,7 @@
 
 //to Game Server
 template <typename T,
-    typename = typename std::enable_if<std::is_base_of<InnerPacket, T>::value>::type>
+    typename = typename std::enable_if<std::is_base_of<InnerDataInterface, T>::value>::type>
 inline void SendToGame(const int& _hostID, const EPacketProtocol& _protocolID, T* _msg)
 {
     if (nullptr == _msg)

@@ -38,6 +38,7 @@ public:
     void SendToLoginServers(const int& _msgID, void* _msg, const size_t& _msgSize);
 
 protected:
-
+    bool OnConnect(int _hostID, const HostConnect& _msg);
+    bool OnDisconnect(int _hostID, const HostClose& _msg);
 };
 

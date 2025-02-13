@@ -43,9 +43,10 @@ void LoginServerConnectNES::OnReceive(const int& _hostID, const int& _msgID, cha
 
 void LoginServerConnectNES::OnListen()
 {
-    //LoginServerConnectService::GetInst().OnLi
+    LoginServerConnectService::GetInst().OnListen();
 }
 
 void LoginServerConnectNES::OnListenFailed()
 {
+    LoginServerConnectService::GetInst().OnListenFailed();
 }

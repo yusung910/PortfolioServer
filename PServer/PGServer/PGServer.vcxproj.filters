@@ -57,7 +57,9 @@
     <ClCompile Include="LoginServerConnectService.cpp">
       <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
     </ClCompile>
-    <ClCompile Include="LoginServerConnectNES.cpp" />
+    <ClCompile Include="LoginServerConnectNES.cpp">
+      <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -84,7 +86,9 @@
     <ClInclude Include="LoginServerConnectService.h">
       <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
     </ClInclude>
-    <ClInclude Include="LoginServerConnectNES.h" />
+    <ClInclude Include="LoginServerConnectNES.h">
+      <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ServerConfig.json" />
