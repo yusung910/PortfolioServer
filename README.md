@@ -187,6 +187,8 @@ private:
         -> 참조 사이트 : https://www.sqlservercentral.com/forums/topic/batch-file-to-run-sql-scripts
     6. gtest 프로젝트 추가 완료, 추후 몬스터, 미니언 등등
        클라이언트와 실시간 동기화 작업이 필요한 클래스를 테스트할 때 사용한다
+    7. OpenSSL의 버전 변경(2.X.X -> 3.X.X)에 따른 RSAUtil 클래스 수정작업
+
 ## 2.1 작업중 이슈 내용
     2.1.1 서버 <-> 클라이언트 통신 할 때마다 발생하는 HostID 서버에 Connect 요청 할 때마다 변한다.
     2.1.2. gtest를 이용한 단위 테스트 프로젝트 생성(99_UnitTest\)

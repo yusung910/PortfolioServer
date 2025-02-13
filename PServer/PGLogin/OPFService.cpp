@@ -241,8 +241,8 @@ EErrorMsg OPFService::_AuthProcess_AppStore(LPAuthLogin* _data)
     
     std::string lPayload = lParts[0] + "." + lParts2[1];
 
-    if(false == RSAUtil::VerifyJWT(lN, lE, lPayload, lParts2[2]))
-        return EErrorMsg::EF_LOGIN_PF_APPSTORE_JWT_ERROR;
+    //if(false == RSAUtil::VerifyJWT(lN, lE, lPayload, lParts2[2]))
+    //    return EErrorMsg::EF_LOGIN_PF_APPSTORE_JWT_ERROR;
 
 
     return EErrorMsg::EF_NONE;

@@ -72,7 +72,7 @@ enum EPacketProtocol:int
     LUDB_ConnectServerIDClear,
     
     //
-    LS_Connect
+    LS_Connect,
 
     LP_AuthLoginReq,
     PL_AuthLoginRes,

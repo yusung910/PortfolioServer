@@ -9,7 +9,7 @@ void GameServerCheckNES::OnConnect(const int& _hostID, const std::string& _ip, c
     lMsg.Finish(lObj);
 
     Packet::SharedPtr lPacket = Packet::New();
-    lPacket->HostID = _hostID;
+    lPacket->m_nHostID = _hostID;
 
     if (true == lPacket->SetPacketData(Host_Connect, lMsg.GetBufferPointer(), lMsg.GetSize()))
         GameServerCheckService::GetInst().Push(lPacket);
@@ -23,7 +23,7 @@ void GameServerCheckNES::OnClose(const int& _hostID)
     lMsg.Finish(lObj);
 
     Packet::SharedPtr lPacket = Packet::New();
-    lPacket->HostID = _hostID;
+    lPacket->m_nHostID = _hostID;
 
     if (true == lPacket->SetPacketData(Host_Connect, lMsg.GetBufferPointer(), lMsg.GetSize()))
         GameServerCheckService::GetInst().Push(lPacket);
@@ -33,7 +33,7 @@ void GameServerCheckNES::OnClose(const int& _hostID)
 void GameServerCheckNES::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
 {
     Packet::SharedPtr lPacket = Packet::New();
-    lPacket->HostID = _hostID;
+    lPacket->m_nHostID = _hostID;
 
     if (true == lPacket->SetPacketData(_msgID, _msg, _msgSize))
         GameServerCheckService::GetInst().Push(lPacket);

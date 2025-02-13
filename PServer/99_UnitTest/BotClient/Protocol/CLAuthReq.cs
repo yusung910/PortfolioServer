@@ -16,39 +16,49 @@ public struct CLAuthReq : IFlatbufferObject
   public void __init(int _i, ByteBuffer _bb) { __p = new Table(_i, _bb); }
   public CLAuthReq __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public string AccountToken { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+  public string AccountID { get { int o = __p.__offset(4); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
 #if ENABLE_SPAN_T
-  public Span<byte> GetAccountTokenBytes() { return __p.__vector_as_span<byte>(4, 1); }
+  public Span<byte> GetAccountIDBytes() { return __p.__vector_as_span<byte>(4, 1); }
 #else
-  public ArraySegment<byte>? GetAccountTokenBytes() { return __p.__vector_as_arraysegment(4); }
+  public ArraySegment<byte>? GetAccountIDBytes() { return __p.__vector_as_arraysegment(4); }
 #endif
-  public byte[] GetAccountTokenArray() { return __p.__vector_as_array<byte>(4); }
+  public byte[] GetAccountIDArray() { return __p.__vector_as_array<byte>(4); }
   public int LoginPlatformType { get { int o = __p.__offset(6); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int ClientType { get { int o = __p.__offset(8); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public int AppVersion { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
-  public EPacketProtocol Messageid { get { int o = __p.__offset(12); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.CL_AuthReq; } }
+  public string PlatformToken { get { int o = __p.__offset(8); return o != 0 ? __p.__string(o + __p.bb_pos) : null; } }
+#if ENABLE_SPAN_T
+  public Span<byte> GetPlatformTokenBytes() { return __p.__vector_as_span<byte>(8, 1); }
+#else
+  public ArraySegment<byte>? GetPlatformTokenBytes() { return __p.__vector_as_arraysegment(8); }
+#endif
+  public byte[] GetPlatformTokenArray() { return __p.__vector_as_array<byte>(8); }
+  public int ClientType { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int AppVersion { get { int o = __p.__offset(12); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public EPacketProtocol Messageid { get { int o = __p.__offset(14); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.CL_AuthReq; } }
 
   public static Offset<CLAuthReq> CreateCLAuthReq(FlatBufferBuilder builder,
-      StringOffset AccountTokenOffset = default(StringOffset),
+      StringOffset AccountIDOffset = default(StringOffset),
       int LoginPlatformType = 0,
+      StringOffset PlatformTokenOffset = default(StringOffset),
       int ClientType = 0,
       int AppVersion = 0,
       EPacketProtocol messageid = EPacketProtocol.CL_AuthReq) {
-    builder.StartTable(5);
+    builder.StartTable(6);
     CLAuthReq.AddMessageid(builder, messageid);
     CLAuthReq.AddAppVersion(builder, AppVersion);
     CLAuthReq.AddClientType(builder, ClientType);
+    CLAuthReq.AddPlatformToken(builder, PlatformTokenOffset);
     CLAuthReq.AddLoginPlatformType(builder, LoginPlatformType);
-    CLAuthReq.AddAccountToken(builder, AccountTokenOffset);
+    CLAuthReq.AddAccountID(builder, AccountIDOffset);
     return CLAuthReq.EndCLAuthReq(builder);
   }
 
-  public static void StartCLAuthReq(FlatBufferBuilder builder) { builder.StartTable(5); }
-  public static void AddAccountToken(FlatBufferBuilder builder, StringOffset AccountTokenOffset) { builder.AddOffset(0, AccountTokenOffset.Value, 0); }
+  public static void StartCLAuthReq(FlatBufferBuilder builder) { builder.StartTable(6); }
+  public static void AddAccountID(FlatBufferBuilder builder, StringOffset AccountIDOffset) { builder.AddOffset(0, AccountIDOffset.Value, 0); }
   public static void AddLoginPlatformType(FlatBufferBuilder builder, int LoginPlatformType) { builder.AddInt(1, LoginPlatformType, 0); }
-  public static void AddClientType(FlatBufferBuilder builder, int ClientType) { builder.AddInt(2, ClientType, 0); }
-  public static void AddAppVersion(FlatBufferBuilder builder, int AppVersion) { builder.AddInt(3, AppVersion, 0); }
-  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(4, (int)messageid, 10001); }
+  public static void AddPlatformToken(FlatBufferBuilder builder, StringOffset PlatformTokenOffset) { builder.AddOffset(2, PlatformTokenOffset.Value, 0); }
+  public static void AddClientType(FlatBufferBuilder builder, int ClientType) { builder.AddInt(3, ClientType, 0); }
+  public static void AddAppVersion(FlatBufferBuilder builder, int AppVersion) { builder.AddInt(4, AppVersion, 0); }
+  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(5, (int)messageid, 10001); }
   public static Offset<CLAuthReq> EndCLAuthReq(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<CLAuthReq>(o);
@@ -59,19 +69,22 @@ public struct CLAuthReq : IFlatbufferObject
     return _o;
   }
   public void UnPackTo(CLAuthReqT _o) {
-    _o.AccountToken = this.AccountToken;
+    _o.AccountID = this.AccountID;
     _o.LoginPlatformType = this.LoginPlatformType;
+    _o.PlatformToken = this.PlatformToken;
     _o.ClientType = this.ClientType;
     _o.AppVersion = this.AppVersion;
     _o.Messageid = this.Messageid;
   }
   public static Offset<CLAuthReq> Pack(FlatBufferBuilder builder, CLAuthReqT _o) {
     if (_o == null) return default(Offset<CLAuthReq>);
-    var _AccountToken = _o.AccountToken == null ? default(StringOffset) : builder.CreateString(_o.AccountToken);
+    var _AccountID = _o.AccountID == null ? default(StringOffset) : builder.CreateString(_o.AccountID);
+    var _PlatformToken = _o.PlatformToken == null ? default(StringOffset) : builder.CreateString(_o.PlatformToken);
     return CreateCLAuthReq(
       builder,
-      _AccountToken,
+      _AccountID,
       _o.LoginPlatformType,
+      _PlatformToken,
       _o.ClientType,
       _o.AppVersion,
       _o.Messageid);
@@ -80,15 +93,17 @@ public struct CLAuthReq : IFlatbufferObject
 
 public class CLAuthReqT
 {
-  public string AccountToken { get; set; }
+  public string AccountID { get; set; }
   public int LoginPlatformType { get; set; }
+  public string PlatformToken { get; set; }
   public int ClientType { get; set; }
   public int AppVersion { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
   public CLAuthReqT() {
-    this.AccountToken = null;
+    this.AccountID = null;
     this.LoginPlatformType = 0;
+    this.PlatformToken = null;
     this.ClientType = 0;
     this.AppVersion = 0;
     this.Messageid = EPacketProtocol.CL_AuthReq;

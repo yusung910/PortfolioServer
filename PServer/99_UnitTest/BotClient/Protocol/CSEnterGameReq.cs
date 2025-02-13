@@ -50,7 +50,7 @@ public struct CSEnterGameReq : IFlatbufferObject
   public static void AddAccountID(FlatBufferBuilder builder, StringOffset AccountIDOffset) { builder.AddOffset(0, AccountIDOffset.Value, 0); }
   public static void AddAccountPW(FlatBufferBuilder builder, StringOffset AccountPWOffset) { builder.AddOffset(1, AccountPWOffset.Value, 0); }
   public static void AddHostID(FlatBufferBuilder builder, int HostID) { builder.AddInt(2, HostID, 0); }
-  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(3, (int)messageid, 10102); }
+  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(3, (int)messageid, 50002); }
   public static Offset<CSEnterGameReq> EndCSEnterGameReq(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<CSEnterGameReq>(o);

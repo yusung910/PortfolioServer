@@ -13,19 +13,22 @@
     <Filter Include="1_Services\2_DB">
       <UniqueIdentifier>{01d04587-b047-4600-a0c4-4332e349870a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Services\3_ConnectServer">
+    <Filter Include="2_Functions">
+      <UniqueIdentifier>{e77a8089-b325-4165-ae4d-ae54498e4c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectManage">
       <UniqueIdentifier>{0b9a025a-6629-4a6c-b3d0-d114191a93eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Services\3_ConnectServer\1_GameServer">
+    <Filter Include="1_Services\3_ConnectManage\1_GameServer">
       <UniqueIdentifier>{f87d58ff-54f0-4028-8010-a0f1450dad66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Services\3_ConnectServer\2_LogServer">
+    <Filter Include="1_Services\3_ConnectManage\2_LogServer">
       <UniqueIdentifier>{cd66e807-9eeb-4748-9a02-2d3508755cee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Services\3_ConnectServer\3_MessengerServer">
+    <Filter Include="1_Services\3_ConnectManage\3_MessengerServer">
       <UniqueIdentifier>{288389ad-f4ea-440e-bd9b-929ed90edb6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Services\3_ConnectServer\4_LoginServer">
+    <Filter Include="1_Services\3_ConnectManage\4_LoginServer">
       <UniqueIdentifier>{d3fd30c3-3627-44b1-b1be-7a8ffac59817}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -48,6 +51,13 @@
     <ClCompile Include="GameDBService.cpp">
       <Filter>1_Services\2_DB</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkCenter.cpp">
+      <Filter>2_Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginServerConnectService.cpp">
+      <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginServerConnectNES.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -68,6 +78,13 @@
     <ClInclude Include="GameDBLoadBalancer.h">
       <Filter>1_Services\2_DB</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkCenter.h">
+      <Filter>2_Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginServerConnectService.h">
+      <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginServerConnectNES.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ServerConfig.json" />

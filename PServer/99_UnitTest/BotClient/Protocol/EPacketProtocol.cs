@@ -4,6 +4,7 @@
 
 public enum EPacketProtocol : int
 {
+  //////////////////////////////////////////////////////////
   None = 0,
   Host_Connect = 1,
   Host_Close = 2,
@@ -18,11 +19,15 @@ public enum EPacketProtocol : int
   LC_AuthErrorRes = 10005,
   LS_KickDuplicateConnectUserReq = 10006,
   LUDB_ConnectServerIDClear = 10007,
-  LP_AuthLoginReq = 10008,
-  PL_AuthLoginRes = 10009,
-  CS_AuthReq = 10101,
-  CS_EnterGameReq = 10102,
-  SC_EnterGameAck = 10103,
-  PacketMax = 10104,
+  LS_Connect = 10008,
+  LP_AuthLoginReq = 10009,
+  PL_AuthLoginRes = 10010,
+  CL_ConnectGameServerReq = 10011,
+  LC_ConnectGameServerRes = 10012,
+  //////////////////////////////////////////////////////////
+  CS_AuthReq = 50001,
+  CS_EnterGameReq = 50002,
+  SC_EnterGameAck = 50003,
+  PacketMax = 50004,
 };
 

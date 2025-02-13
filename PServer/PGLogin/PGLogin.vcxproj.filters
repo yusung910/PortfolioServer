@@ -19,17 +19,20 @@
     <Filter Include="1_Services\5_InnerPlatform">
       <UniqueIdentifier>{e457845c-ffd6-44ff-b486-cd7ac006090f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_Structure">
-      <UniqueIdentifier>{430e1665-f892-45ca-9204-b15520b97a59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2_Structure\LoginPlayer">
-      <UniqueIdentifier>{c10cb5f3-4a11-412b-8f1c-69c5d919afc3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="1_Services\3_Functions">
+    <Filter Include="2_Functions">
       <UniqueIdentifier>{f5133109-307e-4e85-8944-6fec00ac978f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Services\3_ConnectServer">
+    <Filter Include="3_Structure">
+      <UniqueIdentifier>{430e1665-f892-45ca-9204-b15520b97a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Structure\LoginPlayer">
+      <UniqueIdentifier>{c10cb5f3-4a11-412b-8f1c-69c5d919afc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectManage">
       <UniqueIdentifier>{92899996-5567-4da3-9c38-395143449f74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectManage\1_GameServer">
+      <UniqueIdentifier>{d0ce126c-271b-45fb-affa-a3990e5c1b05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,26 +48,14 @@
     <ClInclude Include="LoginService.h">
       <Filter>1_Services\1_Main</Filter>
     </ClInclude>
-    <ClInclude Include="GameServerCheckService.h">
-      <Filter>1_Services\3_ConnectServer</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingList.h">
-      <Filter>1_Services\3_ConnectServer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameServerInfo.h">
-      <Filter>1_Services\3_ConnectServer</Filter>
-    </ClInclude>
-    <ClInclude Include="GameServerCheckNES.h">
-      <Filter>1_Services\3_ConnectServer</Filter>
-    </ClInclude>
     <ClInclude Include="LoginPlayer.h">
-      <Filter>2_Structure\LoginPlayer</Filter>
+      <Filter>3_Structure\LoginPlayer</Filter>
     </ClInclude>
     <ClInclude Include="LoginPlayerManager.h">
-      <Filter>2_Structure\LoginPlayer</Filter>
+      <Filter>3_Structure\LoginPlayer</Filter>
     </ClInclude>
     <ClInclude Include="NetworkCenter.h">
-      <Filter>1_Services\3_Functions</Filter>
+      <Filter>2_Functions</Filter>
     </ClInclude>
     <ClInclude Include="LoginDBLoadBalancer.h">
       <Filter>1_Services\2_DB</Filter>
@@ -77,6 +68,18 @@
     </ClInclude>
     <ClInclude Include="IPFService.h">
       <Filter>1_Services\5_InnerPlatform</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerInfo.h">
+      <Filter>1_Services\3_ConnectManage\1_GameServer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerCheckNES.h">
+      <Filter>1_Services\3_ConnectManage\1_GameServer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerCheckService.h">
+      <Filter>1_Services\3_ConnectManage\1_GameServer</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingList.h">
+      <Filter>1_Services\3_ConnectManage\1_GameServer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -95,20 +98,14 @@
     <ClCompile Include="LoginService.cpp">
       <Filter>1_Services\1_Main</Filter>
     </ClCompile>
-    <ClCompile Include="GameServerCheckService.cpp">
-      <Filter>1_Services\3_ConnectServer</Filter>
-    </ClCompile>
-    <ClCompile Include="GameServerCheckNES.cpp">
-      <Filter>1_Services\3_ConnectServer</Filter>
-    </ClCompile>
     <ClCompile Include="LoginPlayer.cpp">
-      <Filter>2_Structure\LoginPlayer</Filter>
+      <Filter>3_Structure\LoginPlayer</Filter>
     </ClCompile>
     <ClCompile Include="LoginPlayerManager.cpp">
-      <Filter>2_Structure\LoginPlayer</Filter>
+      <Filter>3_Structure\LoginPlayer</Filter>
     </ClCompile>
     <ClCompile Include="NetworkCenter.cpp">
-      <Filter>1_Services\3_Functions</Filter>
+      <Filter>2_Functions</Filter>
     </ClCompile>
     <ClCompile Include="LoginDBService.cpp">
       <Filter>1_Services\2_DB</Filter>
@@ -119,10 +116,16 @@
     <ClCompile Include="IPFService.cpp">
       <Filter>1_Services\5_InnerPlatform</Filter>
     </ClCompile>
+    <ClCompile Include="GameServerCheckNES.cpp">
+      <Filter>1_Services\3_ConnectManage\1_GameServer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameServerCheckService.cpp">
+      <Filter>1_Services\3_ConnectManage\1_GameServer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ELoginState.h">
-      <Filter>2_Structure</Filter>
+      <Filter>3_Structure</Filter>
     </None>
     <None Include="ServerConfig.json" />
   </ItemGroup>

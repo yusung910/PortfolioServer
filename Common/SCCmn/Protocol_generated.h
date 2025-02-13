@@ -71,6 +71,7 @@ struct SCIntegrationErrorNotificationBuilder;
 struct SCIntegrationErrorNotificationT;
 
 enum EPacketProtocol {
+  //////////////////////////////////////////////////////////
   None = 0,
   Host_Connect = 1,
   Host_Close = 2,
@@ -85,17 +86,19 @@ enum EPacketProtocol {
   LC_AuthErrorRes = 10005,
   LS_KickDuplicateConnectUserReq = 10006,
   LUDB_ConnectServerIDClear = 10007,
-  CL_ConnectGameServerReq = 10008,
-  LC_ConnectGameServerRes = 10009,
-  LP_AuthLoginReq = 10010,
-  PL_AuthLoginRes = 10011,
-  CS_AuthReq = 10101,
-  CS_EnterGameReq = 10102,
-  SC_EnterGameAck = 10103,
-  PacketMax = 10104
+  LS_Connect = 10008,
+  LP_AuthLoginReq = 10009,
+  PL_AuthLoginRes = 10010,
+  CL_ConnectGameServerReq = 10011,
+  LC_ConnectGameServerRes = 10012,
+  //////////////////////////////////////////////////////////
+  CS_AuthReq = 50001,
+  CS_EnterGameReq = 50002,
+  SC_EnterGameAck = 50003,
+  PacketMax = 50004
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[21] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[22] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -110,10 +113,11 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[21] {
     LC_AuthErrorRes,
     LS_KickDuplicateConnectUserReq,
     LUDB_ConnectServerIDClear,
-    CL_ConnectGameServerReq,
-    LC_ConnectGameServerRes,
+    LS_Connect,
     LP_AuthLoginReq,
     PL_AuthLoginRes,
+    CL_ConnectGameServerReq,
+    LC_ConnectGameServerRes,
     CS_AuthReq,
     CS_EnterGameReq,
     SC_EnterGameAck,
@@ -137,10 +141,11 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case LC_AuthErrorRes: return "LC_AuthErrorRes";
     case LS_KickDuplicateConnectUserReq: return "LS_KickDuplicateConnectUserReq";
     case LUDB_ConnectServerIDClear: return "LUDB_ConnectServerIDClear";
-    case CL_ConnectGameServerReq: return "CL_ConnectGameServerReq";
-    case LC_ConnectGameServerRes: return "LC_ConnectGameServerRes";
+    case LS_Connect: return "LS_Connect";
     case LP_AuthLoginReq: return "LP_AuthLoginReq";
     case PL_AuthLoginRes: return "PL_AuthLoginRes";
+    case CL_ConnectGameServerReq: return "CL_ConnectGameServerReq";
+    case LC_ConnectGameServerRes: return "LC_ConnectGameServerRes";
     case CS_AuthReq: return "CS_AuthReq";
     case CS_EnterGameReq: return "CS_EnterGameReq";
     case SC_EnterGameAck: return "SC_EnterGameAck";
@@ -1407,7 +1412,7 @@ struct CLConnectGameServerReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
     return GetField<int32_t>(VT_SERVERID, 0);
   }
   EPacketProtocol messageid() const {
-    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10008));
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10011));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1428,7 +1433,7 @@ struct CLConnectGameServerReqBuilder {
     fbb_.AddElement<int32_t>(CLConnectGameServerReq::VT_SERVERID, serverid, 0);
   }
   void add_messageid(EPacketProtocol messageid) {
-    fbb_.AddElement<int32_t>(CLConnectGameServerReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10008);
+    fbb_.AddElement<int32_t>(CLConnectGameServerReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10011);
   }
   explicit CLConnectGameServerReqBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1479,7 +1484,7 @@ struct LCConnectGameServerRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
     return GetPointer<const DConnectServerInfo *>(VT_MESSENGERSERVERINFO);
   }
   EPacketProtocol messageid() const {
-    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10009));
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10012));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1506,7 +1511,7 @@ struct LCConnectGameServerResBuilder {
     fbb_.AddOffset(LCConnectGameServerRes::VT_MESSENGERSERVERINFO, MessengerServerInfo);
   }
   void add_messageid(EPacketProtocol messageid) {
-    fbb_.AddElement<int32_t>(LCConnectGameServerRes::VT_MESSAGEID, static_cast<int32_t>(messageid), 10009);
+    fbb_.AddElement<int32_t>(LCConnectGameServerRes::VT_MESSAGEID, static_cast<int32_t>(messageid), 10012);
   }
   explicit LCConnectGameServerResBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1565,7 +1570,7 @@ struct CSEnterGameReq FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     return GetField<int32_t>(VT_HOSTID, 0);
   }
   EPacketProtocol messageid() const {
-    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10102));
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 50002));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1596,7 +1601,7 @@ struct CSEnterGameReqBuilder {
     fbb_.AddElement<int32_t>(CSEnterGameReq::VT_HOSTID, HostID, 0);
   }
   void add_messageid(EPacketProtocol messageid) {
-    fbb_.AddElement<int32_t>(CSEnterGameReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 10102);
+    fbb_.AddElement<int32_t>(CSEnterGameReq::VT_MESSAGEID, static_cast<int32_t>(messageid), 50002);
   }
   explicit CSEnterGameReqBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -1667,7 +1672,7 @@ struct SCEnterGameAck FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     return GetPointer<const flatbuffers::String *>(VT_ACCOUNTPW);
   }
   EPacketProtocol messageid() const {
-    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10103));
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 50003));
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1694,7 +1699,7 @@ struct SCEnterGameAckBuilder {
     fbb_.AddOffset(SCEnterGameAck::VT_ACCOUNTPW, AccountPW);
   }
   void add_messageid(EPacketProtocol messageid) {
-    fbb_.AddElement<int32_t>(SCEnterGameAck::VT_MESSAGEID, static_cast<int32_t>(messageid), 10103);
+    fbb_.AddElement<int32_t>(SCEnterGameAck::VT_MESSAGEID, static_cast<int32_t>(messageid), 50003);
   }
   explicit SCEnterGameAckBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {

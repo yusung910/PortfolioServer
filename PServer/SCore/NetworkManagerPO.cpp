@@ -225,7 +225,7 @@ bool NetworkManagerPO::BroadCast(std::vector<int>& _hostIDs, Packet::SharedPtr _
 
     for (auto& lHostID : _hostIDs)
     {
-        _packet->HostID = lHostID;
+        _packet->m_nHostID = lHostID;
 
         m_pController->SendPacketToHost(lHostID, _packet);
     }

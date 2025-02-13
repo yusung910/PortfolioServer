@@ -13,7 +13,7 @@ void LoginServerNES::OnConnect(const int& _hostID, const std::string& _ip, const
     lMSG.Finish(lObj);
 
     Packet::SharedPtr lPacket = Packet::New();
-    lPacket->HostID = _hostID;
+    lPacket->m_nHostID= _hostID;
 
     if (true == lPacket->SetPacketData(Host_Connect, lMSG.GetBufferPointer(), lMSG.GetSize()))
         LoginService::GetInst().Push(lPacket);
@@ -27,7 +27,7 @@ void LoginServerNES::OnClose(const int& _hostID)
     lMSG.Finish(lObj);
 
     Packet::SharedPtr lPacket = Packet::New();
-    lPacket->HostID = _hostID;
+    lPacket->m_nHostID = _hostID;
 
     if (true == lPacket->SetPacketData(Host_Close, lMSG.GetBufferPointer(), lMSG.GetSize()))
         LoginService::GetInst().Push(lPacket);
@@ -37,7 +37,7 @@ void LoginServerNES::OnReceive(const int& _hostID, const int& _msgID, char* _msg
 {
     Packet::SharedPtr lMSG = Packet::New();
 
-    lMSG->HostID = _hostID;
+    lMSG->m_nHostID = _hostID;
 
     if(true == lMSG->SetPacketData(_msgID, _msg, _msgSize))
         LoginService::GetInst().Push(lMSG);

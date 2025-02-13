@@ -497,7 +497,7 @@ bool NetworkHostPO::Encrypt(NetworkContextPO& _ctxt)
             }
 
             //NetworkContext에 기록한다
-            _ctxt.Write(it->get()->BinaryData, it->get()->GetPacketSize());
+            _ctxt.Write(it->get()->m_cBinaryData, it->get()->GetPacketSize());
             lTotal += it->get()->GetPacketSize();
         }
         //전송되거나 nullptr인 queue는 제거 후 iterator 이동

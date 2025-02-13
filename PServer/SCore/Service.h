@@ -67,9 +67,9 @@ protected:
 			flatbuffers::Verifier lVerifier{ (uint8_t*)_packet.GetDataPtr(), (flatbuffers::uoffset_t)_packet.GetMessageSize() };
 
 			if (false == lMSG->Verify(lVerifier))
-				return _OnDeserializeFail(_packet.HostID, lID);
+				return _OnDeserializeFail(_packet.m_nHostID, lID);
 
-			return (lDerived->*_handler)(_packet.HostID, *lMSG);
+			return (lDerived->*_handler)(_packet.m_nHostID, *lMSG);
 		};
 
 		_RegisterHandler(lID, lInvoker);

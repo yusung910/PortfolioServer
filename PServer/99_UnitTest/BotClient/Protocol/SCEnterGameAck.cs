@@ -46,7 +46,7 @@ public struct SCEnterGameAck : IFlatbufferObject
   public static void StartSCEnterGameAck(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddAccountID(FlatBufferBuilder builder, StringOffset AccountIDOffset) { builder.AddOffset(0, AccountIDOffset.Value, 0); }
   public static void AddAccountPW(FlatBufferBuilder builder, StringOffset AccountPWOffset) { builder.AddOffset(1, AccountPWOffset.Value, 0); }
-  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(2, (int)messageid, 10103); }
+  public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(2, (int)messageid, 50003); }
   public static Offset<SCEnterGameAck> EndSCEnterGameAck(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<SCEnterGameAck>(o);

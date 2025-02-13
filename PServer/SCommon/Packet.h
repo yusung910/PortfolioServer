@@ -33,8 +33,8 @@ constexpr int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;		// 60 byte ¿ÃªÛ ∫∏≥ªæﬂ «
 class Packet : public Object<Packet>
 {
 public:
-	int HostID = 0;
-	char BinaryData[MAX_PACKET_BINARY_SIZE] = { 0, };	// ∆–≈∂ πŸ¿Ã≥ ∏Æ. Message Payload
+	int m_nHostID = 0;
+	char m_cBinaryData[MAX_PACKET_BINARY_SIZE] = { 0, };	// ∆–≈∂ πŸ¿Ã≥ ∏Æ. Message Payload
 
 public:
 	Packet() : Packet(ObjectTag()) {};
@@ -45,8 +45,8 @@ public:
 	/// </summary>
 	virtual void Reset()
 	{
-		HostID = 0;
-		memset(BinaryData, 0x00, MAX_PACKET_BINARY_SIZE);
+        m_nHostID = 0;
+		memset(m_cBinaryData, 0x00, MAX_PACKET_BINARY_SIZE);
 	}
 
 	/// <summary>
@@ -55,7 +55,7 @@ public:
 	/// <param name="messageid">Message ID</param>
 	void SetMessageID(const int& messageid)
 	{
-		*((int*)(BinaryData + sizeof(int))) = htonl(messageid);
+		*((int*)(m_cBinaryData + sizeof(int))) = htonl(messageid);
 		SetPacketSize(PACKET_HEADER_SIZE);
 	}
 
@@ -75,9 +75,9 @@ public:
 			return false;
 
 #ifdef _MSC_VER
-		memcpy_s(BinaryData + PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE, pData, dataSize);
+		memcpy_s(m_cBinaryData + PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE, pData, dataSize);
 #else
-		memcpy(BinaryData + PACKET_HEADER_SIZE, pData, dataSize);
+		memcpy(m_cBinaryData + PACKET_HEADER_SIZE, pData, dataSize);
 #endif
 
 		SetPacketSize(PACKET_HEADER_SIZE + dataSize);
@@ -106,7 +106,7 @@ public:
 	/// <returns>Message ID</returns>
 	int GetMessageID() const
 	{
-		return ntohl(*((int*)(BinaryData + sizeof(int))));
+		return ntohl(*((int*)(m_cBinaryData + sizeof(int))));
 	}
 
 	/// <summary>
@@ -125,7 +125,7 @@ public:
 	/// <returns>∆–≈∂ ¿¸√º ≈©±‚</returns>
 	int GetPacketSize() const
 	{
-		return (int)(*((unsigned int*)(BinaryData)) & ~PACKET_COMPRESS_MASK);
+		return (int)(*((unsigned int*)(m_cBinaryData)) & ~PACKET_COMPRESS_MASK);
 	}
 
 	/// <summary>
@@ -134,7 +134,7 @@ public:
 	/// <returns>µ•¿Ã≈Õ πŸ¿Ã≥ ∏Æ ∆˜¿Œ≈Õ</returns>
 	void* GetDataPtr() const
 	{
-		return (void*)(BinaryData + PACKET_HEADER_SIZE);
+		return (void*)(m_cBinaryData + PACKET_HEADER_SIZE);
 	}
 
 	/// <summary>
@@ -143,7 +143,7 @@ public:
 	/// <returns>∆–≈∂ µ•¿Ã≈Õ¿« æ–√‡ ø©∫Œ</returns>
 	bool IsCompressed() const
 	{
-		return (*((unsigned int*)(BinaryData)) & PACKET_COMPRESS_MASK) > 0u;
+		return (*((unsigned int*)(m_cBinaryData)) & PACKET_COMPRESS_MASK) > 0u;
 	}
 
 	/// <summary>
@@ -153,9 +153,9 @@ public:
 	void SetCompressed(const bool& onoff)
 	{
 		if (true == onoff)
-			*((unsigned int*)(BinaryData)) |= PACKET_COMPRESS_MASK;
+			*((unsigned int*)(m_cBinaryData)) |= PACKET_COMPRESS_MASK;
 		else
-			*((unsigned int*)(BinaryData)) &= ~PACKET_COMPRESS_MASK;
+			*((unsigned int*)(m_cBinaryData)) &= ~PACKET_COMPRESS_MASK;
 	}
 
 	/// <summary>
@@ -172,7 +172,7 @@ public:
 			return;
 		bool isCompress = IsCompressed();
 
-		*((int*)(BinaryData)) = (static_cast<int>(size));
+		*((int*)(m_cBinaryData)) = (static_cast<int>(size));
 
 		if (true == isCompress)
 			SetCompressed(isCompress);
