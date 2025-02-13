@@ -9,7 +9,7 @@
 
 #include <unordered_set>
 
-class GServerCheckService : public Service, public RefSingleton<GServerCheckService>
+class GameServerCheckService : public Service, public RefSingleton<GameServerCheckService>
 {
 private:
     std::mutex m_xWaitingLock;
@@ -27,8 +27,8 @@ private:
     std::atomic_int m_nConnectedServerCount = 0;
 
 public:
-    GServerCheckService();
-    virtual ~GServerCheckService() = default;
+    GameServerCheckService();
+    virtual ~GameServerCheckService() = default;
 
     bool Start();
 

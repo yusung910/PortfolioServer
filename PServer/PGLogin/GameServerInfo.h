@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include <GlobalEnum.h>
-#include "GServerCheckNES.h"
+#include "GameServerCheckNES.h"
 
 class GameServerInfo
 {
@@ -27,7 +27,7 @@ public:
 
     int m_nHostID = 0;
 
-    std::shared_ptr<GServerCheckNES> m_oHostEvent = std::make_shared<GServerCheckNES>();
+    std::shared_ptr<GameServerCheckNES> m_oHostEvent = std::make_shared<GameServerCheckNES>();
 
     bool m_bIsConnecting = false;
     bool m_bIsConnected = false;

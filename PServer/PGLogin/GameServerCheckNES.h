@@ -1,11 +1,11 @@
 #pragma once
 #include <NetworkEventSync.h>
 
-class GServerCheckNES : public NetworkEventSync
+class GameServerCheckNES : public NetworkEventSync
 {
 public:
-    GServerCheckNES() = default;
-    virtual ~GServerCheckNES() = default;
+    GameServerCheckNES() = default;
+    virtual ~GameServerCheckNES() = default;
 
     /*!
      *  서버에서 NetworkManager로 Connect() 실행 할 때 발생할 이벤트 함수

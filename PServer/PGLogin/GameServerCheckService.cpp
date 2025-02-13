@@ -1,23 +1,23 @@
 #include "pch.h"
-#include "GServerCheckService.h"
+#include "GameServerCheckService.h"
 #include "PConstVars.h"
 #include <NetworkManager.h>
 #include <ServerConfig.h>
 
-GServerCheckService::GServerCheckService()
+GameServerCheckService::GameServerCheckService()
 {
-    RegisterHandler(&GServerCheckService::OnHostConnect);
-    RegisterHandler(&GServerCheckService::OnHostClose);
+    RegisterHandler(&GameServerCheckService::OnHostConnect);
+    RegisterHandler(&GameServerCheckService::OnHostClose);
 }
 
-bool GServerCheckService::Start()
+bool GameServerCheckService::Start()
 {
-    RegisterTimer(PG_CHECK_RECONNECT_TIME_MS, std::bind(&GServerCheckService::_CheckConnect, this));
+    RegisterTimer(PG_CHECK_RECONNECT_TIME_MS, std::bind(&GameServerCheckService::_CheckConnect, this));
 
     return CreateThread();
 }
 
-int GServerCheckService::GetServerConnectWaitingPlayerCount(const int& _serverID)
+int GameServerCheckService::GetServerConnectWaitingPlayerCount(const int& _serverID)
 {
     AutoLock(m_xWaitingLock);
     auto lIt = m_umWaitingList.find(_serverID);
@@ -27,12 +27,12 @@ int GServerCheckService::GetServerConnectWaitingPlayerCount(const int& _serverID
     return (int)(lIt->second.m_vQueueList.size() + lIt->second.m_vWaitingDataList.size());
 }
 
-const int& GServerCheckService::GetLatestGameServerID() const noexcept
+const int& GameServerCheckService::GetLatestGameServerID() const noexcept
 {
     return m_nLatestGameServerID;
 }
 
-GameServerInfo* GServerCheckService::FindServer(const int& _serverID)
+GameServerInfo* GameServerCheckService::FindServer(const int& _serverID)
 {
     AutoLock(m_xServerListLock);
 
@@ -43,7 +43,7 @@ GameServerInfo* GServerCheckService::FindServer(const int& _serverID)
     return lIt->second;
 }
 
-int GServerCheckService::GetGServerIDByHostID(const int& _hostID)
+int GameServerCheckService::GetGServerIDByHostID(const int& _hostID)
 {
     AutoLock(m_xServerListLock);
 
@@ -55,7 +55,7 @@ int GServerCheckService::GetGServerIDByHostID(const int& _hostID)
     return lIt->second;
 }
 
-bool GServerCheckService::LoadGameServers()
+bool GameServerCheckService::LoadGameServers()
 {
     if (true == m_bInitialized)
         return false;
@@ -106,7 +106,7 @@ bool GServerCheckService::LoadGameServers()
     return true;
 }
 
-void GServerCheckService::FillPacketServerList(flatbuffers::FlatBufferBuilder& _fbb, std::vector<flatbuffers::Offset<DServerInfo>>& _vec, const std::unordered_set<int>& _existPilgrimServerList)
+void GameServerCheckService::FillPacketServerList(flatbuffers::FlatBufferBuilder& _fbb, std::vector<flatbuffers::Offset<DServerInfo>>& _vec, const std::unordered_set<int>& _existPilgrimServerList)
 {
     AutoLock(m_xServerListLock);
     for (auto& lIt : m_umGameServerList)
@@ -135,7 +135,7 @@ void GServerCheckService::FillPacketServerList(flatbuffers::FlatBufferBuilder& _
     }
 }
 
-bool GServerCheckService::SetWaitingEnqueue(const int& _serverID, const int& _hostID)
+bool GameServerCheckService::SetWaitingEnqueue(const int& _serverID, const int& _hostID)
 {
     AutoLock(m_xWaitingLock);
     auto lIt = m_umWaitingList.find(_serverID);
@@ -146,7 +146,7 @@ bool GServerCheckService::SetWaitingEnqueue(const int& _serverID, const int& _ho
     return true;
 }
 
-void GServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol& _msgID, void* _msg, const int& _msgSize)
+void GameServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol& _msgID, void* _msg, const int& _msgSize)
 {
     if (nullptr == _msg)
         return;
@@ -163,22 +163,22 @@ void GServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol
     NetworkManager::GetInst().Send(lServer->m_nHostID, lPacket);
 }
 
-void GServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol& _msgID, flatbuffers::FlatBufferBuilder& _fbb)
+void GameServerCheckService::SendPacket(const int& _serverID, const EPacketProtocol& _msgID, flatbuffers::FlatBufferBuilder& _fbb)
 {
     SendPacket(_serverID, _msgID, _fbb.GetBufferPointer(), _fbb.GetSize());
 }
 
-int GServerCheckService::GetTotalServerCount() noexcept
+int GameServerCheckService::GetTotalServerCount() noexcept
 {
     return m_nTotalServerCount.load();
 }
 
-int GServerCheckService::GetConnectedServerCount() noexcept
+int GameServerCheckService::GetConnectedServerCount() noexcept
 {
     return m_nConnectedServerCount.load();
 }
 
-bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
+bool GameServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
 {
     AutoLock(m_xServerListLock);
 
@@ -213,7 +213,7 @@ bool GServerCheckService::OnHostConnect(int _hostID, const HostConnect& _msg)
     return false;
 }
 
-bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
+bool GameServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
 {
     AutoLock(m_xServerListLock);
 
@@ -261,7 +261,7 @@ bool GServerCheckService::OnHostClose(int _hostID, const HostClose& _msg)
     return false;
 }
 
-void GServerCheckService::_CheckConnect()
+void GameServerCheckService::_CheckConnect()
 {
     AutoLock(m_xServerListLock);
 

@@ -158,9 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GServerCheckNES.h" />
+    <ClInclude Include="GameServerCheckNES.h" />
     <ClInclude Include="GameServerInfo.h" />
-    <ClInclude Include="GServerCheckService.h" />
+    <ClInclude Include="GameServerCheckService.h" />
     <ClInclude Include="IPFService.h" />
     <ClInclude Include="LoginDBLoadBalancer.h" />
     <ClInclude Include="LoginDBService.h" />
@@ -175,8 +175,8 @@
     <ClInclude Include="WaitingList.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GServerCheckNES.cpp" />
-    <ClCompile Include="GServerCheckService.cpp" />
+    <ClCompile Include="GameServerCheckNES.cpp" />
+    <ClCompile Include="GameServerCheckService.cpp" />
     <ClCompile Include="IPFService.cpp" />
     <ClCompile Include="LoginDBService.cpp" />
     <ClCompile Include="LoginPlayer.cpp" />

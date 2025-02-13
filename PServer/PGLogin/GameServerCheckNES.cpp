@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "GServerCheckNES.h"
-#include "GServerCheckService.h"
+#include "GameServerCheckNES.h"
+#include "GameServerCheckService.h"
 
-void GServerCheckNES::OnConnect(const int& _hostID, const std::string& _ip, const int& _port, [[maybe_unused]] const int& _serverType)
+void GameServerCheckNES::OnConnect(const int& _hostID, const std::string& _ip, const int& _port, [[maybe_unused]] const int& _serverType)
 {
     flatbuffers::FlatBufferBuilder lMsg;
     auto lObj = CreateHostConnect(lMsg, lMsg.CreateString(_ip), _port, _serverType);
@@ -12,10 +12,10 @@ void GServerCheckNES::OnConnect(const int& _hostID, const std::string& _ip, cons
     lPacket->HostID = _hostID;
 
     if (true == lPacket->SetPacketData(Host_Connect, lMsg.GetBufferPointer(), lMsg.GetSize()))
-        GServerCheckService::GetInst().Push(lPacket);
+        GameServerCheckService::GetInst().Push(lPacket);
 }
 
-void GServerCheckNES::OnClose(const int& _hostID)
+void GameServerCheckNES::OnClose(const int& _hostID)
 {
     VIEW_INFO("Client on Closed");
     flatbuffers::FlatBufferBuilder lMsg;
@@ -26,15 +26,15 @@ void GServerCheckNES::OnClose(const int& _hostID)
     lPacket->HostID = _hostID;
 
     if (true == lPacket->SetPacketData(Host_Connect, lMsg.GetBufferPointer(), lMsg.GetSize()))
-        GServerCheckService::GetInst().Push(lPacket);
+        GameServerCheckService::GetInst().Push(lPacket);
 
 }
 
-void GServerCheckNES::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
+void GameServerCheckNES::OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize)
 {
     Packet::SharedPtr lPacket = Packet::New();
     lPacket->HostID = _hostID;
 
     if (true == lPacket->SetPacketData(_msgID, _msg, _msgSize))
-        GServerCheckService::GetInst().Push(lPacket);
+        GameServerCheckService::GetInst().Push(lPacket);
 }

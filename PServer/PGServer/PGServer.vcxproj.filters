@@ -4,11 +4,29 @@
     <Filter Include="0_Private">
       <UniqueIdentifier>{d0dc0bad-29e8-4514-a689-70d8a5b7dd2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1_Main">
+    <Filter Include="1_Services">
+      <UniqueIdentifier>{0fab5882-aac4-4e7b-b10f-b89ecac369c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\1_Main">
       <UniqueIdentifier>{68fb0316-11cc-433a-8c99-ab69809847d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2_DB">
+    <Filter Include="1_Services\2_DB">
       <UniqueIdentifier>{01d04587-b047-4600-a0c4-4332e349870a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectServer">
+      <UniqueIdentifier>{0b9a025a-6629-4a6c-b3d0-d114191a93eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectServer\1_GameServer">
+      <UniqueIdentifier>{f87d58ff-54f0-4028-8010-a0f1450dad66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectServer\2_LogServer">
+      <UniqueIdentifier>{cd66e807-9eeb-4748-9a02-2d3508755cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectServer\3_MessengerServer">
+      <UniqueIdentifier>{288389ad-f4ea-440e-bd9b-929ed90edb6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\3_ConnectServer\4_LoginServer">
+      <UniqueIdentifier>{d3fd30c3-3627-44b1-b1be-7a8ffac59817}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -22,13 +40,13 @@
       <Filter>0_Private</Filter>
     </ClCompile>
     <ClCompile Include="GameService.cpp">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClCompile>
     <ClCompile Include="GameServerNES.cpp">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClCompile>
     <ClCompile Include="GameDBService.cpp">
-      <Filter>2_DB</Filter>
+      <Filter>1_Services\2_DB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,16 +57,16 @@
       <Filter>0_Private</Filter>
     </ClInclude>
     <ClInclude Include="GameService.h">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClInclude>
     <ClInclude Include="GameServerNES.h">
-      <Filter>1_Main</Filter>
+      <Filter>1_Services\1_Main</Filter>
     </ClInclude>
     <ClInclude Include="GameDBService.h">
-      <Filter>2_DB</Filter>
+      <Filter>1_Services\2_DB</Filter>
     </ClInclude>
     <ClInclude Include="GameDBLoadBalancer.h">
-      <Filter>2_DB</Filter>
+      <Filter>1_Services\2_DB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

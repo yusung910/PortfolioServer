@@ -7,7 +7,7 @@
 #include "LoginPlayerManager.h"
 #include "StrChecker.h"
 #include "NetworkCenter.h"
-#include "GServerCheckService.h"
+#include "GameServerCheckService.h"
 
 #include <GlobalConst.h>
 #include <InnerPacketStructures.h>
@@ -163,7 +163,7 @@ bool LoginService::OnCLConnectGameServerReq(int _hostID, const CLConnectGameServ
     //Selected Server
     lPc->m_nSelectedServerID = _msg.serverid();
 
-    auto lServerInfo = GServerCheckService::GetInst().FindServer(_msg.serverid());
+    auto lServerInfo = GameServerCheckService::GetInst().FindServer(_msg.serverid());
 
     if (nullptr == lServerInfo)
     {
@@ -187,7 +187,7 @@ bool LoginService::OnCLConnectGameServerReq(int _hostID, const CLConnectGameServ
     }
     
     //GameServer 연결 대기 등록
-    GServerCheckService::GetInst().SetWaitingEnqueue(_msg.serverid(), _hostID);
+    GameServerCheckService::GetInst().SetWaitingEnqueue(_msg.serverid(), _hostID);
     return true;
 }
 
@@ -243,8 +243,8 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     }
 
     int lLastGameServer = lRes->LastConnectServerID;
-    if (nullptr == GServerCheckService::GetInst().FindServer(lLastGameServer))
-        lLastGameServer = GServerCheckService::GetInst().GetLatestGameServerID();
+    if (nullptr == GameServerCheckService::GetInst().FindServer(lLastGameServer))
+        lLastGameServer = GameServerCheckService::GetInst().GetLatestGameServerID();
 
     lPc->m_nSelectedServerID = lLastGameServer;
     lPc->m_nOTP = lRes->OTP;
@@ -254,7 +254,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     if (lRes->Result == (int)EDBResult::DuplicateLogin)
     {
         //마지막으로 접속한 gameServerID
-        auto lServerInfo = GServerCheckService::GetInst().FindServer(lRes->LastConnectServerID);
+        auto lServerInfo = GameServerCheckService::GetInst().FindServer(lRes->LastConnectServerID);
         
         if(nullptr != lServerInfo
             && true == lServerInfo->m_bIsConnected)
@@ -264,7 +264,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
             auto lPacket = CreateLSKickDuplicateConnectUserReq(lFbb, lRes->AccountSeq, EF_KICK_DUPLICATE_LOGIN, lRes->LastConnectServerID);
             lFbb.Finish(lPacket);
 
-            GServerCheckService::GetInst().SendPacket(lRes->LastConnectServerID, EPacketProtocol::LS_KickDuplicateConnectUserReq, lFbb);
+            GameServerCheckService::GetInst().SendPacket(lRes->LastConnectServerID, EPacketProtocol::LS_KickDuplicateConnectUserReq, lFbb);
 
             lPc->m_eState = ELoginState::DuplicateKick;
 
@@ -306,7 +306,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
 
     flatbuffers::FlatBufferBuilder lFbb;
     std::vector<flatbuffers::Offset<DServerInfo>> lServerList;
-    GServerCheckService::GetInst().FillPacketServerList(lFbb, lServerList, lPc->m_umPilgrimSeqList);
+    GameServerCheckService::GetInst().FillPacketServerList(lFbb, lServerList, lPc->m_umPilgrimSeqList);
     auto lPacket = CreateLCAuthRes(lFbb, lRes->AccountSeq, lFbb.CreateVector(lServerList), lRes->LastConnectServerID, Clock::GetTick64(), PocoTimeUtil::GetLocalTimezone());
 
     lFbb.Finish(lPacket);
@@ -452,9 +452,9 @@ void LoginService::_UpdateTitle()
     int lVer = GetServerVer();
     int lLibVer = GetLibraryRev();
 
-    int lTotalServerCount = GServerCheckService::GetInst().GetTotalServerCount();
+    int lTotalServerCount = GameServerCheckService::GetInst().GetTotalServerCount();
 
-    int lConnectedServerCount = GServerCheckService::GetInst().GetConnectedServerCount();
+    int lConnectedServerCount = GameServerCheckService::GetInst().GetConnectedServerCount();
 
     sprintf_s(lTmp, sizeof(lTmp), "TITLE LoginServer(%d) Rev: %d(%d), Connect : [%d/%d]",
         lServerID,

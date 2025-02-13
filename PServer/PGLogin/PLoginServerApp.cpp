@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PLoginServerApp.h"
-#include "GServerCheckService.h"
+#include "GameServerCheckService.h"
 #include "LoginDBLoadBalancer.h"
 #include "LoginDBService.h"
 #include "LoginService.h"
@@ -28,7 +28,7 @@ bool PLoginServerApp::Initialize()
 {
     //서버 설정(ServerConfig.json)을 불러온다
     ServerConfig::GetInst().LoadConfig();
-    GServerCheckService::GetInst().LoadGameServers();
+    GameServerCheckService::GetInst().LoadGameServers();
 
     _InitLog();
     
@@ -50,7 +50,7 @@ bool PLoginServerApp::RunLoop()
     if (false == LoginService::GetInst().Start())
         return false;
 
-    if (false == GServerCheckService::GetInst().Start())
+    if (false == GameServerCheckService::GetInst().Start())
         return false;
 
     //MainLoop
@@ -69,7 +69,7 @@ bool PLoginServerApp::RunLoop()
     lApp->Run();
 
     LoginService::GetInst().Exit();
-    GServerCheckService::GetInst().Exit();
+    GameServerCheckService::GetInst().Exit();
 
     return true;
 }
