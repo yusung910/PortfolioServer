@@ -6,6 +6,8 @@
 
 #include "LoginServerConnectNES.h"
 
+constexpr int TRY_LISTEN_DELAY_MS = 1000;
+
 class LoginServerConnectService : public Service, public RefSingleton<LoginServerConnectService>
 {
 private:
@@ -40,5 +42,16 @@ public:
 protected:
     bool OnConnect(int _hostID, const HostConnect& _msg);
     bool OnDisconnect(int _hostID, const HostClose& _msg);
+
+    //
+
+    void UpdateServerStatus();
+
+private:
+    void _TryListen();
+    void _SendToLoginServer(const EPacketProtocol& _msgID, flatbuffers::FlatBufferBuilder& _fbb);
+    void _SendToLogin(const int& _hostID, const EPacketProtocol& _msgID, flatbuffers::FlatBufferBuilder& _fbb);
+
+    bool _SendErrorMessage(const int& _hostID, const EErrorMsg& _err, const EPacketProtocol& _msgID);
 };
 

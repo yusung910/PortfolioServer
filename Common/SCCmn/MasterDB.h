@@ -23,12 +23,21 @@ struct MDBHeroStat
     {
         struct
         {
+            /*******************************************************************
+             *  GlobalEnum -> EStats::Type에도 선언 필요
+             *******************************************************************/
             SVint None;
 
-            SVint STR;
-            SVint DEX;
-            SVint LUK;
-            SVint WIS;
+            SVint Strength;         //힘
+            SVint Dexterity;        //민첩
+            SVint Endurance;        //인내
+            SVint WeaponMastery;    //무기 숙련도
+
+            SVint HP;               //생령력
+            SVint MaxHP;            //최대생명력
+            SVint MP;               //마나
+            SVint MaxMP;            //최대마나
+
 
         } Info;
     } MDBHeroStatUnion;

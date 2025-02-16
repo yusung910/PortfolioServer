@@ -28,6 +28,9 @@
     <Filter Include="Util\StrChecker\StrFilter">
       <UniqueIdentifier>{4bd58b65-1724-4674-931f-f1ae5517258d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\PC\Data">
+      <UniqueIdentifier>{0c70dc60-925f-4265-8bb4-046581afcdf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -93,6 +96,9 @@
     <ClInclude Include="ServerConst.h">
       <Filter>Config</Filter>
     </ClInclude>
+    <ClInclude Include="Direction.h">
+      <Filter>Object\PC\Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -130,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="ServerConst.cpp">
       <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="Direction.cpp">
+      <Filter>Object\PC\Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

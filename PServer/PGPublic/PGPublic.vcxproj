@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CheckValueRange.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="ELang.h" />
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Direction.cpp" />
     <ClCompile Include="InnerPacketStructures.cpp" />
     <ClCompile Include="ServerConst.cpp" />
     <ClCompile Include="PConst.cpp" />

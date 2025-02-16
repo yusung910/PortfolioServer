@@ -9,10 +9,10 @@
 bool MDBHeroStat::IsValid() const
 {
     if (false == IsPositive(Seq)
-        || false == IsPositiveIncludeZero(Stat.Info.STR)
-        || false == IsPositiveIncludeZero(Stat.Info.DEX)
-        || false == IsPositiveIncludeZero(Stat.Info.LUK)
-        || false == IsPositiveIncludeZero(Stat.Info.WIS))
+        || false == IsPositiveIncludeZero(Stat.Info.Strength)
+        || false == IsPositiveIncludeZero(Stat.Info.Dexterity)
+        || false == IsPositiveIncludeZero(Stat.Info.Endurance)
+        || false == IsPositiveIncludeZero(Stat.Info.WeaponMastery))
         return false;
     return true;
 }

@@ -62,6 +62,12 @@
     <ClInclude Include="Protocol_generated.h">
       <Filter>Packet</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectStats.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtil.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCCmnPrivate.cpp">
@@ -72,6 +78,9 @@
     </ClCompile>
     <ClCompile Include="DataProcessManager.cpp">
       <Filter>DataTemplate</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectStats.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

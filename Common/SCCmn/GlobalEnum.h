@@ -45,7 +45,7 @@ namespace EServerStatus
         None = 0,
 
         Maintain,   //점검 중
-        Normal,     //정상 -> 적은 부하 
+        Good,       //정상 -> 적은 부하 
         Confusion,  //혼잡 => 중간 부하 
         Overflow,   //포화 -> 높은 부하 
         Max,
@@ -55,7 +55,7 @@ namespace EServerStatus
     {
         switch (_t)
         {
-        case Normal:
+        case Good:
         case Confusion:
         case Overflow:
             return true;
@@ -138,5 +138,43 @@ namespace EAccountStatus
         PeriodBan = 5,
         DeleteWaiting = 8,
         Max
+    };
+}
+
+namespace EStats
+{
+    /*******************************************************************
+     *  MasterDB-> MDBHeroStat 선언 필요
+     *******************************************************************/
+    enum Type
+    {
+        None = 0,
+        Strength,         //힘
+        Dexterity,        //민첩
+        Endurance,        //인내
+        WeaponMastery,    //무기 숙련도
+
+        //
+        HP,               //생령력
+        MaxHP,            //최대생명력
+        MP,               //마나
+        MaxMP,            //최대마나
+
+        Max
+    };
+}
+
+//무기 숙련도 종류
+namespace EWeaponMastery
+{
+    enum Type
+    {
+        None = 0,
+        Sword,
+        blade,
+        Clow,
+        Spear,
+
+        Max,
     };
 }
