@@ -31,6 +31,12 @@
     <Filter Include="Object\PC\Data">
       <UniqueIdentifier>{0c70dc60-925f-4265-8bb4-046581afcdf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{0000f1e3-99ef-4d8e-a324-3490a9090d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Grid">
+      <UniqueIdentifier>{131c1a06-38a1-4ce9-901d-b6298b5ea247}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -99,6 +105,9 @@
     <ClInclude Include="Direction.h">
       <Filter>Object\PC\Data</Filter>
     </ClInclude>
+    <ClInclude Include="PC.h">
+      <Filter>Object\PC</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -139,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="Direction.cpp">
       <Filter>Object\PC\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="PC.cpp">
+      <Filter>Object\PC</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

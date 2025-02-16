@@ -17,9 +17,12 @@ private:
 
     SVint m_nBaseStats[EStats::Max] = { 0, };
 
+public:
+    ObjectStats();
+    ObjectStats(const ObjectStats& _stats);
 
-
-
+    void SetObjectStats(const ObjectStats* _stats);
+    void Reset();
 
 };
 

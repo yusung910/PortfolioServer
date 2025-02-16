@@ -126,8 +126,19 @@ namespace EBuild
     };
 }
 
+//계정유형
+namespace EAccount
+{
+    enum Type
+    {
+        None = 0,
+        QA,
+        GM,
+        User = 99
+    };
+}
 
-//계정 유형
+//계정 상태
 namespace EAccountStatus
 {
     enum Type
@@ -170,10 +181,10 @@ namespace EWeaponMastery
     enum Type
     {
         None = 0,
-        Sword,
-        blade,
-        Clow,
-        Spear,
+        Sword,      //검
+        blade,      //도
+        Spear,      //창
+        Clow,       //조
 
         Max,
     };
