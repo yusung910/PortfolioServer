@@ -48,3 +48,43 @@ struct MDBHeroStat
     bool IsValid() const;
 
 };
+
+
+//맵 정보
+struct MDBMapInfo
+{
+    SVint MapID = 0;
+    SVint ParentMapID = 0;
+    SVint MapType = 0;
+    SVString MapName;
+
+    SVint Mapsize = 0;
+    SVint IsActive = 1;
+    SVint IsSafeZone = 1;
+    SVint IsTeleportable = 1;
+
+    bool IsActive() const { return IsActive == 1; }
+    bool IsSafeZone() const { return IsSafeZone == 1; }
+    bool IsTeleportable() const { return IsTeleportable == 1; }
+    EMap::Type GetMapType() const { return (EMap::Type)MapType; }
+};
+
+//맵 텔레포트 정보
+struct MDBMapTeleportInfo
+{
+    SVint MapTeleportID = 0;
+    SVint MapID = 0;
+    SVint TeleportType = 0;
+    SVint TeleportCostType = 0;
+    SVint TeleportCostItemID = 0;
+
+    //텔레포트 비용
+    SVint TeleportCostValue = 0;
+
+    SVfloat PosX = 0.0f;
+    SVfloat PosY = 0.0f;
+    SVfloat PosZ = 0.0f;
+
+    ECost::Type GetTeleportCostType() const { return (ECost::Type)TeleportCostType; }
+    
+};

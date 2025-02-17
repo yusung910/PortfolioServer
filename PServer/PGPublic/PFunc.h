@@ -7,22 +7,23 @@
 #include <RefSingleton.h>
 #include <DefineMacro.h>
 
-//// InnerPacket Pointer nullptr 체크
-//#define CheckPointer()                                          \
-//if(nullptr == _data.get())                                      \
-//{                                                               \
-//    SafeDelete(_data->m_pData);                                 \
-//    return false;                                               \
-//}                                                               \
-//if(nullptr == _data->m_pData)                                   \
-//    return false;                                               \
-//
-//// DB Session
-//#define GetDBSess()                                             \
-//auto lDBSess = m_oDBWorker.GetSession();                        \
-//if(nullptr == lDBSess)                                          \
-//    return false;                                               \
-//Poco::Data::Session& lSess = *lDBSess;                          \
+// InnerPacket Pointer nullptr 체크
+#define CheckPointer()                                          \
+if(nullptr == _data.get())                                      \
+{                                                               \
+    SafeDelete(_data->m_pData);                                 \
+    return false;                                               \
+}                                                               \
+if(nullptr == _data->m_pData)                                   \
+    return false;                                               \
+
+// DB Session
+#define GetDBSession()                                          \
+auto lDBSess = m_oDBWorker.GetSession();                        \
+if(nullptr == lDBSess)                                          \
+    return false;                                               \
+Poco::Data::Session& lSess = *lDBSess;                          \
+
 
 
 class PFunc : public RefSingleton<PFunc>

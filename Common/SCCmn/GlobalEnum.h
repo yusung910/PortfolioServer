@@ -189,3 +189,28 @@ namespace EWeaponMastery
         Max,
     };
 }
+
+//MapType
+namespace EMap
+{
+    enum Type
+    {
+        None = 0,
+        Town,
+        HuntingZone,
+        BattleField,
+        Max
+    };
+}
+
+//CostType
+namespace ECost
+{
+    enum Type
+    {
+        None = 0,
+        Gold,
+        Cash,
+        Max
+    };
+}

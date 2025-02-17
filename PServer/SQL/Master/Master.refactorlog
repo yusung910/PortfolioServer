@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="7f14cd5b-0b61-4206-a24f-db3e367edc9b" ChangeDateTime="02/17/2025 02:39:55">
+    <Property Name="ElementName" Value="[dbo].[MapInfo].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b833735b-aadf-4a5e-94cd-abd63faa34e5" ChangeDateTime="02/17/2025 03:04:24">
+    <Property Name="ElementName" Value="[dbo].[MapInfo].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8a26e47f-03be-40d2-977a-bdc8d814fbbb" ChangeDateTime="02/17/2025 03:29:37">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapTeleportID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="62cc83e7-ff5b-4e4b-913b-fde6ccde5b95" ChangeDateTime="02/17/2025 03:45:08">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[CostType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportCostType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fb3d5056-9259-4675-989d-71220180e26f" ChangeDateTime="02/17/2025 03:45:15">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[CostItem]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportCostItemID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c04b9ac8-a3a7-4143-9787-4367e0ad9b4d" ChangeDateTime="02/17/2025 03:45:17">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[CostValue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportCostValue" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b209820b-5c2d-49ff-afef-20ea9f7e58a5" ChangeDateTime="02/17/2025 03:45:21">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[TeleportCostValue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportCost" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="18fe7bae-65ce-4e4a-a2fd-e49149ba2deb" ChangeDateTime="02/17/2025 05:20:00">
+    <Property Name="ElementName" Value="[dbo].[MapInfo].[isSafeZone]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsSafeZone" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c15bc08c-b501-4af2-acd5-2033a651b040" ChangeDateTime="02/17/2025 06:10:10">
+    <Property Name="ElementName" Value="[dbo].[HeroStat].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HeroStat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Sequence" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="eb93e44e-7469-4535-a061-de7b4a1030ec" ChangeDateTime="02/17/2025 06:22:23">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[ZoneID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="55741e7d-a5f6-4f1f-a851-1f09e06b6467" ChangeDateTime="02/17/2025 06:33:35">
+    <Property Name="ElementName" Value="[dbo].[MapTeleportInfo].[TeleportCost]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapTeleportInfo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportCostValue" />
+  </Operation>
+</Operations>

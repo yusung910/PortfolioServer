@@ -34,6 +34,8 @@
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
     <ClInclude Include="InnerPacketStructures.h" />
+    <ClInclude Include="MDBDataLoader.h" />
+    <ClInclude Include="MDBDatas.h" />
     <ClInclude Include="PC.h" />
     <ClInclude Include="ServerConst.h" />
     <ClInclude Include="PConst.h" />
@@ -55,6 +57,8 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="InnerPacketStructures.cpp" />
+    <ClCompile Include="MDBDataLoader.cpp" />
+    <ClCompile Include="MDBDatas.cpp" />
     <ClCompile Include="PC.cpp" />
     <ClCompile Include="ServerConst.cpp" />
     <ClCompile Include="PConst.cpp" />
