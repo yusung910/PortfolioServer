@@ -37,28 +37,28 @@
 
   "DB": {
     "ADB": {
-      "UID": "pgdba",
-      "PWD": "KjZjZXJrZ219Zmly",
-      "DATABASE": "Account",
-      "HOST": "192.168.45.40",
-      "PORT": 14350,
-      "THREADS": 1
+        "UID": "pgdba",
+        "PWD": "KjZjZXJrZ219Zmly",
+        "DATABASE": "Account",
+        "HOST": "192.168.45.70",
+        "PORT": 14350,
+        "THREADS": 1
     },
     "GDB": {
-      "UID": "pgdba",
-      "PWD": "KjZjZXJrZ219Zmly",
-      "DATABASE": "Game",
-      "HOST": "192.168.45.40",
-      "PORT": 14350,
-      "THREADS": 4
+        "UID": "pgdba",
+        "PWD": "KjZjZXJrZ219Zmly",
+        "DATABASE": "Game",
+        "HOST": "192.168.45.70",
+        "PORT": 14350,
+        "THREADS": 4
     },
     "MDB": {
-      "UID": "server",
-      "PWD": "KjZjZXJrZ219Zmly",
-      "DATABASE": "MDB",
-      "HOST": "192.168.45.40",
-      "PORT": 14350,
-      "THREADS": 4
+        "UID": "server",
+        "PWD": "KjZjZXJrZ219Zmly",
+        "DATABASE": "MDB",
+        "HOST": "192.168.45.70",
+        "PORT": 14350,
+        "THREADS": 4
     },
     "LDB": {
       "UID": "server",

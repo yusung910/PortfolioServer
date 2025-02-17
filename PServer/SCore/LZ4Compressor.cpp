@@ -2,7 +2,8 @@
 #include "LZ4Compressor.h"
 #include "DefineMacro.h"
 
-#include <lz4.h>
+//#include <lz4.h>
+#include <lz4hc.h>
 
 int LZ4Compressor::Compress(char* pSrcDstData_io, const int& nSrcSize, const int& nSrcBufferMaxSize, char* pTempBuffer, const int& nTempBufferSize)
 {
@@ -23,8 +24,9 @@ int LZ4Compressor::Compress(const char* pSrcData, const int& nSrcSize, char* pDs
         || nDstBufferSize <= 0
         || nTempBufferSize <= 0)
         return 0;
-
-    int nRet = LZ4_compress_default(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize));
+    
+    //int nRet = LZ4_compress_default(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize));
+    int nRet = LZ4_compress_HC(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize), LZ4HC_CLEVEL_MAX);
     if (nRet < nSrcSize)
     {
         // 압축 성공!... 이지만
@@ -50,7 +52,7 @@ int LZ4Compressor::Decompress(const char* pSrcData, const int& nSrcSize, char* p
         || nDstBufferSize <= 0
         || nTempBufferSize <= 0)
         return 0;
-
+    
     int nRet = LZ4_decompress_safe(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize));
     if (nRet > 0)
     {

@@ -18,7 +18,8 @@
 #include <cstdint>
 
 //External
-#include <lz4.h>
+//#include <lz4.h>
+#include <lz4hc.h>
 #pragma comment(lib, "lz4.lib")
 #include "DefineMacro.h"
 #include "LoggingMacro.h"

@@ -57,7 +57,7 @@ namespace BotClient.Network.Data
                 //
                 lPayloadSizeByte = BitConverter.GetBytes((uint)(lBodyPacket.Length + NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
                 //패킷 암호화
-                PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length);
+                PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L12_MAX);
 
                 lBodyPacket = compressPacketData;
             }

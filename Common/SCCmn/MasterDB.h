@@ -63,9 +63,9 @@ struct MDBMapInfo
     SVint IsSafeZone = 1;
     SVint IsTeleportable = 1;
 
-    bool IsActive() const { return IsActive == 1; }
-    bool IsSafeZone() const { return IsSafeZone == 1; }
-    bool IsTeleportable() const { return IsTeleportable == 1; }
+    bool GetIsActive() const { return (IsActive == 1); }
+    bool GetIsSafeZone() const { return (IsSafeZone == 1); }
+    bool GetIsTeleportable() const { return (IsTeleportable == 1); }
     EMap::Type GetMapType() const { return (EMap::Type)MapType; }
 };
 

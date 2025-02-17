@@ -78,7 +78,7 @@
             "UID": "pgdba",
             "PWD": "KjZjZXJrZ219Zmly",
             "DATABASE": "Account",
-            "HOST": "192.168.45.40",
+            "HOST": "192.168.45.70",
             "PORT": 14350,
             "THREADS": 1
         }

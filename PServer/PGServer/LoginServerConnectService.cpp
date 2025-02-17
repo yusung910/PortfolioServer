@@ -63,7 +63,7 @@ void LoginServerConnectService::SendToLoginServers(const int& _msgID, void* _msg
     
 }
 
-bool LoginServerConnectService::OnConnect(int _hostID, const HostConnect& _msg)
+bool LoginServerConnectService::OnConnect(int _hostID, [[maybe_unused]] const HostConnect& _msg)
 {
     AutoLock(m_xHostLock);
     m_umConnectedLoginServeHostIDList.insert(_hostID);
@@ -74,7 +74,7 @@ bool LoginServerConnectService::OnConnect(int _hostID, const HostConnect& _msg)
     return true;
 }
 
-bool LoginServerConnectService::OnDisconnect(int _hostID, const HostClose& _msg)
+bool LoginServerConnectService::OnDisconnect(int _hostID, [[maybe_unused]] const HostClose& _msg)
 {
     AutoLock(m_xHostLock);
     m_umConnectedLoginServeHostIDList.erase(_hostID);
@@ -83,9 +83,9 @@ bool LoginServerConnectService::OnDisconnect(int _hostID, const HostClose& _msg)
 
 void LoginServerConnectService::UpdateServerStatus()
 {
-    int lAllowLogin = 0;
+    //int lAllowLogin = 0;
 
-    EServerStatus::Type lCurServerStatus = EServerStatus::Good;
+    //EServerStatus::Type lCurServerStatus = EServerStatus::Good;
 }
 
 void LoginServerConnectService::_TryListen()
