@@ -52,12 +52,13 @@ namespace BotClient.Network.Data
 
             if (m_bIsCompress)
             {
+
                 //패킷 압축에 사용될 임시 변수
                 byte[] compressPacketData = new byte[LZ4Codec.MaximumOutputSize(lBodyPacket.Length)];
                 //
                 lPayloadSizeByte = BitConverter.GetBytes((uint)(lBodyPacket.Length + NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
-                //패킷 암호화
-                PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L12_MAX);
+                //패킷 암축
+                PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L09_HC);
 
                 lBodyPacket = compressPacketData;
             }

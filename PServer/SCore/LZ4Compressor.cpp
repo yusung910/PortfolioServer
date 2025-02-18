@@ -26,7 +26,7 @@ int LZ4Compressor::Compress(const char* pSrcData, const int& nSrcSize, char* pDs
         return 0;
     
     //int nRet = LZ4_compress_default(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize));
-    int nRet = LZ4_compress_HC(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize), LZ4HC_CLEVEL_MAX);
+    int nRet = LZ4_compress_HC(pSrcData, pTempBuffer, nSrcSize, static_cast<int>(nTempBufferSize), LZ4HC_CLEVEL_DEFAULT);
     if (nRet < nSrcSize)
     {
         // 압축 성공!... 이지만

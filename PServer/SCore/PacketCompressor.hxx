@@ -4,7 +4,7 @@
  *  @date 2024-10-15
  *  @project SCore
  *
- *  ë„¤íŠ¸ì›Œí¬ í†µì‹ ì— ì‚¬ìš©ë˜ëŠ” íŒ¨í‚· ë°ì´í„°ë¥¼ ì••ì¶•í•˜ëŠ”ë° ì‚¬ìš©í•˜ëŠ” í´ë˜ìŠ¤
+ *  ³×Æ®¿öÅ© Åë½Å¿¡ »ç¿ëµÇ´Â ÆĞÅ¶ µ¥ÀÌÅÍ¸¦ ¾ĞÃàÇÏ´Âµ¥ »ç¿ëÇÏ´Â Å¬·¡½º
  */
 #pragma once
 #include <Packet.h>
@@ -13,10 +13,10 @@
 class PacketCompressor : public Object<PacketCompressor>
 {
 public:
-    //ì••ì¶•ëœ ì‹¸ì´ì¦ˆ
+    //¾ĞÃàµÈ ½ÎÀÌÁî
     int m_nCompressedSize = 0;
 
-    //ì••ì¶•ëœ ë°ì´í„°ê°€ ë“¤ì–´ê°ˆ ë³€ìˆ˜
+    //¾ĞÃàµÈ µ¥ÀÌÅÍ°¡ µé¾î°¥ º¯¼ö
     char m_cCompressBuffer[MAX_PACKET_BINARY_SIZE] = { 0, };
 
 public:
@@ -32,4 +32,3 @@ public:
     bool CompressPayload(char* _pBuffer, const int& _payloadSize);
     bool DecompressPayload(char* _pBuffer, const int& _payloadSize);
 };
-

@@ -262,3 +262,6 @@ PClient/DerivedDataCache/*
 
 # 맵의 연구가 끝날 때 커밋
 PClient/
+
+#
+PServer/**/ServerConfig.json
