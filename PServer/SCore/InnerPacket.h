@@ -1,5 +1,5 @@
 #pragma once
-#include <Object.h>
+#include <PGObject.h>
 
 // InnerPacket을 사용하기 위한 부모 클래스, 상속하여 사용한다
 class InnerDataInterface
@@ -15,7 +15,7 @@ public:
 };
 
 
-class InnerPacket : public Object<InnerPacket>
+class InnerPacket : public PGObject<InnerPacket>
 {
 public:
     int m_nHostID = 0;

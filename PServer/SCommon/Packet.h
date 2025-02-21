@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #endif
 
-#include "Object.h"
+#include "PGObject.h"
 
 constexpr size_t MAX_PACKET_BINARY_SIZE = 8192 * 2;			// ∆–≈∂ πŸ¿Ã≥ ∏Æ √÷¥Î ≈©±‚ (Payload)
 constexpr size_t PACKET_HEADER_SIZE = 8;					// size 4 + protocol 4
@@ -30,7 +30,7 @@ constexpr int DEFAULT_PACKET_COMPRESS_START_SIZE = 60;		// 60 byte ¿ÃªÛ ∫∏≥ªæﬂ «
 *  size √÷ªÛ¿ß ∫Ò∆Æ = compress mask [1000 0000 0000 0000 0000 0000 0000 0000]
 ********************************************************************************* */
 
-class Packet : public Object<Packet>
+class Packet : public PGObject<Packet>
 {
 public:
 	int m_nHostID = 0;

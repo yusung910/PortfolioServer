@@ -34,10 +34,10 @@
     <ClInclude Include="DispatcherInterface.h">
       <Filter>Packet</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
+    <ClInclude Include="PGObject.h">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectPool.h">
+    <ClInclude Include="PGObjectPool.h">
       <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="SecureValueClass.h">

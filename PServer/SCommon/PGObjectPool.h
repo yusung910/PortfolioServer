@@ -5,7 +5,7 @@
 #include <functional>
 
 template<typename T>
-class ObjectPool
+class PGObjectPool
 {
 private:
 	std::stack<std::unique_ptr<T>> m_oPool;
@@ -17,9 +17,9 @@ public:
 	//Âü°í : https://cjwoov.tistory.com/68
 	using AutoReleaseUniuqePtr = std::unique_ptr<T, std::function<void(T*)>>;
 
-	static ObjectPool<T>* GetInst()
+	static PGObjectPool<T>* GetInst()
 	{
-		static ObjectPool<T> inst;
+		static PGObjectPool<T> inst;
 		return &inst;
 	}
 
@@ -67,7 +67,7 @@ public:
 	}
 
 private:
-	ObjectPool() = default;
+    PGObjectPool() = default;
 	void Release(std::unique_ptr<T> _obj)
 	{
 		std::lock_guard<std::recursive_mutex> lGuard(m_xLock);

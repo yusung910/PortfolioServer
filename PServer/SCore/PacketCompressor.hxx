@@ -8,9 +8,9 @@
  */
 #pragma once
 #include <Packet.h>
-#include <Object.h>
+#include <PGObject.h>
 
-class PacketCompressor : public Object<PacketCompressor>
+class PacketCompressor : public PGObject<PacketCompressor>
 {
 public:
     //압축된 싸이즈

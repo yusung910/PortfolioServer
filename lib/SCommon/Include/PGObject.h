@@ -1,25 +1,25 @@
 #pragma once
-#include "ObjectPool.h"
+#include "PGObjectPool.h"
 #include <memory>
 
 template <typename T>
-class Object : public std::enable_shared_from_this<T>
+class PGObject : public std::enable_shared_from_this<T>
 {
 protected:
-	friend ObjectPool<T>;
+	friend PGObjectPool<T>;
 	struct ObjectTag {};
 
 public:
-	using UniquePtr = typename ObjectPool<T>::AutoReleaseUniuqePtr;
+	using UniquePtr = typename PGObjectPool<T>::AutoReleaseUniuqePtr;
 	using SharedPtr = typename std::shared_ptr<T>;
 
-	virtual ~Object() = default;
+	virtual ~PGObject() = default;
 	virtual void Reset() = 0;
 
 	static UniquePtr New()
 	{
 #ifdef USE_MEMORY_POOL
-		auto lPool = ObjectPool<T>::GetInst();
+		auto lPool = PGObjectPool<T>::GetInst();
 		return lPool->Acquire();
 #else
 		UniquePtr lPtr
@@ -34,7 +34,7 @@ public:
 	static void ReservePool([[maybe_unused]] const size_t& _size)
 	{
 #ifdef USE_MEMORY_POOL
-		ObjectPool<T>::GetInst()->Reserve(_size);
+        PGObjectPool<T>::GetInst()->Reserve(_size);
 #endif // USE_MEMORY_POOL
 
 	}

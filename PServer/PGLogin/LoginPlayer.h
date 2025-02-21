@@ -1,11 +1,11 @@
 #pragma once
-#include <Object.h>
+#include <PGObject.h>
 #include <GlobalEnum.h>
 #include <unordered_set>
 
 #include "ELoginState.h"
 
-class LoginPlayer : public Object<LoginPlayer>
+class LoginPlayer : public PGObject<LoginPlayer>
 {
 public:
     EClient::Type m_eClientType = EClient::Type::None;  //접속 클라 유형

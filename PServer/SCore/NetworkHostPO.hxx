@@ -4,13 +4,13 @@
  *  @date 2024-10-17
  *  @project SCore
  *
- *  IOCP í†µì‹ ì— ì‚¬ìš©ë  host
- *  Network Host -> ë„¤íŠ¸ì›Œí¬/ì¸í„°ë„·ì„ í†µí•´ ë‹¤ë¥¸ ì»´í“¨í„°ë“¤ê³¼ ìŒë°©í–¥ í†µì‹ ì´ ê°€ëŠ¥í•œ 'ì»´í“¨í„°(ë‹¨ë§ê¸°)'
- *  ë‹¤ë¥¸ 'ì»´í“¨í„°(ë‹¨ë§ê¸°)'ì™€ í†µì‹  í•  ìˆ˜ ìˆëŠ” 'ì»´í“¨í„°(ë‹¨ë§ê¸°)'ì˜ ì •ë³´ì™€ ê´€ë ¨ í•¨ìˆ˜ê°€ ì •ì˜ ë˜ì–´ ìˆëŠ” í´ë˜ìŠ¤
- *  ì„œë²„ ì»´í“¨í„°ì˜ ì •ë³´ê°€ ë‹´ê¸´ í´ë˜ìŠ¤
+ *  IOCP Åë½Å¿¡ »ç¿ëµÉ host
+ *  Network Host -> ³×Æ®¿öÅ©/ÀÎÅÍ³İÀ» ÅëÇØ ´Ù¸¥ ÄÄÇ»ÅÍµé°ú ½Ö¹æÇâ Åë½ÅÀÌ °¡´ÉÇÑ 'ÄÄÇ»ÅÍ(´Ü¸»±â)'
+ *  ´Ù¸¥ 'ÄÄÇ»ÅÍ(´Ü¸»±â)'¿Í Åë½Å ÇÒ ¼ö ÀÖ´Â 'ÄÄÇ»ÅÍ(´Ü¸»±â)'ÀÇ Á¤º¸¿Í °ü·Ã ÇÔ¼ö°¡ Á¤ÀÇ µÇ¾î ÀÖ´Â Å¬·¡½º
+ *  ¼­¹ö ÄÄÇ»ÅÍÀÇ Á¤º¸°¡ ´ã±ä Å¬·¡½º
  *  https://lxxyeon.tistory.com/172
  *
- *  NetworkContextì˜ Typeë³„ë¡œ í•¨ìˆ˜ë“¤ì´ ì¡´ì¬í•œë‹¤(ì˜ˆì™¸ Waiting)
+ *  NetworkContextÀÇ Typeº°·Î ÇÔ¼öµéÀÌ Á¸ÀçÇÑ´Ù(¿¹¿Ü Waiting)
  */
 #pragma once
 #include "BlockingQueue.h"
@@ -30,23 +30,23 @@ class NetworkHostPO
 {
 private:
 
-    //íŒ¨í‚· ì••ì¶• ê´€ë ¨ í´ë˜ìŠ¤
+    //ÆĞÅ¶ ¾ĞÃà °ü·Ã Å¬·¡½º
     PacketCompressor::SharedPtr m_pPacketCompressor = nullptr;
 
     int m_nHostID = 0;
     SOCKET m_oSocket = INVALID_SOCKET;
 
-    //Host ìœ í˜•
+    //Host À¯Çü
     EHostType m_eHostType = EHostType::None;
 
-    // ë„¤íŠ¸ì›Œí¬ í†µì‹  event ì‹±í¬ë¥¼ ë§ì¶”ê¸° ìœ„í•œ í´ë˜ìŠ¤ë¥¼ Pacade í˜•íƒœë¡œ ì´ìš©
-    // ë‹¤ë¥¸ ì„œë²„ì—ì„œ ì‚¬ìš© í•  ë•Œ NetworkEventSyncí´ë˜ìŠ¤ë¥¼ ìƒì† ë°›ì€ í´ë˜ìŠ¤ë¥¼ ìƒì„±í•˜ê³ 
-    // ê°ê°ì˜ í•¨ìˆ˜ë¥¼ ì¬ì •ì˜ í•œ í›„ SetEventSync()í•¨ìˆ˜ë¡œ ì§€ì •í•´ì„œ ì‚¬ìš©í•´ì•¼í•œë‹¤
+    // ³×Æ®¿öÅ© Åë½Å event ½ÌÅ©¸¦ ¸ÂÃß±â À§ÇÑ Å¬·¡½º¸¦ Pacade ÇüÅÂ·Î ÀÌ¿ë
+    // ´Ù¸¥ ¼­¹ö¿¡¼­ »ç¿ë ÇÒ ¶§ NetworkEventSyncÅ¬·¡½º¸¦ »ó¼Ó ¹ŞÀº Å¬·¡½º¸¦ »ı¼ºÇÏ°í
+    // °¢°¢ÀÇ ÇÔ¼ö¸¦ ÀçÁ¤ÀÇ ÇÑ ÈÄ SetEventSync()ÇÔ¼ö·Î ÁöÁ¤ÇØ¼­ »ç¿ëÇØ¾ßÇÑ´Ù
     NetworkEventSync* m_pEventSync = nullptr;
 
-    //ê¸°ì´ˆ ì‘ì—… ìˆ˜
+    //±âÃÊ ÀÛ¾÷ ¼ö
     volatile long m_lBaseTaskCount = 0;
-    //ì „ì†¡ ì‘ì—… ìˆ˜
+    //Àü¼Û ÀÛ¾÷ ¼ö
     volatile long m_lSendTaskCount = 0;
 
     int64_t m_nCheckTimeoutMS = 0;
@@ -59,21 +59,21 @@ private:
 
     std::mutex m_xSendLock;
 
-    //íŒ¨í‚· ì „ì†¡ ëŒ€ê¸° ëª©ë¡
+    //ÆĞÅ¶ Àü¼Û ´ë±â ¸ñ·Ï
     std::deque<Packet::SharedPtr> m_oSendWaitingList;
 
-    //ì „ì†¡ íŒ¨í‚· í
+    //Àü¼Û ÆĞÅ¶ Å¥
     std::deque<Packet::SharedPtr> m_oSendWorkQueue;
 
-    // í†µì‹ ì˜ ëª©ì ì§€ê°€ í´ë¼ì´ì–¸íŠ¸ì¸ì§€ ì—¬ë¶€
-    // true : í´ë¼ì´ì–¸íŠ¸
-    // false : ì„œë²„
+    // Åë½ÅÀÇ ¸ñÀûÁö°¡ Å¬¶óÀÌ¾ğÆ®ÀÎÁö ¿©ºÎ
+    // true : Å¬¶óÀÌ¾ğÆ®
+    // false : ¼­¹ö
     bool m_bIsClientHost = false;
 
-    // ì†Œì¼“ì´ ì¢…ë£Œ(close)ëœ ì›ì¸ ì½”ë“œ
+    // ¼ÒÄÏÀÌ Á¾·á(close)µÈ ¿øÀÎ ÄÚµå
     ESocketCloseType m_eLastSocketCloseType = ESocketCloseType::Reset;
 
-    //Packet History íŒ¨í‚·ì´ í†µì‹ ë˜ëŠ” ì´ë ¥ì„ ê´€ë¦¬í•˜ëŠ” ë³€ìˆ˜ ëª©ë¡
+    //Packet History ÆĞÅ¶ÀÌ Åë½ÅµÇ´Â ÀÌ·ÂÀ» °ü¸®ÇÏ´Â º¯¼ö ¸ñ·Ï
     const int64_t m_nPACKET_RECV_CHECK_TICK = 10000;
     const float   m_fPACKET_RECV_CHECK_COUNT_PER_SEC = 30.f;
 
@@ -90,27 +90,27 @@ private:
 public:
     /*!
      *  Constructor.
-     *  m_pPacketCompressor ê°ì²´ ìƒì„±
+     *  m_pPacketCompressor °´Ã¼ »ı¼º
      */
     NetworkHostPO();
 
     /*!
      *  Destructor.
-     *  Reset() í•¨ìˆ˜ í˜¸ì¶œ
+     *  Reset() ÇÔ¼ö È£Ãâ
      */
     virtual ~NetworkHostPO();
 
-    //NetworkHost ë‚´ë¶€ ë©¤ë²„ ë³€ìˆ˜ë“¤ ì´ˆê¸°í™”
+    //NetworkHost ³»ºÎ ¸â¹ö º¯¼öµé ÃÊ±âÈ­
     void Reset();
 
     /*!
-     *  m_lBaseTaskCount ê°’ì„ ì¦ê°€í•œë‹¤.
+     *  m_lBaseTaskCount °ªÀ» Áõ°¡ÇÑ´Ù.
      */
     void BeginBaseTask();
 
 
     /*!
-     *  ê¸°ë³¸ task ì¢…ë£Œì²˜ë¦¬.
+     *  ±âº» task Á¾·áÃ³¸®.
      */
     void EndBaseTask(bool _rslt, const ESocketCloseType& _type = ESocketCloseType::FailedToBaseTask);
 
@@ -120,13 +120,13 @@ public:
     void BeginSendTask();
 
     /*!
-     *  ë„¤íŠ¸ì›Œí¬ í˜¸ìŠ¤íŠ¸ task ì „ì†¡ ì¢…ë£Œì²˜ë¦¬
+     *  ³×Æ®¿öÅ© È£½ºÆ® task Àü¼Û Á¾·áÃ³¸®
      *
      *      @param [in] _rslt If true, rslt. Otherwise not rslt.
      */
     void EndSendTask(bool _rslt);
 
-    //EContextType ë³„ í•¨ìˆ˜ ëª©ë¡
+    //EContextType º° ÇÔ¼ö ¸ñ·Ï
     //enum class EContextType : int
     //{
     //    None = 0,
@@ -141,11 +141,11 @@ public:
     //};
 
     /*!
-     *  NetworkContextë¥¼ ì°¸ì¡°í˜• ë³€ìˆ˜ë¡œ ì „ë‹¬ ë°›ì•„
-     *  ì†Œì¼“ í†µì‹ ì„ í•˜ê¸° ìœ„í•´ WSAIoctl()ë¡œ Connectí•œë‹¤
-     *  NetworkContextPOì˜ ì°¸ì¡° ìˆ˜ (ReferenceCount)ë¥¼ ì¦ê°€í•œë‹¤
+     *  NetworkContext¸¦ ÂüÁ¶Çü º¯¼ö·Î Àü´Ş ¹Ş¾Æ
+     *  ¼ÒÄÏ Åë½ÅÀ» ÇÏ±â À§ÇØ WSAIoctl()·Î ConnectÇÑ´Ù
+     *  NetworkContextPOÀÇ ÂüÁ¶ ¼ö (ReferenceCount)¸¦ Áõ°¡ÇÑ´Ù
      *
-     *  NetworkContextë¡œ ì†Œì¼“ì„ í†µì‹  í•  ìˆ˜ ìˆëŠ” ìƒíƒœë¡œ ë§Œë“ ë‹¤
+     *  NetworkContext·Î ¼ÒÄÏÀ» Åë½Å ÇÒ ¼ö ÀÖ´Â »óÅÂ·Î ¸¸µç´Ù
      *      @param [in,out] NetworkContextPO& _ctxt
      *
      *      @return
@@ -153,15 +153,15 @@ public:
     bool Connect(NetworkContextPO& _ctxt);
 
     /*!
-     *  ì†Œì¼“ì˜ ìƒíƒœë¥¼ listen()ë¡œ ìˆ˜ì‹  ëŒ€ê¸° ìƒíƒœë¡œ ì§€ì •í•œë‹¤
+     *  ¼ÒÄÏÀÇ »óÅÂ¸¦ listen()·Î ¼ö½Å ´ë±â »óÅÂ·Î ÁöÁ¤ÇÑ´Ù
      *
      *      @return
      */
     bool Listen();
 
     /*!
-     *  í´ë¼ì´ì–¸íŠ¸ì™€ì˜ ì—°ê²°ì„ ìˆ˜ë½í•˜ê³  ë¡œì»¬ì£¼ì†Œì™€ ì›ê²© ì£¼ì†Œë¥¼ ë°˜í™˜í•œë‹¤
-     *  AcceptEx(), GetAcceptExSockaddrs() ì´ìš©
+     *  Å¬¶óÀÌ¾ğÆ®¿ÍÀÇ ¿¬°áÀ» ¼ö¶ôÇÏ°í ·ÎÄÃÁÖ¼Ò¿Í ¿ø°İ ÁÖ¼Ò¸¦ ¹İÈ¯ÇÑ´Ù
+     *  AcceptEx(), GetAcceptExSockaddrs() ÀÌ¿ë
      *      @param [in,out] _ctxt
      *
      *      @return
@@ -169,8 +169,8 @@ public:
     bool Accept(NetworkContextPO& _ctxt);
 
     /*!
-     *  ì†Œì¼“ì— ì ‘ì†í•œ í´ë¼ì´ì–¸íŠ¸ì— WSARecv()ë¡œ NetworkContext ë°ì´í„°ë¥¼ ìˆ˜ì‹ í•œë‹¤
-     *  ë°ì´í„°ë¥¼ ìˆ˜ì‹  ê²°ê³¼ë¥¼ NetworkContextPO _ctxtì— ê¸°ë¡í•œë‹¤
+     *  ¼ÒÄÏ¿¡ Á¢¼ÓÇÑ Å¬¶óÀÌ¾ğÆ®¿¡ WSARecv()·Î NetworkContext µ¥ÀÌÅÍ¸¦ ¼ö½ÅÇÑ´Ù
+     *  µ¥ÀÌÅÍ¸¦ ¼ö½Å °á°ú¸¦ NetworkContextPO _ctxt¿¡ ±â·ÏÇÑ´Ù
      *      @param [in,out] _ctxt
      *
      *      @return
@@ -179,8 +179,8 @@ public:
 
 
     /*!
-     *  NetworkContextì— ì €ì¥ëœ ë°ì´í„°ë¥¼ ë³µí˜¸í™”í•œë‹¤
-     *  ë³µí˜¸í™” í›„ Receive(NetworkContextPO& _ctxt)ë¥¼ ì‹¤í–‰í•œë‹¤
+     *  NetworkContext¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ º¹È£È­ÇÑ´Ù
+     *  º¹È£È­ ÈÄ Receive(NetworkContextPO& _ctxt)¸¦ ½ÇÇàÇÑ´Ù
      *      @param [in,out] _ctxt
      *
      *      @return
@@ -188,7 +188,7 @@ public:
     bool Decrypt(NetworkContextPO& _ctxt);
 
     /*!
-     *  ì „ì†¡ ëŒ€ê¸° ëª©ë¡(m_oSendWaitingList)ì— íŒ¨í‚·ì„ ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
+     *  Àü¼Û ´ë±â ¸ñ·Ï(m_oSendWaitingList)¿¡ ÆĞÅ¶À» Ãß°¡ÇÏ´Â ÇÔ¼ö
      *
      *      @param [in] _packt
      *
@@ -197,10 +197,10 @@ public:
     bool Waiting(Packet::SharedPtr _packt);
 
     /*!
-     *  íŒ¨í‚· ì•”í˜¸í™”
-     *  m_oSendWaitingListì— ìˆëŠ” ì „ì†¡ ëŒ€ê¸° íŒ¨í‚· ëª©ë¡ì„
-     *  m_oSendWorkQueueì— ì´ë™(swap)í•˜ê³ 
-     *  NetworkContextì— ê¸°ë¡(write)í•œë‹¤
+     *  ÆĞÅ¶ ¾ÏÈ£È­
+     *  m_oSendWaitingList¿¡ ÀÖ´Â Àü¼Û ´ë±â ÆĞÅ¶ ¸ñ·ÏÀ»
+     *  m_oSendWorkQueue¿¡ ÀÌµ¿(swap)ÇÏ°í
+     *  NetworkContext¿¡ ±â·Ï(write)ÇÑ´Ù
      *      @param [in,out] _ctxt
      *
      *      @return
@@ -208,7 +208,7 @@ public:
     bool Encrypt(NetworkContextPO& _ctxt);
 
     /*!
-     *  NetworkContextì— ì €ì¥ëœ ë°ì´í„°ë¥¼ Socket í†µì‹ ìœ¼ë¡œ WSASend()ë¡œ ì†¡ì‹ í•œë‹¤
+     *  NetworkContext¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ¸¦ Socket Åë½ÅÀ¸·Î WSASend()·Î ¼Û½ÅÇÑ´Ù
      *
      *      @param [in,out] _ctxt
      *
@@ -217,7 +217,7 @@ public:
     bool Send(NetworkContextPO& _ctxt);
 
     /*!
-     *  NetworkHostPOì— ì—°ê²°ëœ Socketì„ ë‹«ëŠ”ë‹¤.
+     *  NetworkHostPO¿¡ ¿¬°áµÈ SocketÀ» ´İ´Â´Ù.
      *
      *      @param [in] _e
      *
@@ -227,18 +227,18 @@ public:
     //
 
     /*!
-     *  ì„œë²„ í†µì‹  ê°€ëŠ¥ ìƒíƒœ í™•ì¸
+     *  ¼­¹ö Åë½Å °¡´É »óÅÂ È®ÀÎ
      *
      *      @return True if alive. False if not.
      */
     bool IsAlive();
 
     /*!
-     *  NetworkControllerì—ì„œ _UpdateHost()í•¨ìˆ˜ë¥¼ í†µí•´ ì‹¤í–‰ëœë‹¤
-     *  NetworkControllerì—ì„œ Timerë¡œ ë“±ë¡ë˜ì–´ ìŠ¤ë ˆë“œ(while ë¬¸)ì„ í†µí•´
-     *  ì§€ì†ì ìœ¼ë¡œ ì‹¤í–‰ëœë‹¤.
+     *  NetworkController¿¡¼­ _UpdateHost()ÇÔ¼ö¸¦ ÅëÇØ ½ÇÇàµÈ´Ù
+     *  NetworkController¿¡¼­ Timer·Î µî·ÏµÇ¾î ½º·¹µå(while ¹®)À» ÅëÇØ
+     *  Áö¼ÓÀûÀ¸·Î ½ÇÇàµÈ´Ù.
      *
-     *  NetworkHostPOì˜ EHostTypeì— ë”°ë¼ ì•„ë˜ì˜ í•¨ìˆ˜ë“¤ì„ ì‹¤í–‰í•œë‹¤
+     *  NetworkHostPOÀÇ EHostType¿¡ µû¶ó ¾Æ·¡ÀÇ ÇÔ¼öµéÀ» ½ÇÇàÇÑ´Ù
      *  EHostType::Listener  -> UpdateListener(_appTimeMS)
      *  EHostType::Acceptor  -> UpdateAccepter(_appTimeMS)
      *  EHostType::Connector -> UpdateConnector(_appTimeMS)
@@ -249,15 +249,15 @@ public:
 
 
     /*!
-     *  NetworkHostPOì˜ EHostTypeì´ Listenerì¼ ë•Œ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜.
-     *  NetworkContextPOë¥¼ í• ë‹¹ ë°›ê³  BeginBaseTask()ë¥¼ ì‹¤í–‰,
-     *  m_lBaseTaskCountê°’ì„ ì¦ê°€í•œë‹¤
+     *  NetworkHostPOÀÇ EHostTypeÀÌ ListenerÀÏ ¶§ ½ÇÇàµÇ´Â ÇÔ¼ö.
+     *  NetworkContextPO¸¦ ÇÒ´ç ¹Ş°í BeginBaseTask()¸¦ ½ÇÇà,
+     *  m_lBaseTaskCount°ªÀ» Áõ°¡ÇÑ´Ù
      *
-     *  í• ë‹¹ë°›ì€ NetworkContextPOë¥¼ ì¸ìê°’ìœ¼ë¡œ Accept() í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•œë‹¤.
-     *  Accept() í•¨ìˆ˜ ê²°ê³¼ ê°’ì´ falseì¼ ê²½ìš° EndBaseTask(true)ë¡œ ì‹¤í–‰í•œë‹¤.
+     *  ÇÒ´ç¹ŞÀº NetworkContextPO¸¦ ÀÎÀÚ°ªÀ¸·Î Accept() ÇÔ¼ö¸¦ ½ÇÇàÇÑ´Ù.
+     *  Accept() ÇÔ¼ö °á°ú °ªÀÌ falseÀÏ °æ¿ì EndBaseTask(true)·Î ½ÇÇàÇÑ´Ù.
      *
-     *  ì‹¤í–‰ í›„ NetworkManagerë¡œ NetworkContextë¥¼ Releaseí•˜ê¸° ìœ„í•œ í•¨ìˆ˜
-     *  ReleaseContext()ë¥¼ ì‹¤í–‰í•œë‹¤.
+     *  ½ÇÇà ÈÄ NetworkManager·Î NetworkContext¸¦ ReleaseÇÏ±â À§ÇÑ ÇÔ¼ö
+     *  ReleaseContext()¸¦ ½ÇÇàÇÑ´Ù.
      *
      *      @param [in] _appTimeMS
      */
@@ -265,12 +265,12 @@ public:
 
 
     /*!
-     *  NetworkHostPOì˜ EHostTypeì´ Acceptorì¼ ë•Œ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜.
-     *  m_bUsePacketRecvCheck ê°’ì´ trueì¼ ë•Œ íŒ¨í‚· ì „ì†¡ëŸ‰ì— ë”°ë¥¸ ì‹œê°„ì„ ì²´í¬í•œë‹¤
-     *  ì „ì†¡ ì‹œê°„ì´ m_fPACKET_RECV_CHECK_COUNT_PER_SEC(30.f)ì´ìƒ ë  ê²½ìš°
-     *  ì†Œì¼“ì„ ì¢…ë£Œí•œë‹¤.
+     *  NetworkHostPOÀÇ EHostTypeÀÌ AcceptorÀÏ ¶§ ½ÇÇàµÇ´Â ÇÔ¼ö.
+     *  m_bUsePacketRecvCheck °ªÀÌ trueÀÏ ¶§ ÆĞÅ¶ Àü¼Û·®¿¡ µû¸¥ ½Ã°£À» Ã¼Å©ÇÑ´Ù
+     *  Àü¼Û ½Ã°£ÀÌ m_fPACKET_RECV_CHECK_COUNT_PER_SEC(30.f)ÀÌ»ó µÉ °æ¿ì
+     *  ¼ÒÄÏÀ» Á¾·áÇÑ´Ù.
      *
-     *  íŒ¨í‚· í†µì‹  ì²˜ë¦¬í•˜ê¸° ìœ„í•œ BeginSendTask()ë¥¼ ì‹¤í–‰í•œë‹¤.
+     *  ÆĞÅ¶ Åë½Å Ã³¸®ÇÏ±â À§ÇÑ BeginSendTask()¸¦ ½ÇÇàÇÑ´Ù.
      *
      *      @param [in] _appTimeMS
      */
@@ -278,38 +278,38 @@ public:
 
 
     /*!
-     *  NetworkHostPOì˜ EHostTypeì´ Connectorì¼ ë•Œ ì‹¤í–‰ë˜ëŠ” í•¨ìˆ˜.
-     *  m_nCheckAliveMS ê°’(tick + DEFAULT_NETWORK_ALIVE_MS)ì„ ê¸°ë¡í•˜ê³ 
-     *  BeginSendTask() í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•œë‹¤
+     *  NetworkHostPOÀÇ EHostTypeÀÌ ConnectorÀÏ ¶§ ½ÇÇàµÇ´Â ÇÔ¼ö.
+     *  m_nCheckAliveMS °ª(tick + DEFAULT_NETWORK_ALIVE_MS)À» ±â·ÏÇÏ°í
+     *  BeginSendTask() ÇÔ¼ö¸¦ ½ÇÇàÇÑ´Ù
      *
      *      @param [in] _appTimeMS
      */
     void UpdateConnector(int64_t _appTimeMS);
 
     /*!
-     *  NetworkContextPOì˜ EContextTypeì´ Joinì¼ ë•Œ EHostType ê°’ì´ Connectorë¡œ ì‹¤í–‰ë˜ê³ 
-     *  NetworkContextPOì˜ EContextTypeì´ Connectì¼ ë•Œ EHostType ê°’ì´ Acceptorë¡œ ì‹¤í–‰ëœë‹¤
-     *  setsockopt() í•¨ìˆ˜ë¡œ optnameì´ IPPROTO_TCPì˜ ì†Œì¼“ì˜ ì˜µì…˜ì„ TCP_NODELAYë¡œ ë³€ê²½í•˜ê³ 
-     *  NetworkHostPOì— í• ë‹¹ ëœ m_pEventSyncì˜ OnConnectí•¨ìˆ˜ë¥¼ ì‹¤í–‰í•œë‹¤
+     *  NetworkContextPOÀÇ EContextTypeÀÌ JoinÀÏ ¶§ EHostType °ªÀÌ Connector·Î ½ÇÇàµÇ°í
+     *  NetworkContextPOÀÇ EContextTypeÀÌ ConnectÀÏ ¶§ EHostType °ªÀÌ Acceptor·Î ½ÇÇàµÈ´Ù
+     *  setsockopt() ÇÔ¼ö·Î optnameÀÌ IPPROTO_TCPÀÇ ¼ÒÄÏÀÇ ¿É¼ÇÀ» TCP_NODELAY·Î º¯°æÇÏ°í
+     *  NetworkHostPO¿¡ ÇÒ´ç µÈ m_pEventSyncÀÇ OnConnectÇÔ¼ö¸¦ ½ÇÇàÇÑ´Ù
      *
-     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ ë°›ì€ EHostTypeì„ ë©¤ë²„ë³€ìˆ˜ m_eHostTypeì— í• ë‹¹í•œë‹¤.
+     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş ¹ŞÀº EHostTypeÀ» ¸â¹öº¯¼ö m_eHostType¿¡ ÇÒ´çÇÑ´Ù.
      *      @param [in] _type
      */
     void EventConnect(const EHostType& _type);
 
 
     /*!
-     *  NetworkHostê°€ NetworkControllerPOì—ì„œ ì¢…ë£Œë˜ì—ˆì„ ë•Œ ì‹¤í–‰ ë˜ëŠ” í•¨ìˆ˜.
-     *  NetworkControllerPOì˜ _UpdateHost(), _AddHost()ì—ì„œ ì¡°ê±´ì— ë”°ë¼ ì‹¤í–‰ ëœë‹¤.
+     *  NetworkHost°¡ NetworkControllerPO¿¡¼­ Á¾·áµÇ¾úÀ» ¶§ ½ÇÇà µÇ´Â ÇÔ¼ö.
+     *  NetworkControllerPOÀÇ _UpdateHost(), _AddHost()¿¡¼­ Á¶°Ç¿¡ µû¶ó ½ÇÇà µÈ´Ù.
      */
     void EventClose();
 
 
     /*!
-     *  ìˆ˜ì‹  ëœ íŒ¨í‚· ë°ì´í„°ë¥¼ ë³µí˜¸í™” í–ˆì„ ë•Œ ì‹¤í–‰ ë˜ëŠ” í•¨ìˆ˜
-     *  m_pEventSyncì˜ OnReceiveí•¨ìˆ˜ê°€ ì‹¤í–‰ë˜ë©°
-     *  _AddReceive() í•¨ìˆ˜ì— tick ë°ì´í„°ê°€ ì¸ìê°’ìœ¼ë¡œ ì‹¤í–‰ë˜ì–´
-     *  m_nLastPacketTickì— ì €ì¥í•œë‹¤
+     *  ¼ö½Å µÈ ÆĞÅ¶ µ¥ÀÌÅÍ¸¦ º¹È£È­ ÇßÀ» ¶§ ½ÇÇà µÇ´Â ÇÔ¼ö
+     *  m_pEventSyncÀÇ OnReceiveÇÔ¼ö°¡ ½ÇÇàµÇ¸ç
+     *  _AddReceive() ÇÔ¼ö¿¡ tick µ¥ÀÌÅÍ°¡ ÀÎÀÚ°ªÀ¸·Î ½ÇÇàµÇ¾î
+     *  m_nLastPacketTick¿¡ ÀúÀåÇÑ´Ù
      *
      *      @param [in]     _msgID
      *      @param [in,out] _msg
@@ -345,7 +345,7 @@ public:
 
 private:
     /*!
-     *  ESocketCloseTypeì— ë”°ë¥¸ ë©”ì„¸ì§€ë¥¼ ë°˜í™˜í•œë‹¤
+     *  ESocketCloseType¿¡ µû¸¥ ¸Ş¼¼Áö¸¦ ¹İÈ¯ÇÑ´Ù
      *
      *      @param [in] _e
      *
@@ -354,7 +354,7 @@ private:
     std::wstring _GetSocketCloseTypeString(const ESocketCloseType& _e);
 
     /*!
-     *  NetworkHost íƒ€ì…ì— ë”°ë¥¸ ë©”ì„¸ì§€ë¥¼ ë°˜í™˜
+     *  NetworkHost Å¸ÀÔ¿¡ µû¸¥ ¸Ş¼¼Áö¸¦ ¹İÈ¯
      *
      *      @param [in] _type
      *
@@ -363,24 +363,23 @@ private:
     const wchar_t* _GetHostType(const EHostType& _type);
 
     /*!
-     *  ìˆ˜ì‹  ë°›ì€ íŒ¨í‚·ì˜ MessageID ë¦¬ìŠ¤íŠ¸ë¥¼ Stringìœ¼ë¡œ ë§Œë“¤ì–´ ì¶œë ¥í•œë‹¤.
+     *  ¼ö½Å ¹ŞÀº ÆĞÅ¶ÀÇ MessageID ¸®½ºÆ®¸¦ StringÀ¸·Î ¸¸µé¾î Ãâ·ÂÇÑ´Ù.
      */
     void _GetRecvHistoryStackString();
 
     /*!
-     *  ìˆ˜ì‹ í•œ network íŒ¨í‚· ì´ë ¥ë“¤ì„ ë°˜í™˜í•œë‹¤
+     *  ¼ö½ÅÇÑ network ÆĞÅ¶ ÀÌ·ÂµéÀ» ¹İÈ¯ÇÑ´Ù
      *
      *      @param [in,out] _list
      */
     void _GetRecvHistory(std::vector<std::tuple<int, int64_t>>& _list);
 
     /*!
-     *  ì¸ìê°’ìœ¼ë¡œ ì „ë‹¬ë°›ì€ íŒ¨í‚·ì˜ MessageIDì™€
-     *  Tick ë°ì´í„°ë¥¼ ê¸°ë¡í•œë‹¤ (ë¡œê·¸)
+     *  ÀÎÀÚ°ªÀ¸·Î Àü´Ş¹ŞÀº ÆĞÅ¶ÀÇ MessageID¿Í
+     *  Tick µ¥ÀÌÅÍ¸¦ ±â·ÏÇÑ´Ù (·Î±×)
      *
      *      @param [in] _msgID
      *      @param [in] _tick
      */
     void _AddReceive(const int& _msgID, const int64_t& _tick);
 };
-

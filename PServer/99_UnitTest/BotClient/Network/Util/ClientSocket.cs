@@ -1,7 +1,6 @@
 ﻿using BotClient.Network.Const;
 using BotClient.Network.Data;
 using FlatBuffers;
-using K4os.Compression.LZ4;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -183,10 +182,10 @@ namespace BotClient.Network.Util
 
                 if (isCompress)
                 {
-                    byte[] uncompressPacketData = new byte[LZ4Codec.MaximumOutputSize(msgBodyLen)];
-                    LZ4Codec.Decode(msgBody, 0, msgBodyLen, uncompressPacketData, 0, uncompressPacketData.Length);
-                    Array.Clear(msgBody, 0, msgBody.Length);
-                    msgBody = uncompressPacketData;
+                    //byte[] uncompressPacketData = new byte[LZ4Codec.MaximumOutputSize(msgBodyLen)];
+                    //LZ4Codec.Decode(msgBody, 0, msgBodyLen, uncompressPacketData, 0, uncompressPacketData.Length);
+                    //Array.Clear(msgBody, 0, msgBody.Length);
+                    //msgBody = uncompressPacketData;
                 }
                 ByteBuffer bb = new ByteBuffer(msgBody);
 

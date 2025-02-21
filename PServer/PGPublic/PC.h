@@ -8,7 +8,7 @@
 constexpr int64_t DEFAULT_AUTO_SAVE_TICK_MS = 1 * 60 * 1000;			// 2020.05.20. prym 1분으로 변경
 constexpr int64_t DEFAULT_AUTO_SAVE_TICK_10MINUTES_MS = 10 * 60 * 1000;	// 10분에 한번씩 저장
 constexpr int64_t DEFAULT_AUTO_SAVE_TICK_5MINUTES_MS = 5 * 60 * 1000;	// 5분에 한번씩 저장
-class PC : public BaseObject, public Object<PC>
+class PC : public BaseObject, public PGObject<PC>
 {
 public:
 

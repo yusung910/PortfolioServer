@@ -28,8 +28,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DispatcherInterface.h" />
-    <ClInclude Include="Object.h" />
-    <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="PGObject.h" />
+    <ClInclude Include="PGObjectPool.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="RefSingleton.h" />
     <ClInclude Include="SecureValueClass.h" />

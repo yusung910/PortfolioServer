@@ -1,5 +1,4 @@
 ﻿using FlatBuffers;
-using K4os.Compression.LZ4;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +11,14 @@ using BotClient.Network.Const;
 using BotClient.Network.Util;
 using System.Collections;
 using BotClient.Util;
-
+using CPPServerLib;
+using System.Data.SqlTypes;
+using System.Runtime.InteropServices;	//import하지 않으면 DLLImport 사용 불가!
 namespace BotClient.Network.Data
 {
     public class Packet : Singleton<Packet>
     {
+
         private bool m_bIsCompress = false;
         private int m_nHostID = 0;
 
@@ -33,11 +35,11 @@ namespace BotClient.Network.Data
 
         public Packet() { }
 
-        public void SetPacketData(EPacketProtocol _msgID, FlatBufferBuilder builder)
+        public unsafe void SetPacketData(EPacketProtocol _msgID, FlatBufferBuilder builder)
         {
             //body 패킷
             var lBodyPacket = builder.SizedByteArray();
-
+            int lBodyPacketLen = lBodyPacket.Length;
             //패킷 압축 여부 비트 지정
             m_bIsCompress = (lBodyPacket.Length > NetworkGlobalConst.DEFAULT_PACKET_COMPRESS_START_SIZE);
 
@@ -52,15 +54,20 @@ namespace BotClient.Network.Data
 
             if (m_bIsCompress)
             {
+                Compressor compressor = new Compressor();
+                fixed (byte* ptrBytes = &lBodyPacket[0])
+                {
+                    compressor.Compress((sbyte*)ptrBytes, &lBodyPacketLen);
+                }
 
-                //패킷 압축에 사용될 임시 변수
-                byte[] compressPacketData = new byte[LZ4Codec.MaximumOutputSize(lBodyPacket.Length)];
-                //
-                lPayloadSizeByte = BitConverter.GetBytes((uint)(lBodyPacket.Length + NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
-                //패킷 암축
-                PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L09_HC);
+                ////패킷 압축에 사용될 임시 변수
+                //byte[] compressPacketData = new byte[LZ4Codec.MaximumOutputSize(lBodyPacket.Length)];
+                ////
+                //lPayloadSizeByte = BitConverter.GetBytes((uint)(lBodyPacket.Length + NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
+                ////패킷 암축
+                //PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L09_HC);
 
-                lBodyPacket = compressPacketData;
+                //lBodyPacket = compressPacketData;
             }
             else
             {
