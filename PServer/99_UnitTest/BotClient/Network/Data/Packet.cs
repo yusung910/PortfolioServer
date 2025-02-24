@@ -1,19 +1,12 @@
 ﻿using FlatBuffers;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BotClient.Network.Const;
 using BotClient.Network.Util;
 using System.Collections;
 using BotClient.Util;
-using CPPServerLib;
-using System.Data.SqlTypes;
-using System.Runtime.InteropServices;	//import하지 않으면 DLLImport 사용 불가!
+
+using PacketCompPlugin;
+
 namespace BotClient.Network.Data
 {
     public class Packet : Singleton<Packet>
@@ -54,12 +47,11 @@ namespace BotClient.Network.Data
 
             if (m_bIsCompress)
             {
-                Compressor compressor = new Compressor();
-                fixed (byte* ptrBytes = &lBodyPacket[0])
-                {
-                    compressor.Compress((sbyte*)ptrBytes, &lBodyPacketLen);
-                }
+                PacketCompPlugin.Compressor compressor = new PacketCompPlugin.Compressor();
 
+                sbyte[] tmpBodyPacket = Array.ConvertAll(lBodyPacket, b => unchecked((sbyte)b));
+                //int* 
+                //bool bIsComp = compressor.Compress(tmpBodyPacket, );
                 ////패킷 압축에 사용될 임시 변수
                 //byte[] compressPacketData = new byte[LZ4Codec.MaximumOutputSize(lBodyPacket.Length)];
                 ////

@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CPPServerLib.h">
+    <ClInclude Include="PacketCompPlugin.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
@@ -26,7 +26,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CPPServerLib.cpp">
+    <ClCompile Include="PacketCompPlugin.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp">

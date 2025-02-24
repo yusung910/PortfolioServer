@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
-using CPPServerLib;
 using BotClient.Network.Const;
 using BotClient.Network.Util;
 using System.Threading;

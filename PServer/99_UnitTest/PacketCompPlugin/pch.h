@@ -10,8 +10,3 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 
 #endif //PCH_H
-
-//External
-//#include <lz4.h>
-#include <lz4hc.h>
-#pragma comment(lib, "lz4.lib")
