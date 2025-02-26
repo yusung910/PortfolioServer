@@ -40,11 +40,11 @@
     <Reference Include="FlatBuffers.Core">
       <HintPath>bin\FlatBuffers.Core.dll</HintPath>
     </Reference>
+    <Reference Include="K4os.Compression.LZ4">
+      <HintPath>..\..\..\lib\K4os.Compression.LZ4_1.3.8\K4os.Compression.LZ4.Streams\Release\net462\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="PacketCompPlugin">
-      <HintPath>..\PacketCompPlugin\build\x64\Debug\PacketCompPlugin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\LoadServerConfig.cs" />
+    <Compile Include="Define\GStruct.cs" />
     <Compile Include="Log\LogManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -122,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -1,26 +1,16 @@
 ﻿using BotClient.Config;
+using BotClient.Define;
+using BotClient.Define.GStruct;
 using BotClient.Network;
-using BotClient.Network.Data;
 using BotClient.Network.Util;
-using FlatBuffers;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Net.WebSockets;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+
 
 namespace BotClient
 {
@@ -98,6 +88,9 @@ namespace BotClient
             string lstrCount = txtSessionCount.Text;
             decimal lCount;
 
+            List<SocketListRow> socketList = new List<SocketListRow>();
+
+
             if (decimal.TryParse(lstrCount, out lCount))
             {
                 //Server info
@@ -105,17 +98,20 @@ namespace BotClient
                 string id = lSelectedMap.Value;
                 m_oManager.ConnectCount = Decimal.ToInt32(lCount);
                 m_oManager.GenerateSockets();
-
                 foreach (var socket in m_oManager.ClientSocketList)
                 {
-                    if (socket.AddedGridRow == true) continue; 
+                    if (socket.AddedGridRow == true) continue;
 
                     string lHID = socket.HostID.ToString();
-                    dgSocketList.Rows.Add(lHID, "none", "none");
+                    
+                    socketList.Add(new SocketListRow(lHID, "none", "none"));
+
                     socket.AddedGridRow = true;
                     socket.socketConnectEvt += ShowSocketConnected;
                     socket.socketDisconnectEvt += ShowSocketDisconnected;
                 }
+
+                dgSocketList.DataSource = socketList;
 
                 m_oManager.ConnectSockets(m_oServerConfig.FindServerInfo(id));
             }
@@ -127,10 +123,28 @@ namespace BotClient
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            int msgID = (int)lbPacketList.SelectedValue;
-            int selectedRownum = dgSocketList.Rows.GetRowCount(DataGridViewElementStates.Selected);
-            string hostID = dgSocketList.SelectedRows[selectedRownum].Cells["HostID"].Value.ToString();
-            m_oManager.Send((EPacketProtocol)msgID, int.Parse(hostID));
+            try
+            {
+                int msgID = (int)lbPacketList.SelectedValue;
+
+                foreach (DataGridViewRow row in dgSocketList.SelectedRows)
+                {
+                    var item = row.DataBoundItem;
+
+
+                }
+
+
+                //m_oManager.Send((EPacketProtocol)msgID, int.Parse(hostID));
+            }
+            catch (ArgumentOutOfRangeException _arex)
+            {
+                Console.WriteLine(_arex.Message);
+            }
+            catch (Exception _ex)
+            {
+                Console.WriteLine(_ex.Message);
+            }
         }
 
         private void dgSocketList_CellClick(object sender, DataGridViewCellEventArgs e)

@@ -214,3 +214,28 @@ namespace ECost
         Max
     };
 }
+
+
+
+namespace EEquipSlot
+{
+    enum Type
+    {
+        None = 0,
+
+        //basic
+        Amulet,         //목걸이
+        Armor,          //갑옷
+        Shirts,         //상의
+        Pants,          //하의
+        Cape,           //망토
+        Weapon,         //무기
+        Shield,         //슬호
+        Shoes,          //신발
+    };
+
+    inline bool IsBasicEquipSlot(const Type& _t)
+    {
+        return(_t >= Amulet && _t <= Shoes);
+    }
+}

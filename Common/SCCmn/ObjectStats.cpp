@@ -1,6 +1,12 @@
 #include "SCCmnPrivate.h"
 #include "ObjectStats.h"
 
+#ifdef SERVER_BUILD
+#	pragma warning(push)
+#	pragma warning(disable : 4819)
+#endif
+
+
 ObjectStats::ObjectStats()
 {
 }
@@ -21,6 +27,8 @@ void ObjectStats::Reset()
 {
     for (int i = 0; i < EStats::Max; i++)
     {
-        m_nBaseStats[EStats::None] = 0;
+        m_nBaseStats[i] = 0;
+        m_nAddedStats[i] = 0;
+        m_nAddedRateStats[i] = 0;
     }
 }

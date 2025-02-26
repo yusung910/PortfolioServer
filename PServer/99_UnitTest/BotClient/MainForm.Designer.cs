@@ -172,6 +172,7 @@
             this.dgSocketList.Name = "dgSocketList";
             this.dgSocketList.ReadOnly = true;
             this.dgSocketList.RowTemplate.Height = 23;
+            this.dgSocketList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgSocketList.Size = new System.Drawing.Size(313, 604);
             this.dgSocketList.TabIndex = 1;
             this.dgSocketList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgSocketList_CellClick);

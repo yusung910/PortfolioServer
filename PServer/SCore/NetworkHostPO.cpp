@@ -13,6 +13,8 @@
 #include <iostream>
 #include <Packet.h>
 
+//
+#include <bitset>
 NetworkHostPO::NetworkHostPO()
 {
     m_pPacketCompressor = PacketCompressor::New();
@@ -751,6 +753,7 @@ void NetworkHostPO::EventReceive(int _msgID, char* _msg, int _msgSize)
     if (USE_PACKET_COMPRESS
         && nullptr != m_pPacketCompressor.get())
     {
+
         if (true == m_pPacketCompressor->Decompress(_msg, _msgSize))
         {
             m_pEventSync->OnReceive(m_nHostID, _msgID, m_pPacketCompressor->m_cCompressBuffer, m_pPacketCompressor->m_nCompressedSize);

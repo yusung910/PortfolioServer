@@ -4,8 +4,8 @@ using BotClient.Network.Const;
 using BotClient.Network.Util;
 using System.Collections;
 using BotClient.Util;
+using K4os.Compression.LZ4;
 
-using PacketCompPlugin;
 
 namespace BotClient.Network.Data
 {
@@ -13,12 +13,6 @@ namespace BotClient.Network.Data
     {
 
         private bool m_bIsCompress = false;
-        private int m_nHostID = 0;
-
-        public int ClientHostID
-        {
-            get { return m_nHostID; } set { m_nHostID = value; }
-        }
 
         private byte[] m_buff;
         public byte[] Buffer
@@ -28,7 +22,7 @@ namespace BotClient.Network.Data
 
         public Packet() { }
 
-        public unsafe void SetPacketData(EPacketProtocol _msgID, FlatBufferBuilder builder)
+        public void SetPacketData(EPacketProtocol _msgID, FlatBufferBuilder builder)
         {
             //body 패킷
             var lBodyPacket = builder.SizedByteArray();
@@ -47,19 +41,17 @@ namespace BotClient.Network.Data
 
             if (m_bIsCompress)
             {
-                PacketCompPlugin.Compressor compressor = new PacketCompPlugin.Compressor();
-
-                sbyte[] tmpBodyPacket = Array.ConvertAll(lBodyPacket, b => unchecked((sbyte)b));
-                //int* 
-                //bool bIsComp = compressor.Compress(tmpBodyPacket, );
                 ////패킷 압축에 사용될 임시 변수
-                //byte[] compressPacketData = new byte[LZ4Codec.MaximumOutputSize(lBodyPacket.Length)];
-                ////
-                //lPayloadSizeByte = BitConverter.GetBytes((uint)(lBodyPacket.Length + NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
-                ////패킷 암축
-                //PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L09_HC);
+                byte[] compressPacketData = new byte[LZ4Codec.MaximumOutputSize(lBodyPacket.Length)];
 
-                //lBodyPacket = compressPacketData;
+                //패킷 압축
+                PacketbodyLen = LZ4Codec.Encode(lBodyPacket, 0, lBodyPacket.Length, compressPacketData, 0, compressPacketData.Length, LZ4Level.L12_MAX);
+
+                //payload 데이터에 패킷 사이즈가 압축된 크기를 보냈어야 했는데
+                //압축 전 데이터 크기를 보내는 바람에 딜레이 발생
+                lPayloadSizeByte = BitConverter.GetBytes((uint)(PacketbodyLen + NetworkGlobalConst.PACKET_HEADER_SIZE) | NetworkGlobalConst.PACKET_COMPRESS_MASK);
+
+                lBodyPacket = compressPacketData;
             }
             else
             {

@@ -26,7 +26,7 @@ bool PacketCompressor::Compress(char* _pBuffer, const int& _size)
         return false;
     
     //m_nCompressedSize = LZ4_compress_default(_pBuffer, m_cCompressBuffer, _size, MAX_PACKET_DATA_SIZE);
-    m_nCompressedSize = LZ4_compress_HC(_pBuffer, m_cCompressBuffer, _size, MAX_PACKET_DATA_SIZE, LZ4HC_CLEVEL_DEFAULT);
+    m_nCompressedSize = LZ4_compress_HC(_pBuffer, m_cCompressBuffer, _size, MAX_PACKET_DATA_SIZE, LZ4HC_CLEVEL_MAX);
 
     if (m_nCompressedSize <= 0)
         return false;
@@ -42,7 +42,7 @@ bool PacketCompressor::Decompress(char* _pBuffer, const int& _size)
     if (MAX_PACKET_DATA_SIZE < _size 
         || _size <= 0)
         return false;
-    
+
     m_nCompressedSize = LZ4_decompress_safe(_pBuffer, m_cCompressBuffer, _size, MAX_PACKET_BINARY_SIZE);
     
     if (m_nCompressedSize <= 0)
@@ -61,7 +61,7 @@ bool PacketCompressor::CompressPayload(char* _pBuffer, const int& _payloadSize)
         return false;
 
     //m_nCompressedSize = LZ4_compress_default(_pBuffer + PACKET_HEADER_SIZE, m_cCompressBuffer + PACKET_HEADER_SIZE, _payloadSize - PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE);
-    m_nCompressedSize = LZ4_compress_HC(_pBuffer + PACKET_HEADER_SIZE, m_cCompressBuffer + PACKET_HEADER_SIZE, _payloadSize - PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE, LZ4HC_CLEVEL_DEFAULT);
+   m_nCompressedSize = LZ4_compress_HC(_pBuffer + PACKET_HEADER_SIZE, m_cCompressBuffer + PACKET_HEADER_SIZE, _payloadSize - PACKET_HEADER_SIZE, MAX_PACKET_DATA_SIZE, LZ4HC_CLEVEL_MAX);
 
     if (m_nCompressedSize <= 0)
         return false;
