@@ -14,6 +14,7 @@ using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -24,9 +25,12 @@ namespace BotClient.Network.Util
     {
         public event SocketConnect socketConnectEvt;
 
+        public event SocketReceive socketReceiveEvt;
+
         public event SocketDisconnect socketDisconnectEvt;
 
         private byte[] m_buff = new byte[NetworkGlobalConst.MAX_PACKET_BINARY_SIZE];
+
         //<time, content>
         private Dictionary<int, JObject> m_oPacketLogList = new Dictionary<int, JObject>();
 
@@ -164,7 +168,6 @@ namespace BotClient.Network.Util
                 //패킷 메세지 id
                 byte[] msgIDByte = buff.ToArray(4, 4);
 
-
                 // If the system architecture is little-endian (that is, little end first),
                 // reverse the byte array.
                 Array.Reverse(msgIDByte);
@@ -195,6 +198,8 @@ namespace BotClient.Network.Util
                 jObj.Add("Type", "Recv");
 
                 AddPacketLog(jObj);
+
+                socketReceiveEvt(HostID);
             }
             catch (ArgumentException _ae)
             {
@@ -214,6 +219,7 @@ namespace BotClient.Network.Util
             m_oPacketLogList.Add(m_nPacketLogID, _packetData);
             string lPacketName = string.Format("[{0} :: {1}] - {2}({3})", _packetData["Time"], _packetData["Type"], _packetData["PacketName"], _packetData["PacketID"]);
             m_oPacketViewLogList.Add(lPacketName, m_nPacketLogID);
+
         }
 
         private void SocketClose()

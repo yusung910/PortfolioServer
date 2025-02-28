@@ -3,20 +3,24 @@ using BotClient.Define;
 using BotClient.Define.GStruct;
 using BotClient.Network;
 using BotClient.Network.Util;
+using BotClient.Service;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 
 
 namespace BotClient
 {
     public delegate void SocketConnect(int _hostID, string _serverName, string _status);
-
+    public delegate void SocketReceive(int _recvHostID);
     public delegate void SocketDisconnect(int _hostID);
+    public delegate void SetPacketLogList();
 
     public partial class MainForm : Form
     {
@@ -30,6 +34,9 @@ namespace BotClient
 
         //패킷 로그 검색
         Dictionary<EPacketProtocol, string> m_PacketLogSearchResult = new Dictionary<EPacketProtocol, string>();
+
+        //패킷 수신 관련 스레드
+        private PacketRecvService m_recvService = new PacketRecvService();
 
         public MainForm()
         {
@@ -59,7 +66,6 @@ namespace BotClient
         private void btnPacketBroadcast_Click(object sender, EventArgs e)
         {
             int msgID = (int)lbPacketList.SelectedValue;
-            
             m_oManager.Send((EPacketProtocol)msgID, -1);
         }
 
@@ -88,9 +94,6 @@ namespace BotClient
             string lstrCount = txtSessionCount.Text;
             decimal lCount;
 
-            List<SocketListRow> socketList = new List<SocketListRow>();
-
-
             if (decimal.TryParse(lstrCount, out lCount))
             {
                 //Server info
@@ -98,22 +101,26 @@ namespace BotClient
                 string id = lSelectedMap.Value;
                 m_oManager.ConnectCount = Decimal.ToInt32(lCount);
                 m_oManager.GenerateSockets();
+
                 foreach (var socket in m_oManager.ClientSocketList)
                 {
                     if (socket.AddedGridRow == true) continue;
 
                     string lHID = socket.HostID.ToString();
-                    
-                    socketList.Add(new SocketListRow(lHID, "none", "none"));
+
+                    dgSocketList.Rows.Add(lHID, "none", "none");
 
                     socket.AddedGridRow = true;
                     socket.socketConnectEvt += ShowSocketConnected;
+
+                    socket.socketReceiveEvt += ShowSocketReceive;
+
                     socket.socketDisconnectEvt += ShowSocketDisconnected;
                 }
 
-                dgSocketList.DataSource = socketList;
-
                 m_oManager.ConnectSockets(m_oServerConfig.FindServerInfo(id));
+
+                m_recvService.Start();
             }
             else
             {
@@ -123,28 +130,16 @@ namespace BotClient
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            try
+            int msgID = (int)lbPacketList.SelectedValue;
+            string hostID = dgSocketList.SelectedRows[0].Cells[0].Value.ToString();
+
+            if (hostID == null)
             {
-                int msgID = (int)lbPacketList.SelectedValue;
-
-                foreach (DataGridViewRow row in dgSocketList.SelectedRows)
-                {
-                    var item = row.DataBoundItem;
-
-
-                }
-
-
-                //m_oManager.Send((EPacketProtocol)msgID, int.Parse(hostID));
+                MessageBox.Show("HostID is not a Number!");
+                return;
             }
-            catch (ArgumentOutOfRangeException _arex)
-            {
-                Console.WriteLine(_arex.Message);
-            }
-            catch (Exception _ex)
-            {
-                Console.WriteLine(_ex.Message);
-            }
+
+            m_oManager.Send((EPacketProtocol)msgID, int.Parse(hostID));
         }
 
         private void dgSocketList_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -157,6 +152,16 @@ namespace BotClient
                 string hostID = hostIDVal.ToString();
 
                 m_oSelectedSocket = m_oManager.GetSocket(int.Parse(hostID));
+                //소켓 통신 패킷 로그 리스트 제거
+                if (lbSocketTelecomLog.DataSource != null)
+                {
+                    lbSocketTelecomLog.DataSource = null;
+                    lbSocketTelecomLog.Items.Clear();
+                }
+
+                //패킷 내부 데이터(node) 클리어
+                if(trvLogData.Nodes != null)
+                    trvLogData.Nodes.Clear();
 
                 if (m_oSelectedSocket != null && m_oSelectedSocket.PacketViewList.Count > 0)
                 {
@@ -195,6 +200,10 @@ namespace BotClient
             }
         }
 
+        private void ShowSocketReceive(int _recvHostID)
+        {
+        }
+
         private void ShowSocketDisconnected(int _hostID)
         {
             m_oManager.Disconnect(_hostID);
@@ -213,6 +222,9 @@ namespace BotClient
 
         private void lbSocketTelecomLog_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (lbSocketTelecomLog.DataSource == null)
+                return;
+
             KeyValuePair<string, int> lSelectedLog = (KeyValuePair<string, int>)lbSocketTelecomLog.SelectedItem;
             int lSelectedPacketLogID = lSelectedLog.Value;
 
@@ -384,7 +396,5 @@ namespace BotClient
                 _tb.ForeColor = Color.Gray;
             }
         }
-
-
     }
 }

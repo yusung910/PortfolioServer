@@ -94,6 +94,7 @@
     <Compile Include="Protocol\LSKickDuplicateConnectUserReq.cs" />
     <Compile Include="Protocol\SCEnterGameAck.cs" />
     <Compile Include="Protocol\SCIntegrationErrorNotification.cs" />
+    <Compile Include="Service\PacketRecvService.cs" />
     <Compile Include="Util\Singleton.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
