@@ -7,11 +7,14 @@ using BotClient.Service;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Controls;
 using System.Windows.Forms;
 
 
@@ -20,14 +23,15 @@ namespace BotClient
     public delegate void SocketConnect(int _hostID, string _serverName, string _status);
     public delegate void SocketReceive(int _recvHostID);
     public delegate void SocketDisconnect(int _hostID);
-    public delegate void SetPacketLogList();
+
+    public delegate void SocketPacketLogList(int _hostID);
 
     public partial class MainForm : Form
     {
         NetworkManager m_oManager = NetworkManager.Instance;
         LoadServerConfig m_oServerConfig = LoadServerConfig.Instance;
 
-        ClientSocket m_oSelectedSocket = null;
+        //ClientSocket m_oSelectedSocket = null;
 
         //패킷 검색
         Dictionary<EPacketProtocol, string> m_PacketSearchResult = new Dictionary<EPacketProtocol, string>();
@@ -121,6 +125,14 @@ namespace BotClient
                 m_oManager.ConnectSockets(m_oServerConfig.FindServerInfo(id));
 
                 m_recvService.Start();
+
+                if (dgSocketList.SelectedRows[0].Cells[0].Value != null)
+                {
+                    string hostID = dgSocketList.SelectedRows[0].Cells [0].Value.ToString();
+                    m_recvService.SetClientSocket(m_oManager.GetSocket(int.Parse(hostID)));
+                }
+
+                m_recvService.socketPacketLogList += ShowSocketPacketLogList;
             }
             else
             {
@@ -151,36 +163,41 @@ namespace BotClient
 
                 string hostID = hostIDVal.ToString();
 
-                m_oSelectedSocket = m_oManager.GetSocket(int.Parse(hostID));
+                m_recvService.SetClientSocket(m_oManager.GetSocket(int.Parse(hostID)));
                 //소켓 통신 패킷 로그 리스트 제거
-                if (lbSocketTelecomLog.DataSource != null)
-                {
-                    lbSocketTelecomLog.DataSource = null;
+                if(lbSocketTelecomLog.Items.Count > 0) 
                     lbSocketTelecomLog.Items.Clear();
-                }
-
                 //패킷 내부 데이터(node) 클리어
-                if(trvLogData.Nodes != null)
+                if (trvLogData.Nodes != null)
                     trvLogData.Nodes.Clear();
-
-                if (m_oSelectedSocket != null && m_oSelectedSocket.PacketViewList.Count > 0)
-                {
-                    lbSocketTelecomLog.SelectedIndexChanged -= new EventHandler(lbSocketTelecomLog_SelectedIndexChanged);
-
-                    lbSocketTelecomLog.DataSource = null;
-                    lbSocketTelecomLog.Items.Clear();
-
-                    lbSocketTelecomLog.DataSource = new BindingSource(m_oSelectedSocket.PacketViewList, null);
-                    lbSocketTelecomLog.DisplayMember = "key";
-                    lbSocketTelecomLog.ValueMember = "value";
-
-                    lbSocketTelecomLog.SelectedIndexChanged += new EventHandler(lbSocketTelecomLog_SelectedIndexChanged);
-
-                }
             }
             catch(ArgumentOutOfRangeException _e)
             {
                 Console.WriteLine(_e.Message);
+            }
+
+        }
+
+        private void ShowSocketPacketLogList(int _hostID)
+        {
+            //Console.WriteLine("Selected Socket HostID : {0}", _hostID);
+            if (lbSocketTelecomLog.InvokeRequired)
+            {
+                lbSocketTelecomLog.BeginInvoke(
+                    (System.Action)(() =>
+                    {
+                        var logList = m_oManager.GetSocket(_hostID).PacketViewList;
+                        var lbList = lbSocketTelecomLog.Items;
+
+                        foreach (var log in logList)
+                        {
+                            if (false == lbList.Contains(log))
+                            {
+                                lbSocketTelecomLog.Items.Add(log);
+                            }
+                        }
+                    })
+                );
             }
 
         }
@@ -217,39 +234,6 @@ namespace BotClient
                     row.Cells["ConnectedServer"].Value = "None";
                     row.Cells["ConnectStatus"].Value = "Disconnected";
                 }
-            }
-        }
-
-        private void lbSocketTelecomLog_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbSocketTelecomLog.DataSource == null)
-                return;
-
-            KeyValuePair<string, int> lSelectedLog = (KeyValuePair<string, int>)lbSocketTelecomLog.SelectedItem;
-            int lSelectedPacketLogID = lSelectedLog.Value;
-
-            JToken logDataToken = m_oSelectedSocket.PacketLogList[lSelectedPacketLogID]["Data"];
-            trvLogData.BeginUpdate();
-
-            if (logDataToken == null) return;
-
-            try
-            {
-                trvLogData.Nodes.Clear();
-                var tNode = trvLogData.Nodes[trvLogData.Nodes.Add(new TreeNode("Data"))];
-                tNode.Tag = logDataToken["Data"];
-
-                AddNode(logDataToken, tNode);
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                trvLogData.ExpandAll();
-                trvLogData.EndUpdate();
             }
         }
 
@@ -329,12 +313,12 @@ namespace BotClient
                 m_PacketLogSearchResult.Clear();
             }
 
-            if (m_oSelectedSocket == null) return;
+            //if (m_oSelectedSocket == null) return;
 
-            foreach (var item in lbSocketTelecomLog.Items)
-            {
+            //foreach (var item in lbSocketTelecomLog.Items)
+            //{
 
-            }
+            //}
         }
 
         private void tbRecvDataSearch_KeyUp(object sender, KeyEventArgs e)
@@ -394,6 +378,41 @@ namespace BotClient
             {
                 _tb.Text = _placeholder;
                 _tb.ForeColor = Color.Gray;
+            }
+        }
+
+        private void lbSocketTelecomLog_Click(object sender, EventArgs e)
+        {
+            if (lbSocketTelecomLog.SelectedItem == null)
+                return;
+
+            KeyValuePair<string, int> lSelectedLog = (KeyValuePair<string, int>)lbSocketTelecomLog.SelectedItem;
+
+            int lSelectedPacketLogID = lSelectedLog.Value;
+
+            JToken logDataToken = m_recvService.GetTargetClientSocket().PacketLogList[lSelectedPacketLogID]["Data"];
+
+            trvLogData.BeginUpdate();
+
+            if (logDataToken == null) return;
+
+            try
+            {
+                trvLogData.Nodes.Clear();
+                var tNode = trvLogData.Nodes[trvLogData.Nodes.Add(new TreeNode("Data"))];
+                tNode.Tag = logDataToken["Data"];
+
+                AddNode(logDataToken, tNode);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                trvLogData.ExpandAll();
+                trvLogData.EndUpdate();
             }
         }
     }

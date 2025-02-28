@@ -85,13 +85,15 @@
             // 
             // lbSocketTelecomLog
             // 
+            this.lbSocketTelecomLog.DisplayMember = "Key";
             this.lbSocketTelecomLog.FormattingEnabled = true;
             this.lbSocketTelecomLog.ItemHeight = 12;
             this.lbSocketTelecomLog.Location = new System.Drawing.Point(8, 47);
             this.lbSocketTelecomLog.Name = "lbSocketTelecomLog";
             this.lbSocketTelecomLog.Size = new System.Drawing.Size(540, 640);
             this.lbSocketTelecomLog.TabIndex = 1;
-            this.lbSocketTelecomLog.SelectedIndexChanged += new System.EventHandler(this.lbSocketTelecomLog_SelectedIndexChanged);
+            this.lbSocketTelecomLog.ValueMember = "Value";
+            this.lbSocketTelecomLog.Click += new System.EventHandler(this.lbSocketTelecomLog_Click);
             // 
             // groupBox3
             // 

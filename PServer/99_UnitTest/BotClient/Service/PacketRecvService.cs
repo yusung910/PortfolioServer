@@ -10,7 +10,9 @@ namespace BotClient.Service
 {
     public class PacketRecvService
     {
-        ClientSocket m_targetSocket;
+        private ClientSocket m_targetSocket;
+
+        public SocketPacketLogList socketPacketLogList;
 
         Mutex m_lock = new Mutex(false, "SetClientSocket");
 
@@ -19,8 +21,12 @@ namespace BotClient.Service
             m_lock.WaitOne();
 
             m_targetSocket = _socket;
-
             m_lock.ReleaseMutex();
+        }
+
+        public ClientSocket GetTargetClientSocket()
+        {
+            return m_targetSocket;
         }
 
         public PacketRecvService() { }
@@ -50,8 +56,11 @@ namespace BotClient.Service
         {
             while (m_isRunning)
             {
-                Thread.Sleep(100);
-                Console.WriteLine("set Packet LogData");
+                if (m_targetSocket != null)
+                {
+                    Thread.Sleep(100);
+                    socketPacketLogList(m_targetSocket.HostID);
+                }
             }
         }
     }
