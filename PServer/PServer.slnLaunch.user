@@ -9,6 +9,10 @@
       {
         "Path": "99_UnitTest\\BotClient\\BotClient.csproj",
         "Action": "Start"
+      },
+      {
+        "Path": "PGServer\\PGServer.vcxproj",
+        "Action": "Start"
       }
     ]
   }

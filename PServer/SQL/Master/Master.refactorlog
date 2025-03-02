@@ -77,4 +77,53 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="TeleportCostValue" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="eb5b932a-a364-4eac-9427-347534d3c47e" ChangeDateTime="03/02/2025 17:35:20">
+    <Property Name="ElementName" Value="[dbo].[PilgrimLevelBaseStat].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimLevelBaseStat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Class" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="619a240c-0d9e-4a2d-88da-69549a814b5f" ChangeDateTime="03/02/2025 17:36:26">
+    <Property Name="ElementName" Value="[dbo].[PilgrimLevelBaseStat].[HP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimLevelBaseStat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MaxHP" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a45939a6-098a-4712-94e6-3b64d5c505ec" ChangeDateTime="03/02/2025 17:36:51">
+    <Property Name="ElementName" Value="[dbo].[PilgrimLevelBaseStat].[Class]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimLevelBaseStat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Level" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1797894c-d314-460f-8c9a-83bef985493e" ChangeDateTime="03/02/2025 17:44:40">
+    <Property Name="ElementName" Value="[dbo].[PilgrimLevelBaseStat].[MeleeAttack]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimLevelBaseStat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MeleeDamageMin" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e62c805e-9329-4b41-a267-c4d0b1d07725" ChangeDateTime="03/02/2025 18:17:27">
+    <Property Name="ElementName" Value="[dbo].[PilgrimStatRate].[ㅇ]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimStatRate]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d5f3bebb-dfa3-4a76-b2ef-3d0fabf08121" ChangeDateTime="03/02/2025 18:18:46">
+    <Property Name="ElementName" Value="[dbo].[PilgrimStatRate].[Str]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimStatRate]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Strength" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0e0a28b6-ef45-478e-a33f-ee8bd304c308" ChangeDateTime="03/02/2025 18:19:04">
+    <Property Name="ElementName" Value="[dbo].[PilgrimStatRate].[Dex]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PilgrimStatRate]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Dexterity" />
+  </Operation>
 </Operations>

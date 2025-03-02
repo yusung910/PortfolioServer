@@ -3,16 +3,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>Master</Name>
+    <Name>Game</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{09cb1405-12ad-4ce7-a501-f762e020d5be}</ProjectGuid>
+    <ProjectGuid>{7d03809c-0c65-4af9-be28-e543c9690d4b}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>Master</RootNamespace>
-    <AssemblyName>Master</AssemblyName>
+    <RootNamespace>Game</RootNamespace>
+    <AssemblyName>Game</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -56,19 +56,5 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="StoredProcedure" />
-    <Folder Include="Tables" />
-  </ItemGroup>
-  <ItemGroup>
-    <RefactorLog Include="Master.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Tables\MapInfo.sql" />
-    <Build Include="Tables\MapTeleportInfo.sql" />
-    <Build Include="StoredProcedure\spMapInfoSelect.sql" />
-    <Build Include="StoredProcedure\spMapTeleportInfoSelect.sql" />
-    <Build Include="Tables\AbilityStat.sql" />
-    <Build Include="Tables\PilgrimLevelBaseStat.sql" />
-    <Build Include="Tables\PilgrimStatRate.sql" />
   </ItemGroup>
 </Project>

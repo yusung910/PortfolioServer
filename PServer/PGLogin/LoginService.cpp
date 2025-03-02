@@ -150,47 +150,6 @@ bool LoginService::OnCLAuthReq(int _hostID, const CLAuthReq& _msg)
     return true;
 }
 
-bool LoginService::OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg)
-{
-    auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
-    if (nullptr == lPc)
-    {
-        VIEW_WRITE_INFO(L"OnCLConnectGameServerReq Kick - PC is nullptr");
-        AddKickReserve(_hostID);
-        return false;
-    }
-
-    //Selected Server
-    lPc->m_nSelectedServerID = _msg.serverid();
-
-    auto lServerInfo = GameServerCheckService::GetInst().FindServer(_msg.serverid());
-
-    if (nullptr == lServerInfo)
-    {
-        VIEW_WRITE_INFO(L"OnCLConnectGameServerReq Kick - GameServer Info is nullptr");
-        AddKickReserve(_hostID);
-        return false;
-    }
-
-    if (_msg.serverid() >= 10101
-        && _msg.serverid() <= 10999)
-    {
-        // 게임서버 이외 메신저, 빌링서버 등
-        // 연결 정보를 클라에 전송하기 위한 데이터 세팅
-        DConnectServerInfoT lConnInfo;
-        lConnInfo.DestServerID = _msg.serverid();
-        lConnInfo.IsAllow = true;
-        lConnInfo.OTP = lPc->m_nOTP;
-        lConnInfo.WaitingCount = 1;
-
-
-    }
-    
-    //GameServer 연결 대기 등록
-    GameServerCheckService::GetInst().SetWaitingEnqueue(_msg.serverid(), _hostID);
-    return true;
-}
-
 bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
 {
     if (nullptr == _data.get())
@@ -213,7 +172,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     //영구 제제되어 있는 계정
     if (lRes->Result == (int)EDBResult::PermanentBlock)
     {
-        //_SendErrorMessage(EF_)
+        _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_DURATION_BLOCK_ACCOUNT, EPacketProtocol::CL_AuthReq, true);
         AddKickReserve(_data->m_nHostID);
         return false;
     }
@@ -221,7 +180,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     //기간 제제
     if (lRes->Result == (int)EDBResult::DurationBlock)
     {
-        //_SendErrorMessage(EF_)
+        _SendErrorMessage(_data->m_nHostID, EErrorMsg::EF_PERMANENT_BLOCK_ACCOUNT, EPacketProtocol::CL_AuthReq, true);
         AddKickReserve(_data->m_nHostID);
         return false;
     }
@@ -316,6 +275,68 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     // 서버 선택창에서 보여줄 버프 리스트를 가져와서 클라에 보내주는 작업이 필요할까?
     return true;
 }
+
+bool LoginService::OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg)
+{
+    auto lPc = LoginPlayerManager::GetInst().Find(_hostID);
+    if (nullptr == lPc)
+    {
+        VIEW_WRITE_INFO(L"OnCLConnectGameServerReq Kick - PC is nullptr");
+        AddKickReserve(_hostID);
+        return false;
+    }
+
+    //Selected Server
+    lPc->m_nSelectedServerID = _msg.serverid();
+
+    auto lServerInfo = GameServerCheckService::GetInst().FindServer(_msg.serverid());
+
+    if (nullptr == lServerInfo)
+    {
+        VIEW_WRITE_INFO(L"OnCLConnectGameServerReq Kick - GameServer Info is nullptr");
+        AddKickReserve(_hostID);
+        return false;
+    }
+
+    if (_msg.serverid() >= 10101
+        && _msg.serverid() <= 10999)
+    {
+        // 게임서버 이외 메신저, 빌링서버 등
+        // 연결 정보를 클라에 전송하기 위한 데이터 세팅
+        DConnectServerInfoT lConnInfo;
+        lConnInfo.DestServerID = _msg.serverid();
+        lConnInfo.IsAllow = true;
+        lConnInfo.OTP = lPc->m_nOTP;
+        lConnInfo.WaitingCount = 1;
+
+        ConnectorInfo lMessengerInfo;
+
+        ServerConfig::GetInst().GetConfig().GetMessengerServerInfo(lServerInfo->m_nServerID, lMessengerInfo);
+
+        flatbuffers::FlatBufferBuilder lFbb;
+        auto lPacket = CreateLCConnectGameServerRes(
+            lFbb
+            , CreateDConnectServerInfo(lFbb, &lConnInfo)
+            , CreateDServerInfo(lFbb
+                , lMessengerInfo.m_nServerID
+                , (int)EServerStatus::Good
+                , lFbb.CreateSharedString(lMessengerInfo.m_sPublicHost)
+                , (int)lMessengerInfo.m_nPublicPort
+                , true
+                , EServerState::Type::None
+            )
+        );
+        lFbb.Finish(lPacket);
+        LoginPlayerManager::GetInst().SendPacket(_hostID,EPacketProtocol::LC_ConnectGameServerRes, lFbb);
+
+        return true;
+    }
+
+    //GameServer 연결 대기 등록
+    GameServerCheckService::GetInst().SetWaitingEnqueue(_msg.serverid(), _hostID);
+    return true;
+}
+
 
 bool LoginService::OnPLAuthLoginRes(InnerPacket::SharedPtr _data)
 {

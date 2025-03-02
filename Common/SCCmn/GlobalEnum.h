@@ -166,6 +166,12 @@ namespace EStats
         WeaponMastery,    //무기 숙련도
 
         //
+        MeleeMinDamage,   // 근접 최소 데미지
+        MeleeMaxDamage,   // 근접 최대 데미지
+        MeleeDamage,      // 근접 공격력
+        
+
+        //
         HP,               //생령력
         MaxHP,            //최대생명력
         MP,               //마나

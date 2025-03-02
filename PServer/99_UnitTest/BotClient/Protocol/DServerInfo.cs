@@ -27,7 +27,7 @@ public struct DServerInfo : IFlatbufferObject
   public byte[] GetAddressArray() { return __p.__vector_as_array<byte>(8); }
   public int Port { get { int o = __p.__offset(10); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
   public bool HasCharacter { get { int o = __p.__offset(12); return o != 0 ? 0!=__p.bb.Get(o + __p.bb_pos) : (bool)false; } }
-  public int State { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
+  public int RecommendState { get { int o = __p.__offset(14); return o != 0 ? __p.bb.GetInt(o + __p.bb_pos) : (int)0; } }
 
   public static Offset<DServerInfo> CreateDServerInfo(FlatBufferBuilder builder,
       int ServerID = 0,
@@ -35,9 +35,9 @@ public struct DServerInfo : IFlatbufferObject
       StringOffset AddressOffset = default(StringOffset),
       int Port = 0,
       bool HasCharacter = false,
-      int State = 0) {
+      int RecommendState = 0) {
     builder.StartTable(6);
-    DServerInfo.AddState(builder, State);
+    DServerInfo.AddRecommendState(builder, RecommendState);
     DServerInfo.AddPort(builder, Port);
     DServerInfo.AddAddress(builder, AddressOffset);
     DServerInfo.AddServerStatus(builder, ServerStatus);
@@ -52,7 +52,7 @@ public struct DServerInfo : IFlatbufferObject
   public static void AddAddress(FlatBufferBuilder builder, StringOffset AddressOffset) { builder.AddOffset(2, AddressOffset.Value, 0); }
   public static void AddPort(FlatBufferBuilder builder, int Port) { builder.AddInt(3, Port, 0); }
   public static void AddHasCharacter(FlatBufferBuilder builder, bool HasCharacter) { builder.AddBool(4, HasCharacter, false); }
-  public static void AddState(FlatBufferBuilder builder, int State) { builder.AddInt(5, State, 0); }
+  public static void AddRecommendState(FlatBufferBuilder builder, int RecommendState) { builder.AddInt(5, RecommendState, 0); }
   public static Offset<DServerInfo> EndDServerInfo(FlatBufferBuilder builder) {
     int o = builder.EndTable();
     return new Offset<DServerInfo>(o);
@@ -68,7 +68,7 @@ public struct DServerInfo : IFlatbufferObject
     _o.Address = this.Address;
     _o.Port = this.Port;
     _o.HasCharacter = this.HasCharacter;
-    _o.State = this.State;
+    _o.RecommendState = this.RecommendState;
   }
   public static Offset<DServerInfo> Pack(FlatBufferBuilder builder, DServerInfoT _o) {
     if (_o == null) return default(Offset<DServerInfo>);
@@ -80,7 +80,7 @@ public struct DServerInfo : IFlatbufferObject
       _Address,
       _o.Port,
       _o.HasCharacter,
-      _o.State);
+      _o.RecommendState);
   }
 };
 
@@ -91,7 +91,7 @@ public class DServerInfoT
   public string Address { get; set; }
   public int Port { get; set; }
   public bool HasCharacter { get; set; }
-  public int State { get; set; }
+  public int RecommendState { get; set; }
 
   public DServerInfoT() {
     this.ServerID = 0;
@@ -99,7 +99,7 @@ public class DServerInfoT
     this.Address = null;
     this.Port = 0;
     this.HasCharacter = false;
-    this.State = 0;
+    this.RecommendState = 0;
   }
 }
 

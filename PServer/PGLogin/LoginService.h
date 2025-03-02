@@ -26,17 +26,19 @@ protected:
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
     bool OnHostClose(int _hostID, const HostClose& _msg);
 
-    //Client -> LoginServer
+    // Client -> LoginServer 접속
     bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
-    bool OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg);
 
-    //UDB -> LoginServer
+    // Platform 인증 후 AccountDB 조회 결과
     bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
 
-    //Platform -> LoginServer
+    // 게임서버 접속 요청
+    bool OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg);
+
+    // Platform -> LoginServer
     bool OnPLAuthLoginRes(InnerPacket::SharedPtr _data);
 
-    //LoginServer -> Client
+    // LoginServer -> Client
     bool OnLCConnectGameServerRes(int _hostID, const LCConnectGameServerRes& _msg);
 
 

@@ -157,7 +157,9 @@ enum EErrorMsg:int
     EF_KICK_INVALID_APP_VERSION                                 = 10213,
 
     //제재 중인 계정
-    EF_SANCTION_ACCOUNT                                         = 11001
+    EF_SANCTION_ACCOUNT                                         = 11001,
+    EF_DURATION_BLOCK_ACCOUNT                                   = 11002,
+    EF_PERMANENT_BLOCK_ACCOUNT                                  = 11003,
 
 }
 
@@ -177,7 +179,7 @@ table DServerInfo
     Port:int;                   //Port
 
     HasCharacter:bool;          //서버에 캐릭터 존재하고 있는지
-    State:int;                  //EServerState 서버 추천 여부
+    RecommendState:int;                  //EServerState 서버 추천 여부
 }
 
 table DConnectServerInfo
@@ -298,7 +300,7 @@ table LCConnectGameServerRes
 {
     ServerInfo: DConnectServerInfo;
 
-    MessengerServerInfo:DConnectServerInfo;
+    MessengerServerInfo:DServerInfo;
     //BillingServer 추가?
     messageid:EPacketProtocol = LC_ConnectGameServerRes;
 }

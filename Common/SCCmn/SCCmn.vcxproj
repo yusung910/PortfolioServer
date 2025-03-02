@@ -38,6 +38,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbilityStat.h" />
     <ClInclude Include="DataProcessManager.h" />
     <ClInclude Include="DefineType.h" />
     <ClInclude Include="GlobalConst.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="MasterDB.h" />
     <ClInclude Include="MathUtil.h" />
     <ClInclude Include="ObjectStats.h" />
+    <ClInclude Include="ObjectStatsManager.h" />
     <ClInclude Include="Protocol_generated.h" />
     <ClInclude Include="SCCmnPrivate.h" />
     <ClInclude Include="SCCmnPublic.h" />
@@ -53,9 +55,11 @@
     <ClInclude Include="SingletonClient.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbilityStat.cpp" />
     <ClCompile Include="DataProcessManager.cpp" />
     <ClCompile Include="MasterDB.cpp" />
     <ClCompile Include="ObjectStats.cpp" />
+    <ClCompile Include="ObjectStatsManager.cpp" />
     <ClCompile Include="SCCmnPrivate.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

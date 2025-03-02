@@ -1,4 +1,5 @@
-﻿CREATE TABLE [dbo].[HeroStat]
+﻿-- 캐릭터(pilgrim)에 적용될 능력치 정보
+CREATE TABLE [dbo].[AbilityStat]
 (
     [Sequence] INT NOT NULL PRIMARY KEY, 
     [Strength] INT NOT NULL, 

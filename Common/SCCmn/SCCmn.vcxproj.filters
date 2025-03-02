@@ -68,6 +68,12 @@
     <ClInclude Include="MathUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
+    <ClInclude Include="AbilityStat.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectStatsManager.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SCCmnPrivate.cpp">
@@ -80,6 +86,12 @@
       <Filter>DataTemplate</Filter>
     </ClCompile>
     <ClCompile Include="ObjectStats.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="AbilityStat.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectStatsManager.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

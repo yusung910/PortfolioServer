@@ -181,10 +181,12 @@ enum EErrorMsg {
   EF_KICK_DUPLICATE_LOGIN = 10211,
   EF_KICK_INVALID_PLATFORM = 10212,
   EF_KICK_INVALID_APP_VERSION = 10213,
-  EF_SANCTION_ACCOUNT = 11001
+  EF_SANCTION_ACCOUNT = 11001,
+  EF_DURATION_BLOCK_ACCOUNT = 11002,
+  EF_PERMANENT_BLOCK_ACCOUNT = 11003
 };
 
-inline const EErrorMsg (&EnumValuesEErrorMsg())[27] {
+inline const EErrorMsg (&EnumValuesEErrorMsg())[29] {
   static const EErrorMsg values[] = {
     EF_NONE,
     EF_HOST_IP_IS_NOT_ALLOWED,
@@ -212,7 +214,9 @@ inline const EErrorMsg (&EnumValuesEErrorMsg())[27] {
     EF_KICK_DUPLICATE_LOGIN,
     EF_KICK_INVALID_PLATFORM,
     EF_KICK_INVALID_APP_VERSION,
-    EF_SANCTION_ACCOUNT
+    EF_SANCTION_ACCOUNT,
+    EF_DURATION_BLOCK_ACCOUNT,
+    EF_PERMANENT_BLOCK_ACCOUNT
   };
   return values;
 }
@@ -246,6 +250,8 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
     case EF_KICK_INVALID_PLATFORM: return "EF_KICK_INVALID_PLATFORM";
     case EF_KICK_INVALID_APP_VERSION: return "EF_KICK_INVALID_APP_VERSION";
     case EF_SANCTION_ACCOUNT: return "EF_SANCTION_ACCOUNT";
+    case EF_DURATION_BLOCK_ACCOUNT: return "EF_DURATION_BLOCK_ACCOUNT";
+    case EF_PERMANENT_BLOCK_ACCOUNT: return "EF_PERMANENT_BLOCK_ACCOUNT";
     default: return "";
   }
 }
@@ -257,13 +263,13 @@ struct DServerInfoT : public flatbuffers::NativeTable {
   std::string Address;
   int32_t Port;
   bool HasCharacter;
-  int32_t State;
+  int32_t RecommendState;
   DServerInfoT()
       : ServerID(0),
         ServerStatus(0),
         Port(0),
         HasCharacter(false),
-        State(0) {
+        RecommendState(0) {
   }
 };
 
@@ -276,7 +282,7 @@ struct DServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
     VT_ADDRESS = 8,
     VT_PORT = 10,
     VT_HASCHARACTER = 12,
-    VT_STATE = 14
+    VT_RECOMMENDSTATE = 14
   };
   int32_t ServerID() const {
     return GetField<int32_t>(VT_SERVERID, 0);
@@ -293,8 +299,8 @@ struct DServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   bool HasCharacter() const {
     return GetField<uint8_t>(VT_HASCHARACTER, 0) != 0;
   }
-  int32_t State() const {
-    return GetField<int32_t>(VT_STATE, 0);
+  int32_t RecommendState() const {
+    return GetField<int32_t>(VT_RECOMMENDSTATE, 0);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -304,7 +310,7 @@ struct DServerInfo FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyString(Address()) &&
            VerifyField<int32_t>(verifier, VT_PORT) &&
            VerifyField<uint8_t>(verifier, VT_HASCHARACTER) &&
-           VerifyField<int32_t>(verifier, VT_STATE) &&
+           VerifyField<int32_t>(verifier, VT_RECOMMENDSTATE) &&
            verifier.EndTable();
   }
   DServerInfoT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
@@ -331,8 +337,8 @@ struct DServerInfoBuilder {
   void add_HasCharacter(bool HasCharacter) {
     fbb_.AddElement<uint8_t>(DServerInfo::VT_HASCHARACTER, static_cast<uint8_t>(HasCharacter), 0);
   }
-  void add_State(int32_t State) {
-    fbb_.AddElement<int32_t>(DServerInfo::VT_STATE, State, 0);
+  void add_RecommendState(int32_t RecommendState) {
+    fbb_.AddElement<int32_t>(DServerInfo::VT_RECOMMENDSTATE, RecommendState, 0);
   }
   explicit DServerInfoBuilder(flatbuffers::FlatBufferBuilder &_fbb)
         : fbb_(_fbb) {
@@ -353,9 +359,9 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(
     flatbuffers::Offset<flatbuffers::String> Address = 0,
     int32_t Port = 0,
     bool HasCharacter = false,
-    int32_t State = 0) {
+    int32_t RecommendState = 0) {
   DServerInfoBuilder builder_(_fbb);
-  builder_.add_State(State);
+  builder_.add_RecommendState(RecommendState);
   builder_.add_Port(Port);
   builder_.add_Address(Address);
   builder_.add_ServerStatus(ServerStatus);
@@ -371,7 +377,7 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfoDirect(
     const char *Address = nullptr,
     int32_t Port = 0,
     bool HasCharacter = false,
-    int32_t State = 0) {
+    int32_t RecommendState = 0) {
   auto Address__ = Address ? _fbb.CreateString(Address) : 0;
   return CreateDServerInfo(
       _fbb,
@@ -380,7 +386,7 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfoDirect(
       Address__,
       Port,
       HasCharacter,
-      State);
+      RecommendState);
 }
 
 flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
@@ -1462,7 +1468,7 @@ flatbuffers::Offset<CLConnectGameServerReq> CreateCLConnectGameServerReq(flatbuf
 struct LCConnectGameServerResT : public flatbuffers::NativeTable {
   typedef LCConnectGameServerRes TableType;
   std::unique_ptr<DConnectServerInfoT> ServerInfo;
-  std::unique_ptr<DConnectServerInfoT> MessengerServerInfo;
+  std::unique_ptr<DServerInfoT> MessengerServerInfo;
   EPacketProtocol messageid;
   LCConnectGameServerResT()
       : messageid(LC_ConnectGameServerRes) {
@@ -1480,8 +1486,8 @@ struct LCConnectGameServerRes FLATBUFFERS_FINAL_CLASS : private flatbuffers::Tab
   const DConnectServerInfo *ServerInfo() const {
     return GetPointer<const DConnectServerInfo *>(VT_SERVERINFO);
   }
-  const DConnectServerInfo *MessengerServerInfo() const {
-    return GetPointer<const DConnectServerInfo *>(VT_MESSENGERSERVERINFO);
+  const DServerInfo *MessengerServerInfo() const {
+    return GetPointer<const DServerInfo *>(VT_MESSENGERSERVERINFO);
   }
   EPacketProtocol messageid() const {
     return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 10012));
@@ -1507,7 +1513,7 @@ struct LCConnectGameServerResBuilder {
   void add_ServerInfo(flatbuffers::Offset<DConnectServerInfo> ServerInfo) {
     fbb_.AddOffset(LCConnectGameServerRes::VT_SERVERINFO, ServerInfo);
   }
-  void add_MessengerServerInfo(flatbuffers::Offset<DConnectServerInfo> MessengerServerInfo) {
+  void add_MessengerServerInfo(flatbuffers::Offset<DServerInfo> MessengerServerInfo) {
     fbb_.AddOffset(LCConnectGameServerRes::VT_MESSENGERSERVERINFO, MessengerServerInfo);
   }
   void add_messageid(EPacketProtocol messageid) {
@@ -1528,7 +1534,7 @@ struct LCConnectGameServerResBuilder {
 inline flatbuffers::Offset<LCConnectGameServerRes> CreateLCConnectGameServerRes(
     flatbuffers::FlatBufferBuilder &_fbb,
     flatbuffers::Offset<DConnectServerInfo> ServerInfo = 0,
-    flatbuffers::Offset<DConnectServerInfo> MessengerServerInfo = 0,
+    flatbuffers::Offset<DServerInfo> MessengerServerInfo = 0,
     EPacketProtocol messageid = LC_ConnectGameServerRes) {
   LCConnectGameServerResBuilder builder_(_fbb);
   builder_.add_messageid(messageid);
@@ -1835,7 +1841,7 @@ inline void DServerInfo::UnPackTo(DServerInfoT *_o, const flatbuffers::resolver_
   { auto _e = Address(); if (_e) _o->Address = _e->str(); }
   { auto _e = Port(); _o->Port = _e; }
   { auto _e = HasCharacter(); _o->HasCharacter = _e; }
-  { auto _e = State(); _o->State = _e; }
+  { auto _e = RecommendState(); _o->RecommendState = _e; }
 }
 
 inline flatbuffers::Offset<DServerInfo> DServerInfo::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DServerInfoT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
@@ -1851,7 +1857,7 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBuffe
   auto _Address = _o->Address.empty() ? 0 : _fbb.CreateString(_o->Address);
   auto _Port = _o->Port;
   auto _HasCharacter = _o->HasCharacter;
-  auto _State = _o->State;
+  auto _RecommendState = _o->RecommendState;
   return CreateDServerInfo(
       _fbb,
       _ServerID,
@@ -1859,7 +1865,7 @@ inline flatbuffers::Offset<DServerInfo> CreateDServerInfo(flatbuffers::FlatBuffe
       _Address,
       _Port,
       _HasCharacter,
-      _State);
+      _RecommendState);
 }
 
 inline DConnectServerInfoT *DConnectServerInfo::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -2254,7 +2260,7 @@ inline void LCConnectGameServerRes::UnPackTo(LCConnectGameServerResT *_o, const 
   (void)_o;
   (void)_resolver;
   { auto _e = ServerInfo(); if (_e) _o->ServerInfo = std::unique_ptr<DConnectServerInfoT>(_e->UnPack(_resolver)); }
-  { auto _e = MessengerServerInfo(); if (_e) _o->MessengerServerInfo = std::unique_ptr<DConnectServerInfoT>(_e->UnPack(_resolver)); }
+  { auto _e = MessengerServerInfo(); if (_e) _o->MessengerServerInfo = std::unique_ptr<DServerInfoT>(_e->UnPack(_resolver)); }
   { auto _e = messageid(); _o->messageid = _e; }
 }
 
@@ -2267,7 +2273,7 @@ inline flatbuffers::Offset<LCConnectGameServerRes> CreateLCConnectGameServerRes(
   (void)_o;
   struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const LCConnectGameServerResT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
   auto _ServerInfo = _o->ServerInfo ? CreateDConnectServerInfo(_fbb, _o->ServerInfo.get(), _rehasher) : 0;
-  auto _MessengerServerInfo = _o->MessengerServerInfo ? CreateDConnectServerInfo(_fbb, _o->MessengerServerInfo.get(), _rehasher) : 0;
+  auto _MessengerServerInfo = _o->MessengerServerInfo ? CreateDServerInfo(_fbb, _o->MessengerServerInfo.get(), _rehasher) : 0;
   auto _messageid = _o->messageid;
   return CreateLCConnectGameServerRes(
       _fbb,

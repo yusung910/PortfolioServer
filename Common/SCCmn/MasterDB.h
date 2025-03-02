@@ -13,9 +13,9 @@
 #endif // SERVER_BUILD
 
 //기본적인것만 세팅, 추후 추가되는 컨텐츠에 따른 작업 필요
-struct MDBHeroStat;
+struct MDBAbilityStat;
 
-struct MDBHeroStat
+struct MDBAbilityStat
 {
     SVint Seq;
 
@@ -40,9 +40,9 @@ struct MDBHeroStat
 
 
         } Info;
-    } MDBHeroStatUnion;
+    } MDBAbilityStatUnion;
 
-    MDBHeroStatUnion Stat;
+    MDBAbilityStatUnion Stat;
 
     int GetSequence() const { return Seq; }
     bool IsValid() const;
@@ -87,4 +87,19 @@ struct MDBMapTeleportInfo
 
     ECost::Type GetTeleportCostType() const { return (ECost::Type)TeleportCostType; }
     
+};
+
+
+//레벨 별 기본 스탯
+struct MDBPilgrimLevelBaseStat
+{
+    SVint Level = 0;
+
+    SVint MaxHP = 0;
+    SVint MaxMana = 0;
+    SVint HPRegen = 0;
+    SVint ManaRegen = 0;
+    SVint Defence = 0;
+    SVint MeleeDamageMin = 0;
+    SVint MeleeDamageMax = 0;
 };

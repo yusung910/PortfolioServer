@@ -17,12 +17,12 @@ public struct LCConnectGameServerRes : IFlatbufferObject
   public LCConnectGameServerRes __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
   public DConnectServerInfo? ServerInfo { get { int o = __p.__offset(4); return o != 0 ? (DConnectServerInfo?)(new DConnectServerInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
-  public DConnectServerInfo? MessengerServerInfo { get { int o = __p.__offset(6); return o != 0 ? (DConnectServerInfo?)(new DConnectServerInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
+  public DServerInfo? MessengerServerInfo { get { int o = __p.__offset(6); return o != 0 ? (DServerInfo?)(new DServerInfo()).__assign(__p.__indirect(o + __p.bb_pos), __p.bb) : null; } }
   public EPacketProtocol Messageid { get { int o = __p.__offset(8); return o != 0 ? (EPacketProtocol)__p.bb.GetInt(o + __p.bb_pos) : EPacketProtocol.LC_ConnectGameServerRes; } }
 
   public static Offset<LCConnectGameServerRes> CreateLCConnectGameServerRes(FlatBufferBuilder builder,
       Offset<DConnectServerInfo> ServerInfoOffset = default(Offset<DConnectServerInfo>),
-      Offset<DConnectServerInfo> MessengerServerInfoOffset = default(Offset<DConnectServerInfo>),
+      Offset<DServerInfo> MessengerServerInfoOffset = default(Offset<DServerInfo>),
       EPacketProtocol messageid = EPacketProtocol.LC_ConnectGameServerRes) {
     builder.StartTable(3);
     LCConnectGameServerRes.AddMessageid(builder, messageid);
@@ -33,7 +33,7 @@ public struct LCConnectGameServerRes : IFlatbufferObject
 
   public static void StartLCConnectGameServerRes(FlatBufferBuilder builder) { builder.StartTable(3); }
   public static void AddServerInfo(FlatBufferBuilder builder, Offset<DConnectServerInfo> ServerInfoOffset) { builder.AddOffset(0, ServerInfoOffset.Value, 0); }
-  public static void AddMessengerServerInfo(FlatBufferBuilder builder, Offset<DConnectServerInfo> MessengerServerInfoOffset) { builder.AddOffset(1, MessengerServerInfoOffset.Value, 0); }
+  public static void AddMessengerServerInfo(FlatBufferBuilder builder, Offset<DServerInfo> MessengerServerInfoOffset) { builder.AddOffset(1, MessengerServerInfoOffset.Value, 0); }
   public static void AddMessageid(FlatBufferBuilder builder, EPacketProtocol messageid) { builder.AddInt(2, (int)messageid, 10012); }
   public static Offset<LCConnectGameServerRes> EndLCConnectGameServerRes(FlatBufferBuilder builder) {
     int o = builder.EndTable();
@@ -52,7 +52,7 @@ public struct LCConnectGameServerRes : IFlatbufferObject
   public static Offset<LCConnectGameServerRes> Pack(FlatBufferBuilder builder, LCConnectGameServerResT _o) {
     if (_o == null) return default(Offset<LCConnectGameServerRes>);
     var _ServerInfo = _o.ServerInfo == null ? default(Offset<DConnectServerInfo>) : DConnectServerInfo.Pack(builder, _o.ServerInfo);
-    var _MessengerServerInfo = _o.MessengerServerInfo == null ? default(Offset<DConnectServerInfo>) : DConnectServerInfo.Pack(builder, _o.MessengerServerInfo);
+    var _MessengerServerInfo = _o.MessengerServerInfo == null ? default(Offset<DServerInfo>) : DServerInfo.Pack(builder, _o.MessengerServerInfo);
     return CreateLCConnectGameServerRes(
       builder,
       _ServerInfo,
@@ -64,7 +64,7 @@ public struct LCConnectGameServerRes : IFlatbufferObject
 public class LCConnectGameServerResT
 {
   public DConnectServerInfoT ServerInfo { get; set; }
-  public DConnectServerInfoT MessengerServerInfo { get; set; }
+  public DServerInfoT MessengerServerInfo { get; set; }
   public EPacketProtocol Messageid { get; set; }
 
   public LCConnectGameServerResT() {
