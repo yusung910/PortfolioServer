@@ -70,5 +70,8 @@
     <Build Include="Tables\PilgrimStat.sql" />
     <Build Include="Tables\LevelBaseAbilityStat.sql" />
     <Build Include="Tables\AbilityStatRatePerTrainingStat.sql" />
+    <Build Include="StoredProcedure\spAbilityStatRatePerTrainingStatSelect.sql" />
+    <Build Include="StoredProcedure\spLevelBaseAbilityStatSelect.sql" />
+    <Build Include="StoredProcedure\spPilgrimStatSelect.sql" />
   </ItemGroup>
 </Project>
