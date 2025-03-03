@@ -152,10 +152,10 @@ namespace EAccountStatus
     };
 }
 
-namespace EStats
+namespace EAbility
 {
     /*******************************************************************
-     *  MasterDB-> MDBHeroStat 선언 필요
+     *  MasterDB-> MDBPilgrimStat 선언 필요
      *******************************************************************/
     enum Type
     {
@@ -166,19 +166,42 @@ namespace EStats
         WeaponMastery,    //무기 숙련도
 
         //
-        MeleeMinDamage,   // 근접 최소 데미지
-        MeleeMaxDamage,   // 근접 최대 데미지
-        MeleeDamage,      // 근접 공격력
-        
-
-        //
         HP,               //생령력
         MaxHP,            //최대생명력
         MP,               //마나
         MaxMP,            //최대마나
 
+        //
+        MeleeMinDamage,   // 근접 최소 데미지
+        MeleeMaxDamage,   // 근접 최대 데미지
+        MeleeDamage,      // 근접 공격력
+        MeleeDefence,     // 근접 방어력
+        
         Max
     };
+
+    inline bool IsValid(Type _t)
+    {
+        if (_t < None || _t >= Max)
+            return false;
+        return true;
+    }
+
+    inline bool IsTrainingStat(Type _t)
+    {
+        switch (_t)
+        {
+        case Strength:
+        case Dexterity:
+        case Endurance:
+        case WeaponMastery:
+            return true;
+            break;
+        }
+
+        return false;
+    }
+
 }
 
 //무기 숙련도 종류

@@ -38,7 +38,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbilityStat.h" />
+    <ClInclude Include="PilgrimStat.h" />
     <ClInclude Include="DataProcessManager.h" />
     <ClInclude Include="DefineType.h" />
     <ClInclude Include="GlobalConst.h" />
@@ -55,7 +55,7 @@
     <ClInclude Include="SingletonClient.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AbilityStat.cpp" />
+    <ClCompile Include="PilgrimStat.cpp" />
     <ClCompile Include="DataProcessManager.cpp" />
     <ClCompile Include="MasterDB.cpp" />
     <ClCompile Include="ObjectStats.cpp" />

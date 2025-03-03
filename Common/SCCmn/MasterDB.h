@@ -13,9 +13,9 @@
 #endif // SERVER_BUILD
 
 //기본적인것만 세팅, 추후 추가되는 컨텐츠에 따른 작업 필요
-struct MDBAbilityStat;
+struct MDBPilgrimStat;
 
-struct MDBAbilityStat
+struct MDBPilgrimStat
 {
     SVint Seq;
 
@@ -38,11 +38,15 @@ struct MDBAbilityStat
             SVint MP;               //마나
             SVint MaxMP;            //최대마나
 
+            SVint MeleeMinDamage;   //근접 최소 데미지
+            SVint MeleeMaxDamage;   //근접 최대 데미지
+
+            SVint MeleeDefence;     //근접 방어력
 
         } Info;
-    } MDBAbilityStatUnion;
+    } MDBPilgrimStatUnion;
 
-    MDBAbilityStatUnion Stat;
+    MDBPilgrimStatUnion Stat;
 
     int GetSequence() const { return Seq; }
     bool IsValid() const;
@@ -91,7 +95,7 @@ struct MDBMapTeleportInfo
 
 
 //레벨 별 기본 스탯
-struct MDBPilgrimLevelBaseStat
+struct MDBPilgrimLevelBaseAbilityStat
 {
     SVint Level = 0;
 

@@ -1,5 +1,5 @@
 ﻿--캐릭터(Pilgrim) 레벨 별 기본 스탯
-CREATE TABLE [dbo].[PilgrimLevelBaseStat]
+CREATE TABLE [dbo].[LevelBaseAbilityStat]
 (
     [Level] INT NOT NULL PRIMARY KEY, 
     [MaxHP] INT NOT NULL, 

@@ -67,8 +67,8 @@
     <Build Include="Tables\MapTeleportInfo.sql" />
     <Build Include="StoredProcedure\spMapInfoSelect.sql" />
     <Build Include="StoredProcedure\spMapTeleportInfoSelect.sql" />
-    <Build Include="Tables\AbilityStat.sql" />
-    <Build Include="Tables\PilgrimLevelBaseStat.sql" />
-    <Build Include="Tables\PilgrimStatRate.sql" />
+    <Build Include="Tables\PilgrimStat.sql" />
+    <Build Include="Tables\LevelBaseAbilityStat.sql" />
+    <Build Include="Tables\AbilityStatRatePerTrainingStat.sql" />
   </ItemGroup>
 </Project>

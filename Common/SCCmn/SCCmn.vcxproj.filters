@@ -68,7 +68,7 @@
     <ClInclude Include="MathUtil.h">
       <Filter>Util</Filter>
     </ClInclude>
-    <ClInclude Include="AbilityStat.h">
+    <ClInclude Include="PilgrimStat.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="ObjectStatsManager.h">
@@ -88,7 +88,7 @@
     <ClCompile Include="ObjectStats.cpp">
       <Filter>Object</Filter>
     </ClCompile>
-    <ClCompile Include="AbilityStat.cpp">
+    <ClCompile Include="PilgrimStat.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="ObjectStatsManager.cpp">

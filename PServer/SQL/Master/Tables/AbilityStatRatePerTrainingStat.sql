@@ -1,6 +1,6 @@
-﻿--캐릭터의 훈련 능력치(힘, 민, 맷, 숙)에 따른
---캐릭터의 능력치 반영 비율
-CREATE TABLE [dbo].[PilgrimStatRate]
+﻿--캐릭터의 훈련 능력치(TrainingStat :: 힘, 민, 맷, 숙)에 따른
+--캐릭터의 능력치(AbilityStat) 반영 비율
+CREATE TABLE [dbo].[AbilityStatRatePerTrainingStat]
 (
     [StatNo] INT NOT NULL PRIMARY KEY, 
     [Name] NVARCHAR(50) NOT NULL, 

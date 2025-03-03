@@ -126,4 +126,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="Dexterity" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="b4a2f18d-feb5-49d1-9aed-a9fcecfe34dc" ChangeDateTime="03/03/2025 14:35:33">
+    <Property Name="ElementName" Value="[dbo].[AbilityStat].[Defence]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityStat]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MeleeDefence" />
+  </Operation>
 </Operations>
