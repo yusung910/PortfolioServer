@@ -92,10 +92,17 @@ private:
     std::unordered_map <int, SampleTest*> m_umZoneMeshList;
     std::unordered_map <std::string, SampleTest*> m_umFileNameMeshMap;
 
-    std::string m_sLoadFileDir = "";
+    stNaviInfoServer m_oNaviRaycast;
+    stNaviInfoServer m_oTeleportNaviInfo;
+
+public:
+    Navi();
+    virtual ~Navi();
+
+    bool Init(std::vector<MDBMapInfo*>* _mapInfo);
 
 
-
-
+private:
+    bool _LoadZoneMesh(const int& _MapID, const int& _meshSize);
 
 };

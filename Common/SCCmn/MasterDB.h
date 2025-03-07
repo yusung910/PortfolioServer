@@ -63,6 +63,9 @@ struct MDBMapInfo
     SVString MapName;
 
     SVint Mapsize = 0;
+    SVint MapWidth = 0;
+    SVint MapHeight = 0;
+
     SVint IsActive = 1;
     SVint IsSafeZone = 1;
     SVint IsTeleportable = 1;
