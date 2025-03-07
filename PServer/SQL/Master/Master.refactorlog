@@ -133,4 +133,88 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="MeleeDefence" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6b11f397-a620-4650-a85d-946b898e7731" ChangeDateTime="03/04/2025 06:56:22">
+    <Property Name="ElementName" Value="[dbo].[AwakenAValue].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AwakenAValue]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AwakenSequence" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="af6cd917-c15a-431d-854a-0c313a9550d6" ChangeDateTime="03/04/2025 07:10:21">
+    <Property Name="ElementName" Value="[dbo].[AwakenAValue].[AwakenSequence]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AwakenAValue]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AwakenSeq" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0aaf38fc-303b-488b-974b-f4ea78ec5f6f" ChangeDateTime="03/06/2025 03:54:20">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Sequence" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b2b3902a-1182-4740-8b3e-8ba2e715352c" ChangeDateTime="03/06/2025 03:59:07">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Sequence]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8814893c-0085-46d0-b7d9-e2e24ece05b5" ChangeDateTime="03/06/2025 03:59:32">
+    <Property Name="ElementName" Value="[dbo].[NPC].[NPCID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Sequence" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c64bc4e7-f054-4a43-94d9-e67eb1ed5f4d" ChangeDateTime="03/06/2025 05:18:42">
+    <Property Name="ElementName" Value="[dbo].[NPC].[NpcNM]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Name" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="68dd3991-fe6b-46fc-91ef-dac5c9ba2e56" ChangeDateTime="03/06/2025 05:40:18">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0e346675-5f28-467a-9da2-edb0101fa4c3" ChangeDateTime="03/06/2025 05:40:21">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Grade]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCGrade" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="855ba797-8a92-4600-adcc-777c06488f8e" ChangeDateTime="03/06/2025 05:40:23">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Type]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2af9b3a2-aab5-42b5-adab-221a22d773de" ChangeDateTime="03/06/2025 07:47:18">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Grade]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MonsterGrade" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c0e19712-a2fa-4a47-96e3-90ef5d7fac3d" ChangeDateTime="03/06/2025 07:47:20">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Group]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MonsterGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="114d90d9-4a7b-42ba-abb7-336dc9350525" ChangeDateTime="03/06/2025 07:53:35">
+    <Property Name="ElementName" Value="[dbo].[NPC].[ENPCSupporterGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCSupporterGroup" />
+  </Operation>
 </Operations>

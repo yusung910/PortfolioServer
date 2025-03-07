@@ -18,7 +18,8 @@ public:
 
 private:
     //MasterDB에 Table이 추가 될때마다 함수 생성.
-    bool _ReadHeroStat(MDBDatas& _datas);
+    bool _ReadPilgrimStat(MDBDatas& _datas);
 
+    bool _ReadMapInfo(MDBDatas& _datas);
 };
 

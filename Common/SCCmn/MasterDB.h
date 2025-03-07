@@ -95,7 +95,7 @@ struct MDBMapTeleportInfo
 
 
 //레벨 별 기본 스탯
-struct MDBPilgrimLevelBaseAbilityStat
+struct MDBPilgrimLevelBaseStat
 {
     SVint Level = 0;
 
@@ -106,4 +106,37 @@ struct MDBPilgrimLevelBaseAbilityStat
     SVint Defence = 0;
     SVint MeleeDamageMin = 0;
     SVint MeleeDamageMax = 0;
+};
+
+
+//훈련스탯(힘,민,맷,숙)에 따른 스탯 비율
+struct MDBAbilityStatRatePerTrainingStat
+{
+    SVint StatNo = 0;
+    SVString Name = "";
+    SVString Remark = "";
+    SVint Strength = 0;
+    SVint Dexterity = 0;
+    SVint Endurance = 0;
+    SVint WeaponMastery = 0;
+};
+
+//각성에 따른 A값
+struct MDBAwakenAValue
+{
+    SVint AwakenSeq = 0;
+    SVint AValue = 0;
+};
+
+
+//NPC 테이블
+struct MDBNPC
+{
+    SVint Sequence = 0;
+    SVString Name = "";
+    SVint Type = 0;
+    SVint MonsterGrade = 0;
+    SVint MonsterGroup = 0;
+    SVint SupporterGroup = 0;
+
 };

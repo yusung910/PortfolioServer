@@ -33,9 +33,13 @@
     <ClInclude Include="ELang.h" />
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
+    <ClInclude Include="EMachineState.h" />
     <ClInclude Include="InnerPacketStructures.h" />
+    <ClInclude Include="IState.h" />
     <ClInclude Include="MDBDataLoader.h" />
     <ClInclude Include="MDBDatas.h" />
+    <ClInclude Include="Navi.h" />
+    <ClInclude Include="NPC.h" />
     <ClInclude Include="PC.h" />
     <ClInclude Include="ServerConst.h" />
     <ClInclude Include="PConst.h" />
@@ -59,6 +63,8 @@
     <ClCompile Include="InnerPacketStructures.cpp" />
     <ClCompile Include="MDBDataLoader.cpp" />
     <ClCompile Include="MDBDatas.cpp" />
+    <ClCompile Include="Navi.cpp" />
+    <ClCompile Include="NPC.cpp" />
     <ClCompile Include="PC.cpp" />
     <ClCompile Include="ServerConst.cpp" />
     <ClCompile Include="PConst.cpp" />
@@ -157,7 +163,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\RecastNavigation\Detour\include\;$(SolutionDir)..\lib\RecastNavigation\Recast\include\;$(IncludePath)</IncludePath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
   </PropertyGroup>
@@ -165,13 +171,13 @@
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\RecastNavigation\Detour\include\;$(SolutionDir)..\lib\RecastNavigation\Recast\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
     <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(LibraryPath)</LibraryPath>
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
-    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\RecastNavigation\Detour\include\;$(SolutionDir)..\lib\RecastNavigation\Recast\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

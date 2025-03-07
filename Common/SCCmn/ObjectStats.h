@@ -15,9 +15,9 @@ private:
     //
     using EquipID = int;
 
-    SVint m_nBaseStats[EStats::Max] = { 0, };
-    SVint m_nAddedStats[EStats::Max] = { 0, };
-    SVint m_nAddedRateStats[EStats::Max] = { 0, };
+    SVint m_nBaseStats[EAbility::Max] = { 0, };
+    SVint m_nAddedStats[EAbility::Max] = { 0, };
+    SVint m_nAddedRateStats[EAbility::Max] = { 0, };
 
 public:
     ObjectStats();

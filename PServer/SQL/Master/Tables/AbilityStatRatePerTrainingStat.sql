@@ -10,32 +10,22 @@ CREATE TABLE [dbo].[AbilityStatRatePerTrainingStat]
     [Endurance] INT NOT NULL, 
     [WeaponMastery] INT NOT NULL
 )
-
 GO
 EXEC sp_addextendedproperty @name = N'MS_Description',
-    @value = N'무기숙련도',
+    @value = N'시퀀스',
     @level0type = N'SCHEMA',
     @level0name = N'dbo',
     @level1type = N'TABLE',
-    @level1name = N'PilgrimStatRate',
+    @level1name = N'AbilityStatRatePerTrainingStat',
     @level2type = N'COLUMN',
-    @level2name = N'WeaponMastery'
-GO
-EXEC sp_addextendedproperty @name = N'MS_Description',
-    @value = N'맷집',
-    @level0type = N'SCHEMA',
-    @level0name = N'dbo',
-    @level1type = N'TABLE',
-    @level1name = N'PilgrimStatRate',
-    @level2type = N'COLUMN',
-    @level2name = N'Endurance'
+    @level2name = N'StatNo'
 GO
 EXEC sp_addextendedproperty @name = N'MS_Description',
     @value = N'힘',
     @level0type = N'SCHEMA',
     @level0name = N'dbo',
     @level1type = N'TABLE',
-    @level1name = N'PilgrimStatRate',
+    @level1name = N'AbilityStatRatePerTrainingStat',
     @level2type = N'COLUMN',
     @level2name = N'Strength'
 GO
@@ -44,6 +34,24 @@ EXEC sp_addextendedproperty @name = N'MS_Description',
     @level0type = N'SCHEMA',
     @level0name = N'dbo',
     @level1type = N'TABLE',
-    @level1name = N'PilgrimStatRate',
+    @level1name = N'AbilityStatRatePerTrainingStat',
     @level2type = N'COLUMN',
     @level2name = N'Dexterity'
+GO
+EXEC sp_addextendedproperty @name = N'MS_Description',
+    @value = N'맷집',
+    @level0type = N'SCHEMA',
+    @level0name = N'dbo',
+    @level1type = N'TABLE',
+    @level1name = N'AbilityStatRatePerTrainingStat',
+    @level2type = N'COLUMN',
+    @level2name = N'Endurance'
+GO
+EXEC sp_addextendedproperty @name = N'MS_Description',
+    @value = N'무기숙련도',
+    @level0type = N'SCHEMA',
+    @level0name = N'dbo',
+    @level1type = N'TABLE',
+    @level1name = N'AbilityStatRatePerTrainingStat',
+    @level2type = N'COLUMN',
+    @level2name = N'WeaponMastery'

@@ -11,7 +11,7 @@ DataProcessManager::~DataProcessManager()
     _Clear();
 }
 
-void DataProcessManager::SetHeroStatTemplate(std::unordered_map<int, MDBHeroStat*>* _heroStatMap)
+void DataProcessManager::SetHeroStatTemplate(std::unordered_map<int, MDBPilgrimStat*>* _heroStatMap)
 {
     m_umTotalHeroStatTemplateMap = _heroStatMap;
 }

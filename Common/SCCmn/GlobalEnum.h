@@ -160,6 +160,7 @@ namespace EAbility
     enum Type
     {
         None = 0,
+        Level,            //명성
         Strength,         //힘
         Dexterity,        //민첩
         Endurance,        //인내
@@ -167,8 +168,10 @@ namespace EAbility
 
         //
         HP,               //생령력
-        MaxHP,            //최대생명력
         MP,               //마나
+
+        //
+        MaxHP,            //최대생명력
         MaxMP,            //최대마나
 
         //
@@ -191,6 +194,7 @@ namespace EAbility
     {
         switch (_t)
         {
+        case Level:
         case Strength:
         case Dexterity:
         case Endurance:
@@ -201,7 +205,6 @@ namespace EAbility
 
         return false;
     }
-
 }
 
 //무기 숙련도 종류
@@ -245,7 +248,7 @@ namespace ECost
 }
 
 
-
+//장비 슬롯
 namespace EEquipSlot
 {
     enum Type
@@ -268,3 +271,92 @@ namespace EEquipSlot
         return(_t >= Amulet && _t <= Shoes);
     }
 }
+
+//변신 등급
+namespace TransformGrade
+{
+    enum Type
+    {
+        None = 0,
+        First,
+        Second,
+        Third,
+        Fourth,
+        fifth
+    };
+}
+
+//각성 단계
+namespace AwakenGrade
+{
+    enum Type
+    {
+        None = 0,
+        _1st,
+        _2nd,
+        _3th
+
+    };
+}
+
+//NPC 유형
+namespace ENPC
+{
+    enum Type : int
+    {
+        None = 0,
+
+        Dummy,   // 공격 가능한 더미 NPC -> 광석, 연습용 등등
+        Monster, // 사냥 몬스터
+        Summon,  // 소환수
+
+        Supporter,  //지원형 NPC -> 상인 등등
+
+        Max
+    };
+}
+
+//NPC 등급
+namespace ENPCMonsterGrade
+{
+    enum Type : int
+    {
+        None = 0,
+        Normal,         //일반 몬스터
+        Named,          //네임드 몬스터
+        Boss,           //보스 몬스터
+        Max
+    };
+}
+
+//NPC Monster Group
+namespace ENPCMonsterGroup
+{
+    enum Type : int
+    {
+        None = 0,
+
+        Normal,         //일반
+        Beast,          //야수
+        Human,          //인간
+        Demon,          //악마
+        Zombi,          //좀비
+        Max
+    };
+}
+
+
+//Supporter NPC Group
+namespace ENPCSupporterGroup
+{
+    enum Type : int
+    {
+        None = 0,
+        Story,      //스토리
+        Inn,        //여관
+        Store,      //상인
+        WareHouse,  //창고
+        Max
+    };
+}
+

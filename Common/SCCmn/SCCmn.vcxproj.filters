@@ -59,9 +59,6 @@
     <ClInclude Include="DataProcessManager.h">
       <Filter>DataTemplate</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol_generated.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectStats.h">
       <Filter>Object</Filter>
     </ClInclude>
@@ -73,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="ObjectStatsManager.h">
       <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol_generated.h">
+      <Filter>Packet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

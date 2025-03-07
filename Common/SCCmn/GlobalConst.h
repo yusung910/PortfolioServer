@@ -19,12 +19,10 @@
 //UTF-32까지 지원하기 위해 글자 수 계산시 곱해야할 크기
 const int32_t   G_N_CHAR_SIZE = 4;
 
-//게임 최대 레벨
-const int32_t   G_N_MAX_LEVEL = 100;
-
-//레벨업 시 증가할 포인트
-const int32_t   G_N_LEVEL_UP_STATUS_POINT = 5;
-
+//게임 최대 명성(level)
+const int32_t   G_N_MAX_LEVEL = 9999;
 
 //AccountToken 최대 크기
 constexpr int	ACCOUNT_UNIQUE_KEY_MAXSIZE = 256;
+
+

@@ -40,6 +40,24 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{066a5a68-6366-45b2-a831-7608622c0e4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\NPC">
+      <UniqueIdentifier>{cce15699-823c-4f05-9bae-02b2bd1b3b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\NPC\Managers">
+      <UniqueIdentifier>{050acbb2-9d3e-4c5d-865f-84b30502e5f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\NPC\Managers\Spawn">
+      <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\NPC\Module">
+      <UniqueIdentifier>{2d788c71-2536-45c5-b31f-ae018c7df674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\NPC\Module\State">
+      <UniqueIdentifier>{7ecd8bd3-d016-461d-be16-36c361348eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map\NavMesh">
+      <UniqueIdentifier>{4aa44abf-d386-44f5-9545-6404879fbfee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -117,6 +135,18 @@
     <ClInclude Include="MDBDataLoader.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="EMachineState.h">
+      <Filter>Object\NPC\Module\State</Filter>
+    </ClInclude>
+    <ClInclude Include="IState.h">
+      <Filter>Object\NPC\Module\State</Filter>
+    </ClInclude>
+    <ClInclude Include="NPC.h">
+      <Filter>Object\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Navi.h">
+      <Filter>Map\NavMesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -166,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="MDBDataLoader.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="NPC.cpp">
+      <Filter>Object\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Navi.cpp">
+      <Filter>Map\NavMesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@ void ObjectStats::SetObjectStats(const ObjectStats* _stats)
 
 void ObjectStats::Reset()
 {
-    for (int i = 0; i < EStats::Max; i++)
+    for (int i = 0; i < EAbility::Max; i++)
     {
         m_nBaseStats[i] = 0;
         m_nAddedStats[i] = 0;
