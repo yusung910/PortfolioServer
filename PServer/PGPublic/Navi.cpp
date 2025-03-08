@@ -42,3 +42,8 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
 
     return false;
 }
+
+bool Navi::_LoadZoneMesh(const int& _MapID, const int& _meshSize)
+{
+    return false;
+}

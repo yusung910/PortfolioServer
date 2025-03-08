@@ -253,11 +253,11 @@ Build/*/**
 Saved/*
 
 # Compiled source files for the engine to use
-PClient/Intermediate/*
-PClient/Plugins/**/Intermediate/*
+#PClient/Intermediate/*
+#PClient/Plugins/**/Intermediate/*
 
 # Cache files for the editor to use
-PClient/DerivedDataCache/*
-
-# 맵의 연구가 끝날 때 커밋
-PClient/
+#PClient/DerivedDataCache/*
+PClient/**/
+*.uproject
+!PClient/Maps

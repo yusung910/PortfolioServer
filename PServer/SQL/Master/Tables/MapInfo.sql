@@ -4,6 +4,7 @@
     [ParentMapID] INT NOT NULL, 
     [MapType] INT NOT NULL,
     [MapName] NVARCHAR(256) NOT NULL, 
+    [MapFilePath] NVARCHAR(256) NOT NULL,
     [MapSize] INT NOT NULL,
     [IsActive] TINYINT NOT NULL, 
     [IsSafeZone] TINYINT NOT NULL, 
@@ -55,3 +56,12 @@ EXEC sp_addextendedproperty @name = N'MS_Description',
     @level1name = N'MapInfo',
     @level2type = N'COLUMN',
     @level2name = N'IsTeleportable'
+GO
+EXEC sp_addextendedproperty @name = N'MS_Description',
+    @value = N'맵 파일 경로',
+    @level0type = N'SCHEMA',
+    @level0name = N'dbo',
+    @level1type = N'TABLE',
+    @level1name = N'MapInfo',
+    @level2type = N'COLUMN',
+    @level2name = N'MapFilePath'
