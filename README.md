@@ -229,5 +229,6 @@ private:
             압축된 크기를 보내야 함. 압축 전 크기를 보내면서 데이터 송,수신간 에러 발생
             -> 이걸로 며칠이나 날려먹었냐.. 에라이 모지리 나님아
     2.1.13. UnrealEngine에서도 RecastNavigation 라이브러리에서 사용할 수 있는 bin 파일을 생성 할 수 있다.
-        -> 서버에서 navmesh를 사용하기 위함.
+        -> 서버에서 navmesh를 사용하여 각각의 캐릭터, 지형에 맞는 Navigation 기능을 사용하기 위함.
         -> UnrealEngine에서 RecastNavigation bin 파일 생성하기 위한 리포지터리 주소 : https://github.com/luyuancpp/ue5-export-nav-data?tab=readme-ov-file
+        -> UE에서 위 플러그인을 이용하면 생성된 navmesh를 서버에서 사용 할 수 있는 .bin, .obj 파일로 변환 가능.
