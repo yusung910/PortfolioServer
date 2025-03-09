@@ -285,6 +285,9 @@
     <ClInclude Include="RSAUtil.h">
       <Filter>Util\Crypto</Filter>
     </ClInclude>
+    <ClInclude Include="FileSystem.h">
+      <Filter>Config</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -433,6 +436,9 @@
     </ClCompile>
     <ClCompile Include="RSAUtil.cpp">
       <Filter>Util\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem.cpp">
+      <Filter>Config</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

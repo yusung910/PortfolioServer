@@ -103,6 +103,7 @@ public:
 
 
 private:
-    bool _LoadZoneMesh(const int& _MapID, const int& _meshSize);
+    bool _LoadZoneMesh(const int& _MapID, const std::string&
+        _strFileName, const int& _meshSize);
 
 };

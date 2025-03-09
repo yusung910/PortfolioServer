@@ -43,7 +43,19 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
     return false;
 }
 
-bool Navi::_LoadZoneMesh(const int& _MapID, const int& _meshSize)
+bool Navi::_LoadZoneMesh(const int& _MapID, const std::string&
+    _strFileName, const int& _meshSize)
 {
-    return false;
+    if (auto lIt = m_umZoneMeshList.find(_MapID); lIt != m_umZoneMeshList.end())
+        return false;
+
+    if (auto lIt = m_umFileNameMeshMap.find(_strFileName); lIt != m_umFileNameMeshMap.end())
+    {
+        m_umZoneMeshList.insert_or_assign(_MapID, lIt->second);
+        return true;
+    }
+
+    //auto lStrLoadFilePath = FileSystem::GetExcutabeleDirName();
+
+    return true;
 }
