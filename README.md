@@ -114,11 +114,6 @@ function test(int _a)
 		<td></td>
 	</tr>
 	<tr>
-		<td>SQL</td>
-		<td align="center">sql</td>
-		<td></td>
-	</tr>
-	<tr>
 		<td>other (class, object...)</td>
 		<td align="center">o(other)</td>
 		<td></td>
@@ -132,7 +127,7 @@ class test
 private:
     int m_nTest = 0;
     double long m_dlTest = 0l;
-    unsinged int m_uiTest = 0;
+    unsinged int m_uiTest = 0;_
 }
 ```
     

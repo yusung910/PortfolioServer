@@ -135,7 +135,7 @@
     <ClInclude Include="MDBDataLoader.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="EMachineState.h">
+    <ClInclude Include="ENPCState.h">
       <Filter>Object\NPC\Module\State</Filter>
     </ClInclude>
     <ClInclude Include="IState.h">
@@ -146,6 +146,12 @@
     </ClInclude>
     <ClInclude Include="Navi.h">
       <Filter>Map\NavMesh</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCStateEngine.h">
+      <Filter>Object\NPC\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackState.h">
+      <Filter>Object\NPC\Module\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +208,12 @@
     </ClCompile>
     <ClCompile Include="Navi.cpp">
       <Filter>Map\NavMesh</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCStateEngine.cpp">
+      <Filter>Object\NPC\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackState.cpp">
+      <Filter>Object\NPC\Module\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

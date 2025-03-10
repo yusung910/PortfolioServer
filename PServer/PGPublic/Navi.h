@@ -91,6 +91,8 @@ private:
 
     std::unordered_map <int, SampleTest*> m_umZoneMeshList;
     std::unordered_map <std::string, SampleTest*> m_umFileNameMeshMap;
+    std::string m_sLoadFileDir = "";
+
 
     stNaviInfoServer m_oNaviRaycast;
     stNaviInfoServer m_oTeleportNaviInfo;
@@ -101,9 +103,15 @@ public:
 
     bool Init(std::vector<MDBMapInfo*>* _mapInfo);
 
+    bool SetLoadFileDir(const std::string& _dir);
+
+
+    //충돌 여부 확인
+    //False = 충돌, true = 충돌 없음
+    bool Raycast(const int& _mapID, const Position& _currentPos, const Position& _targetPos);
 
 private:
     bool _LoadZoneMesh(const int& _MapID, const std::string&
         _strFileName, const int& _meshSize);
-
+    void _SetNavCrowd(SampleTest* _mesh);
 };
