@@ -2,7 +2,7 @@
 #include "NPC.h"
 
 NPC::NPC(ObjectTag)
-    : m_oStateEngine(*this)
+    : m_oStateEngine(*this), m_oStat(*this)
 {
     m_oStateEngine.Init();
 }
@@ -22,4 +22,12 @@ void NPC::Reset()
     m_bReturnDivineMode = false;
     m_bReturnPosArrival = true;
 
+}
+
+void NPC::SetObjectStats(const MDBObjectStatistics* _objStats)
+{
+    if (nullptr != _objStats)
+    {
+        
+    }
 }

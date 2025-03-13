@@ -23,3 +23,13 @@ void BaseObject::Reset()
 void BaseObject::Update([[maybe_unused]]const int64_t& _inDeltaSec)
 {
 }
+
+void BaseObject::SetNPCUniqueID(const int& _id)
+{
+    m_nNPCUniqueID = _id;
+}
+
+void BaseObject::SetSequence(const int& _seq)
+{
+    m_nSequence = _seq;
+}

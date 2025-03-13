@@ -23,6 +23,14 @@ void ObjectStats::SetObjectStats(const ObjectStats* _stats)
     *this = *_stats;
 }
 
+void ObjectStats::SetBaseAbilityStat(EAbility::Type _abilityType, int _val)
+{
+    if (EAbility::IsValid(_abilityType))
+    {
+        m_nBaseStats[_abilityType] = _val;
+    }
+}
+
 void ObjectStats::Reset()
 {
     for (int i = 0; i < EAbility::Max; i++)

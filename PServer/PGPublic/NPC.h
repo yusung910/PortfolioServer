@@ -5,6 +5,7 @@
 
 // module
 #include "NPCStateEngine.h"
+#include "NPCStatistics.h"
 
 struct MDBNPC;
 
@@ -34,6 +35,9 @@ private:
 
     //
     NPCStateEngine m_oStateEngine;
+    //
+    NPCStatistics m_oStat;
+
 
 
 public:
@@ -41,5 +45,7 @@ public:
     virtual ~NPC();
 
     virtual void Reset();
+
+    void SetObjectStats(const MDBObjectStatistics* _objStats);
 };
 

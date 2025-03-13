@@ -13,11 +13,11 @@
 #endif // SERVER_BUILD
 
 //기본적인것만 세팅, 추후 추가되는 컨텐츠에 따른 작업 필요
-struct MDBPilgrimStat;
+struct MDBObjectStatistics;
 
-struct MDBPilgrimStat
+struct MDBObjectStatistics
 {
-    SVint Seq;
+    SVint ObjectStatID;
 
     typedef union
     {
@@ -44,11 +44,12 @@ struct MDBPilgrimStat
             SVint MeleeDefence;     //근접 방어력
 
         } Info;
-    } MDBPilgrimStatUnion;
+    } MDBObjectStatisticsUnion;
 
-    MDBPilgrimStatUnion Stat;
+    MDBObjectStatisticsUnion Stat;
 
-    int GetSequence() const { return Seq; }
+    int GetObjectStatID() const { return ObjectStatID; }
+
     bool IsValid() const;
 
 };
@@ -135,11 +136,27 @@ struct MDBAwakenAValue
 //NPC 테이블
 struct MDBNPC
 {
-    SVint Sequence = 0;
+    SVint NPCUniqueID = 0;
     SVString Name = "";
-    SVint Type = 0;
+    SVint NPCType = 0;
     SVint MonsterGrade = 0;
     SVint MonsterGroup = 0;
     SVint SupporterGroup = 0;
+    SVint Level = 0;
+    SVint Exp = 0;
+
+    const MDBObjectStatistics* ObjectStat = nullptr;
+
+};
+
+//NPCSummon 테이블
+struct MDBNPCSummons
+{
+    SVint MapID = 0;
+    SVint NPCUniqueID = 0;
+    SVString SummonName = "";
+    SVint SummonGroup = 0;
+    SVint ResummonTime = 0;
+    SVint Rotation = 0;
 
 };

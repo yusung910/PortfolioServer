@@ -10,17 +10,17 @@ constexpr float g_fDefaultAttackSpeed = 1.f;
 class BaseObject
 {
 protected:
-    int                 m_nSequenceID = 0;       //메모리 적재된 오브젝트 번호
-    int                 m_nTemplateID = 0;       //
+    int                 m_nSequence = 0;       //메모리 적재된 오브젝트 번호
+    int                 m_nNPCUniqueID = 0;      //
 
     std::string         m_sName;                 //UTF-8
     ObjectStats         m_oObjStats;
 
-    int                 m_nHP;
-    int                 m_nMana;
+    int                 m_nHP = 0;
+    int                 m_nMana = 0;
 
-    int                 m_nLevel;
-    int64_t             m_nExp;
+    int                 m_nLevel = 0;
+    int64_t             m_nExp = 0;
     Direction           m_oDirection;
     Position            m_oPosition;
     
@@ -28,6 +28,7 @@ protected:
 
 public:
     BaseObject() = default;
+
     virtual ~BaseObject() = default;
 
 
@@ -37,7 +38,7 @@ public:
     virtual void Update(const int64_t& _inDeltaSec);
     virtual bool IsPreemptionTarget() { return false; }
 
-
-
+    void SetNPCUniqueID(const int& _id);
+    void SetSequence(const int& _seq);
 };
 

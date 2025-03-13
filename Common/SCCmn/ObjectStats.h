@@ -24,6 +24,9 @@ public:
     ObjectStats(const ObjectStats& _stats);
 
     void SetObjectStats(const ObjectStats* _stats);
+
+    void SetBaseAbilityStat(EAbility::Type _abilityType, int _val);
+
     void Reset();
 
 };

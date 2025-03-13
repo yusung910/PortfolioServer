@@ -67,7 +67,7 @@
     <Build Include="Tables\MapTeleportInfo.sql" />
     <Build Include="StoredProcedure\spMapInfoSelect.sql" />
     <Build Include="StoredProcedure\spMapTeleportInfoSelect.sql" />
-    <Build Include="Tables\PilgrimStat.sql" />
+    <Build Include="Tables\ObjectStatistics.sql" />
     <Build Include="Tables\LevelBaseAbilityStat.sql" />
     <Build Include="Tables\AbilityStatRatePerTrainingStat.sql" />
     <Build Include="StoredProcedure\spAbilityStatRatePerTrainingStatSelect.sql" />
@@ -76,5 +76,6 @@
     <Build Include="Tables\AwakenAValue.sql" />
     <Build Include="StoredProcedure\spAwakenAValueSelect.sql" />
     <Build Include="Tables\NPC.sql" />
+    <Build Include="Tables\NPCSummons.sql" />
   </ItemGroup>
 </Project>

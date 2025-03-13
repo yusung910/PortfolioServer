@@ -34,7 +34,7 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
     int lSuccessCount = 0;
 
     int64_t lStartTime = Clock::GetTick64();
-    
+
     for (auto lIter : *_mapInfo)
     {
         int lMeshSize = std::max(lIter->MapHeight, lIter->MapWidth);
@@ -44,12 +44,22 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
     return false;
 }
 
+bool Navi::GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float _rad, [[maybe_unused]] bool _setRad)
+{
+    return false;
+}
+
 bool Navi::SetLoadFileDir(const std::string& _dir)
 {
     if (true == _dir.empty()) return false;
 
     m_sLoadFileDir = _dir;
     return true;
+}
+
+bool Navi::Raycast(const int& _mapID, const Position& _currentPos, const Position& _targetPos)
+{
+    return false;
 }
 
 bool Navi::_LoadZoneMesh(const int& _MapID, const std::string&
@@ -73,7 +83,7 @@ bool Navi::_LoadZoneMesh(const int& _MapID, const std::string&
     if (false == std::filesystem::exists(lFilePath, lEC))
     {
         lStrLoadFilePath = m_sLoadFileDir + _strFileName;
-        if(false == std::filesystem::exists(lFilePath, lEC))
+        if (false == std::filesystem::exists(lFilePath, lEC))
             return false;
     }
 

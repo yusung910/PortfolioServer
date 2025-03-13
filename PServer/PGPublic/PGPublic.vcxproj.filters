@@ -46,9 +46,6 @@
     <Filter Include="Object\NPC\Managers">
       <UniqueIdentifier>{050acbb2-9d3e-4c5d-865f-84b30502e5f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\NPC\Managers\Spawn">
-      <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\NPC\Module">
       <UniqueIdentifier>{2d788c71-2536-45c5-b31f-ae018c7df674}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,9 @@
     </Filter>
     <Filter Include="Map\NavMesh">
       <UniqueIdentifier>{4aa44abf-d386-44f5-9545-6404879fbfee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\NPC\Managers\Summons">
+      <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +153,15 @@
     <ClInclude Include="AttackState.h">
       <Filter>Object\NPC\Module\State</Filter>
     </ClInclude>
+    <ClInclude Include="NPCStatistics.h">
+      <Filter>Object\NPC\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCSummons.h">
+      <Filter>Object\NPC\Module</Filter>
+    </ClInclude>
+    <ClInclude Include="SummonsData.h">
+      <Filter>Object\NPC\Managers\Summons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -214,6 +223,18 @@
     </ClCompile>
     <ClCompile Include="AttackState.cpp">
       <Filter>Object\NPC\Module\State</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCStatistics.cpp">
+      <Filter>Object\NPC\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCSummons.cpp">
+      <Filter>Object\NPC\Module</Filter>
+    </ClCompile>
+    <ClCompile Include="SummonsInfo.h">
+      <Filter>Object\NPC\Managers\Summons</Filter>
+    </ClCompile>
+    <ClCompile Include="SummonsData.cpp">
+      <Filter>Object\NPC\Managers\Summons</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -42,6 +42,8 @@
     <ClInclude Include="Navi.h" />
     <ClInclude Include="NPC.h" />
     <ClInclude Include="NPCStateEngine.h" />
+    <ClInclude Include="NPCStatistics.h" />
+    <ClInclude Include="NPCSummons.h" />
     <ClInclude Include="PC.h" />
     <ClInclude Include="ServerConst.h" />
     <ClInclude Include="PConst.h" />
@@ -58,6 +60,7 @@
     <ClInclude Include="StrChecker.h" />
     <ClInclude Include="StrFilterInterface.h" />
     <ClInclude Include="StrFilterKR.h" />
+    <ClInclude Include="SummonsData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackState.cpp" />
@@ -69,6 +72,8 @@
     <ClCompile Include="Navi.cpp" />
     <ClCompile Include="NPC.cpp" />
     <ClCompile Include="NPCStateEngine.cpp" />
+    <ClCompile Include="NPCStatistics.cpp" />
+    <ClCompile Include="NPCSummons.cpp" />
     <ClCompile Include="PC.cpp" />
     <ClCompile Include="ServerConst.cpp" />
     <ClCompile Include="PConst.cpp" />
@@ -84,6 +89,8 @@
     <ClCompile Include="StrChecker.cpp" />
     <ClCompile Include="StrFilterInterface.cpp" />
     <ClCompile Include="StrFilterKR.cpp" />
+    <ClCompile Include="SummonsData.cpp" />
+    <ClCompile Include="SummonsInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SCCmn\SCCmn.vcxproj">

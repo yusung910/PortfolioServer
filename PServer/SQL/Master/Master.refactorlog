@@ -217,4 +217,46 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="NPCSupporterGroup" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="09ff1dcb-b802-400f-af3f-68faf51576a1" ChangeDateTime="03/11/2025 02:51:26">
+    <Property Name="ElementName" Value="[dbo].[ObjectStatistics].[InventoryCount]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ObjectStatistics]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Inventoryweight" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e8287ae6-bb3f-473d-84f1-559e16712a10" ChangeDateTime="03/11/2025 02:51:31">
+    <Property Name="ElementName" Value="[dbo].[ObjectStatistics].[Inventoryweight]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ObjectStatistics]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InventoryWeight" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7c51bdb2-e850-4e8f-a7c4-9586f8e29b6e" ChangeDateTime="03/11/2025 04:57:31">
+    <Property Name="ElementName" Value="[dbo].[NPC].[Type]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ENPCType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6c2dad6e-1ee2-4d0d-a2cd-42c0650241f6" ChangeDateTime="03/11/2025 04:58:00">
+    <Property Name="ElementName" Value="[dbo].[NPC].[ENPCType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6f9427a8-8f72-4837-8923-569393c781de" ChangeDateTime="03/11/2025 05:04:37">
+    <Property Name="ElementName" Value="[dbo].[ObjectStatistics].[Sequence]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ObjectStatistics]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ObjectStatID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4c40881b-31a5-496d-92e1-701d5f659221" ChangeDateTime="03/12/2025 03:12:52">
+    <Property Name="ElementName" Value="[dbo].[NPCSummon].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPCSummon]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapID" />
+  </Operation>
 </Operations>

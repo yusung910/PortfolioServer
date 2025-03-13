@@ -103,6 +103,8 @@ public:
 
     bool Init(std::vector<MDBMapInfo*>* _mapInfo);
 
+    bool GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float _rad, bool _setRad = false);
+
     bool SetLoadFileDir(const std::string& _dir);
 
 
