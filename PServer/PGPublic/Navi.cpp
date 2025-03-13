@@ -46,6 +46,37 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
 
 bool Navi::GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float _rad, [[maybe_unused]] bool _setRad)
 {
+    auto lMesh = _FindMapMesh(_mapID);
+    if (nullptr == lMesh)
+        return false;
+
+    bool lRslt = false;
+
+    if (nullptr == lMesh->getNavMeshQuery())
+        return lRslt;
+
+    Position lRandomPos = _targetPos;
+
+    //반경 내(Radius) 임의의 거리를 구한다
+    //0~1 사이 임의의 실수(float)의 절대값 제곱근 * 반경(_rad)
+    float lRandomDist = sqrt(fabsf(Random::GetInst()->GetRandomRange(0.f, 1.0f))) * _rad;
+
+    float lRot = DegreeToRadian(Random::GetInst()->GetRandomRange(0, 360));
+
+    lRandomPos.x = _targetPos.x + (lRandomDist * cosf(lRot));
+    lRandomPos.y = _targetPos.y + (lRandomDist * sinf(lRot));
+
+    //
+    for (int i = 0; i < 8; i++)
+    {
+
+    }
+
+    return false;
+}
+
+bool Navi::IsMovePos(int _mapID, const Position& _startPos, float* lHeight)
+{
     return false;
 }
 
@@ -195,4 +226,11 @@ void Navi::_SetNavCrowd(SampleTest* _mesh)
             //filter2->setAreaCost(SAMPLE_POLYAREA_JUMP, fDefault);
         }
     }
+}
+
+SampleTest* Navi::_FindMapMesh(int _mapID)
+{
+    if (auto it = m_umZoneMeshList.find(_mapID); it != m_umZoneMeshList.end())
+        return it->second;
+    return nullptr;
 }

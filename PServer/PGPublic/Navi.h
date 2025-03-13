@@ -105,6 +105,8 @@ public:
 
     bool GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float _rad, bool _setRad = false);
 
+    bool IsMovePos(int _mapID, const Position& _startPos, float* lHeight = NULL);
+
     bool SetLoadFileDir(const std::string& _dir);
 
 
@@ -116,4 +118,6 @@ private:
     bool _LoadZoneMesh(const int& _MapID, const std::string&
         _strFileName, const int& _meshSize);
     void _SetNavCrowd(SampleTest* _mesh);
+
+    SampleTest* _FindMapMesh(int _mapID);
 };
