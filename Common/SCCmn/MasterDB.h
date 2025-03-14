@@ -50,7 +50,7 @@ struct MDBObjectStatistics
 
     int GetObjectStatID() const { return ObjectStatID; }
 
-    bool IsValid() const;
+    //bool IsValid() const;
 
 };
 
@@ -95,6 +95,19 @@ struct MDBMapTeleportInfo
 
     ECost::Type GetTeleportCostType() const { return (ECost::Type)TeleportCostType; }
     
+};
+
+//맵 구역 정보
+struct MDBMapDistrict
+{
+    SVint MapDistrictID = 0;
+    SVint MapID = 0;
+    SVint TransportNPCID = 0;
+    SVint MapDistrictGroup = 0;
+    SVint MapDistrictType = 0;
+    SVString MapDistrictName = 0;
+    SVbool TeleportEnterYN = true;
+    SVbool TeleportEscapeYN = true;
 };
 
 

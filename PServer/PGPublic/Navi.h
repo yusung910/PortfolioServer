@@ -89,7 +89,7 @@ class Navi : public RefSingleton<Navi>
 private:
     bool m_bIsInit = false;
 
-    std::unordered_map <int, SampleTest*> m_umZoneMeshList;
+    std::unordered_map <int, SampleTest*> m_umMapMeshList;
     std::unordered_map <std::string, SampleTest*> m_umFileNameMeshMap;
     std::string m_sLoadFileDir = "";
 
@@ -115,9 +115,12 @@ public:
     bool Raycast(const int& _mapID, const Position& _currentPos, const Position& _targetPos);
 
 private:
-    bool _LoadZoneMesh(const int& _MapID, const std::string&
+    bool _LoadMapMesh(const int& _MapID, const std::string&
         _strFileName, const int& _meshSize);
     void _SetNavCrowd(SampleTest* _mesh);
 
     SampleTest* _FindMapMesh(int _mapID);
+
+    void _ConvertToDetour(const Position& _pos, float* _xyz);
+    void _RevertToDetour(const float* _xyz, Position& _pos);
 };

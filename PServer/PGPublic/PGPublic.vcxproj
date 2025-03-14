@@ -37,6 +37,10 @@
     <ClInclude Include="ENPCState.h" />
     <ClInclude Include="InnerPacketStructures.h" />
     <ClInclude Include="IState.h" />
+    <ClInclude Include="MapDataManager.h" />
+    <ClInclude Include="MapDistrictInfo.h" />
+    <ClInclude Include="MapElementsData.h" />
+    <ClInclude Include="MapLoadData.h" />
     <ClInclude Include="MDBDataLoader.h" />
     <ClInclude Include="MDBDatas.h" />
     <ClInclude Include="Navi.h" />
@@ -67,6 +71,8 @@
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="InnerPacketStructures.cpp" />
+    <ClCompile Include="MapDataManager.cpp" />
+    <ClCompile Include="MapElementsData.cpp" />
     <ClCompile Include="MDBDataLoader.cpp" />
     <ClCompile Include="MDBDatas.cpp" />
     <ClCompile Include="Navi.cpp" />

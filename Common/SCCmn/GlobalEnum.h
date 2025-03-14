@@ -235,6 +235,21 @@ namespace EMap
     };
 }
 
+//Map District Type
+namespace EDistrict
+{
+    enum Type
+    {
+        None = 0,   //일반지역
+        Safe,       //안전
+        Training,   //훈련
+        PK,         //PVP
+        ClanWar,    //길드전쟁지역
+        
+
+    };
+}
+
 //CostType
 namespace ECost
 {

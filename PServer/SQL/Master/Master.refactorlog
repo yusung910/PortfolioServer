@@ -259,4 +259,130 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="MapID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="1fbd2b87-25ac-43f9-81eb-9babb764206e" ChangeDateTime="03/14/2025 03:47:48">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapSectionID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="16e9028e-71b7-4cae-bafb-a3e8ba8d58e2" ChangeDateTime="03/14/2025 03:48:41">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[SectionGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapSectionGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="024e42f7-0b02-4354-993a-583453cdde4b" ChangeDateTime="03/14/2025 03:49:07">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[MapSectionGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SectionGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e9015050-24db-4705-8875-670413bca12c" ChangeDateTime="03/14/2025 03:49:17">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[SectionGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapSectionGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="077609e0-8bde-417f-bb2b-d6d58e25b666" ChangeDateTime="03/14/2025 03:49:18">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[SectionType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapSectionType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c8a92da1-1b57-4048-87ac-0a044404eb2b" ChangeDateTime="03/14/2025 05:21:45">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[MapSectionID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapDistrictD" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="16afde79-f72e-4763-abb8-6b2932fa5130" ChangeDateTime="03/14/2025 05:21:51">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[MapSectionGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapdistrictGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4843eccc-e4a6-4590-b997-b0eb6a140778" ChangeDateTime="03/14/2025 05:21:56">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[MapdistrictGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapDistrictGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d6b91eb9-7ece-4344-aa20-bd7e0f510411" ChangeDateTime="03/14/2025 05:21:59">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[MapSectionType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapDistrictType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ba7d420e-8f02-48bb-b667-8d3413cb7f03" ChangeDateTime="03/14/2025 05:22:02">
+    <Property Name="ElementName" Value="[dbo].[MapSection].[MapSectionName]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapSection]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapDistrictName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6f2ec5a7-7615-4efa-a7e1-4bbce6cc2dd9" ChangeDateTime="03/14/2025 05:47:30">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TeleportInable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportAccessible" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="84a0711d-c3da-4007-9cf8-b429bfee2627" ChangeDateTime="03/14/2025 05:48:07">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TeleportInaacessible]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportInaccessible" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3c3acea7-4779-4306-8e3f-51588d429dfa" ChangeDateTime="03/14/2025 05:52:56">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TeleportInaccessible]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportEscapable" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="509a34f1-0be8-4437-aa1b-996784016543" ChangeDateTime="03/14/2025 05:53:36">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TeleportAccessible]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportEnterable" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="64ab299c-48f3-400a-9745-c4c6978482fe" ChangeDateTime="03/14/2025 05:54:33">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TeleportEnterable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportEnterYN" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="929a7f83-e980-4022-a753-7a00d37bfceb" ChangeDateTime="03/14/2025 05:54:37">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TeleportEscapable]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TeleportEscapeYN" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dfc895f6-c776-427d-98a2-8640c70a7bad" ChangeDateTime="03/14/2025 06:08:17">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[SenderNPCID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TransporterNPCID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="444c552f-bf46-46b1-bc8b-1ac0a7c1ae84" ChangeDateTime="03/14/2025 06:08:21">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[TransporterNPCID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TransportNPCID" />
+  </Operation>
 </Operations>

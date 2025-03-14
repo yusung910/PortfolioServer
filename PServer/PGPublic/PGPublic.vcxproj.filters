@@ -162,6 +162,18 @@
     <ClInclude Include="SummonsData.h">
       <Filter>Object\NPC\Managers\Summons</Filter>
     </ClInclude>
+    <ClInclude Include="MapDistrictInfo.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapElementsData.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDataManager.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLoadData.h">
+      <Filter>Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -235,6 +247,12 @@
     </ClCompile>
     <ClCompile Include="SummonsData.cpp">
       <Filter>Object\NPC\Managers\Summons</Filter>
+    </ClCompile>
+    <ClCompile Include="MapElementsData.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDataManager.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

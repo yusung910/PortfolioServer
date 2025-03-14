@@ -14,13 +14,13 @@ Navi::Navi()
 
 Navi::~Navi()
 {
-    for (auto lIt : m_umZoneMeshList)
+    for (auto lIt : m_umMapMeshList)
     {
         if (nullptr != lIt.second)
             SafeDelete(lIt.second);
     }
 
-    m_umZoneMeshList.clear();
+    m_umMapMeshList.clear();
 }
 
 bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
@@ -35,13 +35,26 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
 
     int64_t lStartTime = Clock::GetTick64();
 
-    for (auto lIter : *_mapInfo)
+    for (auto mapData : *_mapInfo)
     {
-        int lMeshSize = std::max(lIter->MapHeight, lIter->MapWidth);
+        int lMeshSize = std::max(mapData->MapHeight, mapData->MapWidth);
 
+        if (false == _LoadMapMesh(mapData->MapID, mapData->MapName, mapData->Mapsize))
+        {
+            VIEW_WRITE_ERROR("Load Map Mesh Failed!! MapID : %d", mapData->MapID);
+        }
+        else
+        {
+            lSuccessCount++;
+        }
     }
 
-    return false;
+    m_bIsInit = (lSuccessCount > 0);
+
+    int64_t lGap = Clock::GetTick64() - lStartTime;
+    VIEW_INFO("Load Maps : %d ms", lGap);
+
+    return m_bIsInit;
 }
 
 bool Navi::GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float _rad, [[maybe_unused]] bool _setRad)
@@ -69,15 +82,60 @@ bool Navi::GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float
     //
     for (int i = 0; i < 8; i++)
     {
-
+        if (IsMovePos(_mapID, lRandomPos))
+        {
+            lRslt = true;
+            break;
+        }
+        lRot += 45.0f;
+        lRandomPos.x = _targetPos.x + (lRandomDist * cosf(lRot));
+        lRandomPos.y = _targetPos.y + (lRandomDist * sinf(lRot));
     }
 
-    return false;
+    if (lRslt)
+        _targetPos = lRandomPos;
+
+    return lRslt;
 }
 
 bool Navi::IsMovePos(int _mapID, const Position& _startPos, float* lHeight)
 {
-    return false;
+    auto lMesh = _FindMapMesh(_mapID);
+
+    if (nullptr == lMesh)
+        return false;
+    if (nullptr == lMesh->getNavMeshQuery())
+        return false;
+
+    float lPos[3], lNearPos[3];
+
+    _ConvertToDetour(_startPos, lPos);
+    _ConvertToDetour(_startPos, lNearPos);
+
+    auto lQuery = lMesh->getNavMeshQuery();
+
+    dtPolyRef lPolyStart = 0;
+    dtCrowd* lCrowd = lMesh->getCrowd();
+
+    const dtQueryFilter* lFilter = lCrowd->getFilter(0);
+    const float* lHalfExtents = lCrowd->getQueryExtents();
+    float lAgentPlacementHalfExtents[3] = { lHalfExtents[0], lHalfExtents[1] * NAVI_HEIGHT_CHECK_PICK_SERVER, lHalfExtents[2] };
+
+    dtStatus lStatus = lQuery->findNearestPoly(lPos, lAgentPlacementHalfExtents, lFilter, &lPolyStart, lNearPos);
+    
+    if (dtStatusFailed(lStatus))
+        return false;
+
+    float lTmp = 0.0f;
+    lStatus = lQuery->getPolyHeight(lPolyStart, lPos, &lTmp);
+
+    if (dtStatusFailed(lStatus))
+        return false;
+
+    if (nullptr != lHeight)
+        *lHeight = lTmp;
+
+    return true;
 }
 
 bool Navi::SetLoadFileDir(const std::string& _dir)
@@ -93,15 +151,15 @@ bool Navi::Raycast(const int& _mapID, const Position& _currentPos, const Positio
     return false;
 }
 
-bool Navi::_LoadZoneMesh(const int& _MapID, const std::string&
+bool Navi::_LoadMapMesh(const int& _MapID, const std::string&
     _strFileName, const int& _meshSize)
 {
-    if (auto lIt = m_umZoneMeshList.find(_MapID); lIt != m_umZoneMeshList.end())
+    if (auto lIt = m_umMapMeshList.find(_MapID); lIt != m_umMapMeshList.end())
         return false;
 
     if (auto lIt = m_umFileNameMeshMap.find(_strFileName); lIt != m_umFileNameMeshMap.end())
     {
-        m_umZoneMeshList.insert_or_assign(_MapID, lIt->second);
+        m_umMapMeshList.insert_or_assign(_MapID, lIt->second);
         return true;
     }
 
@@ -128,7 +186,7 @@ bool Navi::_LoadZoneMesh(const int& _MapID, const std::string&
     auto lRetStat = lMesh->getNavMeshQuery()->init(lMesh->getNavMesh(), _meshSize);
     _SetNavCrowd(lMesh);
 
-    m_umZoneMeshList.insert(std::pair(_MapID, lMesh));
+    m_umMapMeshList.insert(std::pair(_MapID, lMesh));
     m_umFileNameMeshMap.insert_or_assign(_strFileName, lMesh);
     return true;
 }
@@ -230,7 +288,21 @@ void Navi::_SetNavCrowd(SampleTest* _mesh)
 
 SampleTest* Navi::_FindMapMesh(int _mapID)
 {
-    if (auto it = m_umZoneMeshList.find(_mapID); it != m_umZoneMeshList.end())
+    if (auto it = m_umMapMeshList.find(_mapID); it != m_umMapMeshList.end())
         return it->second;
     return nullptr;
+}
+
+void Navi::_ConvertToDetour(const Position& _pos, float* _xyz)
+{
+    _xyz[0] = _pos.x;
+    _xyz[2] = -_pos.y;
+    _xyz[1] = _pos.z;
+}
+
+void Navi::_RevertToDetour(const float* _xyz, Position& _pos)
+{
+    _pos.x = _xyz[0];
+    _pos.y = -_xyz[2];
+    _pos.z = _xyz[1];
 }

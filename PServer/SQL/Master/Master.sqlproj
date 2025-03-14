@@ -77,5 +77,6 @@
     <Build Include="StoredProcedure\spAwakenAValueSelect.sql" />
     <Build Include="Tables\NPC.sql" />
     <Build Include="Tables\NPCSummons.sql" />
+    <Build Include="Tables\MapDistrict.sql" />
   </ItemGroup>
 </Project>
