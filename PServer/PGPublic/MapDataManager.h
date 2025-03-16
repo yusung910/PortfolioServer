@@ -1,8 +1,18 @@
 #pragma once
 #include <RefSingleton.h>
-#include "MapDistrictInfo.h"
+#include "MapLoadData.h"
+#include "MapElementsData.h"
 
-class MapDataManager
+struct MDBMapInfo;
+
+constexpr const char* MAP_NAVI_FILE_EXT = ".bin";
+
+class MapElementsData;
+
+class MapDataManager :public RefSingleton<MapDataManager>
 {
+private:
+    std::string m_sMapFilePath = "";
+    MapLoadList m_oMapFileList;
 };
 
