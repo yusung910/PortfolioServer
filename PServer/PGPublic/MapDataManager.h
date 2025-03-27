@@ -14,5 +14,10 @@ class MapDataManager :public RefSingleton<MapDataManager>
 private:
     std::string m_sMapFilePath = "";
     MapLoadList m_oMapFileList;
+
+    std::unordered_map<int, std::unordered_map<int, MapElementsData*>> mMapElementsDatas;
+
+public:
+    bool Init();
 };
 

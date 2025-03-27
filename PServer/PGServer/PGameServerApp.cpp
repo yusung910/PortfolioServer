@@ -8,6 +8,7 @@
 #include "GameDBService.h"
 #include "GameDBLoadBalancer.h"
 
+#include <MapDataManager.h>
 #include <NetworkManager.h>
 
 PGameServerApp::PGameServerApp()
@@ -113,5 +114,16 @@ bool PGameServerApp::_InitGameDB()
             //END_SESSION
         }
     }
+    return true;
+}
+
+bool PGameServerApp::_InitMap()
+{
+    if (false == MapDataManager::GetInst().Init())
+    {
+        VIEW_WRITE_ERROR("MapDataManager Init Failed!!");
+        return false;
+    }
+
     return true;
 }

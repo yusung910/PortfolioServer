@@ -121,6 +121,13 @@ private:
 
     SampleTest* _FindMapMesh(int _mapID);
 
+    //인자값으로 전달받은 각각의 좌표를 거리값만큼 나누고 z값은 0으로 세팅하는 함수
+    void _GetNormalVector2D(Position& _pos);
+
+    //원점 좌표(0,0)에서 부터 _pos의 좌표 값 까지의 거리
+    //sqrt(x^2 + y^2) -> 피타고라스 정리
+    float _GetLengthXY(Position& _pos);
+
     void _ConvertToDetour(const Position& _pos, float* _xyz);
     void _RevertToDetour(const float* _xyz, Position& _pos);
 };
