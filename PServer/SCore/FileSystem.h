@@ -2,7 +2,6 @@
 #include "SCoreAPI.h"
 #include <string>
 
-
 class SCoreAPI FileSystem
 {
 public:

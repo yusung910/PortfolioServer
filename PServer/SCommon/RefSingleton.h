@@ -9,7 +9,7 @@ public:
 		return m_oInst;
 	}
 
-	virtual void Init() {};
+	virtual bool Init() {};
 
 protected:
 	static T m_oInst;

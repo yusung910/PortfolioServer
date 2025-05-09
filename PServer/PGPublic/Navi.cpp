@@ -293,6 +293,22 @@ SampleTest* Navi::_FindMapMesh(int _mapID)
     return nullptr;
 }
 
+void Navi::_GetNormalVector2D(Position& _pos)
+{
+    auto lLen = _GetLengthXY(_pos);
+    if (lLen == 0.0f)
+        return;
+
+    _pos.x /= lLen;
+    _pos.y /= lLen;
+    _pos.z = 0;
+}
+
+float Navi::_GetLengthXY(Position& _pos)
+{
+    return sqrt(_pos.x * _pos.x + _pos.y * _pos.y);
+}
+
 void Navi::_ConvertToDetour(const Position& _pos, float* _xyz)
 {
     _xyz[0] = _pos.x;
