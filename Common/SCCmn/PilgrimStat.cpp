@@ -15,12 +15,12 @@ void PilgrimStat::Reset()
     m_oPilgrimStat = nullptr;
 }
 
-const MDBPilgrimStat* PilgrimStat::GetPilgrimStat()
+const MDBObjectStatistics* PilgrimStat::GetPilgrimStat()
 {
     return m_oPilgrimStat;
 }
 
-void PilgrimStat::Set(const MDBPilgrimStat* _pgStat)
+void PilgrimStat::Set(const MDBObjectStatistics* _pgStat)
 {
     m_oPilgrimStat = _pgStat;
 }

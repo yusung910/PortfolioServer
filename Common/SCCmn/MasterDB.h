@@ -50,7 +50,7 @@ struct MDBObjectStatistics
 
     int GetObjectStatID() const { return ObjectStatID; }
 
-    //bool IsValid() const;
+    bool IsValid() const;
 
 };
 
@@ -60,20 +60,21 @@ struct MDBMapInfo
 {
     SVint MapID = 0;
     SVint ParentMapID = 0;
-    SVint MapType = 0;
-    SVString MapName;
+    SVString MapFileName;
 
-    SVint Mapsize = 0;
+    SVint MapSize = 0;
     SVint MapWidth = 0;
     SVint MapHeight = 0;
 
-    SVint IsActive = 1;
-    SVint IsSafeZone = 1;
-    SVint IsTeleportable = 1;
+    EMap::Type MapType = EMap::None;
 
-    bool GetIsActive() const { return (IsActive == 1); }
-    bool GetIsSafeZone() const { return (IsSafeZone == 1); }
-    bool GetIsTeleportable() const { return (IsTeleportable == 1); }
+    SVint ActiveYN = 1;
+    SVint SafeZoneYN = 1;
+    SVint TeleportableYN = 1;
+
+    bool GetActiveYN() const { return (ActiveYN == 1); }
+    bool GetSafeZoneYN() const { return (SafeZoneYN == 1); }
+    bool GetTeleportableYN() const { return (TeleportableYN == 1); }
     EMap::Type GetMapType() const { return (EMap::Type)MapType; }
 };
 

@@ -42,6 +42,7 @@
     <ClInclude Include="MapElementsData.h" />
     <ClInclude Include="MapLoadData.h" />
     <ClInclude Include="MDBDataLoader.h" />
+    <ClInclude Include="MDBDataManager.h" />
     <ClInclude Include="MDBDatas.h" />
     <ClInclude Include="Navi.h" />
     <ClInclude Include="NPC.h" />
@@ -74,6 +75,7 @@
     <ClCompile Include="MapDataManager.cpp" />
     <ClCompile Include="MapElementsData.cpp" />
     <ClCompile Include="MDBDataLoader.cpp" />
+    <ClCompile Include="MDBDataManager.cpp" />
     <ClCompile Include="MDBDatas.cpp" />
     <ClCompile Include="Navi.cpp" />
     <ClCompile Include="NPC.cpp" />

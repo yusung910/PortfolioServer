@@ -11,14 +11,14 @@ DataProcessManager::~DataProcessManager()
     _Clear();
 }
 
-void DataProcessManager::SetHeroStatTemplate(std::unordered_map<int, MDBPilgrimStat*>* _heroStatMap)
+void DataProcessManager::SetObjectStatisticsTemplate(std::unordered_map<int, MDBObjectStatistics*>* _heroStatMap)
 {
-    m_umTotalHeroStatTemplateMap = _heroStatMap;
+    m_umTotalObjectStatisticsTemplateMap = _heroStatMap;
 }
 
 void DataProcessManager::_Clear()
 {
-    m_umTotalHeroStatTemplateMap = nullptr;
+    m_umTotalObjectStatisticsTemplateMap = nullptr;
 }
 
 void DataProcessManager::Reset()

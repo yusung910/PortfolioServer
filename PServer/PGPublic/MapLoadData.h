@@ -13,6 +13,9 @@ public:
     EMap::Type m_eMapType = EMap::None;
     
     std::string m_sNaviFileName;
+    std::string m_sMapInfoFileName;
+    std::string m_sSpawnFileName;
+
 
     int m_nWidth = 0;
     int m_nHeight = 0;
@@ -20,4 +23,6 @@ public:
     Position m_oCenterPosition;
 };
 
-typedef std::vector<MapLoadData> MapLoadList;
+
+//±ª¿Ã « ø‰«—∞°..? «Ú∞•∏Æ¥Ÿ :: 250509
+//typedef std::vector<MapLoadData> MapLoadList;

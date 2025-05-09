@@ -115,3 +115,8 @@ bool PGameServerApp::_InitGameDB()
     }
     return true;
 }
+
+bool PGameServerApp::_InitMap()
+{
+    return false;
+}

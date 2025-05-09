@@ -24,5 +24,7 @@ private:
     void _InitLog();
 
     bool _InitGameDB();
+
+    bool _InitMap();
 };
 

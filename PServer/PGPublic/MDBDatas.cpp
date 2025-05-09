@@ -7,13 +7,13 @@
 
 void MDBDatas::Reset()
 {
-    MAP_CLEAR(m_umMDBPilgrimStatList);
+    MAP_CLEAR(m_umMDBObjectStatisticsList);
     MAP_CLEAR(m_umMDBMapInfoList);
 }
 
-std::unordered_map<int, MDBPilgrimStat*>& MDBDatas::GetAllPilgrimStatList()
+std::unordered_map<int, MDBObjectStatistics*>& MDBDatas::GetAllMDBObjectStatisticsList()
 {
-    return m_umMDBPilgrimStatList;
+    return m_umMDBObjectStatisticsList;
 }
 
 std::unordered_map<int, MDBMapInfo*>& MDBDatas::GetAllMapInfoList()

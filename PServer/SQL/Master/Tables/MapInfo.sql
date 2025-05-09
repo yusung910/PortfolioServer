@@ -3,12 +3,12 @@
     [MapID] INT NOT NULL PRIMARY KEY, 
     [ParentMapID] INT NOT NULL, 
     [MapType] INT NOT NULL,
-    [MapName] NVARCHAR(256) NOT NULL, 
+    [MapFileName] NVARCHAR(256) NOT NULL, 
     [MapFilePath] NVARCHAR(256) NOT NULL,
     [MapSize] INT NOT NULL,
-    [IsActive] TINYINT NOT NULL, 
-    [IsSafeZone] TINYINT NOT NULL, 
-    [IsTeleportable] TINYINT NOT NULL
+    [ActiveYN] TINYINT NOT NULL, 
+    [SafeZoneYN] TINYINT NOT NULL, 
+    [TeleportableYN] TINYINT NOT NULL
 )
 
 GO
@@ -28,7 +28,7 @@ EXEC sp_addextendedproperty @name = N'MS_Description',
     @level1type = N'TABLE',
     @level1name = N'MapInfo',
     @level2type = N'COLUMN',
-    @level2name = 'IsSafeZone'
+    @level2name = 'SafeZoneYN'
 GO
 EXEC sp_addextendedproperty @name = N'MS_Description',
     @value = N'부모MapID',
@@ -55,7 +55,7 @@ EXEC sp_addextendedproperty @name = N'MS_Description',
     @level1type = N'TABLE',
     @level1name = N'MapInfo',
     @level2type = N'COLUMN',
-    @level2name = N'IsTeleportable'
+    @level2name = 'TeleportableYN'
 GO
 EXEC sp_addextendedproperty @name = N'MS_Description',
     @value = N'맵 파일 경로',

@@ -6,9 +6,9 @@
 #	define IsPositiveIncludeZero(x) (x >= 0)			// 0을 포함하는 양수인지?
 #	define IsNotZero(x) (x != 0)						// 0이 아닌지?
 
-bool MDBPilgrimStat::IsValid() const
+bool MDBObjectStatistics::IsValid() const
 {
-    if (false == IsPositive(Seq)
+    if (false == IsPositive(ObjectStatID)
         || false == IsPositiveIncludeZero(Stat.Info.Strength)
         || false == IsPositiveIncludeZero(Stat.Info.Dexterity)
         || false == IsPositiveIncludeZero(Stat.Info.Endurance)
