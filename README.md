@@ -202,18 +202,22 @@ private:
               '빌드 작업' 옵션을 '포함 리소스'로 변경해야함
 	   -> 원인을 알 수 없는 에러 발생
 	      ㅇ LZ4Loader.cs (Line: 388) 어셈블리 파일을 찾았으나 로드(load)가 안되는 이슈 발생
-	   -> Library를 변경 (IonKiwi -> K4os.Compression.LZ4_1.3.8: https://github.com/MiloszKrajewski/K4os.Compression.LZ4)
+	   -> Library 변경 
+          ㅇ IonKiwi -> K4os.Compression.LZ4_1.3.8: https://github.com/MiloszKrajewski/K4os.Compression.LZ4
 	      ㅇ C++에서 사용하는 Lz4 무손실 압축 라이브러리를 개발한 곳에서
              C#으로 사용할 수 있도록 별도로 작업된 라이브러리로 파악
 		  ㅇ 최상위 경로 /lib에 저장하고 클라, 서버에서 공용으로 사용할 수 있게 작업
-	   -> 해결! K4os.Compression.LZ4의 net462 버전의 dll 파일을 참조 추가로 사용할 수 있음, BotClient에 작업 완료!
+	   -> 해결! K4os.Compression.LZ4의 net462 버전의 dll 파일을 참조 추가로 사용할 수 있음.
+          BotClient에 작업 완료!
     2.1.7. C#.net에서 C++ Socket 통신 할 때 특수문자를 제거해야한다
        -> 제거되지 않을 경우 패킷 데이터 배열에 영향을 끼치게 되어 통신 데이터 상에 문제가 발생
 	2.1.8. C# BotClient 패킷 작업 할 때 BitArray를 활용하자
 	2.1.9. 정적 라이브러리(lib) 프로젝트의 클래스를 다른 프로젝트(exe)에서 참조하여 사용 할 때
-       링크 에러(lnk2019)가 발생 할 경우 참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.
+       -> 링크 에러(lnk2019)가 발생 할 경우
+          참조하는 클래스에 SCoreAPI define(__declspec(dllexport))가 선언되어 있는지 확인한다.
     2.1.10. 각각 소스의 Charset ANSI(EUC-KR) - UTF8 간에 발생한 C4819 에러 처리
-       -> 윈도우 11의 '시스템 로캘 변경'에서 'Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용'을 활성화 했을 때
+       -> 윈도우 11의 '시스템 로캘 변경'에서
+          'Beta: 세계 언어 지원을 위해 Unicode UTF-8 사용'을 활성화 했을 때
           윈도우 내부 파일들의 문자열 셋(캐릭터 셋)이 강제로 변경되는 이슈에 따른 처리
        -> 해당 내용을 활성화 한 이유는 G-Hub에서 무한 로딩 이슈를 해결하기 위해 적용.
        -> 사이드 이펙트로 소스 파일들의 문자열 인코딩 관련 이슈가 발생
@@ -225,10 +229,14 @@ private:
             -> 이걸로 며칠이나 날려먹었냐.. 에라이 모지리 나님아
     2.1.13. UnrealEngine에서도 RecastNavigation 라이브러리에서 사용할 수 있는 bin 파일을 생성 할 수 있다.
         -> 서버에서 navmesh를 사용하여 각각의 캐릭터, 지형에 맞는 Navigation 기능을 사용하기 위함.
-        -> UnrealEngine에서 RecastNavigation bin 파일 생성하기 위한 리포지터리 주소 : https://github.com/luyuancpp/ue5-export-nav-data?tab=readme-ov-file
+        -> UnrealEngine에서 RecastNavigation bin 파일 생성하기 위한 리포지터리 주소
+            : https://github.com/luyuancpp/ue5-export-nav-data?tab=readme-ov-file
         -> UE에서 위 플러그인을 이용하면 생성된 navmesh를 서버에서 사용 할 수 있는 .bin, .obj 파일로 변환 가능.
-    2.1.14. 모든 클래스의 .cpp 파일 최상단에는 해당 .h파일과 각 프로젝트에 선언된 미리 컴파일된 헤더파일을 먼저 선언 해야함.
+    2.1.14. 모든 클래스의 .cpp 파일 '최상단'에는
+            해당 .h파일과  각 프로젝트에 선언된 미리 컴파일된 헤더파일을 먼저 선언 해야함.
             그렇지 않을경우 불분명한 에러 발생
-    2.1.15. Poco::Data를 이용한 Database 데이터를 서버에 호출 할 때 사용되는 into()에 선언되는 변수 값은, POCO에서 지원하는 타입을 이용해야함.
+        -> MapDataManager.cpp 파일 참조
+    2.1.15. Poco::Data를 이용한 Database 데이터를 서버에 호출 할 때 사용되는
+            into()에 선언되는 변수 값은, POCO에서 지원하는 타입을 이용해야함.
             Enum타입의 값을 사용할 경우 에러 발생함. 때문에 MDB 구조체 내부에 선언되는 변수 값은 자유로울 수 있으나
             Poco::Data Session의 into함수에 전달되는 변수 타입은 Poco에서 지원하는 변수타입이어야한다.
