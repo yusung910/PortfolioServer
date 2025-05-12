@@ -13,24 +13,24 @@ constexpr int DEFAULT_SEND_CONTEXT_LIMIT_COUNT = 500;
 
 
 /*!
- *  ì„œë²„ ì‹¤í–‰ì‹œ Listener ì •ë³´ë¥¼ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
+ *  ¼­¹ö ½ÇÇà½Ã Listener Á¤º¸¸¦ °ü¸®ÇÏ´Â Å¬·¡½º
  */
 class ServerListenerInfo : public ListenerInfo
 {
 public:
-    //ì„œë²„ ê·¸ë£¹ ì•„ì´ë””
+    //¼­¹ö ±×·ì ¾ÆÀÌµğ
     int m_nServerGroupID = 0;
-    //ì„œë²„ ì‹ë³„ ì•„ì´ë””
+    //¼­¹ö ½Äº° ¾ÆÀÌµğ
     int m_nServerID = 0;
-    //ì ‘ì† í†µì œê°€ í•„ìš”í•œ ì‹œì ì˜ ê¸°ì¤€ ì¸ì›(ì ‘ì† ì†ë„ë¥¼ ì €í•˜ì‹œí‚¤ëŠ” ì‹œì )
+    //Á¢¼Ó ÅëÁ¦°¡ ÇÊ¿äÇÑ ½ÃÁ¡ÀÇ ±âÁØ ÀÎ¿ø(Á¢¼Ó ¼Óµµ¸¦ ÀúÇÏ½ÃÅ°´Â ½ÃÁ¡)
     int m_nControlConnection = DEFAULT_CONNECTION_CONTROL_COUNT;
-    //ì„œë²„ ì ‘ì†í•œ í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë³´ë‚´ëŠ” Contextìˆ˜ê°€ ì´
+    //¼­¹ö Á¢¼ÓÇÑ Å¬¶óÀÌ¾ğÆ®¿¡°Ô º¸³»´Â Context¼ö°¡ ÀÌ
     int m_nSendContextLimitCount = DEFAULT_SEND_CONTEXT_LIMIT_COUNT;
 
 
     std::string m_sServiceType = "";
 
-    //í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ì•Œë¦´ ì ‘ì† ì •ë³´
+    //Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¾Ë¸± Á¢¼Ó Á¤º¸
     std::string m_sPublicHost = "";
     int m_nPublicPort = 0;
     int m_nClientVer = 0;
@@ -39,7 +39,7 @@ public:
 
     EServer::Type m_eServerType = EServer::None;
 
-    bool m_bIsMaintenanceMode = false; //ì ê²€ ì¤‘ ë¼ì´ë¸Œ ë¹Œë“œ ì ‘ì† ê°€ëŠ¥ ì—¬ë¶€ë¥¼ í™•ì¸
+    bool m_bIsMaintenanceMode = false; //Á¡°Ë Áß ¶óÀÌºê ºôµå Á¢¼Ó °¡´É ¿©ºÎ¸¦ È®ÀÎ
 
 };
 
@@ -172,8 +172,8 @@ public:
 private:
 
     /*!
-     *  jsoníŒŒì¼ì— ì €ì¥ëœ serverconfig ë‚´ìš©ì„ Loadí•˜ê³ 
-     *  ì‚¬ìš© í•  ìˆ˜ ìˆë„ë¡ ë³€ìˆ˜ì— íŒŒì‹±í•˜ëŠ” í•¨ìˆ˜
+     *  jsonÆÄÀÏ¿¡ ÀúÀåµÈ serverconfig ³»¿ëÀ» LoadÇÏ°í
+     *  »ç¿ë ÇÒ ¼ö ÀÖµµ·Ï º¯¼ö¿¡ ÆÄ½ÌÇÏ´Â ÇÔ¼ö
      *
      *      @param [in] _confFile
      *      @param [in] _fileSize
@@ -183,12 +183,12 @@ private:
     bool _LoadConfig(const std::wstring& _confFile, size_t _fileSize);
 
     /*!
-     *  Connection ê´€ë ¨ unordered_map ë³€ìˆ˜ ì´ˆê¸°í™”
+     *  Connection °ü·Ã unordered_map º¯¼ö ÃÊ±âÈ­
      */
     void _Clear();
 
     /*!
-     *  ì„œë²„ ì»´í“¨í„°ì˜ CPU ì½”ì–´ ê°¯ìˆ˜ë¥¼ í˜¸ì¶œ GetSystemInfo()
+     *  ¼­¹ö ÄÄÇ»ÅÍÀÇ CPU ÄÚ¾î °¹¼ö¸¦ È£Ãâ GetSystemInfo()
      */
     void _LoadCPUCount();
 };

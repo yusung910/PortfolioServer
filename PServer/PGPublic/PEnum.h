@@ -1,15 +1,15 @@
 #pragma once
 enum class EDBResult : int
 {
-    None = -1,          //頂勲鞁滌爛 順胳稖 鞐愲煬
-    Exception = -2,     //頂勲鞁滌爛 Exception 氚滌儩 (MSSQL 頂勲鞁滌爛 Error 彀胳“)
-    Failure = -1,       //頂勲鞁滌爛 鞁ろ枆 鞁ろ尐
-    Success = 0,        //頂勲鞁滌爛 鞁ろ枆 靹标车
+    None = -1,          //橇肺矫历 龋免 俊矾
+    Exception = -2,     //橇肺矫历 Exception 惯积 (MSSQL 橇肺矫历 Error 曼炼)
+    Failure = -1,       //橇肺矫历 角青 角菩
+    Success = 0,        //橇肺矫历 角青 己傍
 
     //--
-    AccountCreateFailed = 1,    //瓿勳爼 靸濎劚 鞁ろ尐
-    DuplicateLogin = 2,         //瓿勳爼 鞚挫 鞝戩啀
-    PermanentBlock = 3,         //瓿勳爼 鞓侁惮 鞝曥 
-    DurationBlock = 4,          //瓿勳爼 鞓侁惮 鞝曥 
+    AccountCreateFailed = 1,    //拌沥 积己 角菩
+    DuplicateLogin = 2,         //拌沥 捞吝 立加
+    PermanentBlock = 3,         //拌沥 康备 沥瘤 
+    DurationBlock = 4,          //拌沥 康备 沥瘤 
 
 };

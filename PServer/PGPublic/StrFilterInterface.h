@@ -12,7 +12,7 @@ enum class EStrFilterType
 };
 
 // common Regex PATTERN
-// non Latin Î¨∏ÏûêÏó¥ Ï∂îÏ∂ú
+// non Latin πÆ¿⁄ø≠ √ﬂ√‚
 constexpr const wchar_t* REGEX_PATTERN_ASCII = L"([^A-Za-z0-9])";
 //
 constexpr const wchar_t* REGEX_PATTERN_ASCII_ACCOUNT_UKEY = L"([^A-Za-z0-9_-])";

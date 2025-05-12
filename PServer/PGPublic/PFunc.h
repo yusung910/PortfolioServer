@@ -7,7 +7,7 @@
 #include <RefSingleton.h>
 #include <DefineMacro.h>
 
-// InnerPacket Pointer nullptr ì²´í¬
+// InnerPacket Pointer nullptr Ã¼Å©
 #define CheckPointer()                                          \
 if(nullptr == _data.get())                                      \
 {                                                               \
@@ -37,8 +37,8 @@ public:
     bool CheckHasStr(const flatbuffers::String* _src);
 
     /*!
-     *  _isAllowEmpty = true -> _destì— ê°’ì„ ë¹„ìš´ë‹¤
-     *  _isAllowEmpty = false -> _destì˜ ê°’ì„ ê·¸ëŒ€ë¡œ ë‘”ë‹¤
+     *  _isAllowEmpty = true -> _dest¿¡ °ªÀ» ºñ¿î´Ù
+     *  _isAllowEmpty = false -> _destÀÇ °ªÀ» ±×´ë·Î µÐ´Ù
      */
     bool CheckAndSetStr(const flatbuffers::String* _src, std::string& _dest, const bool& _isAllowEmpty = false);
 

@@ -4,8 +4,8 @@
  *  @date 2025-01-23
  *  @project PGLogin
  *
- *  ë‚´ë¶€ì— ìžˆëŠ” í”Œëž«í¼ê³¼ í†µì‹ í•˜ê¸° ìœ„í•œ í´ëž˜ìŠ¤
- *  ì„œë²„ë¥¼ ì§ì ‘ì ìœ¼ë¡œ ì»¨íŠ¸ë¡¤í•œë‹¤.
+ *  ³»ºÎ¿¡ ÀÖ´Â ÇÃ·§Æû°ú Åë½ÅÇÏ±â À§ÇÑ Å¬·¡½º
+ *  ¼­¹ö¸¦ Á÷Á¢ÀûÀ¸·Î ÄÁÆ®·ÑÇÑ´Ù.
  */
 #pragma once
 class IPFService

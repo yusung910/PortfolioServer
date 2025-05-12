@@ -72,7 +72,7 @@
     <Build Include="Tables\AbilityStatRatePerTrainingStat.sql" />
     <Build Include="StoredProcedure\spAbilityStatRatePerTrainingStatSelect.sql" />
     <Build Include="StoredProcedure\spLevelBaseAbilityStatSelect.sql" />
-    <Build Include="StoredProcedure\spPilgrimStatSelect.sql" />
+    <Build Include="StoredProcedure\spObjectStatisticsSelect.sql" />
     <Build Include="Tables\AwakenAValue.sql" />
     <Build Include="StoredProcedure\spAwakenAValueSelect.sql" />
     <Build Include="Tables\NPC.sql" />

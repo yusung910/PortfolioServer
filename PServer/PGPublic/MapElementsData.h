@@ -28,8 +28,8 @@ private:
     size_t m_nWidth = 0;
     size_t m_nHeight = 0;
 
-    size_t m_nLeft = 0;
-    size_t m_nLeftBottom = 0;
+    int m_nLeft = 0;
+    int m_nLeftBottom = 0;
 
     size_t m_nBufferSize = 0;
 
@@ -51,8 +51,8 @@ public:
     const int& GetLayerID() const;
     const size_t& GetWidth() const;
     const size_t& GetHeight() const;
-    const int& GetLeft() const;
-    const int& GetLeftBottom() const;
+    const size_t& GetLeft() const;
+    const size_t& GetLeftBottom() const;
 
     int* GetLayerData();
 

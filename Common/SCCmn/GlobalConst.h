@@ -14,15 +14,15 @@
 #endif // !SERVER_BUILD
 
 
-// ì„œë²„ ì „ì—­ì—ì„œ ì‚¬ìš©í•  ë³€ìˆ˜ë“¤ ì„ ì–¸
+// ¼­¹ö Àü¿ª¿¡¼­ »ç¿ëÇÒ º¯¼öµé ¼±¾ð
 
-//UTF-32ê¹Œì§€ ì§€ì›í•˜ê¸° ìœ„í•´ ê¸€ìž ìˆ˜ ê³„ì‚°ì‹œ ê³±í•´ì•¼í•  í¬ê¸°
+//UTF-32±îÁö Áö¿øÇÏ±â À§ÇØ ±ÛÀÚ ¼ö °è»ê½Ã °öÇØ¾ßÇÒ Å©±â
 const int32_t   G_N_CHAR_SIZE = 4;
 
-//ê²Œìž„ ìµœëŒ€ ëª…ì„±(level)
+//°ÔÀÓ ÃÖ´ë ¸í¼º(level)
 const int32_t   G_N_MAX_LEVEL = 9999;
 
-//AccountToken ìµœëŒ€ í¬ê¸°
+//AccountToken ÃÖ´ë Å©±â
 constexpr int	ACCOUNT_UNIQUE_KEY_MAXSIZE = 256;
 
 

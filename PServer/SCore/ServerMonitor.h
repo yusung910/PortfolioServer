@@ -4,7 +4,7 @@
 
 #include <RefSingleton.h>
 
-// CPU ì‚¬ìš©ë¥  êµ¬í•˜ëŠ” í—¤ë”
+// CPU »ç¿ë·ü ±¸ÇÏ´Â Çì´õ
 //PDH :: Performancer Data Helper
 #include <Pdh.h>	//PerformanceCounter Query
 #pragma comment(lib, "pdh.lib")
@@ -14,7 +14,7 @@ class SCoreAPI ServerMonitor : public RefSingleton <ServerMonitor>
 private:
 	int m_nCPUNums = 0;
 	//https://m.blog.naver.com/lhk0523/140153391828
-	//í•˜ë“œì›¨ì–´ ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ëŠ”ë° ì‚¬ìš©ë˜ëŠ” êµ¬ì¡°ì²´
+	//ÇÏµå¿ş¾î Á¤º¸¸¦ °¡Á®¿À´Âµ¥ »ç¿ëµÇ´Â ±¸Á¶Ã¼
 	ULARGE_INTEGER m_oLastCPU = {};
 	ULARGE_INTEGER m_oLastSystemCPU = {};
 	ULARGE_INTEGER m_oLastUserCPU = {};
@@ -36,17 +36,17 @@ public:
 	std::string GetCurrentCPUUsageString(const double& _usage);
 	std::string GetCurrentCPUUsageString();
 
-	// ë¨¸ì‹  ì „ì²´ CPU
+	// ¸Ó½Å ÀüÃ¼ CPU
 	double GetMachineCPUUsage() const;
 
 
-	// ë¨¸ì‹  ì „ì²´ ë©”ëª¨ë¦¬ ì‚¬ìš©ë¥ 
+	// ¸Ó½Å ÀüÃ¼ ¸Ş¸ğ¸® »ç¿ë·ü
 	double GetMachineMemoryUsage() const;
-	double GetMachineMemoryUsage(int64_t& _usage, int64_t& _total) const;	// ë‹¨ìœ„ : byte
+	double GetMachineMemoryUsage(int64_t& _usage, int64_t& _total) const;	// ´ÜÀ§ : byte
 
-	// ë¨¸ì‹  ë””ìŠ¤í¬ ì‚¬ìš©ë¥ 
+	// ¸Ó½Å µğ½ºÅ© »ç¿ë·ü
 	double GetMachineDiskUsage(const std::wstring& _strDrive = L"C:") const;
-	double GetMachineDiskUsage(const std::wstring& _strDrive, int64_t& _usage, int64_t& _total) const;	// ë‹¨ìœ„ : byte
+	double GetMachineDiskUsage(const std::wstring& _strDrive, int64_t& _usage, int64_t& _total) const;	// ´ÜÀ§ : byte
 
 };
 

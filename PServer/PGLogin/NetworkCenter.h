@@ -1,5 +1,5 @@
 #pragma once
-//Inner Packet í†µì‹ ì„ ìœ„í•œ inline í•¨ìˆ˜
+//Inner Packet Åë½ÅÀ» À§ÇÑ inline ÇÔ¼ö
 
 #include "LoginDBLoadBalancer.h"
 #include "LoginService.h"

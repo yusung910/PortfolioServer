@@ -15,7 +15,7 @@ SummonsData::SummonsData(const SummonsData& _data)
     m_eShapeType = _data.m_eShapeType;
     m_fPosX = _data.m_fPosX;
     m_fPosY = _data.m_fPosY;
-    m_fRadius = _data.m_fRadius;
+    m_nRadius = _data.m_nRadius;
     m_fWidth = _data.m_fWidth;
     m_fHeight = m_fHeight;
     m_fRotation = m_fRotation;
@@ -41,7 +41,7 @@ SummonsData::SummonsData(const SummonsData* _data)
     m_eShapeType = _data->m_eShapeType;
     m_fPosX = _data->m_fPosX;
     m_fPosY = _data->m_fPosY;
-    m_fRadius = _data->m_fRadius;
+    m_nRadius = _data->m_nRadius;
     m_fWidth = _data->m_fWidth;
     m_fHeight = m_fHeight;
     m_fRotation = m_fRotation;
@@ -82,7 +82,7 @@ void SummonsData::Reset()
     m_eShapeType = EShape::Point;
     m_fPosX = 0.f;
     m_fPosY = 0.f;
-    m_fRadius = 0;
+    m_nRadius = 0;
     m_fWidth = 0.f;
     m_fHeight = 0.f;
     m_fRotation = 0;
@@ -119,9 +119,9 @@ const float& SummonsData::GetPosY() const noexcept
     return m_fPosY;
 }
 
-const float& SummonsData::GetRadius() const noexcept
+const int& SummonsData::GetRadius() const noexcept
 {
-    return m_fRadius;
+    return m_nRadius;
 }
 
 const float& SummonsData::GetWidth() const noexcept
@@ -155,7 +155,7 @@ void SummonsData::SetSummonsData(const EShape& _shape, const int& _mapID, const 
     m_nMapID = _mapID;
     m_fPosX = _posX;
     m_fPosY = _posY;
-    m_fRadius = _rad;
+    m_nRadius = _rad;
 
     m_fWidth = _width;
     m_fHeight = _height;

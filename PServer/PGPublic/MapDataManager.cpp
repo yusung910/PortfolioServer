@@ -1,15 +1,18 @@
+#include "PGPPrivate.h"
+
 #include "MapDataManager.h"
 
 #include "DataProcessManager.h"
 #include "MapElementsData.h"
 #include "MDBDataManager.h"
-#include "PGPPrivate.h"
 #include "ServerConfig.h"
 
 #include <FileSystem.h>
 #include <json/json.h>
-#include <LoggingMacro.h>
 #include <MasterDB.h>
+#include <LoggingMacro.h>
+#include <StringUtil.h>
+#include <iostream>
 
 
 MapDataManager::~MapDataManager()
@@ -26,7 +29,7 @@ MapDataManager::~MapDataManager()
     m_umMapElementsDatas.clear();
 }
 
-bool MapDataManager::Initialize()
+bool MapDataManager::Init()
 {
     bool localSuccess = true;
 
@@ -60,7 +63,7 @@ bool MapDataManager::Initialize()
         switch (it->second->MapType)
         {
         default:
-
+            break;
         }
 
     }
@@ -83,6 +86,7 @@ bool MapDataManager::_AddData(MDBMapInfo* _info)
     }
 
     MapLoadData addMapElemData;
+
     addMapElemData.m_nMapID = _info->MapID;
     addMapElemData.m_nParentMapID = _info->ParentMapID;
 
@@ -126,7 +130,7 @@ bool MapDataManager::_SetMapInfo(MapLoadData& _data)
         if (false == lIS.is_open())
         {
             //해당 MapID과 관련된 json 파일(info, spawn 등)이 없음
-            VIEW_WRITE_ERROR(L"Map(ID: %d) has not Json File!", _data.m_nMapID);
+            VIEW_WRITE_ERROR("Map(ID: %d) has not Json File!", _data.m_nMapID);
             return false;
         }
     }

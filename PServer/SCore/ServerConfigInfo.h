@@ -3,10 +3,10 @@
 
 constexpr int DEFAULT_TIMEOUT_MS = 3600000;
 
-//ê¸°ë³¸ ìµœëŒ€ ì—°ê²° ê°€ëŠ¥ ìˆ˜
+//±âº» ÃÖ´ë ¿¬°á °¡´É ¼ö
 constexpr int DEFAULT_MAX_CONNECTION = 5000;
 
-// ì„œë²„ê°€ ìˆ˜ì‹  ë°›ì„ ì†Œì¼“ ì •ë³´
+// ¼­¹ö°¡ ¼ö½Å ¹ŞÀ» ¼ÒÄÏ Á¤º¸
 struct ListenerInfo
 {
     std::string m_sServiceName = "Game";
@@ -18,7 +18,7 @@ struct ListenerInfo
 };
 
 
-// DB ì ‘ì† ì •ë³´
+// DB Á¢¼Ó Á¤º¸
 struct DBInfo
 {
     std::string m_sDBHost = "127.0.0.1";
@@ -46,7 +46,7 @@ struct DBInfo
 constexpr const char* DEFAULT_SERVICE_NAME = "Server";
 constexpr const char* DEFAULT_LOG_DIR = "./Log/";
 
-//ë¡œê·¸ ê¸°ë¡ ê´€ë ¨ ì •ë³´
+//·Î±× ±â·Ï °ü·Ã Á¤º¸
 struct LogSettingInfo
 {
     std::string m_sServiceName = DEFAULT_SERVICE_NAME;

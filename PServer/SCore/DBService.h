@@ -5,7 +5,7 @@
 #include "DBWorker.h"
 #include "StringUtil.h"
 
-//í¸ì˜ìš© ë§¤í¬ë¡œ í•¨ìˆ˜
+//ÆíÀÇ¿ë ¸ÅÅ©·Î ÇÔ¼ö
 
 #define CheckSession()  auto lTmpSess = GetSession();                                                       \
                         if(nullptr == lTmpSess)                                                             \
@@ -24,13 +24,13 @@
                         }
 
 
-//Statementë¥¼ ì´ìš©í•œ Select ê²°ê³¼ ë°ì´í„° ì¡´ì¬ ì—¬ë¶€ í™•ì¸
+//Statement¸¦ ÀÌ¿ëÇÑ Select °á°ú µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ È®ÀÎ
 #define HasResult(x) (false == x.toString().empty())
 
-//Statementë¥¼ ì´ìš©í•´ Select í•  ë•Œ ê²°ê³¼ ë°ì´í„° ì¡´ì¬ ì—¬ë¶€ ì²´í¬ í›„ ì—†ì„ ê²½ìš° Break;
+//Statement¸¦ ÀÌ¿ëÇØ Select ÇÒ ¶§ °á°ú µ¥ÀÌÅÍ Á¸Àç ¿©ºÎ Ã¼Å© ÈÄ ¾øÀ» °æ¿ì Break;
 #define CheckResult(x) if(true == x.toString().empty()) break;
 
-// í¸ì˜ìš© ë§¤í¬ë¡œ í•¨ìˆ˜ end
+// ÆíÀÇ¿ë ¸ÅÅ©·Î ÇÔ¼ö end
 
 class DBWorker;
 class DBServicePO;

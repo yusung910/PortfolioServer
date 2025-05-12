@@ -4,9 +4,9 @@
  *  @date 2025-01-04
  *  @project PGLogin
  *
- *  LoginService ì´ì™¸ì—ì„œ ê°’ì„ ì–»ì–´ì˜¤ëŠ” ë“± ì²˜ë¦¬ë¥¼ í•  ë•Œ
- *  ì´ í´ëž˜ìŠ¤ ë‚´ë¶€ì—ì„œ ë°›ì•„ì„œ ì „ì†¡í•  ê²ƒ
- *  ì ˆëŒ€ë¡œ LoginPlayer*ë¥¼ ë°›ì•„ì„œ ì‚¬ìš©í•˜ì§€ ì•Šë„ë¡ í•œë‹¤.
+ *  LoginService ÀÌ¿Ü¿¡¼­ °ªÀ» ¾ò¾î¿À´Â µî Ã³¸®¸¦ ÇÒ ¶§
+ *  ÀÌ Å¬·¡½º ³»ºÎ¿¡¼­ ¹Þ¾Æ¼­ Àü¼ÛÇÒ °Í
+ *  Àý´ë·Î LoginPlayer*¸¦ ¹Þ¾Æ¼­ »ç¿ëÇÏÁö ¾Êµµ·Ï ÇÑ´Ù.
  */
 #pragma once
 #include <RefSingleton.h>
@@ -29,9 +29,9 @@ public:
     virtual ~LoginPlayerManager();
 
     /*!
-     *  ë¡œê·¸ì¸ ì²˜ë¦¬í•  í”Œë ˆì´ì–´ë¥¼ ë“±ë¡í•œë‹¤
-     *  ë“±ë¡ì— ì„±ê³µ í–ˆì„ê²½ìš° LoginPlayer í¬ì¸í„° ë³€ìˆ˜ë¥¼ ë°˜í™˜
-     *  ì´ë¯¸ ë“±ë¡ ë˜ì–´ ìžˆì„ê²½ìš° nullptrë¡œ ë°˜í™˜
+     *  ·Î±×ÀÎ Ã³¸®ÇÒ ÇÃ·¹ÀÌ¾î¸¦ µî·ÏÇÑ´Ù
+     *  µî·Ï¿¡ ¼º°ø ÇßÀ»°æ¿ì LoginPlayer Æ÷ÀÎÅÍ º¯¼ö¸¦ ¹ÝÈ¯
+     *  ÀÌ¹Ì µî·Ï µÇ¾î ÀÖÀ»°æ¿ì nullptr·Î ¹ÝÈ¯
      *
      *      @param [in,out] _hostID 
      *      @param [in]     _msg    

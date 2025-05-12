@@ -61,6 +61,7 @@ struct MDBMapInfo
     SVint MapID = 0;
     SVint ParentMapID = 0;
     SVString MapFileName;
+    SVString MapFilePath;
 
     SVint MapSize = 0;
     SVint MapWidth = 0;

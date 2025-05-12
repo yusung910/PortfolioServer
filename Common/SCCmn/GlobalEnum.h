@@ -19,12 +19,12 @@ namespace EServer
     {
         None = 0,
         CDN,
-        Login,	        // ë¡œê·¸ì¸ ì„œë²„
-        Game,	        // ê²Œì„ ì„œë²„
-        Log,	        // ë¡œê·¸ ì„œë²„
-        Platform,       // í”Œë«í¼ (ì›ê²©ê´€ë¦¬) ì„œë²„
-        Messenger,      // ë©”ì‹ ì € ì„œë²„
-        API,	        // API ì„œë²„
+        Login,	        // ·Î±×ÀÎ ¼­¹ö
+        Game,	        // °ÔÀÓ ¼­¹ö
+        Log,	        // ·Î±× ¼­¹ö
+        Platform,       // ÇÃ·§Æû (¿ø°İ°ü¸®) ¼­¹ö
+        Messenger,      // ¸Ş½ÅÀú ¼­¹ö
+        API,	        // API ¼­¹ö
         Bill,
         Max,
     };
@@ -37,17 +37,17 @@ namespace EServer
     }
 }
 
-//ì„œë²„ ë‚´ë¶€ ìœ ì € ìˆ˜ì— ë”°ë¥¸ ìƒí™©
+//¼­¹ö ³»ºÎ À¯Àú ¼ö¿¡ µû¸¥ »óÈ²
 namespace EServerStatus
 {
     enum Type :int
     {
         None = 0,
 
-        Maintain,   //ì ê²€ ì¤‘
-        Good,       //ì •ìƒ -> ì ì€ ë¶€í•˜ 
-        Confusion,  //í˜¼ì¡ => ì¤‘ê°„ ë¶€í•˜ 
-        Overflow,   //í¬í™” -> ë†’ì€ ë¶€í•˜ 
+        Maintain,   //Á¡°Ë Áß
+        Good,       //Á¤»ó -> ÀûÀº ºÎÇÏ 
+        Confusion,  //È¥Àâ => Áß°£ ºÎÇÏ 
+        Overflow,   //Æ÷È­ -> ³ôÀº ºÎÇÏ 
         Max,
     };
 
@@ -67,7 +67,7 @@ namespace EServerStatus
     }
 };
 
-// ì„œë²„ ìƒíƒœ
+// ¼­¹ö »óÅÂ
 namespace EServerState
 {
     enum Type :int
@@ -79,7 +79,7 @@ namespace EServerState
     };
 }
 
-//ì ‘ì† í´ë¼ ìœ í˜•
+//Á¢¼Ó Å¬¶ó À¯Çü
 namespace EClient
 {
     enum Type :int
@@ -95,7 +95,7 @@ namespace EClient
     };
 }
 
-//Login ìœ í˜•
+//Login À¯Çü
 namespace ELoginPlatform
 {
     enum Type
@@ -115,18 +115,18 @@ namespace ELoginPlatform
     }
 }
 
-//ë¹Œë“œ ìœ í˜•
+//ºôµå À¯Çü
 namespace EBuild
 {
     enum Type
     {
         None = 0,
-        Dev = None,     //ê°œë°œ
-        Live = 1,       //ë°°í¬
+        Dev = None,     //°³¹ß
+        Live = 1,       //¹èÆ÷
     };
 }
 
-//ê³„ì •ìœ í˜•
+//°èÁ¤À¯Çü
 namespace EAccount
 {
     enum Type
@@ -138,7 +138,7 @@ namespace EAccount
     };
 }
 
-//ê³„ì • ìƒíƒœ
+//°èÁ¤ »óÅÂ
 namespace EAccountStatus
 {
     enum Type
@@ -155,30 +155,30 @@ namespace EAccountStatus
 namespace EAbility
 {
     /*******************************************************************
-     *  MasterDB-> MDBPilgrimStat ì„ ì–¸ í•„ìš”
+     *  MasterDB-> MDBPilgrimStat ¼±¾ğ ÇÊ¿ä
      *******************************************************************/
     enum Type
     {
         None = 0,
-        Level,            //ëª…ì„±
-        Strength,         //í˜
-        Dexterity,        //ë¯¼ì²©
-        Endurance,        //ì¸ë‚´
-        WeaponMastery,    //ë¬´ê¸° ìˆ™ë ¨ë„
+        Level,            //¸í¼º
+        Strength,         //Èû
+        Dexterity,        //¹ÎÃ¸
+        Endurance,        //ÀÎ³»
+        WeaponMastery,    //¹«±â ¼÷·Ãµµ
 
         //
-        HP,               //ìƒë ¹ë ¥
-        MP,               //ë§ˆë‚˜
+        HP,               //»ı·É·Â
+        MP,               //¸¶³ª
 
         //
-        MaxHP,            //ìµœëŒ€ìƒëª…ë ¥
-        MaxMP,            //ìµœëŒ€ë§ˆë‚˜
+        MaxHP,            //ÃÖ´ë»ı¸í·Â
+        MaxMP,            //ÃÖ´ë¸¶³ª
 
         //
-        MeleeMinDamage,   // ê·¼ì ‘ ìµœì†Œ ë°ë¯¸ì§€
-        MeleeMaxDamage,   // ê·¼ì ‘ ìµœëŒ€ ë°ë¯¸ì§€
-        MeleeDamage,      // ê·¼ì ‘ ê³µê²©ë ¥
-        MeleeDefence,     // ê·¼ì ‘ ë°©ì–´ë ¥
+        MeleeMinDamage,   // ±ÙÁ¢ ÃÖ¼Ò µ¥¹ÌÁö
+        MeleeMaxDamage,   // ±ÙÁ¢ ÃÖ´ë µ¥¹ÌÁö
+        MeleeDamage,      // ±ÙÁ¢ °ø°İ·Â
+        MeleeDefence,     // ±ÙÁ¢ ¹æ¾î·Â
         
         Max
     };
@@ -207,16 +207,16 @@ namespace EAbility
     }
 }
 
-//ë¬´ê¸° ìˆ™ë ¨ë„ ì¢…ë¥˜
+//¹«±â ¼÷·Ãµµ Á¾·ù
 namespace EWeaponMastery
 {
     enum Type
     {
         None = 0,
-        Sword,      //ê²€
-        blade,      //ë„
-        Spear,      //ì°½
-        Clow,       //ì¡°
+        Sword,      //°Ë
+        blade,      //µµ
+        Spear,      //Ã¢
+        Clow,       //Á¶
 
         Max,
     };
@@ -240,11 +240,11 @@ namespace EDistrict
 {
     enum Type
     {
-        None = 0,   //ì¼ë°˜ì§€ì—­
-        Safe,       //ì•ˆì „
-        Training,   //í›ˆë ¨
+        None = 0,   //ÀÏ¹İÁö¿ª
+        Safe,       //¾ÈÀü
+        Training,   //ÈÆ·Ã
         PK,         //PVP
-        ClanWar,    //ê¸¸ë“œì „ìŸì§€ì—­
+        ClanWar,    //±æµåÀüÀïÁö¿ª
         
 
     };
@@ -263,7 +263,7 @@ namespace ECost
 }
 
 
-//ì¥ë¹„ ìŠ¬ë¡¯
+//Àåºñ ½½·Ô
 namespace EEquipSlot
 {
     enum Type
@@ -271,14 +271,14 @@ namespace EEquipSlot
         None = 0,
 
         //basic
-        Amulet,         //ëª©ê±¸ì´
-        Armor,          //ê°‘ì˜·
-        Shirts,         //ìƒì˜
-        Pants,          //í•˜ì˜
-        Cape,           //ë§í† 
-        Weapon,         //ë¬´ê¸°
-        Shield,         //ìŠ¬í˜¸
-        Shoes,          //ì‹ ë°œ
+        Amulet,         //¸ñ°ÉÀÌ
+        Armor,          //°©¿Ê
+        Shirts,         //»óÀÇ
+        Pants,          //ÇÏÀÇ
+        Cape,           //¸ÁÅä
+        Weapon,         //¹«±â
+        Shield,         //½½È£
+        Shoes,          //½Å¹ß
     };
 
     inline bool IsBasicEquipSlot(const Type& _t)
@@ -287,7 +287,7 @@ namespace EEquipSlot
     }
 }
 
-//ë³€ì‹  ë“±ê¸‰
+//º¯½Å µî±Ş
 namespace TransformGrade
 {
     enum Type
@@ -301,7 +301,7 @@ namespace TransformGrade
     };
 }
 
-//ê°ì„± ë‹¨ê³„
+//°¢¼º ´Ü°è
 namespace AwakenGrade
 {
     enum Type
@@ -314,32 +314,32 @@ namespace AwakenGrade
     };
 }
 
-//NPC ìœ í˜•
+//NPC À¯Çü
 namespace ENPC
 {
     enum Type : int
     {
         None = 0,
 
-        Dummy,   // ê³µê²© ê°€ëŠ¥í•œ ë”ë¯¸ NPC -> ê´‘ì„, ì—°ìŠµìš© ë“±ë“±
-        Monster, // ì‚¬ëƒ¥ ëª¬ìŠ¤í„°
-        Summon,  // ì†Œí™˜ìˆ˜
+        Dummy,   // °ø°İ °¡´ÉÇÑ ´õ¹Ì NPC -> ±¤¼®, ¿¬½À¿ë µîµî
+        Monster, // »ç³É ¸ó½ºÅÍ
+        Summon,  // ¼ÒÈ¯¼ö
 
-        Supporter,  //ì§€ì›í˜• NPC -> ìƒì¸ ë“±ë“±
+        Supporter,  //Áö¿øÇü NPC -> »óÀÎ µîµî
 
         Max
     };
 }
 
-//NPC ë“±ê¸‰
+//NPC µî±Ş
 namespace ENPCMonsterGrade
 {
     enum Type : int
     {
         None = 0,
-        Normal,         //ì¼ë°˜ ëª¬ìŠ¤í„°
-        Named,          //ë„¤ì„ë“œ ëª¬ìŠ¤í„°
-        Boss,           //ë³´ìŠ¤ ëª¬ìŠ¤í„°
+        Normal,         //ÀÏ¹İ ¸ó½ºÅÍ
+        Named,          //³×ÀÓµå ¸ó½ºÅÍ
+        Boss,           //º¸½º ¸ó½ºÅÍ
         Max
     };
 }
@@ -351,11 +351,11 @@ namespace ENPCMonsterGroup
     {
         None = 0,
 
-        Normal,         //ì¼ë°˜
-        Beast,          //ì•¼ìˆ˜
-        Human,          //ì¸ê°„
-        Demon,          //ì•…ë§ˆ
-        Zombi,          //ì¢€ë¹„
+        Normal,         //ÀÏ¹İ
+        Beast,          //¾ß¼ö
+        Human,          //ÀÎ°£
+        Demon,          //¾Ç¸¶
+        Zombi,          //Á»ºñ
         Max
     };
 }
@@ -367,10 +367,10 @@ namespace ENPCSupporterGroup
     enum Type : int
     {
         None = 0,
-        Story,      //ìŠ¤í† ë¦¬
-        Inn,        //ì—¬ê´€
-        Store,      //ìƒì¸
-        WareHouse,  //ì°½ê³ 
+        Story,      //½ºÅä¸®
+        Inn,        //¿©°ü
+        Store,      //»óÀÎ
+        WareHouse,  //Ã¢°í
         Max
     };
 }

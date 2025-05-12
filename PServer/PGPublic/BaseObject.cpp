@@ -3,8 +3,8 @@
 
 void BaseObject::Reset()
 {
-    m_nSequenceID = 0;       //메모리 적재된 오브젝트 번호
-    m_nTemplateID = 0;       //
+    m_nSequence = 0;       //메모리 적재된 오브젝트 번호
+    m_nNPCUniqueID = 0;       //
 
     m_sName.clear();                 //UTF-8
     m_oObjStats.Reset();

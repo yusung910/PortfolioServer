@@ -4,11 +4,11 @@
  *  @date 2024-10-15
  *  @project SCore
  *
- *  ë„¤íŠ¸ì›Œí¬ ì—°ê²°ê³¼ ê´€ë ¨ëœ ì´ë²¤íŠ¸ ì‹±í¬ì— ì‚¬ìš©ë˜ëŠ” í´ë˜ìŠ¤ì—ì„œ ìƒì† ë°›ì•„ ì‚¬ìš©í•˜ëŠ” í´ë˜ìŠ¤
- *  ê°ê° ì„œë²„(billing, game ë“±)ì—ì„œ NetworkConnectë¥¼ ì§„í–‰ í•  ë•Œ
- *  ì¸ìê°’ìœ¼ë¡œ NetworkEventSyncë¥¼ ìƒì†ë°›ëŠ” í´ë˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±ì— ì‚¬ìš©í•œë‹¤.
+ *  ³×Æ®¿öÅ© ¿¬°á°ú °ü·ÃµÈ ÀÌº¥Æ® ½ÌÅ©¿¡ »ç¿ëµÇ´Â Å¬·¡½º¿¡¼­ »ó¼Ó ¹Ş¾Æ »ç¿ëÇÏ´Â Å¬·¡½º
+ *  °¢°¢ ¼­¹ö(billing, game µî)¿¡¼­ NetworkConnect¸¦ ÁøÇà ÇÒ ¶§
+ *  ÀÎÀÚ°ªÀ¸·Î NetworkEventSync¸¦ »ó¼Ó¹Ş´Â Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º »ı¼º¿¡ »ç¿ëÇÑ´Ù.
  *
- *  ì¸í„°í˜ì´ìŠ¤ ì„±ê²©ì´ í¼
+ *  ÀÎÅÍÆäÀÌ½º ¼º°İÀÌ Å­
  */
 #pragma once
 #include "SCoreAPI.h"
@@ -25,7 +25,7 @@ public:
     virtual ~NetworkEventSync() = default;
 
     /*!
-     *  ì„œë²„ì—ì„œ NetworkManagerë¡œ Connect() ì‹¤í–‰ í•  ë•Œ ë°œìƒí•  ì´ë²¤íŠ¸ í•¨ìˆ˜
+     *  ¼­¹ö¿¡¼­ NetworkManager·Î Connect() ½ÇÇà ÇÒ ¶§ ¹ß»ıÇÒ ÀÌº¥Æ® ÇÔ¼ö
      *
      *      @param [in] _hostID
      *      @param [in] _ip
@@ -36,7 +36,7 @@ public:
 
     /*!
      *
-     *  ì„œë²„ì—ì„œ NetworkManagerë¡œ Close() ì‹¤í–‰ í•  ë•Œ ë°œìƒí•  ì´ë²¤íŠ¸ í•¨ìˆ˜
+     *  ¼­¹ö¿¡¼­ NetworkManager·Î Close() ½ÇÇà ÇÒ ¶§ ¹ß»ıÇÒ ÀÌº¥Æ® ÇÔ¼ö
      *
      *      @param [in] _hostID
      */
@@ -44,13 +44,13 @@ public:
 
 
     /*!
-     *  ì„œë²„ì—ì„œ NetworkManagerì—ì„œ Receive í•¨ìˆ˜ ì‹¤í–‰ ë  ë•Œ ì‹¤í–‰ë  ì´ë²¤íŠ¸ í•¨ìˆ˜
+     *  ¼­¹ö¿¡¼­ NetworkManager¿¡¼­ Receive ÇÔ¼ö ½ÇÇà µÉ ¶§ ½ÇÇàµÉ ÀÌº¥Æ® ÇÔ¼ö
      */
     virtual void OnReceive(const int& _hostID, const int& _msgID, char* _msg, const int& _msgSize) = 0;
 
     /*!
      *
-     *  ì„œë²„ ì—°ê²° ì‹œë„ ì‹¤íŒ¨ í–ˆì„ ê²½ìš°
+     *  ¼­¹ö ¿¬°á ½Ãµµ ½ÇÆĞ ÇßÀ» °æ¿ì
      *      @param [in] _hostID
      */
     virtual void OnConnectedFailed(const int& _hostID)
@@ -59,7 +59,7 @@ public:
     }
 
     /*!
-     *  Listenìƒíƒœê°€ ë˜ì—ˆì„ ë•Œ
+     *  Listen»óÅÂ°¡ µÇ¾úÀ» ¶§
      */
     virtual void OnListen() {};
 
@@ -78,7 +78,7 @@ public:
      */
     void SetTimeoutMS(const int& _ms = DEFAULT_HOST_TIMEOUT_MS) noexcept
     {
-        //ìµœì†Œê°’ ë³´ì •
+        //ÃÖ¼Ò°ª º¸Á¤
         if (MIN_HOST_TIMEOUT_MS < _ms)
             m_nTimeoutMS = _ms;
     }

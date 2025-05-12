@@ -26,13 +26,13 @@ protected:
     bool OnHostConnect(int _hostID, const HostConnect& _msg);
     bool OnHostClose(int _hostID, const HostClose& _msg);
 
-    // Client -> LoginServer ì ‘ì†
+    // Client -> LoginServer Á¢¼Ó
     bool OnCLAuthReq(int _hostID, const CLAuthReq& _msg);
 
-    // Platform ì¸ì¦ í›„ AccountDB ì¡°íšŒ ê²°ê³¼
+    // Platform ÀÎÁõ ÈÄ AccountDB Á¶È¸ °á°ú
     bool OnUDBLAuthRes(InnerPacket::SharedPtr _data);
 
-    // ê²Œì„ì„œë²„ ì ‘ì† ìš”ì²­
+    // °ÔÀÓ¼­¹ö Á¢¼Ó ¿äÃ»
     bool OnCLConnectGameServerReq(int _hostID, const CLConnectGameServerReq& _msg);
 
     // Platform -> LoginServer
@@ -49,10 +49,10 @@ private:
     void _Statistics();
     void _UpdateTitle();
 
-    //ì—ëŸ¬ ë©”ì„¸ì§€ ì „ì†¡
+    //¿¡·¯ ¸Ş¼¼Áö Àü¼Û
     bool _SendErrorMessage(const int& _hostID, const EErrorMsg& _errorMsg, const EPacketProtocol& _msgID, const bool& _kick = false);
 
-    //Login ì§„í–‰
+    //Login ÁøÇà
     bool _AuthLoginProcess(int _hostID, const int& _clientType, const int& _appVer, const ELoginPlatform::Type _pfType, const std::string& _accountID);
 };
 

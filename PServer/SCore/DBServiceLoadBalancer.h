@@ -8,22 +8,22 @@ class DBServiceLoadBalancerMap;
 class SCoreAPI DBServiceLoadBalancer
 {
 private:
-    size_t m_nServiceCount = 0;     //ì´ DB ë™ì‹œ ì‹¤í–‰ ê°¯ìˆ˜(ë¡œë“œ ë°¸ëŸ°ì‹  ì „ìš©)
+    size_t m_nServiceCount = 0;     //ÃÑ DB µ¿½Ã ½ÇÇà °¹¼ö(·Îµå ¹ë·±½Å Àü¿ë)
 
     /*!
-     *  ë©”ì¸ DBë¥¼ ì‚¬ìš©í•˜ëŠ” ì“°ë ˆë“œë¥¼ nê°œ ìƒì„±í•˜ê³ 
-     *  ìž‘ì—…ì„ ë¶„ë°°í•˜ì—¬ ë™ì‹œì— DBë¥¼ ì²˜ë¦¬í•˜ëŠ” ë°©ì‹.
-     *  SetDBConfig()ë¡œ ë“±ë¡, Push()ë¡œ íŒ¨í‚· ìƒì„±í•˜ì—¬ ë¶„ë°°
+     *  ¸ÞÀÎ DB¸¦ »ç¿ëÇÏ´Â ¾²·¹µå¸¦ n°³ »ý¼ºÇÏ°í
+     *  ÀÛ¾÷À» ºÐ¹èÇÏ¿© µ¿½Ã¿¡ DB¸¦ Ã³¸®ÇÏ´Â ¹æ½Ä.
+     *  SetDBConfig()·Î µî·Ï, Push()·Î ÆÐÅ¶ »ý¼ºÇÏ¿© ºÐ¹è
      */
-    DBService** m_pServiceList = nullptr;   //ë¡œë“œ ë°¸ëŸ°ì‹± í•  ì„œë¹„ìŠ¤ ëª©ë¡
+    DBService** m_pServiceList = nullptr;   //·Îµå ¹ë·±½Ì ÇÒ ¼­ºñ½º ¸ñ·Ï
 
     /*!
-     *  ë©”ì¸ DBë¥¼ ë¡œë“œë°¸ëŸ°ì‹± í•˜ì§€ ì•Šê³  ë‚´ë¶€ ë¡œì§ ì „ìš©ìœ¼ë¡œ ì‚¬ìš©í•˜ê²Œ ë  ë³€ìˆ˜
+     *  ¸ÞÀÎ DB¸¦ ·Îµå¹ë·±½Ì ÇÏÁö ¾Ê°í ³»ºÎ ·ÎÁ÷ Àü¿ëÀ¸·Î »ç¿ëÇÏ°Ô µÉ º¯¼ö
      */
-    DBService* m_pDirectService = nullptr; //ì„œë²„ ë‹¨ì¼ ì„œë¹„ìŠ¤
+    DBService* m_pDirectService = nullptr; //¼­¹ö ´ÜÀÏ ¼­ºñ½º
 
     /*!
-     *  ì—¬ëŸ¬ DBì— 1 ì“°ë ˆë“œì”© ë¬¼ë ¤ì„œ ì‚¬ìš©í•˜ëŠ” ê²½ìš° ì‚¬ìš©ë¨.
+     *  ¿©·¯ DB¿¡ 1 ¾²·¹µå¾¿ ¹°·Á¼­ »ç¿ëÇÏ´Â °æ¿ì »ç¿ëµÊ.
      */
     DBServiceLoadBalancerMap* m_pServerIDServerList = nullptr;
 
@@ -49,7 +49,7 @@ public:
     void Exit();
 
     /*!
-     *  DB ì—°ê²°ì„ ì„¤ì •í•˜ê³  DBService ì“°ë ˆë“œë¥¼ ìƒì„± í• ë‹¹í•œë‹¤.
+     *  DB ¿¬°áÀ» ¼³Á¤ÇÏ°í DBService ¾²·¹µå¸¦ »ý¼º ÇÒ´çÇÑ´Ù.
      *
      *      @tparam T
      *      @tparam
@@ -88,8 +88,8 @@ public:
         m_pServiceList = new DBService * [m_nServiceCount];
 
         //-----------------------------------------
-        //í•´ë‹¹ ë¼ì¸ ê¸°ì¤€ìœ¼ë¡œ forë°˜ë³µë¬¸ì´ ë‚˜ë‰˜ì–´ ìžˆìŒ
-        //ë™ì¼í•œ ë°˜ë³µë¬¸ì¸ë° ì™œ ë‚˜ë‰˜ì–´ ìžˆëŠ”ì§€ í…ŒìŠ¤íŠ¸ í•„ìš”
+        //ÇØ´ç ¶óÀÎ ±âÁØÀ¸·Î for¹Ýº¹¹®ÀÌ ³ª´µ¾î ÀÖÀ½
+        //µ¿ÀÏÇÑ ¹Ýº¹¹®ÀÎµ¥ ¿Ö ³ª´µ¾î ÀÖ´ÂÁö Å×½ºÆ® ÇÊ¿ä
         for (size_t i = 0; i < m_nServiceCount; ++i)
         {
             m_pServiceList[i] = new T();
@@ -117,8 +117,8 @@ public:
     }
 
     /*!
-     *  DBConfigì— í•´ë‹¹í•˜ëŠ” Serviceë¥¼ ì¶”ê°€í•˜ê³ 
-     *  DBServiceì˜ ì“°ë ˆë“œë¥¼ ì‹¤í–‰í•œë‹¤
+     *  DBConfig¿¡ ÇØ´çÇÏ´Â Service¸¦ Ãß°¡ÇÏ°í
+     *  DBServiceÀÇ ¾²·¹µå¸¦ ½ÇÇàÇÑ´Ù
      *
      *      @tparam T
      *      @tparam

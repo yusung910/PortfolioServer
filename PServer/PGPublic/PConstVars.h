@@ -2,14 +2,14 @@
 #include <cstdint>
 
 
-//Serverì—ì„œë§Œ ì‚¬ìš©ë˜ëŠ” ìƒìˆ˜ ëª¨ìŒ
+//Server¿¡¼­¸¸ »ç¿ëµÇ´Â »ó¼ö ¸ğÀ½
 constexpr int	    PG_TRAFFIC_CHECK_TIME_MS = 10000; //30 sec
 constexpr int		PG_POOL_CHECK_TIME_MS = 300000;	// 5min;	
 constexpr int		PG_TITLE_CHECK_TIME_MS = 5000;	// 5 sec;	
-constexpr int		PG_UPDATE_TIMER_1_SECOND_MS = 1000;	// 1ì´ˆ
-constexpr int		PG_UPDATE_TIMER_1_MINUTE_MS = 60000;	// 1ë¶„
+constexpr int		PG_UPDATE_TIMER_1_SECOND_MS = 1000;	// 1ÃÊ
+constexpr int		PG_UPDATE_TIMER_1_MINUTE_MS = 60000;	// 1ºĞ
 constexpr int       PG_CHECK_RECONNECT_TIME_MS = 1000;
 
 constexpr int		PG_N_ZONE_SYNC_INTERVAL = 166;
-constexpr int		PG_N_ZONE_ATTACK_INTERVAL = 33;	// (1000/30) ê³µê²©ì— í•„ìš”í•œ ìµœì†Œ1í”„ë ˆì„ì‹œê°„(30í”„ë ˆì„ê°€ì •)
+constexpr int		PG_N_ZONE_ATTACK_INTERVAL = 33;	// (1000/30) °ø°İ¿¡ ÇÊ¿äÇÑ ÃÖ¼Ò1ÇÁ·¹ÀÓ½Ã°£(30ÇÁ·¹ÀÓ°¡Á¤)
 

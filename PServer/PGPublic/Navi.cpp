@@ -39,7 +39,7 @@ bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
     {
         int lMeshSize = std::max(mapData->MapHeight, mapData->MapWidth);
 
-        if (false == _LoadMapMesh(mapData->MapID, mapData->MapName, mapData->Mapsize))
+        if (false == _LoadMapMesh(mapData->MapID, mapData->MapFileName, mapData->MapSize))
         {
             VIEW_WRITE_ERROR("Load Map Mesh Failed!! MapID : %d", mapData->MapID);
         }

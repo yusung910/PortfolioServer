@@ -15,11 +15,11 @@
 
 *************************************************************************************/
 
-CREATE PROCEDURE [dbo].[spPilgrimStatSelect]
+CREATE PROCEDURE [dbo].[spObjectStatisticsSelect]
 AS
 BEGIN
     SELECT 
-          [Sequence]
+          [ObjectStatID]
         , [Strength]
         , [Dexterity]
         , [Enduracne]
@@ -32,5 +32,5 @@ BEGIN
         , [MeleeMaxDamage]
         , [MeleeDefence]
       FROM
-        PilgrimStat
+        ObjectStatistics
 END

@@ -12,7 +12,7 @@ private:
     EShape m_eShapeType = EShape::Point;
     float m_fPosX = 0.0f;
     float m_fPosY = 0.0f;
-    float m_fRadius = 0.0f;
+    int m_nRadius = 0;
     float m_fWidth = 0.0f;
     float m_fHeight = 0.0f;
     float m_fRotation = 0.0f;
@@ -43,7 +43,7 @@ public:
     const EShape& GetShapeType() const noexcept;
     const float& GetPosX() const noexcept;
     const float& GetPosY() const noexcept;
-    const float& GetRadius() const noexcept;
+    const int& GetRadius() const noexcept;
     const float& GetWidth() const noexcept;
     const float& GetHeight() const noexcept;
     const float& GetRotation() const noexcept;

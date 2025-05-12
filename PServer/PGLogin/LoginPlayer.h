@@ -8,20 +8,20 @@
 class LoginPlayer : public PGObject<LoginPlayer>
 {
 public:
-    EClient::Type m_eClientType = EClient::Type::None;  //ì ‘ì† í´ë¼ ìœ í˜•
-    EBuild::Type m_eBuildType = EBuild::Type::None;     //ë¹Œë“œ ì¢…ë¥˜
-    ELoginPlatform::Type m_eLoginPlatformType = ELoginPlatform::Type::None;     //ê²°ì œ ìŠ¤í† ì–´ íƒ€ì…
+    EClient::Type m_eClientType = EClient::Type::None;  //Á¢¼Ó Å¬¶ó À¯Çü
+    EBuild::Type m_eBuildType = EBuild::Type::None;     //ºôµå Á¾·ù
+    ELoginPlatform::Type m_eLoginPlatformType = ELoginPlatform::Type::None;     //°áÁ¦ ½ºÅä¾î Å¸ÀÔ
 
-    int m_nAppVersion = 0;                              //í´ë¼ ì•± ë²„ì „
-    int m_nBuildStamp = 0;                              //í´ë¼ ë¹Œë“œ ë²ˆí˜¸
+    int m_nAppVersion = 0;                              //Å¬¶ó ¾Û ¹öÀü
+    int m_nBuildStamp = 0;                              //Å¬¶ó ºôµå ¹øÈ£
 
     std::string m_sAuthKey = "";                        //key
-    int m_nAccountSeq = 0;                              //ê³„ì • ê³ ìœ  ì‹œí€€ìŠ¤
-    int m_nSelectedServerID = 0;                        //ì„ íƒí•œ ì„œë²„
+    int m_nAccountSeq = 0;                              //°èÁ¤ °íÀ¯ ½ÃÄö½º
+    int m_nSelectedServerID = 0;                        //¼±ÅÃÇÑ ¼­¹ö
 
-    bool m_bIsAllowed = false;                          //ì ‘ì† í—ˆìš© ì—¬ë¶€
+    bool m_bIsAllowed = false;                          //Á¢¼Ó Çã¿ë ¿©ºÎ
 
-    ELoginState m_eState = ELoginState::None;           //ë¡œê·¸ì¸ ì ˆì°¨ ìƒíƒœ
+    ELoginState m_eState = ELoginState::None;           //·Î±×ÀÎ ÀıÂ÷ »óÅÂ
     int m_nHostID = 0;                                  //
 
     std::string m_sReturnToken = "";                    //
@@ -29,7 +29,7 @@ public:
 
     int m_nOTP = 0;                                     //
 
-    std::unordered_set<int> m_umPilgrimSeqList;        //ì„œë²„ì— ì¡´ì¬í•˜ëŠ” ìºë¦­í„° ê³ ìœ  ì‹œí€€ìŠ¤ ëª©ë¡
+    std::unordered_set<int> m_umPilgrimSeqList;        //¼­¹ö¿¡ Á¸ÀçÇÏ´Â Ä³¸¯ÅÍ °íÀ¯ ½ÃÄö½º ¸ñ·Ï
 
 public:
     LoginPlayer(ObjectTag);

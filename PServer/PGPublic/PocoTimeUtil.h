@@ -14,14 +14,14 @@
 #include <string>
 
 //
-// ë…„,ì›”,ì¼,ì‹œ,ë¶„,ì´ˆ ë°ì´í„°ë¥¼ ì •ìˆ˜í˜•(ex: 20250117124455)ìœ¼ë¡œ ì‚¬ìš©í•  ë•Œ
-// ê°ê° ë…„, ì›”, ì¼, ì‹œ, ë¶„, ì´ˆ ë°ì´í„°ë¥¼ êµ¬í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ ê°’
-// ë‚˜ëˆ„ê¸°(/)ë¥¼ í•  ê²½ìš° í•´ë‹¹ ê°’
-// ë‚˜ë¨¸ì§€ ì—°ì‚°ì„ í•  ê²½ìš° í•´ë‹¹ ë°ì´í„°ë¥¼ ì œì™¸í•œ ë°ì´í„°
+// ³â,¿ù,ÀÏ,½Ã,ºĞ,ÃÊ µ¥ÀÌÅÍ¸¦ Á¤¼öÇü(ex: 20250117124455)À¸·Î »ç¿ëÇÒ ¶§
+// °¢°¢ ³â, ¿ù, ÀÏ, ½Ã, ºĞ, ÃÊ µ¥ÀÌÅÍ¸¦ ±¸ÇÏ±â À§ÇÑ º¯¼ö °ª
+// ³ª´©±â(/)¸¦ ÇÒ °æ¿ì ÇØ´ç °ª
+// ³ª¸ÓÁö ¿¬»êÀ» ÇÒ °æ¿ì ÇØ´ç µ¥ÀÌÅÍ¸¦ Á¦¿ÜÇÑ µ¥ÀÌÅÍ
 //ex) 20250117124455 / 10000000000 = 2025
 //    20250117124455 % 10000000000 = 117124455
-// ë‹¨ì  -> ê°ê°ì˜ ë°ì´í„°ë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•´ì„  ë…„, ì›”, ì¼, ì‹œ, ë¶„, ì´ˆ ìˆœì„œë¡œ í•´ì•¼í•¨
-// ì„ì¼ ê²½ìš° ë°ì´í„°ê°€ ì˜¬ë°”ë¥´ê²Œ ì¶”ì¶œì´ ì•ˆë¨
+// ´ÜÁ¡ -> °¢°¢ÀÇ µ¥ÀÌÅÍ¸¦ °¡Á®¿À±â À§ÇØ¼± ³â, ¿ù, ÀÏ, ½Ã, ºĞ, ÃÊ ¼ø¼­·Î ÇØ¾ßÇÔ
+// ¼¯ÀÏ °æ¿ì µ¥ÀÌÅÍ°¡ ¿Ã¹Ù¸£°Ô ÃßÃâÀÌ ¾ÈµÊ
 constexpr int64_t INTTIME_YEAR = 10000000000;
 constexpr int64_t INTTIME_MONTH = 100000000;
 constexpr int64_t INTTIME_DAY = 1000000;
@@ -29,16 +29,16 @@ constexpr int64_t INTTIME_HOUR = 10000;
 constexpr int64_t INTTIME_MINUTE = 100;
 constexpr int64_t INTTIME_SECOND = 1;
 
-// íŠ¹ì • ê¸°ê°„ì— ì´ˆê¸°í™”ê°€ í•„ìš”í•  ê²½ìš° ìƒìˆ˜ ì„ ì–¸í•œë‹¤.
-// ì¼ê°„ ì´ˆê¸°í™” ì‹œê°„
+// Æ¯Á¤ ±â°£¿¡ ÃÊ±âÈ­°¡ ÇÊ¿äÇÒ °æ¿ì »ó¼ö ¼±¾ğÇÑ´Ù.
+// ÀÏ°£ ÃÊ±âÈ­ ½Ã°£
 constexpr int DAILY_INIT_HOUR = 0; 
-// ì£¼ê°„ ì´ˆê¸°í™” ìš”ì¼
+// ÁÖ°£ ÃÊ±âÈ­ ¿äÀÏ
 constexpr Poco::DateTime::DaysOfWeek WEEKLY_INIT_DAY = Poco::DateTime::MONDAY;
-// ì›”ê°„ ì´ˆê¸°í™” ë‚ ì§œ
+// ¿ù°£ ÃÊ±âÈ­ ³¯Â¥
 constexpr int MONTHLY_INIT_DAY = 1;
 
 //DAY, HOUR
-constexpr std::pair<Poco::DateTime::DaysOfWeek, int> WEEKLY_PAYMENT_INIT = std::make_pair(Poco::DateTime::WEDNESDAY, 10);	// ì£¼ê°„ ëˆ„ì  ê¸ˆì•¡ ì´ˆê¸°í™” 
+constexpr std::pair<Poco::DateTime::DaysOfWeek, int> WEEKLY_PAYMENT_INIT = std::make_pair(Poco::DateTime::WEDNESDAY, 10);	// ÁÖ°£ ´©Àû ±İ¾× ÃÊ±âÈ­ 
 class PocoTimeUtil
 {
 public:
@@ -58,7 +58,7 @@ public:
     //int YYYYMMDD -> Poco::DateTime
     static bool ConvertYYYYMMDDToPocoDT(const int& _YYYYMMDD, Poco::DateTime& _dest);
 
-    //Poco::DateTime <-> Flatbuffer ê°„ ë³€í™˜
+    //Poco::DateTime <-> Flatbuffer °£ º¯È¯
     static void ConvertPocoDTtoDDateTimeT(const Poco::DateTime& _src, DDateTimeT& _dest);
 
     static void ConvertDDateTimeTtoPocoDT(const DDateTime* _src, Poco::DateTime& _dest);

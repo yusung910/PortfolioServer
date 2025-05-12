@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <string>
 
-//Poco ê´€ë ¨ LNK2005ê°€ ë°œìƒí• ê²½ìš° ì•„ë˜ êµ¬ë¬¸ì´ í•„ìš”í•¨
+//Poco °ü·Ã LNK2005°¡ ¹ß»ıÇÒ°æ¿ì ¾Æ·¡ ±¸¹®ÀÌ ÇÊ¿äÇÔ
 #ifndef POCO_STATIC
 #define POCO_STATIC 1
 #endif
@@ -52,7 +52,7 @@ public:
     int AccountType = 0;
     int AccountStatus = 0;
     int LastConnectServerID = 0;
-    int ConnectedServerID = 0;         //ì ‘ì†ëœ ë¡œê·¸ì¸ ì„œë²„
+    int ConnectedServerID = 0;         //Á¢¼ÓµÈ ·Î±×ÀÎ ¼­¹ö
     Poco::DateTime RemainingPeriod = { 1900, 1, 1, 0, 0, 0 };
 
 

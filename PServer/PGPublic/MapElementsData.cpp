@@ -65,12 +65,12 @@ const size_t& MapElementsData::GetHeight() const
     return m_nHeight;
 }
 
-const int& MapElementsData::GetLeft() const
+const size_t& MapElementsData::GetLeft() const
 {
     return m_nLeft;
 }
 
-const int& MapElementsData::GetLeftBottom() const
+const size_t& MapElementsData::GetLeftBottom() const
 {
     return m_nLeftBottom;
 }

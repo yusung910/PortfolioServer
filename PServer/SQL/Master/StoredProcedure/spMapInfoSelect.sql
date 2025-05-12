@@ -19,10 +19,11 @@ BEGIN
     SELECT [MapID]
          , [ParentMapID]
          , [MapType]
-         , [MapName]
+         , [MapFileName]
+         , [MapFilePath]
          , [MapSize]
-         , [IsActive]
-         , [IsSafeZone]
-         , [IsTeleportable] 
+         , [ActiveYN]
+         , [SafeZoneYN]
+         , [TeleportableYN] 
       FROM MapInfo
 END

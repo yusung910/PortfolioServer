@@ -28,25 +28,30 @@ bool MDBDataLoader::LoadMDBDatas(MDBDatas& _datas)
 
     _datas.Reset();
 
-    if (false == _ReadPilgrimStat(_datas))
+    if (false == _ReadObjectStatistics(_datas))
+        return false;
+
+    if (false == _ReadMapInfo(_datas))
         return false;
 
     return true;
 }
 
-bool MDBDataLoader::_ReadPilgrimStat(MDBDatas& _datas)
+bool MDBDataLoader::_ReadObjectStatistics(MDBDatas& _datas)
 {
     GetDBSession();
 
     bool lRslt = true;
     try
     {
-        MDBPilgrimStat lTmp;
+        MDBObjectStatistics lTmp{};
+        lTmp.Stat.Info.HP = 0;
+        lTmp.Stat.Info.MP = 0;
 
         Poco::Data::Statement lSelect(lSess);
 
-        lSelect << "{CALL spPilgrimStatSelect}"
-            , into(lTmp.Seq)
+        lSelect << "{CALL spObjectStatisticsSelect}"
+            , into(lTmp.ObjectStatID)
             , into(lTmp.Stat.Info.Strength)
             , into(lTmp.Stat.Info.Dexterity)
             , into(lTmp.Stat.Info.Endurance)
@@ -66,9 +71,9 @@ bool MDBDataLoader::_ReadPilgrimStat(MDBDatas& _datas)
         {
             if (lSelect.execute() > 0)
             {
-                MDBPilgrimStat* lAdd = new MDBPilgrimStat;
-                memcpy_s(lAdd, sizeof(MDBPilgrimStat), &lTmp, sizeof(MDBPilgrimStat));
-                auto lRet = _datas.GetAllPilgrimStatList().insert({ lAdd->GetSequence(), lAdd });
+                MDBObjectStatistics* lAdd = new MDBObjectStatistics;
+                memcpy_s(lAdd, sizeof(MDBObjectStatistics), &lTmp, sizeof(MDBObjectStatistics));
+                auto lRet = _datas.GetAllMDBObjectStatisticsList().insert({ lAdd->GetObjectStatID(), lAdd });
 
                 //SEQ 중복체크
                 if (!lRet.second)
@@ -102,19 +107,20 @@ bool MDBDataLoader::_ReadMapInfo(MDBDatas& _datas)
 
     try
     {
-        MDBMapInfo lTmp;
+        MDBMapInfo lTmp{};
 
         Poco::Data::Statement lSelect(lSess);
-
+        int localMapType = 0;
         lSelect << "{CALL spMapInfoSelect}"
             , into(lTmp.MapID)
             , into(lTmp.ParentMapID)
-            , into(lTmp.MapType)
-            , into(lTmp.MapName)
-            , into(lTmp.Mapsize)
-            , into(lTmp.IsActive)
-            , into(lTmp.IsSafeZone)
-            , into(lTmp.IsTeleportable)
+            , into(localMapType)
+            , into(lTmp.MapFileName)
+            , into(lTmp.MapFilePath)
+            , into(lTmp.MapSize)
+            , into(lTmp.ActiveYN)
+            , into(lTmp.SafeZoneYN)
+            , into(lTmp.TeleportableYN)
             , range(0, 1);
 
         //bool done()
@@ -123,6 +129,7 @@ bool MDBDataLoader::_ReadMapInfo(MDBDatas& _datas)
         {
             if (lSelect.execute() > 0)
             {
+                lTmp.MapType = (EMap::Type)localMapType;
                 MDBMapInfo* lAdd = new MDBMapInfo;
                 memcpy_s(lAdd, sizeof(MDBMapInfo), &lTmp, sizeof(MDBMapInfo));
                 auto lRet = _datas.GetAllMapInfoList().insert_or_assign(lTmp.MapID, lAdd);

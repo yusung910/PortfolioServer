@@ -227,3 +227,8 @@ private:
         -> 서버에서 navmesh를 사용하여 각각의 캐릭터, 지형에 맞는 Navigation 기능을 사용하기 위함.
         -> UnrealEngine에서 RecastNavigation bin 파일 생성하기 위한 리포지터리 주소 : https://github.com/luyuancpp/ue5-export-nav-data?tab=readme-ov-file
         -> UE에서 위 플러그인을 이용하면 생성된 navmesh를 서버에서 사용 할 수 있는 .bin, .obj 파일로 변환 가능.
+    2.1.14. 모든 클래스의 .cpp 파일 최상단에는 해당 .h파일과 각 프로젝트에 선언된 미리 컴파일된 헤더파일을 먼저 선언 해야함.
+            그렇지 않을경우 불분명한 에러 발생
+    2.1.15. Poco::Data를 이용한 Database 데이터를 서버에 호출 할 때 사용되는 into()에 선언되는 변수 값은, POCO에서 지원하는 타입을 이용해야함.
+            Enum타입의 값을 사용할 경우 에러 발생함. 때문에 MDB 구조체 내부에 선언되는 변수 값은 자유로울 수 있으나
+            Poco::Data Session의 into함수에 전달되는 변수 타입은 Poco에서 지원하는 변수타입이어야한다.

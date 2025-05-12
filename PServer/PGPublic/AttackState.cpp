@@ -2,7 +2,7 @@
 #include "AttackState.h"
 
 AttackState::AttackState(NPC& _npc)
-    :IState(ENPCStateEngine::Attack, _npc)
+    :IState(ENPCState::Attack, _npc)
 {
 }
 

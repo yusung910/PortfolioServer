@@ -1,7 +1,8 @@
 #pragma once
 #include "SingletonClient.h"
-#include <array>
 #include "Protocol_generated.h"
+
+#include <array>
 
 class DataProcessManager : public SingletonClient<DataProcessManager>
 {

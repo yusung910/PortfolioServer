@@ -177,6 +177,9 @@
     <ClInclude Include="MDBDataManager.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="SummonsInfo.h">
+      <Filter>Object\NPC\Managers\Summons</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -244,9 +247,6 @@
     </ClCompile>
     <ClCompile Include="NPCSummons.cpp">
       <Filter>Object\NPC\Module</Filter>
-    </ClCompile>
-    <ClCompile Include="SummonsInfo.h">
-      <Filter>Object\NPC\Managers\Summons</Filter>
     </ClCompile>
     <ClCompile Include="SummonsData.cpp">
       <Filter>Object\NPC\Managers\Summons</Filter>

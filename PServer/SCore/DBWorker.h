@@ -4,16 +4,16 @@
 #include <string>
 #include <atomic>
 
-// Poco Include ê´€ë ¨
+// Poco Include °ü·Ã
 #ifndef POCO_STATIC
 #	define POCO_STATIC 1
 #endif
 
 #pragma warning (push)
 #pragma warning (disable: 4244 4245 4100 4127)
-#pragma warning (disable: 4634 4635)	// XML ì£¼ì„ ê´€ë ¨
-#pragma warning (disable: 4389)			// Visual Studio 2022 (vc 143) , signed, unsigned ë¶ˆì¼ì¹˜
-#pragma warning (disable: 26439 26498 26451 26444 26451 26812)	// VC++ Code Guidelines warning. POCO ë¼ì´ë¸ŒëŸ¬ë¦¬ê°€ ë¬¸ì œ...
+#pragma warning (disable: 4634 4635)	// XML ÁÖ¼® °ü·Ã
+#pragma warning (disable: 4389)			// Visual Studio 2022 (vc 143) , signed, unsigned ºÒÀÏÄ¡
+#pragma warning (disable: 26439 26498 26451 26444 26451 26812)	// VC++ Code Guidelines warning. POCO ¶óÀÌºê·¯¸®°¡ ¹®Á¦...
 
 #include <Poco/DateTime.h>
 #include <Poco/Data/RecordSet.h>

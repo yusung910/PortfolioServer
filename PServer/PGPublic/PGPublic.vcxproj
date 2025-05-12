@@ -65,6 +65,7 @@
     <ClInclude Include="StrChecker.h" />
     <ClInclude Include="StrFilterInterface.h" />
     <ClInclude Include="StrFilterKR.h" />
+    <ClInclude Include="SummonsInfo.h" />
     <ClInclude Include="SummonsData.h" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +99,6 @@
     <ClCompile Include="StrFilterInterface.cpp" />
     <ClCompile Include="StrFilterKR.cpp" />
     <ClCompile Include="SummonsData.cpp" />
-    <ClCompile Include="SummonsInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SCCmn\SCCmn.vcxproj">

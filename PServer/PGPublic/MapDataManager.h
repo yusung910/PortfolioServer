@@ -12,11 +12,6 @@ class MapElementsData;
 
 class MapDataManager :public RefSingleton<MapDataManager>
 {
-public:
-    MapDataManager() = default;
-    virtual ~MapDataManager();
-
-    bool Initialize();
 
 private:
     std::string m_sMapFilePath = "";
@@ -27,6 +22,11 @@ private:
     std::unordered_map<int, int> m_umMapChannelCountList;
     std::unordered_set<int> m_umHasChannelMapList;
 
+public:
+    MapDataManager() = default;
+    virtual ~MapDataManager();
+
+    bool Init();
 
     
 private:
