@@ -207,6 +207,79 @@ namespace EAbility
     }
 }
 
+//오브젝트 행동 -> Sync용
+namespace EObjectBehavior
+{
+    enum Type
+    {
+        None = 0,
+        Add,
+        Remove,
+
+        Move,
+        Teleport,
+
+        Stop,
+        Attack,
+        Dead,
+
+
+        Max
+    };
+
+    inline bool IsDirectSync(Type _t)
+    {
+        switch (_t)
+        {
+        case Add:
+        case Remove:
+        case Dead:
+        case Teleport:
+            return true;
+        }
+
+        return false;
+    }
+}
+
+//Sync용 Object
+namespace EObject
+{
+    enum Type
+    {
+        None = 0,
+        PC,
+        NPC,
+        Dummy,
+
+        DropItem,
+        Skill,
+
+        Max,
+    };
+
+    inline bool IsSkillTarget(const Type& _t)
+    {
+        switch (_t)
+        {
+        case PC:
+        case NPC:
+        case Dummy:
+            return true;
+
+        default:
+            return false;
+        }
+    }
+
+    inline bool IsValid(const Type& _t)
+    {
+        if (_t <= None || _t >= Max) return false;
+
+        return true;
+    }
+}
+
 //무기 숙련도 종류
 namespace EWeaponMastery
 {

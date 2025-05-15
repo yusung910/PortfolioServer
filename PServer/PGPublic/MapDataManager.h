@@ -15,7 +15,7 @@ class MapDataManager :public RefSingleton<MapDataManager>
 
 private:
     std::string m_sMapFilePath = "";
-    std::vector<MapLoadData> m_oMapFileList;
+    std::vector<MapLoadData> m_oLoadedMapDataList;
 
     std::unordered_map<int, std::unordered_map<int, MapElementsData*>> m_umMapElementsDatas;
 
@@ -27,7 +27,7 @@ public:
     virtual ~MapDataManager();
 
     bool Init();
-
+    std::vector<MapLoadData>& GetLoadedMapDataList();
     
 private:
     bool _AddData(MDBMapInfo* _info);

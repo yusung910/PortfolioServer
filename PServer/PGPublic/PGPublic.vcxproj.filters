@@ -58,6 +58,12 @@
     <Filter Include="Object\NPC\Managers\Summons">
       <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Grid\Sync">
+      <UniqueIdentifier>{d11cb597-1c3e-42ae-a327-431c3cc96356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Grid\Sync\Buff">
+      <UniqueIdentifier>{f8ee87b6-a4b4-4157-9fd5-f2fcf4c9d51c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">
@@ -180,6 +186,24 @@
     <ClInclude Include="SummonsInfo.h">
       <Filter>Object\NPC\Managers\Summons</Filter>
     </ClInclude>
+    <ClInclude Include="GridLocation.h">
+      <Filter>Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="SYNCObjectDUserBuff.h">
+      <Filter>Grid\Sync\Buff</Filter>
+    </ClInclude>
+    <ClInclude Include="SYNCObject.h">
+      <Filter>Grid\Sync</Filter>
+    </ClInclude>
+    <ClInclude Include="AGrid.h">
+      <Filter>Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="SYNCObjectPool.h">
+      <Filter>Grid\Sync</Filter>
+    </ClInclude>
+    <ClInclude Include="SYNCObjectAdd.h">
+      <Filter>Grid\Sync</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PGPPrivate.cpp">
@@ -259,6 +283,21 @@
     </ClCompile>
     <ClCompile Include="MDBDataManager.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="SYNCObjectDUserBuff.cpp">
+      <Filter>Grid\Sync\Buff</Filter>
+    </ClCompile>
+    <ClCompile Include="SYNCObject.cpp">
+      <Filter>Grid\Sync</Filter>
+    </ClCompile>
+    <ClCompile Include="AGrid.cpp">
+      <Filter>Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="SYNCObjectPool.cpp">
+      <Filter>Grid\Sync</Filter>
+    </ClCompile>
+    <ClCompile Include="SYNCObjectAdd.cpp">
+      <Filter>Grid\Sync</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

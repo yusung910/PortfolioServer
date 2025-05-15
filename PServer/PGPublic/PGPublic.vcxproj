@@ -35,6 +35,8 @@
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
     <ClInclude Include="ENPCState.h" />
+    <ClInclude Include="AGrid.h" />
+    <ClInclude Include="GridLocation.h" />
     <ClInclude Include="InnerPacketStructures.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="MapDataManager.h" />
@@ -67,11 +69,16 @@
     <ClInclude Include="StrFilterKR.h" />
     <ClInclude Include="SummonsInfo.h" />
     <ClInclude Include="SummonsData.h" />
+    <ClInclude Include="SYNCObject.h" />
+    <ClInclude Include="SYNCObjectAdd.h" />
+    <ClInclude Include="SYNCObjectDUserBuff.h" />
+    <ClInclude Include="SYNCObjectPool.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="AGrid.cpp" />
     <ClCompile Include="InnerPacketStructures.cpp" />
     <ClCompile Include="MapDataManager.cpp" />
     <ClCompile Include="MapElementsData.cpp" />
@@ -99,6 +106,10 @@
     <ClCompile Include="StrFilterInterface.cpp" />
     <ClCompile Include="StrFilterKR.cpp" />
     <ClCompile Include="SummonsData.cpp" />
+    <ClCompile Include="SYNCObject.cpp" />
+    <ClCompile Include="SYNCObjectAdd.cpp" />
+    <ClCompile Include="SYNCObjectDUserBuff.cpp" />
+    <ClCompile Include="SYNCObjectPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\SCCmn\SCCmn.vcxproj">

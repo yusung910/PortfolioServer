@@ -17,7 +17,7 @@
 
 MapDataManager::~MapDataManager()
 {
-    m_oMapFileList.clear();
+    m_oLoadedMapDataList.clear();
     for (auto& map : m_umMapElementsDatas)
     {
         for (auto& mapElem : map.second)
@@ -33,7 +33,7 @@ bool MapDataManager::Init()
 {
     bool localSuccess = true;
 
-    m_oMapFileList.clear();
+    m_oLoadedMapDataList.clear();
     m_umMapElementsDatas.clear();
 
     //ServerConfig.json파일에 저장된 맵 파일 경로를 호출한다
@@ -59,16 +59,16 @@ bool MapDataManager::Init()
         {
             localSuccess = false;
         }
-        
-        switch (it->second->MapType)
-        {
-        default:
-            break;
-        }
-
     }
 
-    return !m_oMapFileList.empty() && localSuccess;
+    VIEW_INFO("Map Load Done!");
+
+    return !m_oLoadedMapDataList.empty() && localSuccess;
+}
+
+std::vector<MapLoadData>& MapDataManager::GetLoadedMapDataList()
+{
+    return m_oLoadedMapDataList;
 }
 
 bool MapDataManager::_AddData(MDBMapInfo* _info)
@@ -79,7 +79,7 @@ bool MapDataManager::_AddData(MDBMapInfo* _info)
     if (false == _info->GetActiveYN())
         return false;
 
-    for (auto& lData : m_oMapFileList)
+    for (auto& lData : m_oLoadedMapDataList)
     {
         if (lData.m_nMapID == _info->MapID)
             return false;
@@ -108,7 +108,7 @@ bool MapDataManager::_AddData(MDBMapInfo* _info)
     if (false == _SetMapInfo(addMapElemData))
         return false;
 
-    m_oMapFileList.push_back(addMapElemData);
+    m_oLoadedMapDataList.push_back(addMapElemData);
 
     return true;
 }

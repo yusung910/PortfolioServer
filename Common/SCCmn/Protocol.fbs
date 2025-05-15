@@ -23,7 +23,7 @@
 // Noti				- 알림
 // Broadcast		- 전체 알림 류
 //
-// 3. Structure는 접두사 O(Object)를 붙인다.
+// 3. Message는 접두사 Prefix룰을 따른다.
 //
 // *Example
 // table SCAuthResponse		<-- 접두사 Client -> Server, 접미사 Response로 요청에 의한 응답임
@@ -34,7 +34,7 @@
 //   messageid:EPacketProtocol = SC_AuthResponse;		<-- 전송 패킷은 마지막에 messageid 프로토콜을 넣는다.
 // }														마지막에 넣는 이유는 오버로딩으로 안써도 되기 때문..
 //
-// table MHeroInfo			- Member Structure 는 접두사 M 을 붙인다.
+// table DHeroInfo			- Data Structure 는 접두사 M 을 붙인다.
 //
 // ※ 슬래시 3개이상 쓴뒤 뒤에 한글이 있으면 안됨 (빌드오류나옴)
 //
@@ -79,6 +79,13 @@ enum EPacketProtocol:int
 
     CL_ConnectGameServerReq,
     LC_ConnectGameServerRes,
+
+
+    //////////////////////////////////////////////////////////
+    //  Sync -> Not for DB
+
+    SC_SyncBehaviorData                     = 21000,
+
 
 
     //////////////////////////////////////////////////////////
@@ -200,6 +207,13 @@ table DDateTime
     Second:int;
 }
 
+table DUserBuff
+{
+    SkillModuleID: int;
+    RemainMS: long;
+
+}
+
 //-----------------------------------------------------------------------------
 // Message Structure End
 //-----------------------------------------------------------------------------
@@ -239,6 +253,47 @@ table HostHello
 
 //-----------------------------------------------------------------------------
 // Server Reserved Packet End
+//-----------------------------------------------------------------------------
+union Sync
+{
+    Add:SCAddSyncData,
+}
+
+table DSync
+{
+    SyncBehavior: Sync;
+}
+
+table SCSyncBehaviorData
+{
+    SyncBehaviorList:[DSync];
+
+    messageid:EPacketProtocol = SC_SyncBehaviorData;
+}
+
+
+table SCAddSyncData
+{
+    ServerSeqID: int;
+    ObjectType: int;
+    ObjectState: int;
+
+    Name: string;
+
+    HP: int;
+    MaxHP: int;
+    Mana: int;
+    MaxMana: int;
+}
+
+//-----------------------------------------------------------------------------
+// Sync Packet Start
+//-----------------------------------------------------------------------------
+
+
+
+//-----------------------------------------------------------------------------
+// Sync Packet End
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------

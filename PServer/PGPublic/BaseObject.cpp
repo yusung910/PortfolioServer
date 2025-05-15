@@ -1,6 +1,8 @@
 #include "PGPPrivate.h"
 #include "BaseObject.h"
 
+
+
 void BaseObject::Reset()
 {
     m_nSequence = 0;       //메모리 적재된 오브젝트 번호
@@ -29,7 +31,22 @@ void BaseObject::SetNPCUniqueID(const int& _id)
     m_nNPCUniqueID = _id;
 }
 
+const int& BaseObject::GetSequence()
+{
+    return m_nSequence;
+}
+
 void BaseObject::SetSequence(const int& _seq)
 {
     m_nSequence = _seq;
+}
+
+EObject::Type BaseObject::GetObjectType()
+{
+    return m_eObjectType;
+}
+
+void BaseObject::SetObjectType(EObject::Type _t)
+{
+    m_eObjectType = _t;
 }

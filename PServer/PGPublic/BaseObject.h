@@ -26,11 +26,12 @@ protected:
     
     bool                m_bIsMove = false;
 
+    EObject::Type       m_eObjectType = EObject::None;
+
 public:
     BaseObject() = default;
 
     virtual ~BaseObject() = default;
-
 
     //---------------------------------------
     // Virtual Functions
@@ -39,6 +40,12 @@ public:
     virtual bool IsPreemptionTarget() { return false; }
 
     void SetNPCUniqueID(const int& _id);
+
+    const int& GetSequence();
     void SetSequence(const int& _seq);
+    //---------------------------------------
+
+    EObject::Type GetObjectType();
+    void SetObjectType(EObject::Type _t);
 };
 

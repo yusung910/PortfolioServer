@@ -18,6 +18,10 @@ struct DDateTime;
 struct DDateTimeBuilder;
 struct DDateTimeT;
 
+struct DUserBuff;
+struct DUserBuffBuilder;
+struct DUserBuffT;
+
 struct HostConnect;
 struct HostConnectBuilder;
 struct HostConnectT;
@@ -33,6 +37,18 @@ struct HostConnectFailedT;
 struct HostHello;
 struct HostHelloBuilder;
 struct HostHelloT;
+
+struct DSync;
+struct DSyncBuilder;
+struct DSyncT;
+
+struct SCSyncBehaviorData;
+struct SCSyncBehaviorDataBuilder;
+struct SCSyncBehaviorDataT;
+
+struct SCAddSyncData;
+struct SCAddSyncDataBuilder;
+struct SCAddSyncDataT;
 
 struct CLAuthReq;
 struct CLAuthReqBuilder;
@@ -92,13 +108,15 @@ enum EPacketProtocol {
   CL_ConnectGameServerReq = 10011,
   LC_ConnectGameServerRes = 10012,
   //////////////////////////////////////////////////////////
+  SC_SyncBehaviorData = 21000,
+  //////////////////////////////////////////////////////////
   CS_AuthReq = 50001,
   CS_EnterGameReq = 50002,
   SC_EnterGameAck = 50003,
   PacketMax = 50004
 };
 
-inline const EPacketProtocol (&EnumValuesEPacketProtocol())[22] {
+inline const EPacketProtocol (&EnumValuesEPacketProtocol())[23] {
   static const EPacketProtocol values[] = {
     None,
     Host_Connect,
@@ -118,6 +136,7 @@ inline const EPacketProtocol (&EnumValuesEPacketProtocol())[22] {
     PL_AuthLoginRes,
     CL_ConnectGameServerReq,
     LC_ConnectGameServerRes,
+    SC_SyncBehaviorData,
     CS_AuthReq,
     CS_EnterGameReq,
     SC_EnterGameAck,
@@ -146,6 +165,7 @@ inline const char *EnumNameEPacketProtocol(EPacketProtocol e) {
     case PL_AuthLoginRes: return "PL_AuthLoginRes";
     case CL_ConnectGameServerReq: return "CL_ConnectGameServerReq";
     case LC_ConnectGameServerRes: return "LC_ConnectGameServerRes";
+    case SC_SyncBehaviorData: return "SC_SyncBehaviorData";
     case CS_AuthReq: return "CS_AuthReq";
     case CS_EnterGameReq: return "CS_EnterGameReq";
     case SC_EnterGameAck: return "SC_EnterGameAck";
@@ -255,6 +275,87 @@ inline const char *EnumNameEErrorMsg(EErrorMsg e) {
     default: return "";
   }
 }
+
+enum Sync {
+  NONE = 0,
+  Add = 1
+};
+
+inline const Sync (&EnumValuesSync())[2] {
+  static const Sync values[] = {
+    NONE,
+    Add
+  };
+  return values;
+}
+
+inline const char * const *EnumNamesSync() {
+  static const char * const names[3] = {
+    "NONE",
+    "Add",
+    nullptr
+  };
+  return names;
+}
+
+inline const char *EnumNameSync(Sync e) {
+  if (flatbuffers::IsOutRange(e, NONE, Add)) return "";
+  const size_t index = static_cast<size_t>(e);
+  return EnumNamesSync()[index];
+}
+
+template<typename T> struct SyncTraits {
+  static const Sync enum_value = NONE;
+};
+
+template<> struct SyncTraits<SCAddSyncData> {
+  static const Sync enum_value = Add;
+};
+
+struct SyncUnion {
+  Sync type;
+  void *value;
+
+  SyncUnion() : type(NONE), value(nullptr) {}
+  SyncUnion(SyncUnion&& u) FLATBUFFERS_NOEXCEPT :
+    type(NONE), value(nullptr)
+    { std::swap(type, u.type); std::swap(value, u.value); }
+  SyncUnion(const SyncUnion &);
+  SyncUnion &operator=(const SyncUnion &u)
+    { SyncUnion t(u); std::swap(type, t.type); std::swap(value, t.value); return *this; }
+  SyncUnion &operator=(SyncUnion &&u) FLATBUFFERS_NOEXCEPT
+    { std::swap(type, u.type); std::swap(value, u.value); return *this; }
+  ~SyncUnion() { Reset(); }
+
+  void Reset();
+
+#ifndef FLATBUFFERS_CPP98_STL
+  template <typename T>
+  void Set(T&& val) {
+    using RT = typename std::remove_reference<T>::type;
+    Reset();
+    type = SyncTraits<typename RT::TableType>::enum_value;
+    if (type != NONE) {
+      value = new RT(std::forward<T>(val));
+    }
+  }
+#endif  // FLATBUFFERS_CPP98_STL
+
+  static void *UnPack(const void *obj, Sync type, const flatbuffers::resolver_function_t *resolver);
+  flatbuffers::Offset<void> Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher = nullptr) const;
+
+  SCAddSyncDataT *AsAdd() {
+    return type == Add ?
+      reinterpret_cast<SCAddSyncDataT *>(value) : nullptr;
+  }
+  const SCAddSyncDataT *AsAdd() const {
+    return type == Add ?
+      reinterpret_cast<const SCAddSyncDataT *>(value) : nullptr;
+  }
+};
+
+bool VerifySync(flatbuffers::Verifier &verifier, const void *obj, Sync type);
+bool VerifySyncVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types);
 
 struct DServerInfoT : public flatbuffers::NativeTable {
   typedef DServerInfo TableType;
@@ -598,6 +699,74 @@ inline flatbuffers::Offset<DDateTime> CreateDDateTime(
 }
 
 flatbuffers::Offset<DDateTime> CreateDDateTime(flatbuffers::FlatBufferBuilder &_fbb, const DDateTimeT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct DUserBuffT : public flatbuffers::NativeTable {
+  typedef DUserBuff TableType;
+  int32_t SkillModuleID;
+  int64_t RemainMS;
+  DUserBuffT()
+      : SkillModuleID(0),
+        RemainMS(0) {
+  }
+};
+
+struct DUserBuff FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef DUserBuffT NativeTableType;
+  typedef DUserBuffBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_SKILLMODULEID = 4,
+    VT_REMAINMS = 6
+  };
+  int32_t SkillModuleID() const {
+    return GetField<int32_t>(VT_SKILLMODULEID, 0);
+  }
+  int64_t RemainMS() const {
+    return GetField<int64_t>(VT_REMAINMS, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_SKILLMODULEID) &&
+           VerifyField<int64_t>(verifier, VT_REMAINMS) &&
+           verifier.EndTable();
+  }
+  DUserBuffT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(DUserBuffT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<DUserBuff> Pack(flatbuffers::FlatBufferBuilder &_fbb, const DUserBuffT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct DUserBuffBuilder {
+  typedef DUserBuff Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_SkillModuleID(int32_t SkillModuleID) {
+    fbb_.AddElement<int32_t>(DUserBuff::VT_SKILLMODULEID, SkillModuleID, 0);
+  }
+  void add_RemainMS(int64_t RemainMS) {
+    fbb_.AddElement<int64_t>(DUserBuff::VT_REMAINMS, RemainMS, 0);
+  }
+  explicit DUserBuffBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  DUserBuffBuilder &operator=(const DUserBuffBuilder &);
+  flatbuffers::Offset<DUserBuff> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<DUserBuff>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<DUserBuff> CreateDUserBuff(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t SkillModuleID = 0,
+    int64_t RemainMS = 0) {
+  DUserBuffBuilder builder_(_fbb);
+  builder_.add_RemainMS(RemainMS);
+  builder_.add_SkillModuleID(SkillModuleID);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<DUserBuff> CreateDUserBuff(flatbuffers::FlatBufferBuilder &_fbb, const DUserBuffT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct HostConnectT : public flatbuffers::NativeTable {
   typedef HostConnect TableType;
@@ -952,6 +1121,323 @@ inline flatbuffers::Offset<HostHello> CreateHostHelloDirect(
 }
 
 flatbuffers::Offset<HostHello> CreateHostHello(flatbuffers::FlatBufferBuilder &_fbb, const HostHelloT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct DSyncT : public flatbuffers::NativeTable {
+  typedef DSync TableType;
+  SyncUnion SyncBehavior;
+  DSyncT() {
+  }
+};
+
+struct DSync FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef DSyncT NativeTableType;
+  typedef DSyncBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_SYNCBEHAVIOR_TYPE = 4,
+    VT_SYNCBEHAVIOR = 6
+  };
+  Sync SyncBehavior_type() const {
+    return static_cast<Sync>(GetField<uint8_t>(VT_SYNCBEHAVIOR_TYPE, 0));
+  }
+  const void *SyncBehavior() const {
+    return GetPointer<const void *>(VT_SYNCBEHAVIOR);
+  }
+  template<typename T> const T *SyncBehavior_as() const;
+  const SCAddSyncData *SyncBehavior_as_Add() const {
+    return SyncBehavior_type() == Add ? static_cast<const SCAddSyncData *>(SyncBehavior()) : nullptr;
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<uint8_t>(verifier, VT_SYNCBEHAVIOR_TYPE) &&
+           VerifyOffset(verifier, VT_SYNCBEHAVIOR) &&
+           VerifySync(verifier, SyncBehavior(), SyncBehavior_type()) &&
+           verifier.EndTable();
+  }
+  DSyncT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(DSyncT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<DSync> Pack(flatbuffers::FlatBufferBuilder &_fbb, const DSyncT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+template<> inline const SCAddSyncData *DSync::SyncBehavior_as<SCAddSyncData>() const {
+  return SyncBehavior_as_Add();
+}
+
+struct DSyncBuilder {
+  typedef DSync Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_SyncBehavior_type(Sync SyncBehavior_type) {
+    fbb_.AddElement<uint8_t>(DSync::VT_SYNCBEHAVIOR_TYPE, static_cast<uint8_t>(SyncBehavior_type), 0);
+  }
+  void add_SyncBehavior(flatbuffers::Offset<void> SyncBehavior) {
+    fbb_.AddOffset(DSync::VT_SYNCBEHAVIOR, SyncBehavior);
+  }
+  explicit DSyncBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  DSyncBuilder &operator=(const DSyncBuilder &);
+  flatbuffers::Offset<DSync> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<DSync>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<DSync> CreateDSync(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    Sync SyncBehavior_type = NONE,
+    flatbuffers::Offset<void> SyncBehavior = 0) {
+  DSyncBuilder builder_(_fbb);
+  builder_.add_SyncBehavior(SyncBehavior);
+  builder_.add_SyncBehavior_type(SyncBehavior_type);
+  return builder_.Finish();
+}
+
+flatbuffers::Offset<DSync> CreateDSync(flatbuffers::FlatBufferBuilder &_fbb, const DSyncT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct SCSyncBehaviorDataT : public flatbuffers::NativeTable {
+  typedef SCSyncBehaviorData TableType;
+  std::vector<std::unique_ptr<DSyncT>> SyncBehaviorList;
+  EPacketProtocol messageid;
+  SCSyncBehaviorDataT()
+      : messageid(SC_SyncBehaviorData) {
+  }
+};
+
+struct SCSyncBehaviorData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef SCSyncBehaviorDataT NativeTableType;
+  typedef SCSyncBehaviorDataBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_SYNCBEHAVIORLIST = 4,
+    VT_MESSAGEID = 6
+  };
+  const flatbuffers::Vector<flatbuffers::Offset<DSync>> *SyncBehaviorList() const {
+    return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<DSync>> *>(VT_SYNCBEHAVIORLIST);
+  }
+  EPacketProtocol messageid() const {
+    return static_cast<EPacketProtocol>(GetField<int32_t>(VT_MESSAGEID, 21000));
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyOffset(verifier, VT_SYNCBEHAVIORLIST) &&
+           verifier.VerifyVector(SyncBehaviorList()) &&
+           verifier.VerifyVectorOfTables(SyncBehaviorList()) &&
+           VerifyField<int32_t>(verifier, VT_MESSAGEID) &&
+           verifier.EndTable();
+  }
+  SCSyncBehaviorDataT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SCSyncBehaviorDataT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<SCSyncBehaviorData> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SCSyncBehaviorDataT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct SCSyncBehaviorDataBuilder {
+  typedef SCSyncBehaviorData Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_SyncBehaviorList(flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DSync>>> SyncBehaviorList) {
+    fbb_.AddOffset(SCSyncBehaviorData::VT_SYNCBEHAVIORLIST, SyncBehaviorList);
+  }
+  void add_messageid(EPacketProtocol messageid) {
+    fbb_.AddElement<int32_t>(SCSyncBehaviorData::VT_MESSAGEID, static_cast<int32_t>(messageid), 21000);
+  }
+  explicit SCSyncBehaviorDataBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  SCSyncBehaviorDataBuilder &operator=(const SCSyncBehaviorDataBuilder &);
+  flatbuffers::Offset<SCSyncBehaviorData> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<SCSyncBehaviorData>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<SCSyncBehaviorData> CreateSCSyncBehaviorData(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    flatbuffers::Offset<flatbuffers::Vector<flatbuffers::Offset<DSync>>> SyncBehaviorList = 0,
+    EPacketProtocol messageid = SC_SyncBehaviorData) {
+  SCSyncBehaviorDataBuilder builder_(_fbb);
+  builder_.add_messageid(messageid);
+  builder_.add_SyncBehaviorList(SyncBehaviorList);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<SCSyncBehaviorData> CreateSCSyncBehaviorDataDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    const std::vector<flatbuffers::Offset<DSync>> *SyncBehaviorList = nullptr,
+    EPacketProtocol messageid = SC_SyncBehaviorData) {
+  auto SyncBehaviorList__ = SyncBehaviorList ? _fbb.CreateVector<flatbuffers::Offset<DSync>>(*SyncBehaviorList) : 0;
+  return CreateSCSyncBehaviorData(
+      _fbb,
+      SyncBehaviorList__,
+      messageid);
+}
+
+flatbuffers::Offset<SCSyncBehaviorData> CreateSCSyncBehaviorData(flatbuffers::FlatBufferBuilder &_fbb, const SCSyncBehaviorDataT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+
+struct SCAddSyncDataT : public flatbuffers::NativeTable {
+  typedef SCAddSyncData TableType;
+  int32_t ServerSeqID;
+  int32_t ObjectType;
+  int32_t ObjectState;
+  std::string Name;
+  int32_t HP;
+  int32_t MaxHP;
+  int32_t Mana;
+  int32_t MaxMana;
+  SCAddSyncDataT()
+      : ServerSeqID(0),
+        ObjectType(0),
+        ObjectState(0),
+        HP(0),
+        MaxHP(0),
+        Mana(0),
+        MaxMana(0) {
+  }
+};
+
+struct SCAddSyncData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
+  typedef SCAddSyncDataT NativeTableType;
+  typedef SCAddSyncDataBuilder Builder;
+  enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
+    VT_SERVERSEQID = 4,
+    VT_OBJECTTYPE = 6,
+    VT_OBJECTSTATE = 8,
+    VT_NAME = 10,
+    VT_HP = 12,
+    VT_MAXHP = 14,
+    VT_MANA = 16,
+    VT_MAXMANA = 18
+  };
+  int32_t ServerSeqID() const {
+    return GetField<int32_t>(VT_SERVERSEQID, 0);
+  }
+  int32_t ObjectType() const {
+    return GetField<int32_t>(VT_OBJECTTYPE, 0);
+  }
+  int32_t ObjectState() const {
+    return GetField<int32_t>(VT_OBJECTSTATE, 0);
+  }
+  const flatbuffers::String *Name() const {
+    return GetPointer<const flatbuffers::String *>(VT_NAME);
+  }
+  int32_t HP() const {
+    return GetField<int32_t>(VT_HP, 0);
+  }
+  int32_t MaxHP() const {
+    return GetField<int32_t>(VT_MAXHP, 0);
+  }
+  int32_t Mana() const {
+    return GetField<int32_t>(VT_MANA, 0);
+  }
+  int32_t MaxMana() const {
+    return GetField<int32_t>(VT_MAXMANA, 0);
+  }
+  bool Verify(flatbuffers::Verifier &verifier) const {
+    return VerifyTableStart(verifier) &&
+           VerifyField<int32_t>(verifier, VT_SERVERSEQID) &&
+           VerifyField<int32_t>(verifier, VT_OBJECTTYPE) &&
+           VerifyField<int32_t>(verifier, VT_OBJECTSTATE) &&
+           VerifyOffset(verifier, VT_NAME) &&
+           verifier.VerifyString(Name()) &&
+           VerifyField<int32_t>(verifier, VT_HP) &&
+           VerifyField<int32_t>(verifier, VT_MAXHP) &&
+           VerifyField<int32_t>(verifier, VT_MANA) &&
+           VerifyField<int32_t>(verifier, VT_MAXMANA) &&
+           verifier.EndTable();
+  }
+  SCAddSyncDataT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  void UnPackTo(SCAddSyncDataT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
+  static flatbuffers::Offset<SCAddSyncData> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SCAddSyncDataT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
+};
+
+struct SCAddSyncDataBuilder {
+  typedef SCAddSyncData Table;
+  flatbuffers::FlatBufferBuilder &fbb_;
+  flatbuffers::uoffset_t start_;
+  void add_ServerSeqID(int32_t ServerSeqID) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_SERVERSEQID, ServerSeqID, 0);
+  }
+  void add_ObjectType(int32_t ObjectType) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_OBJECTTYPE, ObjectType, 0);
+  }
+  void add_ObjectState(int32_t ObjectState) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_OBJECTSTATE, ObjectState, 0);
+  }
+  void add_Name(flatbuffers::Offset<flatbuffers::String> Name) {
+    fbb_.AddOffset(SCAddSyncData::VT_NAME, Name);
+  }
+  void add_HP(int32_t HP) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_HP, HP, 0);
+  }
+  void add_MaxHP(int32_t MaxHP) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_MAXHP, MaxHP, 0);
+  }
+  void add_Mana(int32_t Mana) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_MANA, Mana, 0);
+  }
+  void add_MaxMana(int32_t MaxMana) {
+    fbb_.AddElement<int32_t>(SCAddSyncData::VT_MAXMANA, MaxMana, 0);
+  }
+  explicit SCAddSyncDataBuilder(flatbuffers::FlatBufferBuilder &_fbb)
+        : fbb_(_fbb) {
+    start_ = fbb_.StartTable();
+  }
+  SCAddSyncDataBuilder &operator=(const SCAddSyncDataBuilder &);
+  flatbuffers::Offset<SCAddSyncData> Finish() {
+    const auto end = fbb_.EndTable(start_);
+    auto o = flatbuffers::Offset<SCAddSyncData>(end);
+    return o;
+  }
+};
+
+inline flatbuffers::Offset<SCAddSyncData> CreateSCAddSyncData(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t ServerSeqID = 0,
+    int32_t ObjectType = 0,
+    int32_t ObjectState = 0,
+    flatbuffers::Offset<flatbuffers::String> Name = 0,
+    int32_t HP = 0,
+    int32_t MaxHP = 0,
+    int32_t Mana = 0,
+    int32_t MaxMana = 0) {
+  SCAddSyncDataBuilder builder_(_fbb);
+  builder_.add_MaxMana(MaxMana);
+  builder_.add_Mana(Mana);
+  builder_.add_MaxHP(MaxHP);
+  builder_.add_HP(HP);
+  builder_.add_Name(Name);
+  builder_.add_ObjectState(ObjectState);
+  builder_.add_ObjectType(ObjectType);
+  builder_.add_ServerSeqID(ServerSeqID);
+  return builder_.Finish();
+}
+
+inline flatbuffers::Offset<SCAddSyncData> CreateSCAddSyncDataDirect(
+    flatbuffers::FlatBufferBuilder &_fbb,
+    int32_t ServerSeqID = 0,
+    int32_t ObjectType = 0,
+    int32_t ObjectState = 0,
+    const char *Name = nullptr,
+    int32_t HP = 0,
+    int32_t MaxHP = 0,
+    int32_t Mana = 0,
+    int32_t MaxMana = 0) {
+  auto Name__ = Name ? _fbb.CreateString(Name) : 0;
+  return CreateSCAddSyncData(
+      _fbb,
+      ServerSeqID,
+      ObjectType,
+      ObjectState,
+      Name__,
+      HP,
+      MaxHP,
+      Mana,
+      MaxMana);
+}
+
+flatbuffers::Offset<SCAddSyncData> CreateSCAddSyncData(flatbuffers::FlatBufferBuilder &_fbb, const SCAddSyncDataT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 
 struct CLAuthReqT : public flatbuffers::NativeTable {
   typedef CLAuthReq TableType;
@@ -1944,6 +2430,35 @@ inline flatbuffers::Offset<DDateTime> CreateDDateTime(flatbuffers::FlatBufferBui
       _Second);
 }
 
+inline DUserBuffT *DUserBuff::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<DUserBuffT> _o = std::unique_ptr<DUserBuffT>(new DUserBuffT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void DUserBuff::UnPackTo(DUserBuffT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = SkillModuleID(); _o->SkillModuleID = _e; }
+  { auto _e = RemainMS(); _o->RemainMS = _e; }
+}
+
+inline flatbuffers::Offset<DUserBuff> DUserBuff::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DUserBuffT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateDUserBuff(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<DUserBuff> CreateDUserBuff(flatbuffers::FlatBufferBuilder &_fbb, const DUserBuffT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const DUserBuffT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _SkillModuleID = _o->SkillModuleID;
+  auto _RemainMS = _o->RemainMS;
+  return CreateDUserBuff(
+      _fbb,
+      _SkillModuleID,
+      _RemainMS);
+}
+
 inline HostConnectT *HostConnect::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
   std::unique_ptr<HostConnectT> _o = std::unique_ptr<HostConnectT>(new HostConnectT());
   UnPackTo(_o.get(), _resolver);
@@ -2070,6 +2585,111 @@ inline flatbuffers::Offset<HostHello> CreateHostHello(flatbuffers::FlatBufferBui
       _name,
       _buildtype,
       _messageid);
+}
+
+inline DSyncT *DSync::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<DSyncT> _o = std::unique_ptr<DSyncT>(new DSyncT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void DSync::UnPackTo(DSyncT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = SyncBehavior_type(); _o->SyncBehavior.type = _e; }
+  { auto _e = SyncBehavior(); if (_e) _o->SyncBehavior.value = SyncUnion::UnPack(_e, SyncBehavior_type(), _resolver); }
+}
+
+inline flatbuffers::Offset<DSync> DSync::Pack(flatbuffers::FlatBufferBuilder &_fbb, const DSyncT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateDSync(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<DSync> CreateDSync(flatbuffers::FlatBufferBuilder &_fbb, const DSyncT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const DSyncT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _SyncBehavior_type = _o->SyncBehavior.type;
+  auto _SyncBehavior = _o->SyncBehavior.Pack(_fbb);
+  return CreateDSync(
+      _fbb,
+      _SyncBehavior_type,
+      _SyncBehavior);
+}
+
+inline SCSyncBehaviorDataT *SCSyncBehaviorData::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<SCSyncBehaviorDataT> _o = std::unique_ptr<SCSyncBehaviorDataT>(new SCSyncBehaviorDataT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void SCSyncBehaviorData::UnPackTo(SCSyncBehaviorDataT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = SyncBehaviorList(); if (_e) { _o->SyncBehaviorList.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->SyncBehaviorList[_i] = std::unique_ptr<DSyncT>(_e->Get(_i)->UnPack(_resolver)); } } }
+  { auto _e = messageid(); _o->messageid = _e; }
+}
+
+inline flatbuffers::Offset<SCSyncBehaviorData> SCSyncBehaviorData::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SCSyncBehaviorDataT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSCSyncBehaviorData(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<SCSyncBehaviorData> CreateSCSyncBehaviorData(flatbuffers::FlatBufferBuilder &_fbb, const SCSyncBehaviorDataT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SCSyncBehaviorDataT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _SyncBehaviorList = _o->SyncBehaviorList.size() ? _fbb.CreateVector<flatbuffers::Offset<DSync>> (_o->SyncBehaviorList.size(), [](size_t i, _VectorArgs *__va) { return CreateDSync(*__va->__fbb, __va->__o->SyncBehaviorList[i].get(), __va->__rehasher); }, &_va ) : 0;
+  auto _messageid = _o->messageid;
+  return CreateSCSyncBehaviorData(
+      _fbb,
+      _SyncBehaviorList,
+      _messageid);
+}
+
+inline SCAddSyncDataT *SCAddSyncData::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
+  std::unique_ptr<SCAddSyncDataT> _o = std::unique_ptr<SCAddSyncDataT>(new SCAddSyncDataT());
+  UnPackTo(_o.get(), _resolver);
+  return _o.release();
+}
+
+inline void SCAddSyncData::UnPackTo(SCAddSyncDataT *_o, const flatbuffers::resolver_function_t *_resolver) const {
+  (void)_o;
+  (void)_resolver;
+  { auto _e = ServerSeqID(); _o->ServerSeqID = _e; }
+  { auto _e = ObjectType(); _o->ObjectType = _e; }
+  { auto _e = ObjectState(); _o->ObjectState = _e; }
+  { auto _e = Name(); if (_e) _o->Name = _e->str(); }
+  { auto _e = HP(); _o->HP = _e; }
+  { auto _e = MaxHP(); _o->MaxHP = _e; }
+  { auto _e = Mana(); _o->Mana = _e; }
+  { auto _e = MaxMana(); _o->MaxMana = _e; }
+}
+
+inline flatbuffers::Offset<SCAddSyncData> SCAddSyncData::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SCAddSyncDataT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
+  return CreateSCAddSyncData(_fbb, _o, _rehasher);
+}
+
+inline flatbuffers::Offset<SCAddSyncData> CreateSCAddSyncData(flatbuffers::FlatBufferBuilder &_fbb, const SCAddSyncDataT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
+  (void)_rehasher;
+  (void)_o;
+  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SCAddSyncDataT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
+  auto _ServerSeqID = _o->ServerSeqID;
+  auto _ObjectType = _o->ObjectType;
+  auto _ObjectState = _o->ObjectState;
+  auto _Name = _o->Name.empty() ? 0 : _fbb.CreateString(_o->Name);
+  auto _HP = _o->HP;
+  auto _MaxHP = _o->MaxHP;
+  auto _Mana = _o->Mana;
+  auto _MaxMana = _o->MaxMana;
+  return CreateSCAddSyncData(
+      _fbb,
+      _ServerSeqID,
+      _ObjectType,
+      _ObjectState,
+      _Name,
+      _HP,
+      _MaxHP,
+      _Mana,
+      _MaxMana);
 }
 
 inline CLAuthReqT *CLAuthReq::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
@@ -2379,6 +2999,75 @@ inline flatbuffers::Offset<SCIntegrationErrorNotification> CreateSCIntegrationEr
       _SrcMsgID,
       _Error,
       _messageid);
+}
+
+inline bool VerifySync(flatbuffers::Verifier &verifier, const void *obj, Sync type) {
+  switch (type) {
+    case NONE: {
+      return true;
+    }
+    case Add: {
+      auto ptr = reinterpret_cast<const SCAddSyncData *>(obj);
+      return verifier.VerifyTable(ptr);
+    }
+    default: return true;
+  }
+}
+
+inline bool VerifySyncVector(flatbuffers::Verifier &verifier, const flatbuffers::Vector<flatbuffers::Offset<void>> *values, const flatbuffers::Vector<uint8_t> *types) {
+  if (!values || !types) return !values && !types;
+  if (values->size() != types->size()) return false;
+  for (flatbuffers::uoffset_t i = 0; i < values->size(); ++i) {
+    if (!VerifySync(
+        verifier,  values->Get(i), types->GetEnum<Sync>(i))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline void *SyncUnion::UnPack(const void *obj, Sync type, const flatbuffers::resolver_function_t *resolver) {
+  switch (type) {
+    case Add: {
+      auto ptr = reinterpret_cast<const SCAddSyncData *>(obj);
+      return ptr->UnPack(resolver);
+    }
+    default: return nullptr;
+  }
+}
+
+inline flatbuffers::Offset<void> SyncUnion::Pack(flatbuffers::FlatBufferBuilder &_fbb, const flatbuffers::rehasher_function_t *_rehasher) const {
+  switch (type) {
+    case Add: {
+      auto ptr = reinterpret_cast<const SCAddSyncDataT *>(value);
+      return CreateSCAddSyncData(_fbb, ptr, _rehasher).Union();
+    }
+    default: return 0;
+  }
+}
+
+inline SyncUnion::SyncUnion(const SyncUnion &u) : type(u.type), value(nullptr) {
+  switch (type) {
+    case Add: {
+      value = new SCAddSyncDataT(*reinterpret_cast<SCAddSyncDataT *>(u.value));
+      break;
+    }
+    default:
+      break;
+  }
+}
+
+inline void SyncUnion::Reset() {
+  switch (type) {
+    case Add: {
+      auto ptr = reinterpret_cast<SCAddSyncDataT *>(value);
+      delete ptr;
+      break;
+    }
+    default: break;
+  }
+  value = nullptr;
+  type = NONE;
 }
 
 #endif  // FLATBUFFERS_GENERATED_PROTOCOL_H_
