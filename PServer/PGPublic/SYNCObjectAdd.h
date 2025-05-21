@@ -12,7 +12,7 @@ private:
     int m_nDegree = 0;
     int m_nTemplateID = 0;
 
-    std::string m_sString = {};
+    std::string m_sName = {};
 
     //
     int64_t m_nPilgrimSeq = 0ll;

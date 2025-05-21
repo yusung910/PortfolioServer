@@ -25,4 +25,14 @@ const int32_t   G_N_MAX_LEVEL = 9999;
 //AccountToken 최대 크기
 constexpr int	ACCOUNT_UNIQUE_KEY_MAXSIZE = 256;
 
+//싱크 맞출 MATRIX의 ENTRY 갯수
+constexpr int   G_N_MAX_SYNC_ENTRY_COUNT = 9;
+
+#ifdef DEV_TEST
+constexpr size_t MAX_USER_CNT_CHANNEL = 50;
+constexpr size_t CONFUSION_USER_CNT_CHANNEL = 50;
+#else
+constexpr size_t MAX_USER_CNT_CHANNEL = 200;
+constexpr size_t CONFUSION_USER_CNT_CHANNEL = 100;
+#endif // DEV_TEST
 

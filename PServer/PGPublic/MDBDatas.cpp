@@ -5,6 +5,13 @@
 
 #define VECTOR_CLEAR(x) { for(auto it = x.begin(); it != x.end(); ++it) SafeDelete(*it); x.clear(); }
 
+const MDBMapInfo* MDBDatas::GetMapInfo(const int& _mapID)
+{
+    if (auto lIter = m_umMDBMapInfoList.find(_mapID); lIter != m_umMDBMapInfoList.end())
+        return lIter->second;
+    return nullptr;
+}
+
 void MDBDatas::Reset()
 {
     MAP_CLEAR(m_umMDBObjectStatisticsList);

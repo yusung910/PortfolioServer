@@ -17,10 +17,13 @@ void SYNCObjectAdd::Reset()
 void SYNCObjectAdd::Set(BaseObject& _bo)
 {
     SYNCObject::Set(_bo);
-
+    m_fPosX = _bo.GetPosition().x;
+    m_fPosY = _bo.GetPosition().y;
+    m_nDegree = _bo.GetDirection().GetYaw360();
+    m_sName = _bo.GetName();
 }
 
-void SYNCObjectAdd::Get(flatbuffers::FlatBufferBuilder& _fb, std::vector<flatbuffers::Offset<DSync>>& _list)
+void SYNCObjectAdd::Get([[maybe_unused]] flatbuffers::FlatBufferBuilder& _fb, [[maybe_unused]] std::vector<flatbuffers::Offset<DSync>>& _list)
 {
-    SYNCObject::Get(_fb, _list);
+
 }

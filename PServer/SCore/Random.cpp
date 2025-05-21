@@ -18,8 +18,8 @@ Random* Random::GetInst()
 void Random::Init64(const uint64_t& _seed)
 {
     //https://karupro.tistory.com/67#google_vignette
-    //[[likely]] : ���ǹ��� ����ȭ �ϴ� �� ���Ǵ� ����
-    //�����Ϸ����� ���ǹ��� ���� ���� ���Ǵ� �κ��� �˷��ش�
+    // 분기문(if, switch 등)에서 주로 해당이 되는 부분을 컴파일러에게 알려주는 특수구문
+    // [[likely]], [[unlikely]]
     if (nullptr != m_pRandom) [[likely]]
         m_pRandom->Init64(_seed);
 }

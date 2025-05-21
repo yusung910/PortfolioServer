@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
-#include "MDBDatas.h"
 #include <DBWorker.h>
+
+#include "MDBDatas.h"
+#include "MDBDataManager.h"
 class MDBDataLoader
 {
 private:

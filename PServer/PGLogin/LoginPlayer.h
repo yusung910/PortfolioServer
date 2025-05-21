@@ -29,7 +29,7 @@ public:
 
     int m_nOTP = 0;                                     //
 
-    std::unordered_set<int> m_umPilgrimSeqList;        //서버에 존재하는 캐릭터 고유 시퀀스 목록
+    std::unordered_set<int> m_usPilgrimSeqList;        //서버에 존재하는 캐릭터 고유 시퀀스 목록
 
 public:
     LoginPlayer(ObjectTag);

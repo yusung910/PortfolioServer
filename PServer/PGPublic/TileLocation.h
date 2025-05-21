@@ -1,6 +1,6 @@
 #pragma once
 
-struct GridLocation
+struct TileLocation
 {
     int m_nCol = 0;
     int m_nRow = 0;

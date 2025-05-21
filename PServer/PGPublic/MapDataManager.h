@@ -20,7 +20,7 @@ private:
     std::unordered_map<int, std::unordered_map<int, MapElementsData*>> m_umMapElementsDatas;
 
     std::unordered_map<int, int> m_umMapChannelCountList;
-    std::unordered_set<int> m_umHasChannelMapList;
+    std::unordered_set<int> m_usHasChannelMapList;
 
 public:
     MapDataManager() = default;

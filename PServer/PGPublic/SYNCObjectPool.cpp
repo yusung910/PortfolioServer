@@ -49,3 +49,32 @@ SYNCObject* SYNCObjectPool::Create(const EObjectBehavior::Type& _behav)
 
     return localSYNC;
 }
+
+SYNCObject* SYNCObjectPool::Pop(const EObjectBehavior::Type& _behav)
+{
+    AutoLock(m_xLock);
+
+    SYNCObject* localSync;
+    if (m_oPoolArray.at(_behav).empty())
+    {
+        localSync = Create(_behav);
+    }
+    else
+    {
+        localSync = m_oPoolArray.at(_behav).front();
+        m_oPoolArray.at(_behav).pop_front();
+    }
+
+    localSync->Reset();
+    return localSync;
+}
+
+void SYNCObjectPool::Push(SYNCObject* _sync)
+{
+    AutoLock(m_xLock);
+    m_oPoolArray.at(_sync->GetBehaviorType()).push_back(_sync);
+}
+
+void SYNCObjectPool::AddCreateSYNCObjectDUserBuff(std::vector<std::shared_ptr<SYNCObjectDUserBuff>>& _syncList, const int& _skillModuleID, const int64_t& remainMS, const int& _opt, const int& _val1, const int& _val2, const int& _val3, const int& _val4, const int& _val5)
+{
+}

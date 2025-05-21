@@ -27,6 +27,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Area.h" />
+    <ClInclude Include="AreaManager.h" />
+    <ClInclude Include="Field.h" />
     <ClInclude Include="AttackState.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CheckValueRange.h" />
@@ -35,8 +38,8 @@
     <ClInclude Include="EResult.h" />
     <ClInclude Include="EServerConst.h" />
     <ClInclude Include="ENPCState.h" />
-    <ClInclude Include="AGrid.h" />
-    <ClInclude Include="GridLocation.h" />
+    <ClInclude Include="FieldTile.h" />
+    <ClInclude Include="TileLocation.h" />
     <ClInclude Include="InnerPacketStructures.h" />
     <ClInclude Include="IState.h" />
     <ClInclude Include="MapDataManager.h" />
@@ -75,10 +78,13 @@
     <ClInclude Include="SYNCObjectPool.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Area.cpp" />
+    <ClCompile Include="AreaManager.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="Direction.cpp" />
-    <ClCompile Include="AGrid.cpp" />
+    <ClCompile Include="FieldTile.cpp" />
     <ClCompile Include="InnerPacketStructures.cpp" />
     <ClCompile Include="MapDataManager.cpp" />
     <ClCompile Include="MapElementsData.cpp" />

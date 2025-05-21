@@ -8,6 +8,9 @@
 #include "GameDBService.h"
 #include "GameDBLoadBalancer.h"
 
+#include "MDBDataLoader.h"
+
+
 #include <MapDataManager.h>
 
 #include <NetworkManager.h>
@@ -33,9 +36,11 @@ bool PGameServerApp::Initialize()
     _InitLog();
 
     //GameDB ¼¼ÆÃ
-    _InitGameDB();
+    if (false == _InitGameDB()) return false;
     //SendServerLog(L"SendServerLog Initialize...");
 
+    //MasterDB
+    if (false == _LoadMasterDB()) return false;
 
     return true;
 }
@@ -118,6 +123,39 @@ bool PGameServerApp::_InitGameDB()
     return true;
 }
 
+bool PGameServerApp::_LoadMasterDB()
+{
+    auto lDBInfo = ServerConfig::GetInst().GetConfig().GetDBConnectionInfo("MDB");
+
+    if (nullptr == lDBInfo)
+    {
+        VIEW_WRITE_ERROR("MDB Connection Info is Null");
+        return false;
+    }
+
+    //DB Connection
+    MDBDataLoader localLoader;
+    if (false == localLoader.SetConfig(lDBInfo->m_sUserID, lDBInfo->m_sPassword, lDBInfo->m_sDBName, lDBInfo->m_sDBHost, std::to_string(lDBInfo->m_nDBPort)))
+    {
+        VIEW_WRITE_ERROR("MDBDataLoader Init Failed");
+        return false;
+    }
+    
+    //DB Service call
+    auto& dataManager = MDBDataManager::GetNextMDBDatas();
+    
+    //MDB data Loads
+    if (false == localLoader.LoadMDBDatas(dataManager))
+    {
+        VIEW_WRITE_ERROR("MDB Data Load Failed");
+        return false;
+    }
+
+    MDBDataManager::Switch();
+
+    return true;
+}
+
 bool PGameServerApp::_InitMap()
 {
     if (false == MapDataManager::GetInst().Init())
@@ -125,6 +163,9 @@ bool PGameServerApp::_InitMap()
         VIEW_WRITE_ERROR("MapDataManger Initialize is Failed!");
         return false;
     }
+
+
+    auto& localMaps = MapDataManager::GetInst().GetLoadedMapDataList();
 
 
 

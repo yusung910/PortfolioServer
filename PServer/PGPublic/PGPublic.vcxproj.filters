@@ -4,65 +4,74 @@
     <Filter Include="0_Private">
       <UniqueIdentifier>{10604b17-61d0-45ac-a587-86f7780d545b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Struct">
-      <UniqueIdentifier>{dbe641da-0c54-4e0f-9ec6-d2ec4fe69883}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Config">
+    <Filter Include="1_Config">
       <UniqueIdentifier>{5970c7b0-ab50-4730-9bf1-a31074f2bf76}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{e4400e26-c5df-4ec6-9ac8-4688a59c50e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\PC">
-      <UniqueIdentifier>{8f000c6a-b6fb-47d3-a1bb-640b4dec5b55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\BaseObject">
-      <UniqueIdentifier>{39936ffb-d158-4557-8b89-1b1f35a05ce4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Util">
-      <UniqueIdentifier>{9a901c6e-1381-437b-b4ae-c7ea10f0babe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Util\StrChecker">
-      <UniqueIdentifier>{4e1282de-5a22-46fd-8a9d-a70acbad61dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Util\StrChecker\StrFilter">
-      <UniqueIdentifier>{4bd58b65-1724-4674-931f-f1ae5517258d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\PC\Data">
-      <UniqueIdentifier>{0c70dc60-925f-4265-8bb4-046581afcdf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Map">
-      <UniqueIdentifier>{0000f1e3-99ef-4d8e-a324-3490a9090d59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Grid">
-      <UniqueIdentifier>{131c1a06-38a1-4ce9-901d-b6298b5ea247}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resources">
+    <Filter Include="2_Resources">
       <UniqueIdentifier>{066a5a68-6366-45b2-a831-7608622c0e4b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\NPC">
+    <Filter Include="3_Struct">
+      <UniqueIdentifier>{dbe641da-0c54-4e0f-9ec6-d2ec4fe69883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object">
+      <UniqueIdentifier>{e4400e26-c5df-4ec6-9ac8-4688a59c50e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object\PC">
+      <UniqueIdentifier>{8f000c6a-b6fb-47d3-a1bb-640b4dec5b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object\PC\Data">
+      <UniqueIdentifier>{0c70dc60-925f-4265-8bb4-046581afcdf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object\BaseObject">
+      <UniqueIdentifier>{39936ffb-d158-4557-8b89-1b1f35a05ce4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object\NPC">
       <UniqueIdentifier>{cce15699-823c-4f05-9bae-02b2bd1b3b9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\NPC\Managers">
+    <Filter Include="4_Object\NPC\Managers">
       <UniqueIdentifier>{050acbb2-9d3e-4c5d-865f-84b30502e5f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\NPC\Module">
-      <UniqueIdentifier>{2d788c71-2536-45c5-b31f-ae018c7df674}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\NPC\Module\State">
-      <UniqueIdentifier>{7ecd8bd3-d016-461d-be16-36c361348eea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Map\NavMesh">
-      <UniqueIdentifier>{4aa44abf-d386-44f5-9545-6404879fbfee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\NPC\Managers\Summons">
+    <Filter Include="4_Object\NPC\Managers\Summons">
       <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Grid\Sync">
+    <Filter Include="4_Object\NPC\Module">
+      <UniqueIdentifier>{2d788c71-2536-45c5-b31f-ae018c7df674}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object\NPC\Module\State">
+      <UniqueIdentifier>{7ecd8bd3-d016-461d-be16-36c361348eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99_Util">
+      <UniqueIdentifier>{9a901c6e-1381-437b-b4ae-c7ea10f0babe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99_Util\StrChecker">
+      <UniqueIdentifier>{4e1282de-5a22-46fd-8a9d-a70acbad61dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99_Util\StrChecker\StrFilter">
+      <UniqueIdentifier>{4bd58b65-1724-4674-931f-f1ae5517258d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map">
+      <UniqueIdentifier>{0000f1e3-99ef-4d8e-a324-3490a9090d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map\Data">
+      <UniqueIdentifier>{c1183923-8e0a-42c9-ba26-25f74e4e5bc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map\Data\NavMesh">
+      <UniqueIdentifier>{4aa44abf-d386-44f5-9545-6404879fbfee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map\Instance">
+      <UniqueIdentifier>{131c1a06-38a1-4ce9-901d-b6298b5ea247}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map\Instance\Sync">
       <UniqueIdentifier>{d11cb597-1c3e-42ae-a327-431c3cc96356}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Grid\Sync\Buff">
+    <Filter Include="5_Map\Instance\Sync\Buff">
       <UniqueIdentifier>{f8ee87b6-a4b4-4157-9fd5-f2fcf4c9d51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map\Instance\Field">
+      <UniqueIdentifier>{ce2cdaa7-6fbf-44c6-b8cf-a1046f31262a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_Map\Instance\TrainingRoom">
+      <UniqueIdentifier>{0cff5ecc-31da-44e2-bc59-3e02128060e6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,13 +82,13 @@
       <Filter>0_Private</Filter>
     </ClInclude>
     <ClInclude Include="PConstVars.h">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClInclude>
     <ClInclude Include="ELang.h">
-      <Filter>Config</Filter>
+      <Filter>1_Config</Filter>
     </ClInclude>
     <ClInclude Include="EServerConst.h">
-      <Filter>Config</Filter>
+      <Filter>1_Config</Filter>
     </ClInclude>
     <ClInclude Include="PGPPrivate.h">
       <Filter>0_Private</Filter>
@@ -88,121 +97,130 @@
       <Filter>0_Private</Filter>
     </ClInclude>
     <ClInclude Include="ServerConfig.h">
-      <Filter>Config</Filter>
+      <Filter>1_Config</Filter>
     </ClInclude>
     <ClInclude Include="SimpleHeroInfo.h">
-      <Filter>Object\PC</Filter>
+      <Filter>4_Object\PC</Filter>
     </ClInclude>
     <ClInclude Include="PConst.h">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClInclude>
     <ClInclude Include="BaseObject.h">
-      <Filter>Object\BaseObject</Filter>
+      <Filter>4_Object\BaseObject</Filter>
     </ClInclude>
     <ClInclude Include="RevUtil.h">
-      <Filter>Util</Filter>
+      <Filter>99_Util</Filter>
     </ClInclude>
     <ClInclude Include="PFunc.h">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClInclude>
     <ClInclude Include="InnerPacketStructures.h">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClInclude>
     <ClInclude Include="PEnum.h">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClInclude>
     <ClInclude Include="StrChecker.h">
-      <Filter>Util\StrChecker</Filter>
+      <Filter>99_Util\StrChecker</Filter>
     </ClInclude>
     <ClInclude Include="StrFilterInterface.h">
-      <Filter>Util\StrChecker\StrFilter</Filter>
+      <Filter>99_Util\StrChecker\StrFilter</Filter>
     </ClInclude>
     <ClInclude Include="CheckValueRange.h">
-      <Filter>Util</Filter>
+      <Filter>99_Util</Filter>
     </ClInclude>
     <ClInclude Include="StrFilterKR.h">
-      <Filter>Util\StrChecker\StrFilter</Filter>
+      <Filter>99_Util\StrChecker\StrFilter</Filter>
     </ClInclude>
     <ClInclude Include="PocoTimeUtil.h">
-      <Filter>Util</Filter>
+      <Filter>99_Util</Filter>
     </ClInclude>
     <ClInclude Include="ServerConst.h">
-      <Filter>Config</Filter>
+      <Filter>1_Config</Filter>
     </ClInclude>
     <ClInclude Include="Direction.h">
-      <Filter>Object\PC\Data</Filter>
+      <Filter>4_Object\PC\Data</Filter>
     </ClInclude>
     <ClInclude Include="PC.h">
-      <Filter>Object\PC</Filter>
+      <Filter>4_Object\PC</Filter>
     </ClInclude>
     <ClInclude Include="MDBDatas.h">
-      <Filter>Resources</Filter>
+      <Filter>2_Resources</Filter>
     </ClInclude>
     <ClInclude Include="MDBDataLoader.h">
-      <Filter>Resources</Filter>
+      <Filter>2_Resources</Filter>
     </ClInclude>
     <ClInclude Include="ENPCState.h">
-      <Filter>Object\NPC\Module\State</Filter>
+      <Filter>4_Object\NPC\Module\State</Filter>
     </ClInclude>
     <ClInclude Include="IState.h">
-      <Filter>Object\NPC\Module\State</Filter>
+      <Filter>4_Object\NPC\Module\State</Filter>
     </ClInclude>
     <ClInclude Include="NPC.h">
-      <Filter>Object\NPC</Filter>
+      <Filter>4_Object\NPC</Filter>
     </ClInclude>
     <ClInclude Include="Navi.h">
-      <Filter>Map\NavMesh</Filter>
+      <Filter>5_Map\Data\NavMesh</Filter>
     </ClInclude>
     <ClInclude Include="NPCStateEngine.h">
-      <Filter>Object\NPC\Module</Filter>
+      <Filter>4_Object\NPC\Module</Filter>
     </ClInclude>
     <ClInclude Include="AttackState.h">
-      <Filter>Object\NPC\Module\State</Filter>
+      <Filter>4_Object\NPC\Module\State</Filter>
     </ClInclude>
     <ClInclude Include="NPCStatistics.h">
-      <Filter>Object\NPC\Module</Filter>
+      <Filter>4_Object\NPC\Module</Filter>
     </ClInclude>
     <ClInclude Include="NPCSummons.h">
-      <Filter>Object\NPC\Module</Filter>
+      <Filter>4_Object\NPC\Module</Filter>
     </ClInclude>
     <ClInclude Include="SummonsData.h">
-      <Filter>Object\NPC\Managers\Summons</Filter>
-    </ClInclude>
-    <ClInclude Include="MapDistrictInfo.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapElementsData.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapDataManager.h">
-      <Filter>Map</Filter>
-    </ClInclude>
-    <ClInclude Include="MapLoadData.h">
-      <Filter>Map</Filter>
+      <Filter>4_Object\NPC\Managers\Summons</Filter>
     </ClInclude>
     <ClInclude Include="MDBDataManager.h">
-      <Filter>Resources</Filter>
+      <Filter>2_Resources</Filter>
     </ClInclude>
     <ClInclude Include="SummonsInfo.h">
-      <Filter>Object\NPC\Managers\Summons</Filter>
+      <Filter>4_Object\NPC\Managers\Summons</Filter>
     </ClInclude>
-    <ClInclude Include="GridLocation.h">
-      <Filter>Grid</Filter>
+    <ClInclude Include="TileLocation.h">
+      <Filter>5_Map\Instance</Filter>
     </ClInclude>
     <ClInclude Include="SYNCObjectDUserBuff.h">
-      <Filter>Grid\Sync\Buff</Filter>
+      <Filter>5_Map\Instance\Sync\Buff</Filter>
     </ClInclude>
     <ClInclude Include="SYNCObject.h">
-      <Filter>Grid\Sync</Filter>
-    </ClInclude>
-    <ClInclude Include="AGrid.h">
-      <Filter>Grid</Filter>
+      <Filter>5_Map\Instance\Sync</Filter>
     </ClInclude>
     <ClInclude Include="SYNCObjectPool.h">
-      <Filter>Grid\Sync</Filter>
+      <Filter>5_Map\Instance\Sync</Filter>
     </ClInclude>
     <ClInclude Include="SYNCObjectAdd.h">
-      <Filter>Grid\Sync</Filter>
+      <Filter>5_Map\Instance\Sync</Filter>
+    </ClInclude>
+    <ClInclude Include="Area.h">
+      <Filter>5_Map\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaManager.h">
+      <Filter>5_Map\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldTile.h">
+      <Filter>5_Map\Instance\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>5_Map\Instance\Field</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDataManager.h">
+      <Filter>5_Map\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="MapDistrictInfo.h">
+      <Filter>5_Map\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="MapElementsData.h">
+      <Filter>5_Map\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLoadData.h">
+      <Filter>5_Map\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,94 +228,103 @@
       <Filter>0_Private</Filter>
     </ClCompile>
     <ClCompile Include="ServerConfig.cpp">
-      <Filter>Config</Filter>
+      <Filter>1_Config</Filter>
     </ClCompile>
     <ClCompile Include="PConst.cpp">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClCompile>
     <ClCompile Include="BaseObject.cpp">
-      <Filter>Object\BaseObject</Filter>
+      <Filter>4_Object\BaseObject</Filter>
     </ClCompile>
     <ClCompile Include="RevUtil.cpp">
-      <Filter>Util</Filter>
+      <Filter>99_Util</Filter>
     </ClCompile>
     <ClCompile Include="PFunc.cpp">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClCompile>
     <ClCompile Include="InnerPacketStructures.cpp">
-      <Filter>Struct</Filter>
+      <Filter>3_Struct</Filter>
     </ClCompile>
     <ClCompile Include="StrChecker.cpp">
-      <Filter>Util\StrChecker</Filter>
+      <Filter>99_Util\StrChecker</Filter>
     </ClCompile>
     <ClCompile Include="StrFilterInterface.cpp">
-      <Filter>Util\StrChecker\StrFilter</Filter>
+      <Filter>99_Util\StrChecker\StrFilter</Filter>
     </ClCompile>
     <ClCompile Include="StrFilterKR.cpp">
-      <Filter>Util\StrChecker\StrFilter</Filter>
+      <Filter>99_Util\StrChecker\StrFilter</Filter>
     </ClCompile>
     <ClCompile Include="PocoTimeUtil.cpp">
-      <Filter>Util</Filter>
+      <Filter>99_Util</Filter>
     </ClCompile>
     <ClCompile Include="ServerConst.cpp">
-      <Filter>Config</Filter>
+      <Filter>1_Config</Filter>
     </ClCompile>
     <ClCompile Include="Direction.cpp">
-      <Filter>Object\PC\Data</Filter>
+      <Filter>4_Object\PC\Data</Filter>
     </ClCompile>
     <ClCompile Include="PC.cpp">
-      <Filter>Object\PC</Filter>
+      <Filter>4_Object\PC</Filter>
     </ClCompile>
     <ClCompile Include="MDBDatas.cpp">
-      <Filter>Resources</Filter>
+      <Filter>2_Resources</Filter>
     </ClCompile>
     <ClCompile Include="MDBDataLoader.cpp">
-      <Filter>Resources</Filter>
+      <Filter>2_Resources</Filter>
     </ClCompile>
     <ClCompile Include="NPC.cpp">
-      <Filter>Object\NPC</Filter>
+      <Filter>4_Object\NPC</Filter>
     </ClCompile>
     <ClCompile Include="Navi.cpp">
-      <Filter>Map\NavMesh</Filter>
+      <Filter>5_Map\Data\NavMesh</Filter>
     </ClCompile>
     <ClCompile Include="NPCStateEngine.cpp">
-      <Filter>Object\NPC\Module</Filter>
+      <Filter>4_Object\NPC\Module</Filter>
     </ClCompile>
     <ClCompile Include="AttackState.cpp">
-      <Filter>Object\NPC\Module\State</Filter>
+      <Filter>4_Object\NPC\Module\State</Filter>
     </ClCompile>
     <ClCompile Include="NPCStatistics.cpp">
-      <Filter>Object\NPC\Module</Filter>
+      <Filter>4_Object\NPC\Module</Filter>
     </ClCompile>
     <ClCompile Include="NPCSummons.cpp">
-      <Filter>Object\NPC\Module</Filter>
+      <Filter>4_Object\NPC\Module</Filter>
     </ClCompile>
     <ClCompile Include="SummonsData.cpp">
-      <Filter>Object\NPC\Managers\Summons</Filter>
-    </ClCompile>
-    <ClCompile Include="MapElementsData.cpp">
-      <Filter>Map</Filter>
-    </ClCompile>
-    <ClCompile Include="MapDataManager.cpp">
-      <Filter>Map</Filter>
+      <Filter>4_Object\NPC\Managers\Summons</Filter>
     </ClCompile>
     <ClCompile Include="MDBDataManager.cpp">
-      <Filter>Resources</Filter>
+      <Filter>2_Resources</Filter>
     </ClCompile>
     <ClCompile Include="SYNCObjectDUserBuff.cpp">
-      <Filter>Grid\Sync\Buff</Filter>
+      <Filter>5_Map\Instance\Sync\Buff</Filter>
     </ClCompile>
     <ClCompile Include="SYNCObject.cpp">
-      <Filter>Grid\Sync</Filter>
-    </ClCompile>
-    <ClCompile Include="AGrid.cpp">
-      <Filter>Grid</Filter>
+      <Filter>5_Map\Instance\Sync</Filter>
     </ClCompile>
     <ClCompile Include="SYNCObjectPool.cpp">
-      <Filter>Grid\Sync</Filter>
+      <Filter>5_Map\Instance\Sync</Filter>
     </ClCompile>
     <ClCompile Include="SYNCObjectAdd.cpp">
-      <Filter>Grid\Sync</Filter>
+      <Filter>5_Map\Instance\Sync</Filter>
+    </ClCompile>
+    <ClCompile Include="Area.cpp">
+      <Filter>5_Map\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaManager.cpp">
+      <Filter>5_Map\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldTile.cpp">
+      <Filter>5_Map\Instance\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>5_Map\Instance\Field</Filter>
+    </ClCompile>
+    <ClCompile Include="MapDataManager.cpp">
+      <Filter>5_Map\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="MapElementsData.cpp">
+      <Filter>5_Map\Data</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

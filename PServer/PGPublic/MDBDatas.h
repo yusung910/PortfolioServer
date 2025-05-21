@@ -14,9 +14,14 @@ public:
 
 
 public:
+    //list
     std::unordered_map<int, MDBObjectStatistics*>& GetAllMDBObjectStatisticsList();
     std::unordered_map<int, MDBMapInfo*>& GetAllMapInfoList();
     std::unordered_map<int, MDBMapTeleportInfo*>& GetAllMapTeleportInfoList();
+
+
+    //find Item
+    const MDBMapInfo* GetMapInfo(const int& _mapID);
 
     void Reset();
 };

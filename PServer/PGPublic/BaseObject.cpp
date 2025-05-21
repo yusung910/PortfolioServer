@@ -50,3 +50,43 @@ void BaseObject::SetObjectType(EObject::Type _t)
 {
     m_eObjectType = _t;
 }
+
+const Position& BaseObject::GetPosition() const
+{
+    return m_oPosition;
+}
+
+void BaseObject::SetPosition(const Position& _pos)
+{
+    m_oPosition = _pos;
+}
+
+const Position& BaseObject::GetTargetPosition() const
+{
+    return m_oTargetPosition;
+}
+
+void BaseObject::SetTargetPosition(const Position& _pos)
+{
+    m_oTargetPosition = _pos;
+}
+
+const Direction& BaseObject::GetDirection() const
+{
+    return m_oDirection;
+}
+
+void BaseObject::SetDirection(const Direction& _dir)
+{
+    m_oDirection = _dir;
+}
+
+const std::string& BaseObject::GetName() const
+{
+    return m_sName;
+}
+
+void BaseObject::SetName(const std::string& _name)
+{
+    m_sName = _name;
+}

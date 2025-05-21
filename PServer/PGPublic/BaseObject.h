@@ -23,6 +23,7 @@ protected:
     int64_t             m_nExp = 0;
     Direction           m_oDirection;
     Position            m_oPosition;
+    Position            m_oTargetPosition;
     
     bool                m_bIsMove = false;
 
@@ -47,5 +48,17 @@ public:
 
     EObject::Type GetObjectType();
     void SetObjectType(EObject::Type _t);
+
+    const Position& GetPosition() const;
+    void SetPosition(const Position& _pos);
+
+    const Position& GetTargetPosition() const;
+    void SetTargetPosition(const Position& _pos);
+
+    const Direction& GetDirection() const;
+    void SetDirection(const Direction& _dir);
+
+    const std::string& GetName() const;
+    void SetName(const std::string& _name);
 };
 

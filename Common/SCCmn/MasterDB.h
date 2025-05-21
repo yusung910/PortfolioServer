@@ -64,8 +64,9 @@ struct MDBMapInfo
     SVString MapFilePath;
 
     SVint MapSize = 0;
-    SVint MapWidth = 0;
-    SVint MapHeight = 0;
+
+    SVint MaxChannelCount = 0;
+    SVint Channel = 0;
 
     EMap::Type MapType = EMap::None;
 

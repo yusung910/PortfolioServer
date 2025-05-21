@@ -2,6 +2,8 @@
 
 #include "ServiceDivision.h"
 
+#define __UNLIKELY__ [[unlikely]]
+#define __LIKELY__ [[likely]]
 
 #pragma region | 국내 라이브 서비스 전용 Define
 #ifdef KR_SERVICE

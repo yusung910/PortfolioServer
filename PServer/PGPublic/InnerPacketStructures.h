@@ -67,7 +67,7 @@ public:
     int IPAddress32 = 0;
 
     //
-    std::unordered_set<int> PilgrimExistServerList;
+    std::unordered_set<int> m_usPilgrimExistServerList;
 
 public:
     virtual void Release() override;

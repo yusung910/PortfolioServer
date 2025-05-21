@@ -25,6 +25,8 @@ private:
 
     bool _InitGameDB();
 
+    bool _LoadMasterDB();
+
     bool _InitMap();
 };
 
