@@ -1,11 +1,12 @@
 ﻿/*************************************************************************************
-    name        : (sp)[spAbilityStatRatePerTrainingStatSelect]
-    description : 훈련 스탯(힘,민,맷,숙)에 따른 능력치 상승률 조회
+    name        : (sp)[spPilgrimLevelStatus]
+    description : Player Character(Pilgrim)이 훈련하는 스텟의 경험치 정보
     result      : 프로시저 결과 값(EDBResult)
         
     Date                Author          Description
     --------------      ---------       ---------------------------------------------
     2025.03.04.         유성            최초 생성
+    2025.05.23.         유성            구조 변경에 따른 수정
 
 
 
@@ -13,17 +14,14 @@
 
 *************************************************************************************/
 
-CREATE PROCEDURE [dbo].[spAbilityStatRatePerTrainingStatSelect]
+CREATE PROCEDURE [dbo].[spPilgrimLevelStatus]
 AS
 BEGIN
     SELECT
-          [StatNo]
-        , [Name]
-        , [Remark]
-        , [Strength]
-        , [Dexterity]
-        , [Endurance]
-        , [WeaponMastery]
+        [TrainingAbilityType]
+      , [Level]
+      , [AbilityModuleSeq]
+      , [NeedNextLevelExp]
       FROM 
-        AbilityStatRatePerTrainingStat
+        PilgrimLevelStatus
 END

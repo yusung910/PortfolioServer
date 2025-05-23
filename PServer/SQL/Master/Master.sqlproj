@@ -58,6 +58,7 @@
     <Folder Include="Properties" />
     <Folder Include="StoredProcedure" />
     <Folder Include="Tables" />
+    <Folder Include="Tables\Ability" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Master.refactorlog" />
@@ -67,16 +68,20 @@
     <Build Include="Tables\MapTeleportInfo.sql" />
     <Build Include="StoredProcedure\spMapInfoSelect.sql" />
     <Build Include="StoredProcedure\spMapTeleportInfoSelect.sql" />
-    <Build Include="Tables\ObjectStatistics.sql" />
-    <Build Include="Tables\LevelBaseAbilityStat.sql" />
-    <Build Include="Tables\AbilityStatRatePerTrainingStat.sql" />
-    <Build Include="StoredProcedure\spAbilityStatRatePerTrainingStatSelect.sql" />
-    <Build Include="StoredProcedure\spLevelBaseAbilityStatSelect.sql" />
-    <Build Include="StoredProcedure\spObjectStatisticsSelect.sql" />
-    <Build Include="Tables\AwakenAValue.sql" />
+    <Build Include="StoredProcedure\spPilgrimLevelStatusSelect.sql" />
+    <Build Include="StoredProcedure\spAbilityModulePilgrimLevelSelect.sql" />
+    <Build Include="StoredProcedure\spAbilityComponentsSelect.sql" />
     <Build Include="StoredProcedure\spAwakenAValueSelect.sql" />
     <Build Include="Tables\NPC.sql" />
     <Build Include="Tables\NPCSummons.sql" />
     <Build Include="Tables\MapDistrict.sql" />
+    <Build Include="Tables\Ability\AbilityComponents.sql" />
+    <Build Include="Tables\Ability\AbilityModule.sql" />
+    <Build Include="Tables\Ability\AwakenAValue.sql" />
+    <Build Include="StoredProcedure\spAbilityModuleSelect.sql" />
+    <Build Include="Tables\PilgrimLevelStatus.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\Ability\AbilityComponentsData.sql" />
   </ItemGroup>
 </Project>

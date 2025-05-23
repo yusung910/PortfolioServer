@@ -1,6 +1,7 @@
 #include "PGPPrivate.h"
 #include "Navi.h"
 #include "Random.h"
+#include "ServerConfig.h"
 #include "StringUtil.h"
 #include "FileSystem.h"
 
@@ -23,35 +24,37 @@ Navi::~Navi()
     m_umMapMeshList.clear();
 }
 
-bool Navi::Init(std::vector<MDBMapInfo*>* _mapInfo)
+bool Navi::Init(std::vector<MapLoadData> _mapInfo)
 {
     if (true == m_bIsInit)
         return false;
 
-    if (nullptr == _mapInfo)
-        return false;
+    auto localStrMapFileDir = ServerConfig::GetInst().GetConfig().GetMapInfoPath();
 
-    int lSuccessCount = 0;
+    if (true == localStrMapFileDir.empty())
+        SetLoadFileDir(localStrMapFileDir);
 
-    int64_t lStartTime = Clock::GetTick64();
+    int localSuccessCount = 0;
 
-    for (auto mapData : *_mapInfo)
+    int64_t localStartTime = Clock::GetTick64();
+
+    for (auto mapData : _mapInfo)
     {
-        int lMeshSize = std::max(mapData->MapHeight, mapData->MapWidth);
+        int localMeshSize = std::max(mapData.m_nHeight, mapData.m_nWidth);
 
-        if (false == _LoadMapMesh(mapData->MapID, mapData->MapFileName, mapData->MapSize))
+        if (false == _LoadMapMesh(mapData.m_nMapID, mapData.m_sNaviFileName, localMeshSize))
         {
-            VIEW_WRITE_ERROR("Load Map Mesh Failed!! MapID : %d", mapData->MapID);
+            VIEW_WRITE_ERROR("Load Map Mesh Failed!! MapID : %d", mapData.m_nMapID);
         }
         else
         {
-            lSuccessCount++;
+            localSuccessCount++;
         }
     }
 
-    m_bIsInit = (lSuccessCount > 0);
+    m_bIsInit = (localSuccessCount > 0);
 
-    int64_t lGap = Clock::GetTick64() - lStartTime;
+    int64_t lGap = Clock::GetTick64() - localSuccessCount;
     VIEW_INFO("Load Maps : %d ms", lGap);
 
     return m_bIsInit;

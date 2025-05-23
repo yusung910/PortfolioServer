@@ -413,4 +413,81 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="MapFileName" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="a4c26881-fdf4-48ab-96e1-8dc079a994ef" ChangeDateTime="05/22/2025 06:48:03">
+    <Property Name="ElementName" Value="[dbo].[MapDistrict].[MapDistrictD]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[MapDistrict]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MapDistrictID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7d8c889d-b494-4d64-9019-5314330e71db" ChangeDateTime="05/22/2025 07:41:17">
+    <Property Name="ElementName" Value="[dbo].[AbilityComponents].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AbilityID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f818c15e-993b-41cc-8385-55ce97779c26" ChangeDateTime="05/22/2025 07:41:44">
+    <Property Name="ElementName" Value="[dbo].[AbilityComponents].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AbilityNm" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="3b2b1765-2122-47f4-b74c-50194aae7cd7" ChangeDateTime="05/22/2025 07:43:27">
+    <Property Name="ElementName" Value="[dbo].[AbilityComponents].[AbilityID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AbilitySeq" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="56686112-60ae-4bdb-b603-169b1b8b8ff4" ChangeDateTime="05/22/2025 07:46:27">
+    <Property Name="ElementName" Value="[dbo].[AbilityComponents].[AbilityNm]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AbilityName" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7f0f46bd-f50c-4c43-805d-2fec131bde82" ChangeDateTime="05/22/2025 07:52:00">
+    <Property Name="ElementName" Value="[dbo].[AbilityComponents].[Explain]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Comment" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="edb446f2-f044-4f2f-b969-0bfcb485fb6f" ChangeDateTime="05/22/2025 08:35:12">
+    <Property Name="ElementName" Value="[dbo].[ObjectAbilityComponents].[Valiue]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ObjectAbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Value" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="76dcf4f3-d44f-4dcd-848c-3745ca4ae697" ChangeDateTime="05/22/2025 08:42:49">
+    <Property Name="ElementName" Value="[dbo].[ObjectAbilityComponents].[ObjectAbilityComponentSeq]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ObjectAbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Seq" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="87fec4c6-ad4d-460d-a0fc-8383fc93b73a" ChangeDateTime="05/22/2025 08:42:57">
+    <Property Name="ElementName" Value="[dbo].[AbilityComponents].[AbilityComponentSeq]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[AbilityComponents]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Seq" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="91aaf699-c821-456e-86e3-49686cc68ab5" ChangeDateTime="05/22/2025 09:12:26">
+    <Property Name="ElementName" Value="[dbo].[LevelBaseAbilityComponentUnit].[AbilityComponentsSeq]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LevelBaseAbilityComponentUnit]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ObjectAbilityComponentsSeq" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="20cb4b9a-4be0-470e-a957-a5f0c3cef82d" ChangeDateTime="05/23/2025 07:00:56">
+    <Property Name="ElementName" Value="[dbo].[LevelBaseAbilityComponentUnit].[ObjectAbilityComponentsSeq]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[LevelBaseAbilityComponentUnit]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AbilityModuleSeq" />
+  </Operation>
 </Operations>

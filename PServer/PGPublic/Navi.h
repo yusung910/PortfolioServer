@@ -4,6 +4,7 @@
 #include <RefSingleton.h>
 #include <unordered_map>
 
+#include "MapLoadData.h"
 
 #include <DetourCrowd.h>
 #include <Sample_TempObstacles.h>
@@ -101,7 +102,7 @@ public:
     Navi();
     virtual ~Navi();
 
-    bool Init(std::vector<MDBMapInfo*>* _mapInfo);
+    bool Init(std::vector<MapLoadData> _mapInfo);
 
     bool GetRandomPositionAroundCircle(int _mapID, Position& _targetPos, float _rad, bool _setRad = false);
 

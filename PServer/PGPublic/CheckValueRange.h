@@ -21,7 +21,7 @@ static bool IsBetween(const T& _begin, const T& _end, const T& _val)
 
 
 template <typename T>
-static void SetInRage(const T& _v1, const T& _v2, T& _val)
+static void SetInRange(const T& _v1, const T& _v2, T& _val)
 {
     if (_v1 < _v2)
     {

@@ -23,7 +23,7 @@ public:
     void SetLevelBaseStatDictionary(std::vector<MDBPilgrimLevelBaseStat*>* _statList);
     MDBPilgrimLevelBaseStat* GetLevelBaseStatDictionary(int _lvl);
 
-    void SetAbilityStatRatePerTrainingStat(std::vector< MDBAbilityStatRatePerTrainingStat*>* _rateList);
+    void SetAbilityStatRatePerTrainingStat(std::vector<MDBAbilityStatRatePerTrainingStat*>* _rateList);
     MDBAbilityStatRatePerTrainingStat* GetAbilityStatRatePerTrainingStat(int _statNo);
 
 

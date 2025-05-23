@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "PGameServerApp.h"
+#include <AreaManager.h>
+
 #include <ServerConfig.h>
 #include <ServerApp.h>
+
 #include "GameServerNES.h"
 
 #include "GameService.h"
@@ -166,9 +169,7 @@ bool PGameServerApp::_InitMap()
 
 
     auto& localMaps = MapDataManager::GetInst().GetLoadedMapDataList();
-
-
-
+    AreaManager::GetInst().CreateArea(localMaps);
 
     return true;
 }

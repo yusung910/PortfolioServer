@@ -73,6 +73,9 @@
     <Filter Include="5_Map\Instance\TrainingRoom">
       <UniqueIdentifier>{0cff5ecc-31da-44e2-bc59-3e02128060e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="5_Map\NavMesh">
+      <UniqueIdentifier>{71bd7785-8b5a-4fa9-9681-7f1df5532500}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PGPublic.h">

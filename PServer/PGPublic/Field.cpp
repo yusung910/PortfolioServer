@@ -3,6 +3,8 @@
 #include "FieldTile.h"
 
 #include "Clock.h"
+#include "CheckValueRange.h"
+
 #include "PC.h"
 #include "MDBDataManager.h"
 
@@ -18,10 +20,54 @@ FieldTile* Field::GetFieldTile(const int& _r, const int& _c) const
     return nullptr;
 }
 
+int Field::GetTileIndexByPosition(const Position& _pos) const
+{
+    int localCol = (m_nTileSize == 0) ? 0 : (int)((_pos.x - m_oStartPos.x) / m_nTileSize);
+    int localRow = (m_nTileSize == 0) ? 0 : (int)((_pos.y - m_oStartPos.y) / m_nTileSize);
+
+    SetInRange(0, m_nMaxTilesCol, localCol);
+    SetInRange(0, m_nMaxTilesRow, localRow);
+
+    return CalculrateTileIndex(localRow, localCol);
+}
+
 int Field::CalculrateTileIndex(const int& _r, const int& _c) const
 {
+    int localTileIndex = m_nMaxTilesCol * (_r + _c);
+    if (localTileIndex > m_oFieldTiles.size())
+        return 0;
 
-    return 0;
+    return localTileIndex;
+}
+
+void Field::_GetNearFieldTiles(TileLocation& _minLoc, TileLocation& _maxLoc, std::unordered_set<const FieldTile*>& _FieldTiles) const
+{
+    for (int row = _minLoc.m_nRow; row < _maxLoc.m_nRow; row++)
+    {
+        for (int col = _minLoc.m_nCol; col < _maxLoc.m_nCol; col++)
+        {
+            auto localNearTile = GetFieldTile(row, col);
+            if (nullptr == localNearTile)
+                continue;
+
+            _FieldTiles.insert(localNearTile);
+        }
+    }
+}
+
+void Field::_GetNearFieldTiles(TileLocation& _minLoc, TileLocation& _maxLoc, std::unordered_set<FieldTile*>& _FieldTiles)
+{
+    for (int row = _minLoc.m_nRow; row < _maxLoc.m_nRow; row++)
+    {
+        for (int col = _minLoc.m_nCol; col < _maxLoc.m_nCol; col++)
+        {
+            auto localNearTile = GetFieldTile(row, col);
+            if (nullptr == localNearTile)
+                continue;
+
+            _FieldTiles.insert(localNearTile);
+        }
+    }
 }
 
 Field::Field(const int& _mapID)
@@ -88,12 +134,40 @@ void Field::Create(const int& _w, const int& _h, const Position& _startPos)
     std::unordered_set<FieldTile*> localUpdateTiles;
     localUpdateTiles.reserve(G_N_MAX_SYNC_ENTRY_COUNT);
 
-    TileLocation min, max;
+    TileLocation localMinLoc, localMaxLoc;
 
     m_umNearTiles.clear();
 
     for (auto lIter = m_oFieldTiles.begin(); lIter != m_oFieldTiles.end(); lIter++)
     {
+        auto localTile = lIter->get();
+        if (nullptr == localTile)
+            continue;
 
+        localUpdateTiles.clear();
+
+        CalculateNearFieldTileLocation(localTile, localMinLoc, localMaxLoc);
+        _GetNearFieldTiles(localMinLoc, localMaxLoc, localUpdateTiles);
+
+        for (auto tile : localUpdateTiles)
+        {
+            localTile->AddNearTileData(tile);
+        }
+
+        m_umNearTiles.insert(std::pair(localTile, localUpdateTiles));
     }
+}
+
+void Field::CalculateNearFieldTileLocation(const FieldTile* _fieldTile, TileLocation& _minField, TileLocation& _maxField)
+{
+    if (nullptr == _fieldTile)
+        return;
+
+    const TileLocation& localCurTile = _fieldTile->GetLocation();
+
+    _minField.m_nRow = (localCurTile.m_nRow - 1 > 0) ? localCurTile.m_nRow - 1 : 0;
+    _minField.m_nCol = (localCurTile.m_nCol - 1 > 0) ? localCurTile.m_nCol - 1 : 0;
+
+    _maxField.m_nRow = (localCurTile.m_nRow + 1 > 0) ? m_nMaxTilesRow : localCurTile.m_nRow + 1;
+    _maxField.m_nCol = (localCurTile.m_nCol + 1 > 0) ? m_nMaxTilesCol : localCurTile.m_nCol + 1;
 }

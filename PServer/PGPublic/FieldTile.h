@@ -57,6 +57,10 @@ public:
     void FieldTileReset();
 
     void SetTileLocation(const int& _r, const int& _c) noexcept;
+    const TileLocation& GetLocation() const noexcept;
+
     void SetMapID(const int& _mapID) noexcept;
+
+    void AddNearTileData(FieldTile* _fieldData);
 };
 

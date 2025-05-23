@@ -45,7 +45,11 @@ protected:
     FieldTile* GetFieldTile(const Position& _pos) const;
     FieldTile* GetFieldTile(const int& _r, const int& _c) const;
 
+    int GetTileIndexByPosition(const Position& _pos) const;
     int CalculrateTileIndex(const int& _r, const int& _c) const;
+
+    void _GetNearFieldTiles(TileLocation& _minLoc, TileLocation& _maxLoc, std::unordered_set<const FieldTile*>& _FieldTiles) const;
+    void _GetNearFieldTiles(TileLocation& _minLoc, TileLocation& _maxLoc, std::unordered_set<FieldTile*>& _FieldTiles);
 
 public:
     Field(const int& _mapID = 0);
@@ -53,6 +57,8 @@ public:
 
     void Reset();
     virtual void Create(const int& _w, const int& _h, const Position& _startPos);
+
+    void CalculateNearFieldTileLocation(const FieldTile* _fieldTile, TileLocation& _minField, TileLocation& _maxField);
 
 };
 

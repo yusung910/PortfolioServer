@@ -55,8 +55,21 @@ void FieldTile::SetTileLocation(const int& _r, const int& _c) noexcept
     m_oTileLoc.Set(_r, _c);
 }
 
+const TileLocation& FieldTile::GetLocation() const noexcept
+{
+    return m_oTileLoc;
+}
+
 void FieldTile::SetMapID(const int& _mapID) noexcept
 {
     if(_mapID > 0) __LIKELY__
         m_nMapID = _mapID;
+}
+
+void FieldTile::AddNearTileData(FieldTile* _fieldData)
+{
+    if (nullptr == _fieldData) __UNLIKELY__
+        return;
+
+    m_vNearTiles.push_back(_fieldData);
 }

@@ -4,6 +4,7 @@
 
 constexpr size_t MDB_DATA_SWITCH_COUNT = 3; //데이터 목록 스위칭
 
+//MDB와 커넥션 생성하고 데이터를 가져오는 클래스
 class MDBDataManager
 {
 private:

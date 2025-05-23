@@ -13,45 +13,83 @@
 #endif // SERVER_BUILD
 
 //기본적인것만 세팅, 추후 추가되는 컨텐츠에 따른 작업 필요
-struct MDBObjectStatistics;
 
-struct MDBObjectStatistics
+struct MDBAbilityComponents
 {
-    SVint ObjectStatID;
+    SVint AbilityComponentSeq;
 
-    typedef union
-    {
-        struct
-        {
-            /*******************************************************************
-             *  GlobalEnum -> EStats::Type에도 선언 필요
-             *******************************************************************/
-            SVint None;
+    //typedef union
+    //{
+    //    struct
+    //    {
+    //        /*******************************************************************
+    //         *  GlobalEnum -> EStats::Type에도 선언 필요
+    //         *******************************************************************/
+    //        SVint None;
 
-            SVint Strength;         //힘
-            SVint Dexterity;        //민첩
-            SVint Endurance;        //인내
-            SVint WeaponMastery;    //무기 숙련도
+    //        SVint Level;
 
-            SVint HP;               //생령력
-            SVint MaxHP;            //최대생명력
-            SVint MP;               //마나
-            SVint MaxMP;            //최대마나
 
-            SVint MeleeMinDamage;   //근접 최소 데미지
-            SVint MeleeMaxDamage;   //근접 최대 데미지
+    //        SVint Strength;         //힘
+    //        SVint Dexterity;        //민첩
+    //        SVint Endurance;        //인내
+    //        SVint WeaponMastery;    //무기 숙련도
 
-            SVint MeleeDefence;     //근접 방어력
+    //        SVint CurrentHP;               //생령력
+    //        SVint MaxHP;            //최대생명력
+    //        SVint CurrentMP;               //마나
+    //        SVint MaxMP;            //최대마나
 
-        } Info;
-    } MDBObjectStatisticsUnion;
+    //        SVint MeleeMinDamage;   //근접 최소 데미지
+    //        SVint MeleeMaxDamage;   //근접 최대 데미지
 
-    MDBObjectStatisticsUnion Stat;
+    //        SVint MeleeDefence;     //근접 방어력
 
-    int GetObjectStatID() const { return ObjectStatID; }
+    //        SVint CriticalRate;           //크리티컬 확률
+    //        SVint CriticalDamageRate;     //크리티컬 대미지 배률
 
-    bool IsValid() const;
+    //        SVint AttackSpeed;       //공격 속도
+    //        SVint MovementSpeed;     //이동 속도
 
+    //        SVint DodgeRate;      //회피율
+    //        SVint BlockRate;      //방어율
+
+
+    //    } Info;
+    //} MDBAbilityComponentsUnion;
+
+    //MDBAbilityComponentsUnion Stat;
+
+    //int GetObjectStatID() const { return ObjectStatID; }
+
+    //bool IsValid() const;
+
+};
+
+//아이템, 캐릭터 레벨 등등에 따른 AbilityModule
+struct MDBAbilityModule
+{
+    SVint AbilityModuleSeq;
+    SVint AbilityComponentsSeq;
+    SVint Value;
+};
+
+
+//레벨 별 기본 스탯
+struct MDBPilgrimLevelStatus
+{
+    SVint TrainingAbilityType;
+    SVint Level = 0;
+    SVint AbilityModuleSeq;
+    SVint64 NeedNextLevelExp;
+};
+
+
+//각성에 따른 A값
+struct MDBAwakenAValue
+{
+    SVint AwakenSeq = 0;
+    SVint AValue = 0;
 };
 
 
@@ -114,40 +152,6 @@ struct MDBMapDistrict
 };
 
 
-//레벨 별 기본 스탯
-struct MDBPilgrimLevelBaseStat
-{
-    SVint Level = 0;
-
-    SVint MaxHP = 0;
-    SVint MaxMana = 0;
-    SVint HPRegen = 0;
-    SVint ManaRegen = 0;
-    SVint Defence = 0;
-    SVint MeleeDamageMin = 0;
-    SVint MeleeDamageMax = 0;
-};
-
-
-//훈련스탯(힘,민,맷,숙)에 따른 스탯 비율
-struct MDBAbilityStatRatePerTrainingStat
-{
-    SVint StatNo = 0;
-    SVString Name = "";
-    SVString Remark = "";
-    SVint Strength = 0;
-    SVint Dexterity = 0;
-    SVint Endurance = 0;
-    SVint WeaponMastery = 0;
-};
-
-//각성에 따른 A값
-struct MDBAwakenAValue
-{
-    SVint AwakenSeq = 0;
-    SVint AValue = 0;
-};
-
 
 //NPC 테이블
 struct MDBNPC
@@ -161,7 +165,7 @@ struct MDBNPC
     SVint Level = 0;
     SVint Exp = 0;
 
-    const MDBObjectStatistics* ObjectStat = nullptr;
+    const MDBAbilityModule* AbilityModule = nullptr;
 
 };
 

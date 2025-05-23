@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[MapDistrict]
 (
-    [MapDistrictD] INT NOT NULL PRIMARY KEY, 
+    [MapDistrictID] INT NOT NULL PRIMARY KEY, 
     [MapID] INT NOT NULL, 
     [TransportNPCID] INT NOT NULL,
     [MapDistrictGroup] INT NOT NULL, 

@@ -22,6 +22,7 @@ public:
 
     virtual void Initialize();
 
+    bool CreateArea(const std::vector<MapLoadData>& _mapData);
 
 private:
     std::shared_ptr<Area> _CreateArea(const MapLoadData& _mapData);

@@ -28,41 +28,28 @@ bool MDBDataLoader::LoadMDBDatas(MDBDatas& _datas)
 
     _datas.Reset();
 
-    if (false == _ReadObjectStatistics(_datas))
-        return false;
+    if (false == _ReadAbilityComponents(_datas)) return false;
+    if (false == _ReadAbilityModule(_datas)) return false;
 
-    if (false == _ReadMapInfo(_datas))
-        return false;
+    if (false == _ReadMapInfo(_datas)) return false;
 
     return true;
 }
 
-bool MDBDataLoader::_ReadObjectStatistics(MDBDatas& _datas)
+bool MDBDataLoader::_ReadAbilityComponents(MDBDatas& _datas)
 {
     GetDBSession();
 
     bool lRslt = true;
     try
     {
-        MDBObjectStatistics lTmp{};
-        lTmp.Stat.Info.HP = 0;
-        lTmp.Stat.Info.MP = 0;
+        MDBAbilityComponents lTmp{};
 
         Poco::Data::Statement lSelect(lSess);
 
-        lSelect << "{CALL spObjectStatisticsSelect}"
-            , into(lTmp.ObjectStatID)
-            , into(lTmp.Stat.Info.Strength)
-            , into(lTmp.Stat.Info.Dexterity)
-            , into(lTmp.Stat.Info.Endurance)
-            , into(lTmp.Stat.Info.WeaponMastery)
-            , into(lTmp.Stat.Info.HP)
-            , into(lTmp.Stat.Info.MaxHP)
-            , into(lTmp.Stat.Info.MP)
-            , into(lTmp.Stat.Info.MaxMP)
-            , into(lTmp.Stat.Info.MeleeMinDamage)
-            , into(lTmp.Stat.Info.MeleeMaxDamage)
-            , into(lTmp.Stat.Info.MeleeDefence)
+        lSelect << "{CALL spAbilityComponentsSelect}"
+            , into(lTmp.AbilityComponentSeq)
+            
             , range(0, 1);
 
         //bool done()
@@ -71,14 +58,117 @@ bool MDBDataLoader::_ReadObjectStatistics(MDBDatas& _datas)
         {
             if (lSelect.execute() > 0)
             {
-                MDBObjectStatistics* lAdd = new MDBObjectStatistics;
-                memcpy_s(lAdd, sizeof(MDBObjectStatistics), &lTmp, sizeof(MDBObjectStatistics));
-                auto lRet = _datas.GetAllMDBObjectStatisticsList().insert({ lAdd->GetObjectStatID(), lAdd });
+                MDBAbilityComponents* lAdd = new MDBAbilityComponents;
+                memcpy_s(lAdd, sizeof(MDBAbilityComponents), &lTmp, sizeof(MDBAbilityComponents));
+                auto lRet = _datas.GetAllMDBAbilityComponentsList().insert({ lAdd->AbilityComponentSeq, lAdd });
 
                 //SEQ 중복체크
                 if (!lRet.second)
                 {
-                    VIEW_WRITE_ERROR("PilgrimStat Sequence: %d, IS DUPLICATED", lRet.first->first);
+                    VIEW_WRITE_ERROR("AbilityComponents Sequence: %d, IS NULL", lRet.first->first);
+                    lRslt = false;
+                }
+            }
+        }
+
+    }
+    catch (StatementException& _stateEx)
+    {
+        VIEW_WRITE_ERROR("\nException :: %s\nMessage :: %s", StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_stateEx.what())).c_str(), StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_stateEx.message().c_str())).c_str());
+        return false;
+    }
+    catch (std::exception& _ex)
+    {
+        VIEW_WRITE_ERROR("\nDB Error :: %s", StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_ex.what())).c_str());
+        return false;
+    }
+
+    return lRslt;
+}
+
+bool MDBDataLoader::_ReadAbilityModule(MDBDatas& _datas)
+{
+    GetDBSession();
+
+    bool lRslt = true;
+    try
+    {
+        MDBAbilityModule lTmp{};
+
+        Poco::Data::Statement lSelect(lSess);
+
+        lSelect << "{CALL spAbilityModuleSelect}"
+            , into(lTmp.AbilityModuleSeq)
+            , into(lTmp.AbilityComponentsSeq)
+            , into(lTmp.Value)
+
+            , range(0, 1);
+
+        //bool done()
+        //Returns true if the statement was completely executed or false if a range limit stopped it and there is more work to do.When no limit is set, it will always return true after calling execute().
+        while (!lSelect.done())
+        {
+            if (lSelect.execute() > 0)
+            {
+                MDBAbilityModule* lAdd = new MDBAbilityModule;
+                memcpy_s(lAdd, sizeof(MDBAbilityModule), &lTmp, sizeof(MDBAbilityModule));
+                auto lRet = _datas.GetAllMDBAbilityModuleList().insert({ lAdd->AbilityModuleSeq, lAdd });
+
+                if (!lRet.second)
+                {
+                    VIEW_WRITE_ERROR("AbilityModule Sequence: %d, IS Null", lRet.first->first);
+                    lRslt = false;
+                }
+            }
+        }
+
+    }
+    catch (StatementException& _stateEx)
+    {
+        VIEW_WRITE_ERROR("\nException :: %s\nMessage :: %s", StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_stateEx.what())).c_str(), StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_stateEx.message().c_str())).c_str());
+        return false;
+    }
+    catch (std::exception& _ex)
+    {
+        VIEW_WRITE_ERROR("\nDB Error :: %s", StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_ex.what())).c_str());
+        return false;
+    }
+
+    return lRslt;
+}
+
+bool MDBDataLoader::_ReadPilgrimLevelStatus(MDBDatas& _datas)
+{
+    GetDBSession();
+
+    bool lRslt = true;
+    try
+    {
+        MDBPilgrimLevelStatus lTmp{};
+
+        Poco::Data::Statement lSelect(lSess);
+
+        lSelect << "{CALL spPilgrimLevelStatusSelect}"
+            , into(lTmp.TrainingAbilityType)
+            , into(lTmp.Level)
+            , into(lTmp.AbilityModuleSeq)
+            , into(lTmp.NeedNextLevelExp)
+
+            , range(0, 1);
+
+        //bool done()
+        //Returns true if the statement was completely executed or false if a range limit stopped it and there is more work to do.When no limit is set, it will always return true after calling execute().
+        while (!lSelect.done())
+        {
+            if (lSelect.execute() > 0)
+            {
+                MDBPilgrimLevelStatus* lAdd = new MDBPilgrimLevelStatus;
+                memcpy_s(lAdd, sizeof(MDBPilgrimLevelStatus), &lTmp, sizeof(MDBPilgrimLevelStatus));
+                auto lRet = _datas.GetAllMDBAbilityModuleList().insert({ lAdd->AbilityModuleSeq, lAdd });
+
+                if (!lRet.second)
+                {
+                    VIEW_WRITE_ERROR("AbilityModule Sequence: %d, IS Null", lRet.first->first);
                     lRslt = false;
                 }
             }

@@ -16,6 +16,17 @@ void AreaManager::Initialize()
     m_umAreas.clear();
 }
 
+bool AreaManager::CreateArea(const std::vector<MapLoadData>& _mapData)
+{
+    if (false == m_umAreas.empty())
+        return false;
+
+    for (auto& data : _mapData)
+        _CreateArea(data);
+
+    return !m_umAreas.empty();
+}
+
 std::shared_ptr<Area> AreaManager::_CreateArea(const MapLoadData& _mapData)
 {
     if (m_umAreas.find(_mapData.m_nMapID) != m_umAreas.end())

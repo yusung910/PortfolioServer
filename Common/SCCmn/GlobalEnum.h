@@ -152,33 +152,41 @@ namespace EAccountStatus
     };
 }
 
-namespace EAbility
+
+namespace EAbilityComponents
 {
     /*******************************************************************
-     *  MasterDB-> MDBPilgrimStat 선언 필요
+     *  MasterDB-> AbilityComponents의 Seq와 맞춰야 함.
      *******************************************************************/
     enum Type
     {
         None = 0,
-        Level,            //명성
-        Strength,         //힘
-        Dexterity,        //민첩
-        Endurance,        //인내
-        WeaponMastery,    //무기 숙련도
-
-        //
-        HP,               //생령력
-        MP,               //마나
-
-        //
-        MaxHP,            //최대생명력
-        MaxMP,            //최대마나
 
         //
         MeleeMinDamage,   // 근접 최소 데미지
         MeleeMaxDamage,   // 근접 최대 데미지
         MeleeDamage,      // 근접 공격력
         MeleeDefence,     // 근접 방어력
+
+        //
+        CriticalRate,           //치명타 확률
+        CriticalDamageRate,     //치명타 데미지 배율
+
+        //
+        AttackSpeed,            //공격속도
+        MovementSpeed,          //이동속도
+
+        HitRate,                //명중률
+        DodgeRate,              //회피율
+        BlockRate,              //막기 확률
+
+        //
+        CurrentHP,               //현재 생령력
+        CurrentMP,               //현재 마나
+
+        //
+        MaxHP,            //최대생명력
+        MaxMP,            //최대마나
         
         Max
     };
@@ -189,23 +197,9 @@ namespace EAbility
             return false;
         return true;
     }
-
-    inline bool IsTrainingStat(Type _t)
-    {
-        switch (_t)
-        {
-        case Level:
-        case Strength:
-        case Dexterity:
-        case Endurance:
-        case WeaponMastery:
-            return true;
-            break;
-        }
-
-        return false;
-    }
 }
+
+
 
 //오브젝트 행동 -> Sync용
 namespace EObjectBehavior
@@ -279,6 +273,19 @@ namespace EObject
         return true;
     }
 }
+
+namespace EPilgrimTrainingAbility
+{
+    enum Type
+    {
+        None = 0,
+        Renown,           //명성
+        Strength,         //힘
+        Dexterity,        //민첩
+        Endurance,        //인내
+        WeaponMastery,    //무기 숙련도
+    };
+};
 
 //무기 숙련도 종류
 namespace EWeaponMastery
