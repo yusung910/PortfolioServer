@@ -76,12 +76,12 @@ struct MDBAbilityModule
 
 
 //레벨 별 기본 스탯
-struct MDBPilgrimLevelStatus
+struct MDBPilgrimLevelAbility
 {
     SVint TrainingAbilityType;
     SVint Level = 0;
     SVint AbilityModuleSeq;
-    SVint64 NeedNextLevelExp;
+    SVint64 NeedExp;
 };
 
 
@@ -159,24 +159,31 @@ struct MDBNPC
     SVint NPCUniqueID = 0;
     SVString Name = "";
     SVint NPCType = 0;
-    SVint MonsterGrade = 0;
-    SVint MonsterGroup = 0;
-    SVint SupporterGroup = 0;
-    SVint Level = 0;
+    SVint NPCGrade = 0;
+    SVint NPCRace = 0;
+    SVint Renown = 0;   //명성
     SVint Exp = 0;
+    SVint AbilityModuleSeq = 0;
 
     const MDBAbilityModule* AbilityModule = nullptr;
 
 };
 
-//NPCSummon 테이블
-struct MDBNPCSummons
+//NPCSpawn 테이블
+struct MDBNPCSpawn
 {
     SVint MapID = 0;
     SVint NPCUniqueID = 0;
-    SVString SummonName = "";
-    SVint SummonGroup = 0;
-    SVint ResummonTime = 0;
+    SVint NPCSpawnGroupSeq = 0;
+    SVString SpawnName = "";
+    SVint RespawnTime = 0;
     SVint Rotation = 0;
+};
 
+//NPCSpawnGroup
+struct MDBNPCSpawnGroup
+{
+    SVint NPCSpawnGroupSeq = 0;
+    SVint NPCUniqueID = 0;
+    SVint SpawnProbability = 0;
 };

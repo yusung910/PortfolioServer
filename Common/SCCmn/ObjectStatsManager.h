@@ -5,10 +5,11 @@ class ObjectStatsManager : public SingletonClient<ObjectStatsManager>
 {
 private:
     //·¹º§º° ±âº» ½ºÅÈ »çÀü <level, dic>
-    std::unordered_map<int, MDBPilgrimLevelBaseStat*> m_umLevelBaseStatDic;
-
-    //ÈÆ·Ã ½ºÅÈ(Èû,¹Î,¸Ç,¼÷)¿¡ µû¸¥ ½ºÅÈ ºñÀ², <statNo, dic>
-    std::unordered_map<int, MDBAbilityStatRatePerTrainingStat*> m_umAbiliyStatRatePerTrainingStat;
+    std::unordered_map<int, MDBPilgrimLevelAbility*> m_umRenownAbilityDic;
+    std::unordered_map<int, MDBPilgrimLevelAbility*> m_umStrAbilityDic;
+    std::unordered_map<int, MDBPilgrimLevelAbility*> m_umDexAbilityDic;
+    std::unordered_map<int, MDBPilgrimLevelAbility*> m_umEndureAbilityDic;
+    std::unordered_map<int, MDBPilgrimLevelAbility*> m_umWeaponMasteryAbilityDic;
 
     //°¢¼º¿¡ µû¸¥ A°ª
     std::unordered_map<int, int> m_umAwakenAValues;
@@ -20,11 +21,8 @@ public:
     ~ObjectStatsManager();
 
 
-    void SetLevelBaseStatDictionary(std::vector<MDBPilgrimLevelBaseStat*>* _statList);
-    MDBPilgrimLevelBaseStat* GetLevelBaseStatDictionary(int _lvl);
-
-    void SetAbilityStatRatePerTrainingStat(std::vector<MDBAbilityStatRatePerTrainingStat*>* _rateList);
-    MDBAbilityStatRatePerTrainingStat* GetAbilityStatRatePerTrainingStat(int _statNo);
+    void SetLevelAbilityDictionary(std::vector<MDBPilgrimLevelAbility*>* _statList);
+    MDBPilgrimLevelAbility* GetLevelBaseAbility(EPilgrimTrainingAbility::Type _type, int _lvl);
 
 
     void SetAwakenAValue(std::vector< MDBAwakenAValue*>* _aValueList);

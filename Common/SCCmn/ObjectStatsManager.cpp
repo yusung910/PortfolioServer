@@ -9,12 +9,25 @@ ObjectStatsManager::~ObjectStatsManager()
 {
 }
 
-void ObjectStatsManager::SetLevelBaseStatDictionary(std::vector<MDBPilgrimLevelBaseStat*>* _statList)
+void ObjectStatsManager::SetLevelAbilityDictionary(std::vector<MDBPilgrimLevelAbility*>* _statList)
 {
     if (nullptr == _statList)
         return;
 
-    m_umLevelBaseStatDic.clear();
+    auto localSetExpDic = [&](MDBPilgrimLevelAbility* _abilityInfo, std::unordered_map<int, MDBPilgrimLevelAbility*> _dic) -> void
+        {
+            auto itLevel = _dic.find(_abilityInfo->Level);
+            if (itLevel == _dic.end())
+            {
+                _dic.emplace(_abilityInfo->Level, _abilityInfo);
+            }
+        };
+
+    m_umRenownAbilityDic.clear();
+    m_umStrAbilityDic.clear();
+    m_umDexAbilityDic.clear();
+    m_umEndureAbilityDic.clear();
+    m_umWeaponMasteryAbilityDic.clear();
 
     for (auto& tmp : *_statList)
     {
@@ -24,67 +37,66 @@ void ObjectStatsManager::SetLevelBaseStatDictionary(std::vector<MDBPilgrimLevelB
         if (tmp->Level > G_N_MAX_LEVEL)
             continue;
 
-        auto itLevel = m_umLevelBaseStatDic.find(tmp->Level);
-        if (itLevel != m_umLevelBaseStatDic.end())
+        switch ((EPilgrimTrainingAbility::Type)tmp->TrainingAbilityType)
         {
-            continue;
-        }
-
-        m_umLevelBaseStatDic.emplace(tmp->Level, tmp);
-    }
-
-}
-
-MDBPilgrimLevelBaseStat* ObjectStatsManager::GetLevelBaseStatDictionary(int _lvl)
-{
-    auto itBaseStat = m_umLevelBaseStatDic.find(_lvl);
-
-    if (itBaseStat == m_umLevelBaseStatDic.end())
-        return nullptr;
-
-    return itBaseStat->second;
-}
-
-void ObjectStatsManager::SetAbilityStatRatePerTrainingStat(std::vector<MDBAbilityStatRatePerTrainingStat*>* _rateList)
-{
-    if (nullptr == _rateList)
-        return;
-
-    m_umAbiliyStatRatePerTrainingStat.clear();
-
-    for (auto& tmp : *_rateList)
-    {
-        if (nullptr == tmp)
-            continue;
-
-        if (false == EAbility::IsValid((EAbility::Type)tmp->StatNo))
-            continue;
-
-        if (true == EAbility::IsTrainingStat((EAbility::Type)tmp->StatNo))
-            continue;
-
-        switch ((EAbility::Type)tmp->StatNo)
-        {
-        case EAbility::HP:
-        case EAbility::MP:
-            continue;
-
+        case EPilgrimTrainingAbility::Renown:
+            localSetExpDic(tmp, m_umRenownAbilityDic);
+            break;
+        case EPilgrimTrainingAbility::Strength:
+            localSetExpDic(tmp, m_umStrAbilityDic);
+            break;
+        break;
+        case EPilgrimTrainingAbility::Dexterity:
+            localSetExpDic(tmp, m_umDexAbilityDic);
+            break;
+        break;
+        case EPilgrimTrainingAbility::Endurance:
+            localSetExpDic(tmp, m_umEndureAbilityDic);
+            break;
+        break;
+        case EPilgrimTrainingAbility::WeaponMastery:
+            localSetExpDic(tmp, m_umWeaponMasteryAbilityDic);
+            break;
+        break;
         default:
-            m_umAbiliyStatRatePerTrainingStat.emplace(tmp->StatNo, tmp);
             break;
         }
     }
-
 }
 
-MDBAbilityStatRatePerTrainingStat* ObjectStatsManager::GetAbilityStatRatePerTrainingStat(int _statNo)
+MDBPilgrimLevelAbility* ObjectStatsManager::GetLevelBaseAbility(EPilgrimTrainingAbility::Type _type, int _lvl)
 {
-    auto it = m_umAbiliyStatRatePerTrainingStat.find(_statNo);
+    auto localGetLevelAbility = [&](int _lvl, std::unordered_map<int, MDBPilgrimLevelAbility*> _dic) -> MDBPilgrimLevelAbility*
+        {
+            auto ability = _dic.find(_lvl);
+            if(ability == _dic.end())
+                return nullptr;
 
-    if (it == m_umAbiliyStatRatePerTrainingStat.end())
-        return nullptr;
+            return ability->second;
+        };
 
-    return it->second;
+    MDBPilgrimLevelAbility* localRetPtr = nullptr;
+
+    switch (_type)
+    {
+    case EPilgrimTrainingAbility::Renown:
+        localRetPtr = localGetLevelAbility(_lvl, m_umRenownAbilityDic);
+        break;
+    case EPilgrimTrainingAbility::Strength:
+        localRetPtr = localGetLevelAbility(_lvl, m_umStrAbilityDic);
+        break;
+    case EPilgrimTrainingAbility::Dexterity:
+        localRetPtr = localGetLevelAbility(_lvl, m_umDexAbilityDic);
+        break;
+    case EPilgrimTrainingAbility::Endurance:
+        localRetPtr = localGetLevelAbility(_lvl, m_umEndureAbilityDic);
+        break;
+    case EPilgrimTrainingAbility::WeaponMastery:
+        localRetPtr = localGetLevelAbility(_lvl, m_umWeaponMasteryAbilityDic);
+        break;
+    }
+
+    return localRetPtr;
 }
 
 void ObjectStatsManager::SetAwakenAValue(std::vector<MDBAwakenAValue*>* _aValueList)

@@ -12,6 +12,7 @@
 #include "GameDBLoadBalancer.h"
 
 #include "MDBDataLoader.h"
+#include "Navi.h"
 
 
 #include <MapDataManager.h>
@@ -44,6 +45,10 @@ bool PGameServerApp::Initialize()
 
     //MasterDB
     if (false == _LoadMasterDB()) return false;
+
+    //Map
+    if (false == _InitMap()) return false;
+
 
     return true;
 }
@@ -170,6 +175,7 @@ bool PGameServerApp::_InitMap()
 
     auto& localMaps = MapDataManager::GetInst().GetLoadedMapDataList();
     AreaManager::GetInst().CreateArea(localMaps);
+    Navi::GetInst().Init(localMaps);
 
     return true;
 }

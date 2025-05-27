@@ -31,9 +31,6 @@
     <Filter Include="4_Object\NPC\Managers">
       <UniqueIdentifier>{050acbb2-9d3e-4c5d-865f-84b30502e5f3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="4_Object\NPC\Managers\Summons">
-      <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="4_Object\NPC\Module">
       <UniqueIdentifier>{2d788c71-2536-45c5-b31f-ae018c7df674}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="5_Map\NavMesh">
       <UniqueIdentifier>{71bd7785-8b5a-4fa9-9681-7f1df5532500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_Object\NPC\Managers\Spawn">
+      <UniqueIdentifier>{7aacacaa-fcde-4445-a1fd-2e6084e4abcb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -177,14 +177,14 @@
     <ClInclude Include="NPCSummons.h">
       <Filter>4_Object\NPC\Module</Filter>
     </ClInclude>
-    <ClInclude Include="SummonsData.h">
-      <Filter>4_Object\NPC\Managers\Summons</Filter>
+    <ClInclude Include="SpawnData.h">
+      <Filter>4_Object\NPC\Managers\Spawn</Filter>
     </ClInclude>
     <ClInclude Include="MDBDataManager.h">
       <Filter>2_Resources</Filter>
     </ClInclude>
-    <ClInclude Include="SummonsInfo.h">
-      <Filter>4_Object\NPC\Managers\Summons</Filter>
+    <ClInclude Include="SpawnInfo.h">
+      <Filter>4_Object\NPC\Managers\Spawn</Filter>
     </ClInclude>
     <ClInclude Include="TileLocation.h">
       <Filter>5_Map\Instance</Filter>
@@ -224,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="MapLoadData.h">
       <Filter>5_Map\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnManager.h">
+      <Filter>4_Object\NPC\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCManager.h">
+      <Filter>4_Object\NPC\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -293,8 +299,8 @@
     <ClCompile Include="NPCSummons.cpp">
       <Filter>4_Object\NPC\Module</Filter>
     </ClCompile>
-    <ClCompile Include="SummonsData.cpp">
-      <Filter>4_Object\NPC\Managers\Summons</Filter>
+    <ClCompile Include="SpawnData.cpp">
+      <Filter>4_Object\NPC\Managers\Spawn</Filter>
     </ClCompile>
     <ClCompile Include="MDBDataManager.cpp">
       <Filter>2_Resources</Filter>
@@ -328,6 +334,12 @@
     </ClCompile>
     <ClCompile Include="MapElementsData.cpp">
       <Filter>5_Map\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnManager.cpp">
+      <Filter>4_Object\NPC\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCManager.cpp">
+      <Filter>4_Object\NPC\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

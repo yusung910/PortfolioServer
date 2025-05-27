@@ -28,6 +28,8 @@ public:
 
     bool Init();
     std::vector<MapLoadData>& GetLoadedMapDataList();
+
+    int GetChannelCount(int _mapID);
     
 private:
     bool _AddData(MDBMapInfo* _info);

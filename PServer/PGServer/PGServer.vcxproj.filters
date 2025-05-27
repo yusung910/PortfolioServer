@@ -31,6 +31,12 @@
     <Filter Include="1_Services\3_ConnectManage\4_LoginServer">
       <UniqueIdentifier>{d3fd30c3-3627-44b1-b1be-7a8ffac59817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1_Services\2_DB\GameDB">
+      <UniqueIdentifier>{59a081e4-338d-438c-b1dc-7620d7db7c95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Services\2_DB\UserDB">
+      <UniqueIdentifier>{559a2e29-ce23-4345-8068-1b09f2360cfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -48,9 +54,6 @@
     <ClCompile Include="GameServerNES.cpp">
       <Filter>1_Services\1_Main</Filter>
     </ClCompile>
-    <ClCompile Include="GameDBService.cpp">
-      <Filter>1_Services\2_DB</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkCenter.cpp">
       <Filter>2_Functions</Filter>
     </ClCompile>
@@ -59,6 +62,12 @@
     </ClCompile>
     <ClCompile Include="LoginServerConnectNES.cpp">
       <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDBService.cpp">
+      <Filter>1_Services\2_DB\GameDB</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDBService.cpp">
+      <Filter>1_Services\2_DB\UserDB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -74,12 +83,6 @@
     <ClInclude Include="GameServerNES.h">
       <Filter>1_Services\1_Main</Filter>
     </ClInclude>
-    <ClInclude Include="GameDBService.h">
-      <Filter>1_Services\2_DB</Filter>
-    </ClInclude>
-    <ClInclude Include="GameDBLoadBalancer.h">
-      <Filter>1_Services\2_DB</Filter>
-    </ClInclude>
     <ClInclude Include="NetworkCenter.h">
       <Filter>2_Functions</Filter>
     </ClInclude>
@@ -88,6 +91,18 @@
     </ClInclude>
     <ClInclude Include="LoginServerConnectNES.h">
       <Filter>1_Services\3_ConnectManage\4_LoginServer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDBLoadBalancer.h">
+      <Filter>1_Services\2_DB\GameDB</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDBService.h">
+      <Filter>1_Services\2_DB\GameDB</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDBLoadBalancer.h">
+      <Filter>1_Services\2_DB\UserDB</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDBService.h">
+      <Filter>1_Services\2_DB\UserDB</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -71,6 +71,14 @@ std::vector<MapLoadData>& MapDataManager::GetLoadedMapDataList()
     return m_oLoadedMapDataList;
 }
 
+int MapDataManager::GetChannelCount(int _mapID)
+{
+    auto localIter = m_umMapChannelCountList.find(_mapID);
+    if (localIter != m_umMapChannelCountList.end())
+        return localIter->second;
+    return 1;
+}
+
 bool MapDataManager::_AddData(MDBMapInfo* _info)
 {
     if (nullptr == _info)

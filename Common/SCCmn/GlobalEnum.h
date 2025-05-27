@@ -325,8 +325,6 @@ namespace EDistrict
         Training,   //훈련
         PK,         //PVP
         ClanWar,    //길드전쟁지역
-        
-
     };
 }
 
@@ -401,18 +399,17 @@ namespace ENPC
     {
         None = 0,
 
-        Dummy,   // 공격 가능한 더미 NPC -> 광석, 연습용 등등
-        Monster, // 사냥 몬스터
-        Summon,  // 소환수
-
-        Supporter,  //지원형 NPC -> 상인 등등
+        Dummy,      // 공격 가능한 더미 NPC -> 광석, 연습용 등등
+        Monster,    // 사냥 몬스터
+        Supporter,  // 지원형 NPC -> 상인 등등
+        Boss,       // 보스
 
         Max
     };
 }
 
 //NPC 등급
-namespace ENPCMonsterGrade
+namespace ENPCGrade
 {
     enum Type : int
     {
@@ -424,8 +421,8 @@ namespace ENPCMonsterGrade
     };
 }
 
-//NPC Monster Group
-namespace ENPCMonsterGroup
+//NPC Race (종족)
+namespace ENPCRace
 {
     enum Type : int
     {
@@ -441,8 +438,8 @@ namespace ENPCMonsterGroup
 }
 
 
-//Supporter NPC Group
-namespace ENPCSupporterGroup
+//NPC Group
+namespace ENPCGroup
 {
     enum Type : int
     {

@@ -490,4 +490,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="AbilityModuleSeq" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="e1d04c09-c61c-4946-9cf4-c53c36a81fbf" ChangeDateTime="05/27/2025 03:17:12">
+    <Property Name="ElementName" Value="[dbo].[NPC].[MonsterGrade]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCGrade" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="bfc1f264-a433-4d8d-ae29-f94e78130f0e" ChangeDateTime="05/27/2025 03:17:18">
+    <Property Name="ElementName" Value="[dbo].[NPC].[MonsterGroup]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="NPCGroup" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e190ff7f-d26f-42db-a7a9-383c39389f22" ChangeDateTime="05/27/2025 04:10:26">
+    <Property Name="ElementName" Value="[dbo].[NPCSpawnGroup].[SpawnProp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPCSpawnGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SpawnProb" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f60dbb7a-803d-4680-8b92-707d47ff1c61" ChangeDateTime="05/27/2025 04:10:33">
+    <Property Name="ElementName" Value="[dbo].[NPCSpawnGroup].[SpawnProb]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPCSpawnGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SpawnProbability" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="af71a585-dfe8-4aa6-b299-0af943133820" ChangeDateTime="05/27/2025 04:15:45">
+    <Property Name="ElementName" Value="[dbo].[NPC].[ObjectStatID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[NPC]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="AttributeModuleSeq" />
+  </Operation>
 </Operations>

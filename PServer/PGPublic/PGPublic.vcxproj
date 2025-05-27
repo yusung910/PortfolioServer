@@ -39,6 +39,8 @@
     <ClInclude Include="EServerConst.h" />
     <ClInclude Include="ENPCState.h" />
     <ClInclude Include="FieldTile.h" />
+    <ClInclude Include="NPCManager.h" />
+    <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="TileLocation.h" />
     <ClInclude Include="InnerPacketStructures.h" />
     <ClInclude Include="IState.h" />
@@ -70,8 +72,8 @@
     <ClInclude Include="StrChecker.h" />
     <ClInclude Include="StrFilterInterface.h" />
     <ClInclude Include="StrFilterKR.h" />
-    <ClInclude Include="SummonsInfo.h" />
-    <ClInclude Include="SummonsData.h" />
+    <ClInclude Include="SpawnInfo.h" />
+    <ClInclude Include="SpawnData.h" />
     <ClInclude Include="SYNCObject.h" />
     <ClInclude Include="SYNCObjectAdd.h" />
     <ClInclude Include="SYNCObjectDUserBuff.h" />
@@ -93,6 +95,7 @@
     <ClCompile Include="MDBDatas.cpp" />
     <ClCompile Include="Navi.cpp" />
     <ClCompile Include="NPC.cpp" />
+    <ClCompile Include="NPCManager.cpp" />
     <ClCompile Include="NPCStateEngine.cpp" />
     <ClCompile Include="NPCStatistics.cpp" />
     <ClCompile Include="NPCSummons.cpp" />
@@ -108,10 +111,11 @@
     <ClCompile Include="PocoTimeUtil.cpp" />
     <ClCompile Include="RevUtil.cpp" />
     <ClCompile Include="ServerConfig.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="StrChecker.cpp" />
     <ClCompile Include="StrFilterInterface.cpp" />
     <ClCompile Include="StrFilterKR.cpp" />
-    <ClCompile Include="SummonsData.cpp" />
+    <ClCompile Include="SpawnData.cpp" />
     <ClCompile Include="SYNCObject.cpp" />
     <ClCompile Include="SYNCObjectAdd.cpp" />
     <ClCompile Include="SYNCObjectDUserBuff.cpp" />

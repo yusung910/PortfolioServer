@@ -1,15 +1,15 @@
 #include "PGPPrivate.h"
-#include "SummonsData.h"
+#include "SpawnData.h"
 #include <Box.h>
 #include "Navi.h"
 #include <CmnMath.h>
 
-SummonsData::SummonsData()
+SpawnData::SpawnData()
 {
     Reset();
 }
 
-SummonsData::SummonsData(const SummonsData& _data)
+SpawnData::SpawnData(const SpawnData& _data)
 {
     m_nMapID = _data.m_nMapID;
     m_eShapeType = _data.m_eShapeType;
@@ -20,7 +20,7 @@ SummonsData::SummonsData(const SummonsData& _data)
     m_fHeight = m_fHeight;
     m_fRotation = m_fRotation;
 
-    m_vSummonsInfo.assign(_data.m_vSummonsInfo.begin(), _data.m_vSummonsInfo.end());
+    m_vSpawnInfo.assign(_data.m_vSpawnInfo.begin(), _data.m_vSpawnInfo.end());
     if (nullptr != _data.m_oBox)
     {
         m_oBox = new Box(*_data.m_oBox);
@@ -35,7 +35,7 @@ SummonsData::SummonsData(const SummonsData& _data)
     m_nTotalSummonsCount = _data.m_nTotalSummonsCount;
 }
 
-SummonsData::SummonsData(const SummonsData* _data)
+SpawnData::SpawnData(const SpawnData* _data)
 {
     m_nMapID = _data->m_nMapID;
     m_eShapeType = _data->m_eShapeType;
@@ -46,7 +46,7 @@ SummonsData::SummonsData(const SummonsData* _data)
     m_fHeight = m_fHeight;
     m_fRotation = m_fRotation;
 
-    m_vSummonsInfo.assign(_data->m_vSummonsInfo.begin(), _data->m_vSummonsInfo.end());
+    m_vSpawnInfo.assign(_data->m_vSpawnInfo.begin(), _data->m_vSpawnInfo.end());
     if (nullptr != _data->m_oBox)
     {
         m_oBox = new Box(*_data->m_oBox);
@@ -61,22 +61,22 @@ SummonsData::SummonsData(const SummonsData* _data)
     m_nTotalSummonsCount = _data->m_nTotalSummonsCount;
 }
 
-SummonsData::~SummonsData()
+SpawnData::~SpawnData()
 {
     Reset();
 }
 
-void SummonsData::SetPosX(const float& _x) noexcept
+void SpawnData::SetPosX(const float& _x) noexcept
 {
     m_fPosX = _x;
 }
 
-void SummonsData::SetPosY(const float& _y) noexcept
+void SpawnData::SetPosY(const float& _y) noexcept
 {
     m_fPosY = _y;
 }
 
-void SummonsData::Reset()
+void SpawnData::Reset()
 {
     m_nMapID = 0;
     m_eShapeType = EShape::Point;
@@ -87,7 +87,7 @@ void SummonsData::Reset()
     m_fHeight = 0.f;
     m_fRotation = 0;
 
-    m_vSummonsInfo.clear();
+    m_vSpawnInfo.clear();
 
     SafeDelete(m_oBox);
 
@@ -99,57 +99,57 @@ void SummonsData::Reset()
     m_nTotalSummonsCount = 0;
 }
 
-const int& SummonsData::GetMapID() const noexcept
+const int& SpawnData::GetMapID() const noexcept
 {
     return m_nMapID;
 }
 
-const EShape& SummonsData::GetShapeType() const noexcept
+const EShape& SpawnData::GetShapeType() const noexcept
 {
     return m_eShapeType;
 }
 
-const float& SummonsData::GetPosX() const noexcept
+const float& SpawnData::GetPosX() const noexcept
 {
     return m_fPosX;
 }
 
-const float& SummonsData::GetPosY() const noexcept
+const float& SpawnData::GetPosY() const noexcept
 {
     return m_fPosY;
 }
 
-const int& SummonsData::GetRadius() const noexcept
+const int& SpawnData::GetRadius() const noexcept
 {
     return m_nRadius;
 }
 
-const float& SummonsData::GetWidth() const noexcept
+const float& SpawnData::GetWidth() const noexcept
 {
     return m_fWidth;
 }
 
-const float& SummonsData::GetHeight() const noexcept
+const float& SpawnData::GetHeight() const noexcept
 {
     return m_fHeight;
 }
 
-const float& SummonsData::GetRotation() const noexcept
+const float& SpawnData::GetRotation() const noexcept
 {
     return m_fRotation;
 }
 
-const bool& SummonsData::GetDirectional() const noexcept
+const bool& SpawnData::GetDirectional() const noexcept
 {
     return m_bDirectional;
 }
 
-const Box* SummonsData::GetBoxShape() const noexcept
+const Box* SpawnData::GetBoxShape() const noexcept
 {
     return m_oBox;
 }
 
-void SummonsData::SetSummonsData(const EShape& _shape, const int& _mapID, const float& _posX, const float& _posY, const int& _rad, const float& _width, const float& _height, const float& _rot, const bool& _directional)
+void SpawnData::SetSpawnData(const EShape& _shape, const int& _mapID, const float& _posX, const float& _posY, const int& _rad, const float& _width, const float& _height, const float& _rot, const bool& _directional)
 {
     m_eShapeType = _shape;
     m_nMapID = _mapID;
@@ -163,39 +163,39 @@ void SummonsData::SetSummonsData(const EShape& _shape, const int& _mapID, const 
     m_bDirectional = _directional;
 }
 
-void SummonsData::SetMapID(const int& _mapID) noexcept
+void SpawnData::SetMapID(const int& _mapID) noexcept
 {
     m_nMapID = _mapID;
 }
 
-void SummonsData::SetBoxShape(Box* _box) noexcept
+void SpawnData::SetBoxShape(Box* _box) noexcept
 {
     SafeDelete(m_oBox);
     m_oBox = _box;
 }
 
-void SummonsData::SetSummonsInfo(const int& _npcID, const int& _npcCount, const int& _resummonsTime, const MDBNPCSummons* _mdbSummons)
+void SpawnData::SetSpawnInfo(const int& _npcID, const int& _npcCount, const int& _respawnTime, const int& _spawnGroupSeq, const MDBNPCSpawn* _mdbspawn)
 {
-    SummonsInfo lInfo{ _npcID, _npcCount, _resummonsTime,_mdbSummons };
-    m_vSummonsInfo.push_back(lInfo);
+    SpawnInfo lInfo{ _npcID, _npcCount, _respawnTime, _spawnGroupSeq, _mdbspawn };
+    m_vSpawnInfo.push_back(lInfo);
 }
 
-const std::vector<SummonsInfo>& SummonsData::GetSummonsInfoList() const
+const std::vector<SpawnInfo>& SpawnData::GetSpawnInfoList() const
 {
-    return m_vSummonsInfo;
+    return m_vSpawnInfo;
 }
 
-const std::string& SummonsData::GetSummonsHelperName() const
+const std::string& SpawnData::GetSummonsHelperName() const
 {
     return m_sSummonsHelperName;
 }
 
-void SummonsData::SetSummonsHelperName(const std::string& _name)
+void SpawnData::SetSummonsHelperName(const std::string& _name)
 {
     m_sSummonsHelperName = _name;
 }
 
-bool SummonsData::MakeBox()
+bool SpawnData::MakeBox()
 {
     if (nullptr != m_oBox)
         return false;
@@ -222,7 +222,7 @@ bool SummonsData::MakeBox()
     return true;
 }
 
-bool SummonsData::GetRandomPosition(Position& _pos)
+bool SpawnData::GetRandomPosition(Position& _pos)
 {
     switch(m_eShapeType)
     {

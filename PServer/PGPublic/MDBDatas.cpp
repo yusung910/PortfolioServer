@@ -11,7 +11,7 @@ void MDBDatas::Reset()
     MAP_CLEAR(m_umMDBAbilityComponentsList);
     MAP_CLEAR(m_umMDBMapInfoList);
     MAP_CLEAR(m_umMDBAbilityModuleList);
-    VECTOR_CLEAR(m_umMDBPilgrimLevelStatusList);
+    VECTOR_CLEAR(m_umMDBPilgrimLevelAbilityList);
 }
 
 std::unordered_map<int, MDBAbilityComponents*>& MDBDatas::GetAllMDBAbilityComponentsList()
@@ -24,9 +24,9 @@ std::unordered_map<int, MDBAbilityModule*>& MDBDatas::GetAllMDBAbilityModuleList
     return m_umMDBAbilityModuleList;
 }
 
-std::vector<MDBPilgrimLevelStatus*>& MDBDatas::GetAllPilgrimLevelStatusList()
+std::vector<MDBPilgrimLevelAbility*>& MDBDatas::GetAllPilgrimLevelAbilityList()
 {
-    return m_umMDBPilgrimLevelStatusList;
+    return m_umMDBPilgrimLevelAbilityList;
 }
 
 std::unordered_map<int, MDBMapInfo*>& MDBDatas::GetAllMapInfoList()
@@ -37,6 +37,11 @@ std::unordered_map<int, MDBMapInfo*>& MDBDatas::GetAllMapInfoList()
 std::unordered_map<int, MDBMapTeleportInfo*>& MDBDatas::GetAllMapTeleportInfoList()
 {
     return m_umMDBMapTeleportInfoList;
+}
+
+std::unordered_map<int, MDBMapDistrict*>& MDBDatas::GetAllMapDistrictList()
+{
+    return m_umMDBMapDistrictList;
 }
 
 const MDBMapInfo* MDBDatas::GetMapInfo(const int& _mapID)
