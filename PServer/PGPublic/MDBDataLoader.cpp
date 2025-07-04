@@ -137,58 +137,6 @@ bool MDBDataLoader::_ReadAbilityModule(MDBDatas& _datas)
     return lRslt;
 }
 
-bool MDBDataLoader::_ReadPilgrimLevelStatus(MDBDatas& _datas)
-{
-    GetDBSession();
-
-    bool lRslt = true;
-    try
-    {
-        MDBPilgrimLevelStatus lTmp{};
-
-        Poco::Data::Statement lSelect(lSess);
-
-        lSelect << "{CALL spPilgrimLevelStatusSelect}"
-            , into(lTmp.TrainingAbilityType)
-            , into(lTmp.Level)
-            , into(lTmp.AbilityModuleSeq)
-            , into(lTmp.NeedNextLevelExp)
-
-            , range(0, 1);
-
-        //bool done()
-        //Returns true if the statement was completely executed or false if a range limit stopped it and there is more work to do.When no limit is set, it will always return true after calling execute().
-        while (!lSelect.done())
-        {
-            if (lSelect.execute() > 0)
-            {
-                MDBPilgrimLevelStatus* lAdd = new MDBPilgrimLevelStatus;
-                memcpy_s(lAdd, sizeof(MDBPilgrimLevelStatus), &lTmp, sizeof(MDBPilgrimLevelStatus));
-                auto lRet = _datas.GetAllMDBAbilityModuleList().insert({ lAdd->AbilityModuleSeq, lAdd });
-
-                if (!lRet.second)
-                {
-                    VIEW_WRITE_ERROR("AbilityModule Sequence: %d, IS Null", lRet.first->first);
-                    lRslt = false;
-                }
-            }
-        }
-
-    }
-    catch (StatementException& _stateEx)
-    {
-        VIEW_WRITE_ERROR("\nException :: %s\nMessage :: %s", StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_stateEx.what())).c_str(), StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_stateEx.message().c_str())).c_str());
-        return false;
-    }
-    catch (std::exception& _ex)
-    {
-        VIEW_WRITE_ERROR("\nDB Error :: %s", StringUtil::ToMultiByte(StringUtil::UTF8_WSTR(_ex.what())).c_str());
-        return false;
-    }
-
-    return lRslt;
-}
-
 bool MDBDataLoader::_ReadMapInfo(MDBDatas& _datas)
 {
     GetDBSession();

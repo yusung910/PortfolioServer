@@ -3,7 +3,7 @@
 
 void spLoginAccountProcessSelectDTO::Release()
 {
-    PilgrimExistServerList.clear();
+    m_usPilgrimExistServerList.clear();
 }
 
 void spLoginAccountPilgrimSelectDTO::Release()

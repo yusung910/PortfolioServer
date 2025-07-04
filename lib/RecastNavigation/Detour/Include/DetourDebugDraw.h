@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -27,7 +27,7 @@ enum DrawNavMeshFlags
 {
 	DU_DRAWNAVMESH_OFFMESHCONS = 0x01,
 	DU_DRAWNAVMESH_CLOSEDLIST = 0x02,
-	DU_DRAWNAVMESH_COLOR_TILES = 0x04
+	DU_DRAWNAVMESH_COLOR_TILES = 0x04,
 };
 
 void duDebugDrawNavMesh(struct duDebugDraw* dd, const dtNavMesh& mesh, unsigned char flags);

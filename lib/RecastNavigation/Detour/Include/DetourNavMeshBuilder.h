@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -31,9 +31,9 @@ struct dtNavMeshCreateParams
 	/// See #rcPolyMesh for details related to these attributes.
 	/// @{
 
-	const unsigned short* verts;			///< The polygon mesh vertices. [(x, y, z) * #vertCount] [Unit: vx]
+	const unsigned int * verts;			///< The polygon mesh vertices. [(x, y, z) * #vertCount] [Unit: vx]
 	int vertCount;							///< The number vertices in the polygon mesh. [Limit: >= 3]
-	const unsigned short* polys;			///< The polygon data. [Size: #polyCount * 2 * #nvp]
+	const unsigned int * polys;			///< The polygon data. [Size: #polyCount * 2 * #nvp]
 	const unsigned short* polyFlags;		///< The user defined flags assigned to each polygon. [Size: #polyCount]
 	const unsigned char* polyAreas;			///< The user defined area ids assigned to each polygon. [Size: #polyCount]
 	int polyCount;							///< Number of polygons in the mesh. [Limit: >= 1]
@@ -82,7 +82,7 @@ struct dtNavMeshCreateParams
 
 	unsigned int userId;	///< The user defined id of the tile.
 	int tileX;				///< The tile's x-grid location within the multi-tile destination mesh. (Along the x-axis.)
-	int tileY;				///< The tile's y-grid location within the multi-tile destination mesh. (Along the z-axis.)
+	int tileY;				///< The tile's y-grid location within the multi-tile desitation mesh. (Along the z-axis.)
 	int tileLayer;			///< The tile's layer within the layered destination mesh. [Limit: >= 0] (Along the y-axis.)
 	float bmin[3];			///< The minimum bounds of the tile. [(x, y, z)] [Unit: wu]
 	float bmax[3];			///< The maximum bounds of the tile. [(x, y, z)] [Unit: wu]
@@ -112,12 +112,12 @@ struct dtNavMeshCreateParams
 /// @return True if the tile data was successfully created.
 bool dtCreateNavMeshData(dtNavMeshCreateParams* params, unsigned char** outData, int* outDataSize);
 
-/// Swaps the endianness of the tile data's header (#dtMeshHeader).
+/// Swaps the endianess of the tile data's header (#dtMeshHeader).
 ///  @param[in,out]	data		The tile data array.
 ///  @param[in]		dataSize	The size of the data array.
 bool dtNavMeshHeaderSwapEndian(unsigned char* data, const int dataSize);
 
-/// Swaps endianness of the tile data.
+/// Swaps endianess of the tile data.
 ///  @param[in,out]	data		The tile data array.
 ///  @param[in]		dataSize	The size of the data array.
 bool dtNavMeshDataSwapEndian(unsigned char* data, const int dataSize);

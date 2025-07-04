@@ -25,6 +25,8 @@ public enum EPacketProtocol : int
   CL_ConnectGameServerReq = 10011,
   LC_ConnectGameServerRes = 10012,
   //////////////////////////////////////////////////////////
+  SC_SyncBehaviorData = 21000,
+  //////////////////////////////////////////////////////////
   CS_AuthReq = 50001,
   CS_EnterGameReq = 50002,
   SC_EnterGameAck = 50003,

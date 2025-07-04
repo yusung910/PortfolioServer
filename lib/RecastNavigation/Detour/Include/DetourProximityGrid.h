@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -26,15 +26,15 @@ class dtProximityGrid
 	
 	struct Item
 	{
-		unsigned short id;
-		short x,y;
-		unsigned short next;
+		unsigned int id;
+		int x,y;
+		unsigned int next;
 	};
 	Item* m_pool;
 	int m_poolHead;
 	int m_poolSize;
 	
-	unsigned short* m_buckets;
+	unsigned int * m_buckets;
 	int m_bucketsSize;
 	
 	int m_bounds[4];
@@ -47,13 +47,13 @@ public:
 	
 	void clear();
 	
-	void addItem(const unsigned short id,
+	void addItem(const unsigned int id,
 				 const float minx, const float miny,
 				 const float maxx, const float maxy);
 	
 	int queryItems(const float minx, const float miny,
 				   const float maxx, const float maxy,
-				   unsigned short* ids, const int maxIds) const;
+				   unsigned int * ids, const int maxIds) const;
 	
 	int getItemCountAt(const int x, const int y) const;
 	

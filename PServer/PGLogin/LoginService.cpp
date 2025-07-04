@@ -209,7 +209,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
     lPc->m_nOTP = lRes->OTP;
 
     //플레이어 캐릭터 seq 저장
-    lPc->m_umPilgrimSeqList.swap(lRes->PilgrimExistServerList);
+    lPc->m_usPilgrimSeqList.swap(lRes->m_usPilgrimExistServerList);
     if (lRes->Result == (int)EDBResult::DuplicateLogin)
     {
         //마지막으로 접속한 gameServerID
@@ -265,7 +265,7 @@ bool LoginService::OnUDBLAuthRes(InnerPacket::SharedPtr _data)
 
     flatbuffers::FlatBufferBuilder lFbb;
     std::vector<flatbuffers::Offset<DServerInfo>> lServerList;
-    GameServerCheckService::GetInst().FillPacketServerList(lFbb, lServerList, lPc->m_umPilgrimSeqList);
+    GameServerCheckService::GetInst().FillPacketServerList(lFbb, lServerList, lPc->m_usPilgrimSeqList);
     auto lPacket = CreateLCAuthRes(lFbb, lRes->AccountSeq, lFbb.CreateVector(lServerList), lRes->LastConnectServerID, Clock::GetTick64(), PocoTimeUtil::GetLocalTimezone());
 
     lFbb.Finish(lPacket);

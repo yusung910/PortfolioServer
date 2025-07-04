@@ -17,7 +17,7 @@ bool NPCStatistics::SetMDBData(const MDBNPC* _data)
     m_oMDBNPCData = _data;
 
     m_oNPC.SetNPCUniqueID(_data->NPCUniqueID);
-    m_oNPC.SetObjectStats(_data->ObjectStat);
+    m_oNPC.SetObjectStats(_data->AbilityModule);
     return false;
 }
 

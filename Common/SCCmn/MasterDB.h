@@ -62,7 +62,7 @@ struct MDBAbilityComponents
 
     //int GetObjectStatID() const { return ObjectStatID; }
 
-    //bool IsValid() const;
+    bool IsValid() const;
 
 };
 

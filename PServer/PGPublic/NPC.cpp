@@ -24,7 +24,7 @@ void NPC::Reset()
 
 }
 
-void NPC::SetObjectStats(const MDBObjectStatistics* _objStats)
+void NPC::SetObjectStats(const MDBAbilityModule* _objStats)
 {
     if (nullptr != _objStats)
     {

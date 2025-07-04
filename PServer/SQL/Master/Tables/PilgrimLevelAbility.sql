@@ -5,6 +5,5 @@ CREATE TABLE [dbo].[PilgrimLevelAbility]
     [Level] INT NOT NULL , 
     [AbilityModuleSeq] INT NOT NULL, 
     [NeedExp] BIGINT NOT NULL, 
-    CONSTRAINT [FK_AbilityModulePilgrimLevel_AbilityModule] FOREIGN KEY ([AbilityModuleSeq]) REFERENCES [AbilityModule](Seq), 
     CONSTRAINT [PK_AbilityModulePilgrimLevel] PRIMARY KEY ([Level], [TrainingAbilityType], [AbilityModuleSeq]) 
 )

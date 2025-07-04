@@ -18,7 +18,7 @@ Random* Random::GetInst()
 void Random::Init64(const uint64_t& _seed)
 {
     //https://karupro.tistory.com/67#google_vignette
-    // ë¶„ê¸°ë¬¸(if, switch ë“±)ì—ì„œ ì£¼ë¡œ í•´ë‹¹ì´ ë˜ëŠ” ë¶€ë¶„ì„ ì»´íŒŒì¼ëŸ¬ì—ê²Œ ì•Œë ¤ì£¼ëŠ” íŠ¹ìˆ˜êµ¬ë¬¸
+    // ºÐ±â¹®(if, switch µî)¿¡¼­ ÁÖ·Î ÇØ´çÀÌ µÇ´Â ºÎºÐÀ» ÄÄÆÄÀÏ·¯¿¡°Ô ¾Ë·ÁÁÖ´Â Æ¯¼ö±¸¹®
     // [[likely]], [[unlikely]]
     if (nullptr != m_pRandom) [[likely]]
         m_pRandom->Init64(_seed);

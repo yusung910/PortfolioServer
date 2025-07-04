@@ -11,8 +11,8 @@
 #include "GameDBService.h"
 #include "GameDBLoadBalancer.h"
 
-#include "MDBDataLoader.h"
-#include "Navi.h"
+#include <MDBDataLoader.h>
+#include <Navi.h>
 
 
 #include <MapDataManager.h>

@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -36,7 +36,7 @@ static const int DT_CROWDAGENT_MAX_NEIGHBOURS = 6;
 /// Due to the behavior of the crowd manager, the actual number of useful
 /// corners will be one less than this number.
 /// @ingroup crowd
-static const int DT_CROWDAGENT_MAX_CORNERS = 4;
+static const int DT_CROWDAGENT_MAX_CORNERS = 10;	//canary 원본=4 코너가 많으면 멀리까지 검색을 못해서 10으로 증가.
 
 /// The maximum number of crowd avoidance configurations supported by the
 /// crowd manager.
@@ -66,13 +66,23 @@ enum CrowdAgentState
 {
 	DT_CROWDAGENT_STATE_INVALID,		///< The agent is not in a valid state.
 	DT_CROWDAGENT_STATE_WALKING,		///< The agent is traversing a normal navigation mesh polygon.
-	DT_CROWDAGENT_STATE_OFFMESH 		///< The agent is traversing an off-mesh connection.
+	DT_CROWDAGENT_STATE_OFFMESH,		///< The agent is traversing an off-mesh connection.
 };
 
 /// Configuration parameters for a crowd agent.
 /// @ingroup crowd
 struct dtCrowdAgentParams
 {
+//canary 예외처리 옵션 추가
+	bool bGhostMode = false;			// agent간의 충돌체크 제거
+	bool bClientType = false;			// 클라이언트인지 구별
+	bool bDeadMotion = false;			// 죽는모션도중
+	bool bUseSpeedScale = false;
+	float fUseSpeedRadius = 1.0;
+	bool bUsePositonRevision = false;	// 목적지 도착시 이동보정
+
+//canary End
+
 	float radius;						///< Agent radius. [Limit: >= 0]
 	float height;						///< Agent height. [Limit: > 0]
 	float maxAcceleration;				///< Maximum allowed acceleration. [Limit: >= 0]
@@ -108,7 +118,7 @@ enum MoveRequestState
 	DT_CROWDAGENT_TARGET_REQUESTING,
 	DT_CROWDAGENT_TARGET_WAITING_FOR_QUEUE,
 	DT_CROWDAGENT_TARGET_WAITING_FOR_PATH,
-	DT_CROWDAGENT_TARGET_VELOCITY
+	DT_CROWDAGENT_TARGET_VELOCITY,
 };
 
 /// Represents an agent managed by a #dtCrowd object.
@@ -188,7 +198,7 @@ enum UpdateFlags
 	DT_CROWD_OBSTACLE_AVOIDANCE = 2,
 	DT_CROWD_SEPARATION = 4,
 	DT_CROWD_OPTIMIZE_VIS = 8,			///< Use #dtPathCorridor::optimizePathVisibility() to optimize the agent path.
-	DT_CROWD_OPTIMIZE_TOPO = 16 		///< Use dtPathCorridor::optimizePathTopology() to optimize the agent path.
+	DT_CROWD_OPTIMIZE_TOPO = 16,		///< Use dtPathCorridor::optimizePathTopology() to optimize the agent path.
 };
 
 struct dtCrowdAgentDebugInfo
@@ -275,7 +285,7 @@ public:
 	
 	/// Adds a new agent to the crowd.
 	///  @param[in]		pos		The requested position of the agent. [(x, y, z)]
-	///  @param[in]		params	The configuration of the agent.
+	///  @param[in]		params	The configutation of the agent.
 	/// @return The index of the agent in the agent pool. Or -1 if the agent could not be added.
 	int addAgent(const float* pos, const dtCrowdAgentParams* params);
 
@@ -444,7 +454,7 @@ This value is often based on the agent radius and/or maximum speed. E.g. radius 
 @var dtCrowdAgentParams::pathOptimizationRange
 @par
 
-Only applicable if #updateFlags includes the #DT_CROWD_OPTIMIZE_VIS flag.
+Only applicalbe if #updateFlags includes the #DT_CROWD_OPTIMIZE_VIS flag.
 
 This value is often based on the agent radius. E.g. radius * 30
 

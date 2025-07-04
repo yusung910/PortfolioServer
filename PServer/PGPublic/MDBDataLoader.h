@@ -22,7 +22,6 @@ private:
     //MasterDB에 Table이 추가 될때마다 함수 생성.
     bool _ReadAbilityComponents(MDBDatas& _datas);
     bool _ReadAbilityModule(MDBDatas& _datas);
-    bool _ReadPilgrimLevelStatus(MDBDatas& _datas);
 
     bool _ReadMapInfo(MDBDatas& _datas);
 };

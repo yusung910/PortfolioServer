@@ -116,8 +116,7 @@ public:
     bool Raycast(const int& _mapID, const Position& _currentPos, const Position& _targetPos);
 
 private:
-    bool _LoadMapMesh(const int& _MapID, const std::string&
-        _strFileName, const int& _meshSize);
+    bool _LoadMapMesh(const int& _MapID, const std::string& _strFileName, const int& _meshSize);
     void _SetNavCrowd(SampleTest* _mesh);
 
     SampleTest* _FindMapMesh(int _mapID);

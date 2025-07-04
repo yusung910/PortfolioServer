@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -62,18 +62,18 @@ protected:
 };
 
 /// OpenGL debug draw implementation.
-class DebugDrawGL : public duDebugDraw
-{
-public:
-	virtual void depthMask(bool state);
-	virtual void texture(bool state);
-	virtual void begin(duDebugDrawPrimitives prim, float size = 1.0f);
-	virtual void vertex(const float* pos, unsigned int color);
-	virtual void vertex(const float x, const float y, const float z, unsigned int color);
-	virtual void vertex(const float* pos, unsigned int color, const float* uv);
-	virtual void vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v);
-	virtual void end();
-};
+// class DebugDrawGL : public duDebugDraw
+// {
+// public:
+// 	virtual void depthMask(bool state);
+// 	virtual void texture(bool state);
+// 	virtual void begin(duDebugDrawPrimitives prim, float size = 1.0f);
+// 	virtual void vertex(const float* pos, unsigned int color);
+// 	virtual void vertex(const float x, const float y, const float z, unsigned int color);
+// 	virtual void vertex(const float* pos, unsigned int color, const float* uv);
+// 	virtual void vertex(const float x, const float y, const float z, unsigned int color, const float u, const float v);
+// 	virtual void end();
+// };
 
 /// stdio file implementation.
 class FileIO : public duFileIO

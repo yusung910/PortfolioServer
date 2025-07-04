@@ -143,21 +143,21 @@
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
     <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\RecastNavigation\Detour\include\;$(SolutionDir)..\lib\RecastNavigation\Recast\include\</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\RecastNavigation\Recast\lib\$(Configuration);$(SolutionDir)..\lib\RecastNavigation\Detour\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\RecastNavigation\;$(LibraryPath)</LibraryPath>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
     <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\RecastNavigation\Detour\include\;$(SolutionDir)..\lib\RecastNavigation\Recast\include\</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\RecastNavigation\Recast\lib\$(Configuration);$(SolutionDir)..\lib\RecastNavigation\Detour\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\RecastNavigation\;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
     <OutDir>build\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>build\$(Platform)\$(Configuration)_intermediate\</IntDir>
     <IncludePath>$(SolutionDir)SCommon\;$(SolutionDir)SCore\;$(SolutionDir)PGPublic\;$(SolutionDir)..\Common\SCCmn\;$(SolutionDir)..\lib\FlatBuffers\include\;$(SolutionDir)..\lib\JsonCPP\include\;$(SolutionDir)..\lib\POCO\include\;$(SolutionDir)..\lib\RecastNavigation\Detour\include\;$(SolutionDir)..\lib\RecastNavigation\Recast\include\</IncludePath>
-    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\RecastNavigation\Recast\lib\$(Configuration);$(SolutionDir)..\lib\RecastNavigation\Detour\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)..\lib\JsonCPP\$(PlatformTarget);$(SolutionDir)..\lib\FlatBuffers\$(PlatformTarget);$(SolutionDir)..\lib\POCO\$(PlatformTarget);$(SolutionDir)..\lib\RecastNavigation\;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -227,7 +227,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp.lib;Recast_Lib_Windows_Static.lib;Detour_Lib_Windows_Static.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>false</OptimizeReferences>
       <EnableCOMDATFolding>false</EnableCOMDATFolding>
       <LinkTimeCodeGeneration />
@@ -254,7 +254,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp.lib;Recast_Lib_Windows_Static.lib;Detour_Lib_Windows_Static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dev|x64'">
@@ -278,7 +278,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp.lib;Recast_Lib_Windows_Static.lib;Detour_Lib_Windows_Static.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

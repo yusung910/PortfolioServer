@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -23,7 +23,7 @@
 #include "DetourNavMesh.h"
 #include "Recast.h"
 #include "ChunkyTriMesh.h"
-
+#include "DetourTileCache.h"
 
 class Sample_TempObstacles : public Sample
 {
@@ -35,13 +35,13 @@ protected:
 	struct MeshProcess* m_tmproc;
 
 	class dtTileCache* m_tileCache;
-	
+
 	float m_cacheBuildTimeMs;
 	int m_cacheCompressedSize;
 	int m_cacheRawSize;
 	int m_cacheLayerCount;
 	unsigned int m_cacheBuildMemUsage;
-	
+
 	enum DrawMode
 	{
 		DRAWMODE_NAVMESH,
@@ -54,17 +54,17 @@ protected:
 		DRAWMODE_CACHE_BOUNDS,
 		MAX_DRAWMODE
 	};
-	
+
 	DrawMode m_drawMode;
-	
+
 	int m_maxTiles;
 	int m_maxPolysPerTile;
 	float m_tileSize;
-	
+
 public:
 	Sample_TempObstacles();
 	virtual ~Sample_TempObstacles();
-	
+
 	virtual void handleSettings();
 	virtual void handleTools();
 	virtual void handleDebugMode();
@@ -75,11 +75,15 @@ public:
 	virtual void handleUpdate(const float dt);
 
 	void getTilePos(const float* pos, int& tx, int& ty);
-	
+
 	void renderCachedTile(const int tx, const int ty, const int type);
 	void renderCachedTileOverlay(const int tx, const int ty, double* proj, double* model, int* view);
 
-	void addTempObstacle(const float* pos);
+	dtStatus addTempObstacle_Cylinder(long long i64CustomUID, const float* pos, const float fRadius, const float fHeight, dtObstacleRef& ref);
+	dtStatus addTempObstacle_Aabb(long long i64CustomUID, const float* bmin, const float* bmax, dtObstacleRef& ref);
+	dtStatus addTempObstacle_Obstacle(long long i64CustomUID, const float* center, const float* halfExtents, const float yRadians, dtObstacleRef& ref);
+	void removeTempObstacle_CustomUID(int64_t i64CustomUID);
+	void removeTempObstacle(dtObstacleRef* result);
 	void removeTempObstacle(const float* sp, const float* sq);
 	void clearAllTempObstacles();
 
@@ -92,6 +96,12 @@ private:
 	Sample_TempObstacles& operator=(const Sample_TempObstacles&);
 
 	int rasterizeTileLayers(const int tx, const int ty, const rcConfig& cfg, struct TileCacheData* tiles, const int maxTiles);
+
+public:
+	int GetagentMaxSlope();
+	int GetCellSize();
+	dtTileCache* GetTileCache();
+	dtObstacleRef getObjectRef(int64_t i64CustomUID);
 };
 
 

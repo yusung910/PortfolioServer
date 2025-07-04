@@ -7,14 +7,14 @@ class PilgrimStat : public PGObject<PilgrimStat>
 {
 private:
 
-    const MDBObjectStatistics* m_oPilgrimStat;
+    const MDBAbilityComponents* m_oAbilityComponents;
 
 public:
     PilgrimStat(ObjectTag);
     ~PilgrimStat();
 
     void Reset();
-    const MDBObjectStatistics* GetPilgrimStat();
-    void Set(const MDBObjectStatistics* _pgStat);
+    const MDBAbilityComponents* GetAbilityComponent();
+    void Set(const MDBAbilityComponents* _pgStat);
 };
 

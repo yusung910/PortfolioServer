@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -102,9 +102,10 @@ public:
 	InputGeom();
 	~InputGeom();
 	
-	
 	bool load(class rcContext* ctx, const std::string& filepath);
 	bool saveGeomSet(const BuildSettings* settings);
+	//dztall
+	bool loadMeshFromMemory(rcContext *ctx, const std::string &filepath, const float *verts, int nverts, const int *tris, int ntris, int trisPerChunk, bool calculateNormals);
 	
 	/// Method to return static mesh data.
 	const rcMeshLoaderObj* getMesh() const { return m_mesh; }

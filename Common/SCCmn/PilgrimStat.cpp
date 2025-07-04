@@ -12,15 +12,15 @@ PilgrimStat::~PilgrimStat()
 
 void PilgrimStat::Reset()
 {
-    m_oPilgrimStat = nullptr;
+    m_oAbilityComponents = nullptr;
 }
 
-const MDBObjectStatistics* PilgrimStat::GetPilgrimStat()
+const MDBAbilityComponents* PilgrimStat::GetAbilityComponent()
 {
-    return m_oPilgrimStat;
+    return m_oAbilityComponents;
 }
 
-void PilgrimStat::Set(const MDBObjectStatistics* _pgStat)
+void PilgrimStat::Set(const MDBAbilityComponents* _pgStat)
 {
-    m_oPilgrimStat = _pgStat;
+    m_oAbilityComponents = _pgStat;
 }

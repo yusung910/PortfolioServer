@@ -1,6 +1,7 @@
 #pragma once
 #include "PGObject.h"
-
+#include <unordered_set>
+#include <map>
 class Field;
 class BaseObject;
 class PC;

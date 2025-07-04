@@ -28,5 +28,5 @@ void LoginPlayer::Reset()
 
     m_nOTP = 0;
 
-    m_umPilgrimSeqList.clear();
+    m_usPilgrimSeqList.clear();
 }

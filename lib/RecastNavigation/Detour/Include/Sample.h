@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -47,7 +47,7 @@ enum SamplePolyAreas
 	SAMPLE_POLYAREA_ROAD,
 	SAMPLE_POLYAREA_DOOR,
 	SAMPLE_POLYAREA_GRASS,
-	SAMPLE_POLYAREA_JUMP
+	SAMPLE_POLYAREA_JUMP,
 };
 enum SamplePolyFlags
 {
@@ -59,7 +59,7 @@ enum SamplePolyFlags
 	SAMPLE_POLYFLAGS_ALL		= 0xffff	// All abilities.
 };
 
-class SampleDebugDraw : public DebugDrawGL
+class SampleDebugDraw// : public DebugDrawGL
 {
 public:
 	virtual unsigned int areaToCol(unsigned int area);
@@ -69,12 +69,12 @@ enum SamplePartitionType
 {
 	SAMPLE_PARTITION_WATERSHED,
 	SAMPLE_PARTITION_MONOTONE,
-	SAMPLE_PARTITION_LAYERS
+	SAMPLE_PARTITION_LAYERS,
 };
 
 struct SampleTool
 {
-	virtual ~SampleTool();
+	virtual ~SampleTool() {}
 	virtual int type() = 0;
 	virtual void init(class Sample* sample) = 0;
 	virtual void reset() = 0;
@@ -88,7 +88,7 @@ struct SampleTool
 };
 
 struct SampleToolState {
-	virtual ~SampleToolState();
+	virtual ~SampleToolState() {}
 	virtual void init(class Sample* sample) = 0;
 	virtual void reset() = 0;
 	virtual void handleRender() = 0;

@@ -16,35 +16,28 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
-#ifndef OFFMESHCONNECTIONTOOL_H
-#define OFFMESHCONNECTIONTOOL_H
+#ifndef RECAST_DUMP_H
+#define RECAST_DUMP_H
 
-#include "Sample.h"
-
-// Tool to create off-mesh connection for InputGeom
-
-class OffMeshConnectionTool : public SampleTool
+struct duFileIO
 {
-	Sample* m_sample;
-	float m_hitPos[3];
-	bool m_hitPosSet;
-	bool m_bidir;
-	unsigned char m_oldFlags;
-	
-public:
-	OffMeshConnectionTool();
-	~OffMeshConnectionTool();
-	
-	virtual int type() { return TOOL_OFFMESH_CONNECTION; }
-	virtual void init(Sample* sample);
-	virtual void reset();
-	virtual void handleMenu();
-	virtual void handleClick(const float* s, const float* p, bool shift);
-	virtual void handleToggle();
-	virtual void handleStep();
-	virtual void handleUpdate(const float dt);
-	virtual void handleRender();
-	virtual void handleRenderOverlay(double* proj, double* model, int* view);
+	virtual ~duFileIO() = 0;
+	virtual bool isWriting() const = 0;
+	virtual bool isReading() const = 0;
+	virtual bool write(const void* ptr, const size_t size) = 0;
+	virtual bool read(void* ptr, const size_t size) = 0;
 };
 
-#endif // OFFMESHCONNECTIONTOOL_H
+bool duDumpPolyMeshToObj(struct rcPolyMesh& pmesh, duFileIO* io);
+bool duDumpPolyMeshDetailToObj(struct rcPolyMeshDetail& dmesh, duFileIO* io);
+
+bool duDumpContourSet(struct rcContourSet& cset, duFileIO* io);
+bool duReadContourSet(struct rcContourSet& cset, duFileIO* io);
+
+bool duDumpCompactHeightfield(struct rcCompactHeightfield& chf, duFileIO* io);
+bool duReadCompactHeightfield(struct rcCompactHeightfield& chf, duFileIO* io);
+
+void duLogBuildTimes(rcContext& ctx, const int totalTileUsec);
+
+
+#endif // RECAST_DUMP_H

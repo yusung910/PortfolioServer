@@ -1,11 +1,11 @@
 #include "PGPPrivate.h"
 #include "Navi.h"
-#include "Random.h"
-#include "ServerConfig.h"
-#include "StringUtil.h"
 #include "FileSystem.h"
+#include "DetourCommon.h"
+#include "Random.h"
+#include "StringUtil.h"
 
-#include <DetourCommon.h>
+#include "ServerConfig.h"
 #include <MathUtil.h>
 #include <Clock.h>
 

@@ -46,6 +46,6 @@ public:
 
     virtual void Reset();
 
-    void SetObjectStats(const MDBObjectStatistics* _objStats);
+    void SetObjectStats(const MDBAbilityModule* _objStats);
 };
 

@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -16,27 +16,17 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
-#ifndef RECAST_DUMP_H
-#define RECAST_DUMP_H
+#ifndef PERFTIMER_H
+#define PERFTIMER_H
 
-struct duFileIO
-{
-	virtual ~duFileIO();
-	virtual bool isWriting() const = 0;
-	virtual bool isReading() const = 0;
-	virtual bool write(const void* ptr, const size_t size) = 0;
-	virtual bool read(void* ptr, const size_t size) = 0;
-};
+#ifdef __GNUC__
+#include <stdint.h>
+typedef int64_t TimeVal;
+#else
+typedef __int64 TimeVal;
+#endif
 
-bool duDumpPolyMeshToObj(struct rcPolyMesh& pmesh, duFileIO* io);
-bool duDumpPolyMeshDetailToObj(struct rcPolyMeshDetail& dmesh, duFileIO* io);
+TimeVal getPerfTime();
+int getPerfTimeUsec(const TimeVal duration);
 
-bool duDumpContourSet(struct rcContourSet& cset, duFileIO* io);
-bool duReadContourSet(struct rcContourSet& cset, duFileIO* io);
-
-bool duDumpCompactHeightfield(struct rcCompactHeightfield& chf, duFileIO* io);
-bool duReadCompactHeightfield(struct rcCompactHeightfield& chf, duFileIO* io);
-
-void duLogBuildTimes(rcContext& ctx, const int totalTileUsec);
-
-#endif // RECAST_DUMP_H
+#endif // PERFTIMER_H

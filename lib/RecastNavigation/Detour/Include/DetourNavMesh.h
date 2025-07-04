@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -25,7 +25,7 @@
 // Undefine (or define in a build config) the following line to use 64bit polyref.
 // Generally not needed, useful for very large worlds.
 // Note: tiles build using 32bit refs are not compatible with 64bit refs!
-//#define DT_POLYREF64 1
+#define DT_POLYREF64 1
 
 #ifdef DT_POLYREF64
 // TODO: figure out a multiplatform version of uint64_t
@@ -99,7 +99,7 @@ static const int DT_MAX_AREAS = 64;
 enum dtTileFlags
 {
 	/// The navigation mesh owns the tile memory and is responsible for freeing it.
-	DT_TILE_FREE_DATA = 0x01
+	DT_TILE_FREE_DATA = 0x01,
 };
 
 /// Vertex flags returned by dtNavMeshQuery::findStraightPath.
@@ -107,32 +107,32 @@ enum dtStraightPathFlags
 {
 	DT_STRAIGHTPATH_START = 0x01,				///< The vertex is the start position in the path.
 	DT_STRAIGHTPATH_END = 0x02,					///< The vertex is the end position in the path.
-	DT_STRAIGHTPATH_OFFMESH_CONNECTION = 0x04	///< The vertex is the start of an off-mesh connection.
+	DT_STRAIGHTPATH_OFFMESH_CONNECTION = 0x04,	///< The vertex is the start of an off-mesh connection.
 };
 
 /// Options for dtNavMeshQuery::findStraightPath.
 enum dtStraightPathOptions
 {
 	DT_STRAIGHTPATH_AREA_CROSSINGS = 0x01,	///< Add a vertex at every polygon edge crossing where area changes.
-	DT_STRAIGHTPATH_ALL_CROSSINGS = 0x02	///< Add a vertex at every polygon edge crossing.
+	DT_STRAIGHTPATH_ALL_CROSSINGS = 0x02,	///< Add a vertex at every polygon edge crossing.
 };
 
 
 /// Options for dtNavMeshQuery::initSlicedFindPath and updateSlicedFindPath
 enum dtFindPathOptions
 {
-	DT_FINDPATH_ANY_ANGLE	= 0x02		///< use raycasts during pathfind to "shortcut" (raycast still consider costs)
+	DT_FINDPATH_ANY_ANGLE	= 0x02,		///< use raycasts during pathfind to "shortcut" (raycast still consider costs)
 };
 
 /// Options for dtNavMeshQuery::raycast
 enum dtRaycastOptions
 {
-	DT_RAYCAST_USE_COSTS = 0x01		///< Raycast should calculate movement cost along the ray and fill RaycastHit::cost
+	DT_RAYCAST_USE_COSTS = 0x01,		///< Raycast should calculate movement cost along the ray and fill RaycastHit::cost
 };
 
 enum dtDetailTriEdgeFlags
 {
-	DT_DETAIL_EDGE_BOUNDARY = 0x01		///< Detail triangle edge is part of the poly boundary
+	DT_DETAIL_EDGE_BOUNDARY = 0x01,		///< Detail triangle edge is part of the poly boundary
 };
 
 
@@ -146,7 +146,7 @@ enum dtPolyTypes
 	/// The polygon is a standard convex polygon that is part of the surface of the mesh.
 	DT_POLYTYPE_GROUND = 0,
 	/// The polygon is an off-mesh connection consisting of two vertices.
-	DT_POLYTYPE_OFFMESH_CONNECTION = 1
+	DT_POLYTYPE_OFFMESH_CONNECTION = 1,
 };
 
 
@@ -171,7 +171,7 @@ struct dtPoly
 	unsigned char vertCount;
 
 	/// The bit packed area id and polygon type.
-	/// @note Use the structure's set and get methods to access this value.
+	/// @note Use the structure's set and get methods to acess this value.
 	unsigned char areaAndtype;
 
 	/// Sets the user defined area id. [Limit: < #DT_MAX_AREAS]
@@ -285,7 +285,7 @@ struct dtMeshTile
 	unsigned int linksFreeList;			///< Index to the next free link.
 	dtMeshHeader* header;				///< The tile header.
 	dtPoly* polys;						///< The tile polygons. [Size: dtMeshHeader::polyCount]
-	float* verts;						///< The tile vertices. [(x, y, z) * dtMeshHeader::vertCount]
+	float* verts;						///< The tile vertices. [Size: dtMeshHeader::vertCount]
 	dtLink* links;						///< The tile links. [Size: dtMeshHeader::maxLinkCount]
 	dtPolyDetail* detailMeshes;			///< The tile's detail sub-meshes. [Size: dtMeshHeader::detailMeshCount]
 	
@@ -312,8 +312,8 @@ private:
 };
 
 /// Get flags for edge in detail triangle.
-/// @param[in]	triFlags		The flags for the triangle (last component of detail vertices above).
-/// @param[in]	edgeIndex		The index of the first vertex of the edge. For instance, if 0,
+/// @param	triFlags[in]		The flags for the triangle (last component of detail vertices above).
+/// @param	edgeIndex[in]		The index of the first vertex of the edge. For instance, if 0,
 ///								returns flags for edge AB.
 inline int dtGetDetailTriEdgeFlags(unsigned char triFlags, int edgeIndex)
 {
@@ -614,6 +614,8 @@ private:
 	dtNavMesh& operator=(const dtNavMesh&);
 
 	/// Returns pointer to tile in the tile array.
+//canary 접근하기위해서 public추가.
+public:
 	dtMeshTile* getTile(int i);
 
 	/// Returns neighbour tile based on side.

@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2009-2010 Mikko Mononen memon@inside.org
 //
 // This software is provided 'as-is', without any express or implied
@@ -25,10 +25,10 @@ enum dtNodeFlags
 {
 	DT_NODE_OPEN = 0x01,
 	DT_NODE_CLOSED = 0x02,
-	DT_NODE_PARENT_DETACHED = 0x04 // parent of the node is not adjacent. Found using raycast.
+	DT_NODE_PARENT_DETACHED = 0x04, // parent of the node is not adjacent. Found using raycast.
 };
 
-typedef unsigned short dtNodeIndex;
+typedef unsigned int dtNodeIndex;
 static const dtNodeIndex DT_NULL_IDX = (dtNodeIndex)~0;
 
 static const int DT_NODE_PARENT_BITS = 24;
