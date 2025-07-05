@@ -47,7 +47,7 @@ bool PGameServerApp::Initialize()
     if (false == _LoadMasterDB()) return false;
 
     //Map
-    if (false == _InitMap()) return false;
+    //if (false == _InitMap()) return false;
 
 
     return true;
